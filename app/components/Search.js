@@ -3,6 +3,9 @@
  */
 
 var React = require('react-native');
+var api =require("../utils/UserApi");
+
+
 
 var {
     View,
@@ -73,7 +76,7 @@ class Search extends React.Component {
 
     handleChange(event){
         this.setState({
-            username: event.nativeEvent.text
+            search: event.nativeEvent.text
         })
     }
 
@@ -82,15 +85,38 @@ class Search extends React.Component {
         this.setState({
             isLoading: true
         });
-        console.log('SUMBIT', this.state.username);
-        // fetch data from github
-        //rerout to the next passing that github information
+        console.log(this.state);
+        api.getBio(this.state.search)
+            .then((res)=> {
+                console.log(res);
+                if(res.message == 'Not Found') {
+                    this.setState({
+                    error: 'User was not found',
+                    isLoading: false
+                    })
+                } else {
+                    console.log('Inside the prop!!!');
+                    this.props.navigator.push({
+                        id: 'MainPage',
+                        userdata : res
+                    });
+
+                    this.setState({
+                        isLoading: false,
+                        error: false,
+                        username: ''
+                    })
+                }
+
+            })
+
     }
 
     render() {
         return(
             <View style={styles.Search}>
                 <Text style={styles.title}> Search in SOF </Text>
+                <Text style={styles.title}> { this.state.error}</Text>
                 <TextInput
                     style={styles.searchInput}
                     value={this.state.username}
