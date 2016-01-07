@@ -5,48 +5,97 @@
 'use strict';
 
 var React = require('react-native');
-var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-} = React;
+var Main = require('./app/components/Main');
+var Search = require('./app/components/Search');
 
-var sofTokyo = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-});
+var {
+    AppRegistry,
+    StyleSheet,
+    Text,
+    Navigator,
+    View,
+    TouchableOpacity
+    } = React;
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    container:{
+        flex: 1,
+        backgroundColor: '#111111'
+    },
 });
+
+class sofTokyo extends React.Component{
+    render() {
+        return (
+            <Navigator
+                initialRoute = {{ id: 'Search', name : 'Index'}}
+                renderScene = {this.renderScene.bind(this)}
+                style={styles.container}
+                configureScene={(route) => {
+                    if (route.sceneConfig) {
+                      return route.sceneConfig;
+                    }
+                    return Navigator.SceneConfigs.FloatFromRight;
+                  }}
+            />
+        );
+    }
+
+    renderScene(route, navigator) {
+        var routeId = route.id;
+        if (routeId === 'SplashPage') {
+            return (
+                <SplashPage
+                    navigator={navigator} />
+            );
+        }
+        if (routeId === 'LoginPage') {
+            return (
+                <LoginPage
+                    navigator={navigator} />
+            );
+        }
+        if (routeId === 'MainPage') {
+            return (
+                <Main
+                    navigator={navigator} />
+            );
+        }
+        if (routeId === 'PersonPage') {
+            return (
+                <PersonPage
+                    navigator={navigator} />
+            );
+        }
+
+        if (routeId === 'Search') {
+            return (
+                <Search
+                    navigator={navigator} />
+            );
+        }
+
+        if (routeId === 'NoNavigatorPage') {
+            return (
+                <NoNavigatorPage
+                    navigator={navigator} />
+            );
+        }
+        return this.noRoute(navigator);
+
+    }
+
+    noRoute(navigator) {
+        return (
+            <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
+                <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
+                                  onPress={() => navigator.pop()}>
+                    <Text style={{color: 'red', fontWeight: 'bold'}}>No pudimos encontrar la pagina solicitada</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+};
+
 
 AppRegistry.registerComponent('sofTokyo', () => sofTokyo);
