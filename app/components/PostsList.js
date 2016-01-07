@@ -6,11 +6,13 @@
 var React = require('react-native');
 var api = require('../utils/api/PostsApi');
 var Separator = require('./Separator');
+var PostElement = require('./PostElement');
 
 var {
     View,
     Text,
     ListView,
+    Image,
     TextInput,
     StyleSheet,
     TouchableHighlight
@@ -24,7 +26,7 @@ var styles = StyleSheet.create({
         backgroundColor: '#FFFFFF'
     },
     title: {
-        fontSize: 18
+        fontSize: 25
     },
     buttonText: {
         fontSize: 18,
@@ -104,24 +106,6 @@ class PostsList extends React.Component{
     }*/
 
 
-    renderRow(rowData){
-        console.log('Going to render');
-        return (
-            <View style={styles.container}>
-
-                <View>
-                    <Text style={styles.title}> { rowData.title }</Text>
-                </View>
-
-                <View>
-
-                </View>
-
-
-            </View>
-        )
-    }
-
     /* footer(){
         return (
             <View style={styles.footerContainer}>
@@ -145,7 +129,7 @@ class PostsList extends React.Component{
             <View style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={ this.renderRow }
+                    renderRow={(rowData) => <PostElement postData={ rowData }></PostElement>}
                 />
             </View>
         )
