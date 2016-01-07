@@ -7,6 +7,7 @@
 var React = require('react-native');
 var Main = require('./app/components/Main');
 var Search = require('./app/components/Search');
+var PostsList = require("./app/components/PostsList");
 
 var {
     AppRegistry,
@@ -28,7 +29,7 @@ class sofTokyo extends React.Component{
     render() {
         return (
             <Navigator
-                initialRoute = {{ id: 'Search', name : 'Index'}}
+                initialRoute = {{ id: 'PostsList', name : 'Index'}}
                 renderScene = {this.renderScene.bind(this)}
                 style={styles.container}
                 configureScene={(route) => {
@@ -49,6 +50,14 @@ class sofTokyo extends React.Component{
                     navigator={navigator} />
             );
         }
+
+        if (routeId === 'PostsList') {
+            return (
+                <PostsList
+                    navigator={navigator} />
+            );
+        }
+
         if (routeId === 'LoginPage') {
             return (
                 <LoginPage

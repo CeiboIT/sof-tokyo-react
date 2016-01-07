@@ -3,7 +3,7 @@
  */
 
 var React = require('react-native');
-var api =require("../utils/UserApi");
+var api =require("../utils/api/UserApi");
 
 
 
@@ -24,7 +24,7 @@ var styles = {
         marginTop: 65,
         flexDirection: 'column',
         justifyContent: 'center',
-        backgroundColor: '#48BBEC'
+        backgroundColor: '#777777'
     },
     title: {
         marginBottom: 20,
