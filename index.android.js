@@ -8,6 +8,9 @@ var React = require('react-native');
 var Main = require('./app/components/Main');
 var Search = require('./app/components/Search');
 var PostsList = require("./app/components/PostsList");
+var SitePanel = require("./app/components/SitePanel");
+
+var Drawer = require('react-native-drawer');
 
 var {
     AppRegistry,
@@ -28,17 +31,26 @@ var styles = StyleSheet.create({
 class sofTokyo extends React.Component{
     render() {
         return (
-            <Navigator
-                initialRoute = {{ id: 'PostsList', name : 'Index'}}
-                renderScene = {this.renderScene.bind(this)}
-                style={styles.container}
-                configureScene={(route) => {
+
+            <Drawer
+                ref="drawer"
+                content={<SitePanel />}
+            >
+                <Navigator
+                    initialRoute = {{ id: 'PostsList', name : 'Index'}}
+                    renderScene = {this.renderScene.bind(this)}
+                    style={styles.container}
+                    configureScene={(route) => {
                     if (route.sceneConfig) {
                       return route.sceneConfig;
                     }
                     return Navigator.SceneConfigs.FloatFromRight;
                   }}
-            />
+                />
+            </Drawer>
+
+
+
         );
     }
 

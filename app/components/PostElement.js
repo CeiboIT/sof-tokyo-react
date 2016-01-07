@@ -16,8 +16,11 @@ var styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        alignItems:'center',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        paddingBottom: 10
+    },
+    title: {
+        fontSize: 30
     }
 });
 
@@ -25,9 +28,11 @@ class PostElement extends React.Component {
     render() {
         return(
             <View style={styles.container}>
-                <Image source={{uri: this.props.postData.thumbnail}}
-                       style={{width: 300, height:600}}
-                />
+                <View>
+                    <Image source={{uri: this.props.postData.thumbnail}}
+                           style={{width: 300, height:600}}
+                    />
+                </View>
                 <View>
                     <Text style={styles.title}> { this.props.postData.title}</Text>
                 </View>
