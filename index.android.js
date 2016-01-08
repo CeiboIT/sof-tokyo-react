@@ -32,10 +32,8 @@ var styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#111111'
     },
-
-
         header: {
-            backgroundColor: '#5cafec'
+            backgroundColor: '#FFF'
         }
 
 });
@@ -67,7 +65,7 @@ class sofTokyo extends React.Component{
                 ref="drawer"
                 content={<SitePanel />}
             >
-                <Router firstRoute={routes.feed}   headerStyle={styles.header} rightCorner={ToggleMenu}>
+                <Router firstRoute={routes.feed} headerStyle={styles.header}>
                 </Router>
             </Drawer>
         );

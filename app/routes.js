@@ -17,8 +17,8 @@ var Router = require('gb-native-router');
 var routes = {
     "feed": {
         "component": PostsList,
-        name: "Trolp",
-        rightCorner: icons.toggle
+        name: "Feed",
+        leftCorner: icons.toggle
     }
 };
 

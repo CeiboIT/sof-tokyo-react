@@ -12,8 +12,6 @@ var {
     View,
     Text,
     ListView,
-    Image,
-    TextInput,
     ScrollView,
     StyleSheet,
     TouchableHighlight
@@ -52,7 +50,7 @@ var styles = StyleSheet.create({
         flex: 10
     },
     rowContainer: {
-        padding: 10,
+        padding: 10
     },
     footerContainer: {
         backgroundColor: '#E3E3E3',
@@ -71,7 +69,7 @@ class PostsList extends React.Component{
             note: '',
             error: '',
             page: 1
-        }
+        };
         this.getDataSource();
     }
 
@@ -85,58 +83,14 @@ class PostsList extends React.Component{
             })
     }
 
-    handleChange(e){
-        this.setState({
-            note: e.nativeEvent.text
-        })
-    }
-    /*handleSubmit(){
-        var note = this.state.note;
-        this.setState({
-            note: ''
-        });
-        api.Posts(this.props.userInfo.login, note)
-            .then((data) => {
-                api.Posts(this.props.userInfo.login)
-                    .then((data) => {
-                        this.setState({
-                            dataSource: this.ds.cloneWithRows(data)
-                        })
-                    });
-            })
-            .catch((error) => {
-                console.log('Request failed', error);
-                this.setState({error})
-            });
-    }*/
-
-
-    /* footer(){
-        return (
-            <View style={styles.footerContainer}>
-                <TextInput
-                    style={styles.searchInput}
-                    value={this.state.note}
-                    onChange={this.handleChange.bind(this)}
-                    placeholder="New Note" />
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={this.handleSubmit.bind(this)}
-                    underlayColor="#88D4F5">
-                    <Text style={styles.buttonText}>Submit</Text>
-                </TouchableHighlight>
-            </View>
-        )
-    }*/
-
     render(){
         return (
-            <View style={styles.container}>
-                    <ListView style={styles.list}
+            <ScrollView contentStyleProp={styles.container}>
+                    <ListView contentStyleProp={styles.list}
                               dataSource={this.state.dataSource}
                               renderRow={(rowData) => <PostElement postData={ rowData }></PostElement>}
                     />
-            </View>
+            </ScrollView>
         )
     }
 };
