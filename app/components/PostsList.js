@@ -14,6 +14,7 @@ var {
     ListView,
     Image,
     TextInput,
+    ScrollView,
     StyleSheet,
     TouchableHighlight
     } = React;
@@ -24,6 +25,10 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems:'center',
         backgroundColor: '#FFFFFF'
+    },
+    list: {
+        flex: 1,
+        flexDirection: 'column'
     },
     title: {
         fontSize: 25
@@ -127,10 +132,10 @@ class PostsList extends React.Component{
     render(){
         return (
             <View style={styles.container}>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={(rowData) => <PostElement postData={ rowData }></PostElement>}
-                />
+                    <ListView style={styles.list}
+                              dataSource={this.state.dataSource}
+                              renderRow={(rowData) => <PostElement postData={ rowData }></PostElement>}
+                    />
             </View>
         )
     }
