@@ -3,9 +3,8 @@
  */
 //var conf = require('../constants/api');
 
-class UserAPI {
 
-}
+    import { apiConsts } from "../../constants/api"
 
 
 
@@ -24,6 +23,23 @@ var api = {
 
     getUser(userId) {
         return fetch(conf.apiEndpoint + '/auth/get_user/' + userId + '/thumb').then((res) => {
+            res.json();
+        })
+    },
+
+    sendCredentials(credentials){
+        return fetch(conf.apiEndpoint + '/auth/login',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: credentials.username,
+                password: credentials.password
+            })
+        }).then((res) => {
+            console.log(res);
             res.json();
         })
     }
