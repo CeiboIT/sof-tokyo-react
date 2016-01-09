@@ -7,6 +7,9 @@
  */
 
 var React = require('react-native');
+var Dimensions= require('Dimensions');
+var windowsSize = Dimensions.get('window');
+import Button from 'apsl-react-native-button'
 var api =require("../utils/api/UserApi");
 var {
     View,
@@ -17,21 +20,21 @@ var {
     ActivityIndicator
     } = React;
 
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 var styles = {
     Search: {
         flex: 1,
         padding: 30,
-        marginTop: 65,
         flexDirection: 'column',
         justifyContent: 'center',
-        backgroundColor: '#777777'
+        backgroundColor: '#FFFFFF'
     },
     title: {
         marginBottom: 20,
         fontSize: 25,
         textAlign: 'center',
-        color: '#fff'
+        color: '#0000'
     },
     searchInput: {
         height: 50,
@@ -61,6 +64,46 @@ var styles = {
         justifyContent: 'center'
     },
 }
+
+var styles = StyleSheet.create({
+    buttonsContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    facebookContainer: {
+        backgroundColor: "#2A406B",
+        height: windowsSize.height * 0.2,
+        flex:1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    facebookButton: {
+        flex:1,
+        borderColor: '#2A406B',
+        backgroundColor: 'transparent',
+        borderRadius: 0,
+        borderWidth: 3,
+        width: windowsSize.width * 0.75,
+        marginLeft: windowsSize.width * 0.125,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    login: {
+
+        marginTop:10
+    },
+
+    loginText: {
+        color:"#FFF",
+        fontSize: 25
+    },
+});
 
 
 class Login extends React.Component {
@@ -93,7 +136,11 @@ class Login extends React.Component {
         console.log('Trying to Render');
         return(
             <View style={styles.Search}>
-                <Text style={styles.title}> Search in SOF </Text>
+                <View style={styles.facebookContainer}>
+                    <Button style={styles.facebookButton} textStyle={styles.loginText} onPress={this.login}>
+                        <Icon name="facebook" color="#FFF" style={styles.icon} size={30}></Icon> Login with Facebook
+                    </Button>
+                </View>
                 <Text style={styles.title}> { this.state.error}</Text>
                 <TextInput
                     style={styles.searchInput}
@@ -103,8 +150,21 @@ class Login extends React.Component {
                     style={styles.button}
                     onPress={this.handleSubmit.bind(this)}
                     underlayColor="white">
-                    <Text style={styles.buttonText}> SEARCH </Text>
+                    <Text style={styles.buttonText}> Username </Text>
                 </TouchableHighlight>
+                <TextInput
+                    style={styles.searchInput}
+                    value={this.state.username}
+                    onChange={this.handleChange.bind(this)} />
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={this.handleSubmit.bind(this)}
+                    underlayColor="white">
+                    <Text style={styles.buttonText}> Password </Text>
+                </TouchableHighlight>
+
+
+
             </View>
 
         );

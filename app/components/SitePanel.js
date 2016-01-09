@@ -3,14 +3,8 @@
  */
 
 var React = require('react-native');
-var Rx= require('rx');
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
-
 var NavigationSubject= require("../stores/Streams").getStream("Navigation");
 var SidebarSubject = require("../stores/Streams").getStream("Sidebar");
-
-
 
 import Button from 'apsl-react-native-button'
 

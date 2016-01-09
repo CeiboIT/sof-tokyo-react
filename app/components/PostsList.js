@@ -55,6 +55,11 @@ var styles = StyleSheet.create({
     rowContainer: {
         padding: 10
     },
+
+    facebookHeader : {
+      backgroundColor: "#2A406B"
+    },
+
     footerContainer: {
         backgroundColor: '#E3E3E3',
         alignItems: 'center',
@@ -64,11 +69,8 @@ var styles = StyleSheet.create({
 // In the video there are a couple errors, fixed them so it would build.
 
 class PostsList extends React.Component{
-
-
     constructor(props){
         super(props);
-
         this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
         this.state = {
             dataSource: this.ds.cloneWithRows([]),
@@ -82,10 +84,9 @@ class PostsList extends React.Component{
         NavigatorSubject.subscribe((route)=> {
             this.props.toRoute({
                 "component": Login,
-                "name": "Login"
+                "headerStyle": styles.facebookHeader
             });
         })
-
     }
 
     getDataSource(): ListView.DataSource {
