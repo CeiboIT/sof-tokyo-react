@@ -5,15 +5,10 @@
 'use strict';
 
 var React = require('react-native');
-var Main = require('./app/components/Main');
-var Search = require('./app/components/Search');
-var PostsList = require("./app/components/PostsList");
 var SitePanel = require("./app/components/SitePanel");
-var FooterNav = require("./app/components/FooterNav");
-var ToggleMenu = require("./app/components/ToggleMenu");
+var routes = require("./app/routes").getRoutes();
 
-var routes = require("./app/routes");
-var SidebarSubject = require("./app/stores/Sidebar");
+var SidebarSubject = require("./app/stores/Streams").getStream("Sidebar");
 
 var Drawer = require('react-native-drawer');
 var Router = require('gb-native-router');
@@ -40,6 +35,11 @@ var styles = StyleSheet.create({
 
 class sofTokyo extends React.Component{
 
+    constructor(props){
+        super(props);
+
+
+    }
 
     subscribe() {
         var _closed = true;
@@ -65,7 +65,7 @@ class sofTokyo extends React.Component{
                 ref="drawer"
                 content={<SitePanel />}
             >
-                <Router firstRoute={routes.feed} headerStyle={styles.header}>
+                <Router ref="router" firstRoute={routes.feed} headerStyle={styles.header}>
                 </Router>
             </Drawer>
         );

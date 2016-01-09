@@ -7,6 +7,9 @@ var React = require('react-native');
 var api = require('../utils/api/PostsApi');
 var Separator = require('./Separator');
 var PostElement = require('./PostElement');
+var Login = require('./Login');
+
+var NavigatorSubject = require("../stores/Streams").getStream("Navigation");
 
 var {
     View,
@@ -61,8 +64,11 @@ var styles = StyleSheet.create({
 // In the video there are a couple errors, fixed them so it would build.
 
 class PostsList extends React.Component{
+
+
     constructor(props){
         super(props);
+
         this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
         this.state = {
             dataSource: this.ds.cloneWithRows([]),
@@ -70,7 +76,16 @@ class PostsList extends React.Component{
             error: '',
             page: 1
         };
+
         this.getDataSource();
+
+        NavigatorSubject.subscribe((route)=> {
+            this.props.toRoute({
+                "component": Login,
+                "name": "Login"
+            });
+        })
+
     }
 
     getDataSource(): ListView.DataSource {

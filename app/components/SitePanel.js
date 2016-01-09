@@ -3,8 +3,14 @@
  */
 
 var React = require('react-native');
+var Rx= require('rx');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
+
+var NavigationSubject= require("../stores/Streams").getStream("Navigation");
+var SidebarSubject = require("../stores/Streams").getStream("Sidebar");
+
+
 
 import Button from 'apsl-react-native-button'
 
@@ -12,6 +18,7 @@ var {
     SwitchIOS,
     View,
     Text,
+    TouchableHighlight,
     StyleSheet
 
     } = React;
@@ -29,6 +36,11 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    container: {
+        flex: 1,
+        flexDirection: 'column'
     },
 
     login: {
@@ -62,20 +74,24 @@ class SitePanel extends React.Component {
         super(props);
 
         this.state = {
-            User: {}
+            User: {},
+            navigating: false
         }
     }
 
+    login() {
+        NavigationSubject.onNext('login');
+        SidebarSubject.onNext('close');
+        return;
+    }
+
+
     render(){
 
-        if(true) {
-            styles.buttonsContainer.opacity = 0;
-        }
-
         return (
-            <View>
+            <View style={styles.container}>
                 <View style={styles.buttonsContainer} collapse={ true } >
-                    <Button style={styles.login} textStyle={styles.loginText}>
+                    <Button style={styles.login} textStyle={styles.loginText} onPress={this.login}>
                         Login
                     </Button>
                     <Button style={styles.register} textStyle={styles.registerText}>
@@ -83,8 +99,6 @@ class SitePanel extends React.Component {
                     </Button>
                 </View>
             </View>
-
-
         )
     }
 }

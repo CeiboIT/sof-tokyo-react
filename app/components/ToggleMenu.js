@@ -4,7 +4,7 @@
 
 var React = require("react-native");
 var Icon = require('react-native-vector-icons/FontAwesome');
-var SidebarSubject = require("../stores/Sidebar");
+var SidebarSubject = require("../stores/Streams").getStream("Sidebar");
 
 var {
     StyleSheet,
