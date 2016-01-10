@@ -9,20 +9,12 @@ var SidebarSubject = require("../stores/Streams").getStream("Sidebar");
 import Button from 'apsl-react-native-button'
 
 var {
-    SwitchIOS,
     View,
-    Text,
-    TouchableHighlight,
     StyleSheet
-
     } = React;
 
 var Icon = require('react-native-vector-icons/FontAwesome');
-var styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#FFFFFF'
-    }
-});
+
 
 var styles = StyleSheet.create({
     buttonsContainer: {

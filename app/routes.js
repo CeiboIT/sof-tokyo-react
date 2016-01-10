@@ -10,10 +10,7 @@ var PostsList = require("./components/PostsList");
 var Login = require("./components/Login");
 var SitePanel = require("./components/SitePanel");
 var FooterNav = require("./components/FooterNav");
-var Drawer = require('react-native-drawer');
-var Router = require('gb-native-router');
 
-var routes =
 
 
 

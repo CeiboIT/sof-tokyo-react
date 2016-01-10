@@ -13,9 +13,6 @@
     "react-native-drawer": "^1.10.2",
     "react-native-i18n": "0.0.7",
     "react-native-vector-icons": "^1.0.4",
-    "react-redux": "^2.1.2",
-    "redux": "^3.0.0",
-    "redux-thunk": "^1.0.0",
     "rx": "^4.0.7",
     "tcomb-form-native": "^0.3.3"
   }

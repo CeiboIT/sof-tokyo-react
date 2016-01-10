@@ -5,9 +5,9 @@
 
 var React = require('react-native');
 var api = require('../utils/api/PostsApi');
-var Separator = require('./Separator');
 var PostElement = require('./PostElement');
 var Login = require('./Login');
+var FooterNav = require("./FooterNav");
 
 var NavigatorSubject = require("../stores/Streams").getStream("Navigation");
 
@@ -82,10 +82,18 @@ class PostsList extends React.Component{
         this.getDataSource();
 
         NavigatorSubject.subscribe((route)=> {
-            this.props.toRoute({
-                "component": Login,
-                "headerStyle": styles.facebookHeader
-            });
+            switch(route) {
+                case('login'):
+                    this.props.toRoute({
+                        "component": Login,
+                        "headerStyle": styles.facebookHeader
+                    });
+                    break;
+                case('categories'):
+                    this.props.toRoute({
+                        "component": <Text>View for Categories</Text>
+                    });
+            }
         })
     }
 
@@ -106,6 +114,7 @@ class PostsList extends React.Component{
                               dataSource={this.state.dataSource}
                               renderRow={(rowData) => <PostElement postData={ rowData }></PostElement>}
                     />
+
             </ScrollView>
         )
     }

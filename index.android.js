@@ -6,6 +6,8 @@
 
 var React = require('react-native');
 var SitePanel = require("./app/components/SitePanel");
+var FooterNav= require("./app/components/FooterNav");
+
 var routes = require("./app/routes").getRoutes();
 
 var SidebarSubject = require("./app/stores/Streams").getStream("Sidebar");
@@ -67,70 +69,10 @@ class sofTokyo extends React.Component{
             >
                 <Router ref="router" firstRoute={routes.feed} headerStyle={styles.header}>
                 </Router>
+
+                <FooterNav></FooterNav>
             </Drawer>
-        );
-    }
 
-    renderScene(route, navigator) {
-        var routeId = route.id;
-        if (routeId === 'SplashPage') {
-            return (
-                <SplashPage
-                    navigator={navigator} />
-            );
-        }
-
-        if (routeId === 'PostsList') {
-            return (
-                <PostsList
-                    navigator={navigator} />
-            );
-        }
-
-        if (routeId === 'LoginPage') {
-            return (
-                <LoginPage
-                    navigator={navigator} />
-            );
-        }
-        if (routeId === 'MainPage') {
-            return (
-                <Main
-                    navigator={navigator} />
-            );
-        }
-        if (routeId === 'PersonPage') {
-            return (
-                <PersonPage
-                    navigator={navigator} />
-            );
-        }
-
-        if (routeId === 'Search') {
-            return (
-                <Search
-                    navigator={navigator} />
-            );
-        }
-
-        if (routeId === 'NoNavigatorPage') {
-            return (
-                <NoNavigatorPage
-                    navigator={navigator} />
-            );
-        }
-        return this.noRoute(navigator);
-
-    }
-
-    noRoute(navigator) {
-        return (
-            <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
-                <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-                                  onPress={() => navigator.pop()}>
-                    <Text style={{color: 'red', fontWeight: 'bold'}}>No pudimos encontrar la pagina solicitada</Text>
-                </TouchableOpacity>
-            </View>
         );
     }
 };

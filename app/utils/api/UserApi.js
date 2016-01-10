@@ -4,32 +4,30 @@
 //var conf = require('../constants/api');
 
 
-    import { apiConsts } from "../../constants/api"
+var apiConsts  = require("../../constants/api").apiConsts;
 
-
+var ErrorSubject = require("../../stores/Streams").getStream("Errors");
+var UserSubject = require("../../stores/Streams").getStream("User");
 
 var api = {
-    getBio(username: string) {
-        username = username.toLowerCase().trim();
-        var url = 'https://api.github.com/users/' + username;
-        return fetch(url).then((res) => res.json());
-    },
 
     getAvatar(userId)  {
-        return fetch(apiConsts.apiEndpoint + '/auth/get_avatar/' + userId + '/thumb').then((res) => {
+        return fetch(apiConsts.apiEndpoint + 'auth/get_avatar/' + userId + '/thumb').then((res) => {
             res.json();
         })
     },
 
     getUser(userId) {
-        return fetch(apiConsts.apiEndpoint + '/auth/get_user/' + userId + '/thumb').then((res) => {
+        return fetch(apiConsts.apiEndpoint + 'auth/get_user/' + userId + '/thumb').then((res) => {
             res.json();
         })
     },
 
     async sendCredentials(credentials){
+        ErrorSubject.onNext({type:'login', error:'Network problem'});
+
         try {
-            let response = await fetch("https://sof-tokyo-node-server.herokuapp.com/api/" + 'auth/login',{
+            let response = await fetch(apiConsts.apiEndpoint + 'auth/login',{
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -41,10 +39,11 @@ var api = {
                 })
             });
 
-            console.warn(response.body);
+            UserSubject.onNext('login',response)
+
+
         } catch(error){
-            console.warn(error);
-            throw error;
+            ErrorSubject.onNext('login', error);
         }
     }
 };

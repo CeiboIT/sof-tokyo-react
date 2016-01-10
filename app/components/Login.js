@@ -7,12 +7,17 @@
  */
 
 var React = require('react-native');
+
 var Dimensions= require('Dimensions');
 var windowsSize = Dimensions.get('window');
+
 import Button from 'apsl-react-native-button'
+
 var api =require("../utils/api/UserApi");
-var stream =require("../stores/Streams").getStream("User");
+
 var t = require('tcomb-form-native');
+
+var Errors = require('../components/Errors');
 
 var {
     View,
@@ -143,18 +148,7 @@ var username = {
 };
 
 
-var Login = React.createClass ({
-
-    /*constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            password: '',
-            isLoading: false,
-            error: false
-        };
-    }*/
-
+var Login  = React.createClass({
     loginWithFacebook() {
         FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
             if (!error) {
@@ -166,12 +160,9 @@ var Login = React.createClass ({
     },
 
     login(){
-
         var _credentials = this.refs.form.getValue();
         if(_credentials) {
-            api.sendCredentials(_credentials).then((response) => {
-                console.warn('Success');
-            })
+            api.sendCredentials(_credentials)
         }
     },
 

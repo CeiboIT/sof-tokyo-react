@@ -3,6 +3,10 @@
  */
 
 var React = require('react-native');
+var NavigationSubject= require("../stores/Streams").getStream("Navigation");
+var Icon = require('react-native-vector-icons/FontAwesome');
+
+
 
 var {
     Text,
@@ -14,7 +18,19 @@ var {
 
 var styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFF'
+    },
+
+    buttonContentContainer : {
+        flex:1,
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+    },
+
+    icon: {
+        alignItems:'center',
+        flex:1
     },
 
     list: {
@@ -35,9 +51,11 @@ class FooterButton extends React.Component {
         console.log(this.props);
         return (
             <TouchableHighlight onPress={this.props.data.action}>
-                <Text>
-                    { this.props.data.itemLabel }
-                </Text>
+                <View style={styles.buttonContentContainer}>
+                    <Text>
+                        { this.props.data.itemLabel }
+                    </Text>
+                </View>
             </TouchableHighlight>
         )
     }
@@ -52,17 +70,27 @@ class FooterNav extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
+
+        this.state = {
+            showMenu: true
+        };
+
+        NavigationSubject.subscribe((route) => {
+            if(route == 'login'){
+                this.setState({
+                    showMenu: false
+                });
+            }
+        });
+
         this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
         this.props = {
             options : [
                 {
-                    itemLabel: 'User',
+                    itemLabel: 'Categories',
                     iconName: 'users',
                     action: () => {
-                       this.props.navigator.push({
-                           id: 'User'
-                       })
+                        NavigationSubject.onNext('categories')
                     }
                 }
             ]
@@ -71,13 +99,18 @@ class FooterNav extends React.Component {
     }
 
     render(){
+
+        var _menu = (this.state.showMenu) ? (
+            <ListView contentContainerStyle={styles.list}
+                      dataSource={this.list}
+                      renderRow={ (data) => <FooterButton data={data} navigator={this.props.navigator}/>}
+            >
+            </ListView>): null;
+
+
         return (
             <View style={styles.container}>
-                <ListView contentContainerStyle={styles.list}
-                          dataSource={this.list}
-                          renderRow={ (data) => <FooterButton data={data} navigator={this.props.navigator}/>}
-                >
-                </ListView>
+            { _menu }
             </View>
         )
     }
