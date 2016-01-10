@@ -4,6 +4,9 @@
 
 var Rx = require('rx');
 var Pages = require('../pages/Pages.d');
+var actionIcons = {};
+
+actionIcons.toggle = require('../components/actions/ToggleMenu')
 
 
 class NavigatorService {
@@ -33,7 +36,8 @@ class NavigatorService {
         });
 
         this.startRoute = {
-            component : Pages.feed
+            component : Pages.feed,
+            leftCorner: actionIcons.toggle
         }
     }
 

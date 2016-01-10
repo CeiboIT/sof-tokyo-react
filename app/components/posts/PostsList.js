@@ -14,6 +14,9 @@ var Login = require('./../auth/Login');
 var GridView = require('react-native-grid-view');
 var NavigatorManager = require("../../services/NavigationManager");
 
+
+
+
 var {
     StyleSheet
 } = React;
@@ -77,14 +80,14 @@ class PostsList extends React.Component{
         super(props);
         //Because this is the first route,it should set the navigationManager;
 
-        NavigatorManager.setNavigationManager(props.navigator);
-
         this.state = {
             dataSource: [],
             note: '',
             error: '',
             page: 1
         };
+
+        console.warn(NavigatorManager.setNavigationManager);
 
         this.getDataSource();
     }
