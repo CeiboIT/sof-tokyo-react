@@ -9,7 +9,7 @@ var windowSize = Dimensions.get("window");
 var ResponsiveImage = require('react-native-responsive-image');
 var Icon = require('react-native-vector-icons/FontAwesome');
 
-var NavigatorSubject = require("../stores/Streams").getStream("Navigation");
+var NavigatorSubject = require("./Streams").getStream("Navigation");
 
 
 var {
@@ -53,40 +53,37 @@ var imageSizes ={
 
 };
 
-
-class NavigateToPost extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    tap () {
-        NavigatorSubject.onNext('post', this.props.id)
-    }
-
+var NavigateToPost  = React.createClass({
+    goToPost () {
+       NavigatorSubject.onNext('post', this.props.id)
+    },
     render() {
         return (
-            <TouchableHighlight onTap={this.tap} style={styles.navIconContainer}
-                                underlayColor="transparent">
-                <Icon name="plus" size={10} color="#000"></Icon>
+            <TouchableHighlight onPress={this.goToPost} style={styles.navIconContainer} underlayColor="transparent">
+                <Icon name="plus" size={10} color="#000"/>
             </TouchableHighlight>
         )
     }
-}
+});
 
 NavigateToPost.propTypes= {
     id: React.PropTypes.number
 };
 
 class PostElement extends React.Component {
+    tap () {
+        console.warn('Tapped');
+        NavigatorSubject.onNext('post', this.props.postData.id)
+    }
+
     render() {
         return(
             <View style={styles.container}>
                 <View>
                     <ResponsiveImage source={{uri: this.props.postData.thumbnail}}
-                                     initWidth={imageSizes.width} initHeight={imageSizes.height}
-                    />
+                                     initWidth={imageSizes.width} initHeight={imageSizes.height}/>
                 </View>
-                <NavigateToPost id={this.props.postData.id}></NavigateToPost>
+                <NavigateToPost id={this.props.postData.id}/>
                 <View>
                     <Text style={styles.title}> { this.props.postData.title}</Text>
                 </View>

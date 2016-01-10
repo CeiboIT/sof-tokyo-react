@@ -3,8 +3,9 @@
  */
 
 var React = require('react-native');
-var NavigationSubject= require("../stores/Streams").getStream("Navigation");
-var SidebarSubject = require("../stores/Streams").getStream("Sidebar");
+var NavigationSubject= require("../../services/NavigationManager")
+
+var SidebarSubject = require("../../services/Streams").getStream("Sidebar");
 
 import Button from 'apsl-react-native-button'
 

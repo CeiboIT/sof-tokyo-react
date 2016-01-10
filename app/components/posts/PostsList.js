@@ -6,21 +6,17 @@
 var React = require('react-native');
 var Dimensions= require('Dimensions');
 var windowSize = Dimensions.get("window");
-var api = require('../utils/api/PostsApi');
+var api = require('../../utils/api/PostsApi');
 var PostElement = require('./PostElement');
 var PostView = require('./PostView');
-var Login = require('./Login');
+var Login = require('./../auth/Login');
 
 var GridView = require('react-native-grid-view');
-var NavigatorSubject = require("../stores/Streams").getStream("Navigation");
+var NavigatorManager = require("./NavigationManager");
 
 var {
-    View,
-    Text,
-    ScrollView,
-    StyleSheet,
-    TouchableHighlight
-    } = React;
+    StyleSheet
+} = React;
 
 var styles = StyleSheet.create({
     container: {
@@ -79,6 +75,9 @@ var styles = StyleSheet.create({
 class PostsList extends React.Component{
     constructor(props){
         super(props);
+        //Because this is the first route,it should set the navigationManager;
+
+        NavigatorManager.setNavigationManager(props.navigator);
 
         this.state = {
             dataSource: [],
@@ -109,12 +108,6 @@ class PostsList extends React.Component{
         />
         )
     }
-};
-
-/*
-PostsList.propTypes = {
-    userInfo: React.PropTypes.object.isRequired,
-    notes: React.PropTypes.object.isRequired
-} */
+}
 
 module.exports = PostsList;

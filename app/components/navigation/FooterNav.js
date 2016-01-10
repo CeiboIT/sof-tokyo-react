@@ -3,7 +3,7 @@
  */
 
 var React = require('react-native');
-var NavigationSubject= require("../stores/Streams").getStream("Navigation");
+var NavigationSubject= require("./Streams").getStream("Navigation");
 var Icon = require('react-native-vector-icons/FontAwesome');
 
 

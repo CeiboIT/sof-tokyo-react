@@ -9,7 +9,7 @@ var {
     ToastAndroid,
 } = React;
 
-var ErrorSubject = require("../stores/Streams").getStream("Errors");
+var ErrorSubject = require("./Streams").getStream("Errors");
 
 class Errors extends React.Component {
     constructor(props) {

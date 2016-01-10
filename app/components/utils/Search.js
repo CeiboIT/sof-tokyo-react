@@ -3,7 +3,7 @@
  */
 
 var React = require('react-native');
-var api =require("../utils/api/UserApi");
+var api =require("../../utils/api/UserApi");
 
 
 

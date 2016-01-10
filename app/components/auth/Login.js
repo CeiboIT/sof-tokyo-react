@@ -13,11 +13,11 @@ var windowsSize = Dimensions.get('window');
 
 import Button from 'apsl-react-native-button'
 
-var api =require("../utils/api/UserApi");
+var api =require("../../utils/api/UserApi");
 
 var t = require('tcomb-form-native');
 
-var Errors = require('../components/Errors');
+var Errors = require('utils/Errors');
 
 var {
     View,
