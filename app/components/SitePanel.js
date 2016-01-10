@@ -66,7 +66,7 @@ class SitePanel extends React.Component {
     }
 
     login() {
-        NavigationSubject.onNext('login');
+        NavigationSubject.onNext({path: 'login'});
         SidebarSubject.onNext('close');
         return;
     }

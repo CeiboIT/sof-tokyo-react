@@ -8,10 +8,10 @@ var Dimensions= require('Dimensions');
 var windowSize = Dimensions.get("window");
 var api = require('../utils/api/PostsApi');
 var PostElement = require('./PostElement');
+var PostView = require('./PostView');
 var Login = require('./Login');
 
-var GridView = require('react-native-grid-view')
-
+var GridView = require('react-native-grid-view');
 var NavigatorSubject = require("../stores/Streams").getStream("Navigation");
 
 var {
@@ -31,7 +31,12 @@ var styles = StyleSheet.create({
     },
     list: {
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+    },
+
+    item: {
+
     },
 
     title: {
@@ -85,7 +90,7 @@ class PostsList extends React.Component{
         this.getDataSource();
 
         NavigatorSubject.subscribe((route)=> {
-            switch(route) {
+            switch(route.path) {
                 case('login'):
                     this.props.toRoute({
                         "component": Login,
@@ -96,6 +101,11 @@ class PostsList extends React.Component{
                     this.props.toRoute({
                         "component": <Text>View for Categories</Text>
                     });
+
+                    case('post'):
+                        this.props.toRoute({
+                            "component": PostView
+                        })
             }
         })
     }
@@ -115,7 +125,7 @@ class PostsList extends React.Component{
         <GridView
             items={this.state.dataSource}
             itemsPerRow={2}
-            renderItem={(rowData) => <PostElement style={styles.item} postData={ rowData }></PostElement>}
+            renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData }></PostElement>}
         />
         )
     }

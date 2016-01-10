@@ -76,7 +76,7 @@ class FooterNav extends React.Component {
         };
 
         NavigationSubject.subscribe((route) => {
-            if(route == 'login'){
+            if(route.path ==  'login'){
                 this.setState({
                     showMenu: false
                 });
@@ -90,7 +90,7 @@ class FooterNav extends React.Component {
                     itemLabel: 'Categories',
                     iconName: 'users',
                     action: () => {
-                        NavigationSubject.onNext('categories')
+                        NavigationSubject.onNext({path: 'categories'})
                     }
                 }
             ]
