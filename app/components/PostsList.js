@@ -4,17 +4,19 @@
 
 
 var React = require('react-native');
+var Dimensions= require('Dimensions');
+var windowSize = Dimensions.get("window");
 var api = require('../utils/api/PostsApi');
 var PostElement = require('./PostElement');
 var Login = require('./Login');
-var FooterNav = require("./FooterNav");
+
+var GridView = require('react-native-grid-view')
 
 var NavigatorSubject = require("../stores/Streams").getStream("Navigation");
 
 var {
     View,
     Text,
-    ListView,
     ScrollView,
     StyleSheet,
     TouchableHighlight
@@ -28,9 +30,10 @@ var styles = StyleSheet.create({
         backgroundColor: '#FFFFFF'
     },
     list: {
-        flex: 1,
-        flexDirection: 'column'
+        flexDirection: 'row',
+        flexWrap: 'wrap'
     },
+
     title: {
         fontSize: 25
     },
@@ -71,9 +74,9 @@ var styles = StyleSheet.create({
 class PostsList extends React.Component{
     constructor(props){
         super(props);
-        this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+
         this.state = {
-            dataSource: this.ds.cloneWithRows([]),
+            dataSource: [],
             note: '',
             error: '',
             page: 1
@@ -102,20 +105,18 @@ class PostsList extends React.Component{
             .then((response) => {
                 console.log(Array.isArray(response.posts));
                 this.setState({
-                    dataSource: this.ds.cloneWithRows(response['posts'])
+                    dataSource: response['posts']
                 })
             })
     }
 
     render(){
         return (
-            <ScrollView contentStyleProp={styles.container}>
-                    <ListView contentStyleProp={styles.list}
-                              dataSource={this.state.dataSource}
-                              renderRow={(rowData) => <PostElement postData={ rowData }></PostElement>}
-                    />
-
-            </ScrollView>
+        <GridView
+            items={this.state.dataSource}
+            itemsPerRow={2}
+            renderItem={(rowData) => <PostElement style={styles.item} postData={ rowData }></PostElement>}
+        />
         )
     }
 };
