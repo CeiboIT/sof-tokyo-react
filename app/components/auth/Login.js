@@ -17,7 +17,6 @@ var api =require("../../utils/api/UserApi");
 
 var t = require('tcomb-form-native');
 
-var Errors = require('utils/Errors');
 
 var {
     View,

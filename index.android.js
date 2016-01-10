@@ -5,23 +5,19 @@
 'use strict';
 
 var React = require('react-native');
-var SitePanel = require("./app/components/SitePanel");
-var FooterNav= require("./app/components/FooterNav");
 
-var routes = require("./app/routes").getRoutes();
+var SitePanel = require("./app/components/navigation/SitePanel");
+var FooterNav= require("./app/components/navigation/FooterNav");
 
-var SidebarSubject = require("./app/stores/Streams").getStream("Sidebar");
+var SidebarSubject = require("./app/services/Streams").getStream("Sidebar");
+var firstRoute = require("./app/services/NavigationManager").getFirstRoute();
 
 var Drawer = require('react-native-drawer');
 var Router = require('gb-native-router');
 
-
 var {
     AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity
+    StyleSheet
     } = React;
 
 var styles = StyleSheet.create({
@@ -39,8 +35,6 @@ class sofTokyo extends React.Component{
 
     constructor(props){
         super(props);
-
-
     }
 
     subscribe() {
@@ -57,25 +51,15 @@ class sofTokyo extends React.Component{
         });
     }
 
-
-
     render() {
         this.subscribe();
         return (
-
-            <Drawer
-                ref="drawer"
-                content={<SitePanel />}
-            >
-                <Router ref="router" firstRoute={routes.feed} headerStyle={styles.header}>
+            <Drawer ref="drawer" content={<SitePanel/>}>
+                <Router ref="router" firstRoute={firstRoute} headerStyle={styles.header}>
                 </Router>
-
-                <FooterNav></FooterNav>
+                <FooterNav/>
             </Drawer>
-
         );
     }
-};
-
-
+}
 AppRegistry.registerComponent('sofTokyo', () => sofTokyo);

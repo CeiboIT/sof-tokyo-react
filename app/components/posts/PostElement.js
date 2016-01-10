@@ -9,7 +9,7 @@ var windowSize = Dimensions.get("window");
 var ResponsiveImage = require('react-native-responsive-image');
 var Icon = require('react-native-vector-icons/FontAwesome');
 
-var NavigatorSubject = require("./Streams").getStream("Navigation");
+var NavigatorSubject = require("../../services/NavigationManager")
 
 
 var {
@@ -73,7 +73,7 @@ NavigateToPost.propTypes= {
 class PostElement extends React.Component {
     tap () {
         console.warn('Tapped');
-        NavigatorSubject.onNext('post', this.props.postData.id)
+        NavigatorSubject.onNext({path: 'post', params: {id: this.props.postData.id }})
     }
 
     render() {

@@ -12,7 +12,7 @@ var PostView = require('./PostView');
 var Login = require('./../auth/Login');
 
 var GridView = require('react-native-grid-view');
-var NavigatorManager = require("./NavigationManager");
+var NavigatorManager = require("../../services/NavigationManager");
 
 var {
     StyleSheet

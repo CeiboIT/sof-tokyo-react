@@ -3,10 +3,8 @@
  */
 
 var React = require('react-native');
-var NavigationSubject= require("./Streams").getStream("Navigation");
+var NavigationSubject= require("../../services/NavigationManager").getStream();
 var Icon = require('react-native-vector-icons/FontAwesome');
-
-
 
 var {
     Text,
@@ -67,7 +65,6 @@ FooterButton.propTypes = {
 };
 
 class FooterNav extends React.Component {
-
     constructor(props) {
         super(props);
 

@@ -6,8 +6,8 @@
 
 var apiConsts  = require("../../constants/api").apiConsts;
 
-var ErrorSubject = require("../../stores/Streams").getStream("Errors");
-var UserSubject = require("../../stores/Streams").getStream("User");
+var ErrorSubject = require("../../services/Streams").getStream("Errors");
+var UserSubject = require("../../services/Streams").getStream("User");
 
 var api = {
 

@@ -8,9 +8,7 @@ var windowSize = Dimensions.get("window");
 
 var ResponsiveImage = require('react-native-responsive-image');
 var Icon = require('react-native-vector-icons/FontAwesome');
-
-var NavigatorSubject = require("./Streams").getStream("Navigation");
-
+var NavigatorSubject = require("../../services/NavigationManager")
 
 var {
     View,
