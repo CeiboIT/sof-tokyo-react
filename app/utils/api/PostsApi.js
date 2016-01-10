@@ -7,7 +7,8 @@ var productsEndpoint = apiEndpoint + 'products/';
 
 var api = {
     Posts(page) {
-        return fetch(productsEndpoint + 'list/' + page)
+        console.warn(page);
+        return fetch(productsEndpoint + 'list/' + page || 1)
             .then((response) => {
                 return response.json();
             })

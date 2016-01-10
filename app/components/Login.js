@@ -12,6 +12,7 @@ var windowsSize = Dimensions.get('window');
 import Button from 'apsl-react-native-button'
 var api =require("../utils/api/UserApi");
 var stream =require("../stores/Streams").getStream("User");
+var t = require('tcomb-form-native');
 
 var {
     View,
@@ -63,8 +64,8 @@ var styles = {
         marginTop: 10,
         alignSelf: 'stretch',
         justifyContent: 'center'
-    },
-}
+    }
+};
 
 var styles = StyleSheet.create({
     buttonsContainer: {
@@ -126,10 +127,25 @@ var styles = StyleSheet.create({
     }
 });
 
+var Form = t.form.Form;
 
-class Login extends React.Component {
+var UserCredentials = t.struct({
+    username: t.String,
+    password: t.String
+});
+var options = {
 
-    constructor(props) {
+
+};
+
+var username = {
+
+};
+
+
+var Login = React.createClass ({
+
+    /*constructor(props) {
         super(props);
         this.state = {
             username: '',
@@ -137,7 +153,7 @@ class Login extends React.Component {
             isLoading: false,
             error: false
         };
-    }
+    }*/
 
     loginWithFacebook() {
         FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
@@ -147,30 +163,19 @@ class Login extends React.Component {
                 console.info("Error: ", data);
             }
         })
-    }
+    },
 
-    login(credentials){
-        if(credentials) {
-            api.sendCredentials(credentials).then((response) => {
+    login(){
+
+        var _credentials = this.refs.form.getValue();
+        if(_credentials) {
+            api.sendCredentials(_credentials).then((response) => {
                 console.warn('Success');
             })
         }
-    }
-
-    handleUsername(event){
-        this.setState({
-            username: event.nativeEvent.text
-        })
-    }
-    handlePassword(event){
-        this.setState({
-            password: event.nativeEvent.text
-        })
-    }
-
+    },
 
     render() {
-        console.log('Trying to Render');
         return(
             <View style={styles.Search}>
                 <View style={styles.facebookContainer}>
@@ -178,35 +183,17 @@ class Login extends React.Component {
                         <Icon name="facebook" color="#FFF" style={styles.icon} size={30}></Icon> Login with Facebook
                     </Button>
                 </View>
-                <Text style={styles.title}> { this.state.error}</Text>
-                <TextInput
-                    style={styles.searchInput}
-                    value={this.state.username}
-                    onChange={this.handleUsername.bind(this)} />
-                <Text
-                    style={styles.button}>
-                    <Text style={styles.buttonText}> Username </Text>
-                </Text>
-                <TextInput
-                    secureTextEntry={true}
-                    style={styles.searchInput}
-                    value={this.state.password}
-                    onChange={this.handlePassword.bind(this)} />
-                <Text
-                    style={styles.button}>
-                    <Text style={styles.buttonText}> Password </Text>
-                </Text>
+                <Form ref="form" type={UserCredentials} />
 
                 <View style={styles.loginButtonContainer}>
                     <Button style={styles.loginButton} textStyle={styles.loginText}
-                            onPress={this.login({username:this.state.username, password:this.state.password })}>
+                            onPress={this.login}>
                         Login
                     </Button>
                 </View>
             </View>
-
         );
     }
-}
+});
 
 module.exports = Login;

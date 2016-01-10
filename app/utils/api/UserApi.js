@@ -28,24 +28,22 @@ var api = {
     },
 
     async sendCredentials(credentials){
-        console.warn(credentials.username);
-
         try {
-            let response = await fetch(apiConsts.apiEndpoint + '/auth/login',{
+            let response = await fetch("https://sof-tokyo-node-server.herokuapp.com/api/" + 'auth/login',{
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: {
+                body: JSON.stringify({
                     username: credentials.username,
                     password: credentials.password
-                }
+                })
             });
 
-            return response.body;
+            console.warn(response.body);
         } catch(error){
-            console.warn('Hello Error');
+            console.warn(error);
             throw error;
         }
     }

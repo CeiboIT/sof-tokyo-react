@@ -3,8 +3,8 @@
  */
 
 export const apiConsts = {
-    main: 'http://sof-tokyo-node-server/',
-    apiEndpoint: 'http://sof-tokyo-node-server/api'
+    main: 'https://sof-tokyo-node-server.herokuapp.com/',
+    apiEndpoint: 'https://sof-tokyo-node-server.herokuapp.com/api/'
 };
 
 
