@@ -174,7 +174,7 @@ var Login  = React.createClass({
                         <Icon name="facebook" color="#FFF" style={styles.icon} size={30}></Icon> Login with Facebook
                     </Button>
                 </View>
-                <Form ref="form" type={UserCredentials} />
+                <Form ref="form" type={UserCredentials}/>
 
                 <View style={styles.loginButtonContainer}>
                     <Button style={styles.loginButton} textStyle={styles.loginText}

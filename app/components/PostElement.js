@@ -53,25 +53,18 @@ var imageSizes ={
 
 };
 
-class NavigateToPost extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    tap () {
-        console.warn('Tapped');
-        NavigatorSubject.onNext('post', this.props.id)
-    }
-
+var NavigateToPost  = React.createClass({
+    goToPost () {
+       NavigatorSubject.onNext('post', this.props.id)
+    },
     render() {
         return (
-            <TouchableHighlight onPress={this.tap} style={styles.navIconContainer}
-                                underlayColor="transparent">
-                <Icon name="plus" size={10} color="#000"></Icon>
+            <TouchableHighlight onPress={this.goToPost} style={styles.navIconContainer} underlayColor="transparent">
+                <Icon name="plus" size={10} color="#000"/>
             </TouchableHighlight>
         )
     }
-}
+});
 
 NavigateToPost.propTypes= {
     id: React.PropTypes.number
@@ -87,12 +80,8 @@ class PostElement extends React.Component {
         return(
             <View style={styles.container}>
                 <View>
-                    <TouchableHighlight onPress={this.tap} style={styles.navIconContainer}
-                                        underlayColor="transparent">
-                        <ResponsiveImage source={{uri: this.props.postData.thumbnail}}
-                                         initWidth={imageSizes.width} initHeight={imageSizes.height}/>
-                    </TouchableHighlight>
-                    />
+                    <ResponsiveImage source={{uri: this.props.postData.thumbnail}}
+                                     initWidth={imageSizes.width} initHeight={imageSizes.height}/>
                 </View>
                 <NavigateToPost id={this.props.postData.id}/>
                 <View>
