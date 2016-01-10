@@ -85,7 +85,6 @@ class Search extends React.Component {
         this.setState({
             isLoading: true
         });
-        console.log(this.state);
         api.getBio(this.state.search)
             .then((res)=> {
                 console.log(res);

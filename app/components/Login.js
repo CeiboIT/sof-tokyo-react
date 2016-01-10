@@ -13,7 +13,6 @@ import Button from 'apsl-react-native-button'
 var api =require("../utils/api/UserApi");
 var stream =require("../stores/Streams").getStream("User");
 
-
 var {
     View,
     Text,
@@ -96,15 +95,35 @@ var styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    login: {
+    loginButtonContainer: {
+        flex:1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 
-        marginTop:10
+    loginButton: {
+        flex:1,
+        borderColor: '#EEEEEE',
+        backgroundColor: 'transparent',
+        borderRadius: 0,
+        borderWidth: 3,
+        width: windowsSize.width * 0.5,
+        marginLeft: windowsSize.width * 0.25,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     loginText: {
-        color:"#FFF",
+        color: "##444444",
         fontSize: 25
     },
+
+    facebookText: {
+        color:"#FFF",
+        fontSize: 25
+    }
 });
 
 
@@ -112,7 +131,6 @@ class Login extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             username: '',
             password: '',
@@ -124,18 +142,19 @@ class Login extends React.Component {
     loginWithFacebook() {
         FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
             if (!error) {
-                console.log("Login data: ", data);
+                console.info("Login data: ", data);
             } else {
-                console.log("Error: ", data);
+                console.info("Error: ", data);
             }
         })
     }
 
-    login(){
-        var credentials : {
-
-            }
-        api.sendCredentials(credentials)
+    login(credentials){
+        if(credentials) {
+            api.sendCredentials(credentials).then((response) => {
+                console.warn('Success');
+            })
+        }
     }
 
     handleUsername(event){
@@ -149,19 +168,13 @@ class Login extends React.Component {
         })
     }
 
-    handleSubmit(){
-        // update our indicatorIOS spinner
-        this.setState({
-            isLoading: true
-        });
-    }
 
     render() {
         console.log('Trying to Render');
         return(
             <View style={styles.Search}>
                 <View style={styles.facebookContainer}>
-                    <Button style={styles.facebookButton} textStyle={styles.loginText} onPress={this.loginWithFacebook}>
+                    <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
                         <Icon name="facebook" color="#FFF" style={styles.icon} size={30}></Icon> Login with Facebook
                     </Button>
                 </View>
@@ -171,24 +184,22 @@ class Login extends React.Component {
                     value={this.state.username}
                     onChange={this.handleUsername.bind(this)} />
                 <Text
-                    style={styles.button}
-                    onPress={this.handleSubmit.bind(this)}
-                    underlayColor="white">
+                    style={styles.button}>
                     <Text style={styles.buttonText}> Username </Text>
                 </Text>
                 <TextInput
+                    secureTextEntry={true}
                     style={styles.searchInput}
-                    value={this.state.username}
+                    value={this.state.password}
                     onChange={this.handlePassword.bind(this)} />
                 <Text
-                    style={styles.button}
-                    onPress={this.handleSubmit.bind(this)}
-                    underlayColor="white">
+                    style={styles.button}>
                     <Text style={styles.buttonText}> Password </Text>
                 </Text>
 
-                <View style={styles.facebookContainer}>
-                    <Button style={styles.facebookButton} textStyle={styles.loginText} onPress={this.loginWithFacebook}>
+                <View style={styles.loginButtonContainer}>
+                    <Button style={styles.loginButton} textStyle={styles.loginText}
+                            onPress={this.login({username:this.state.username, password:this.state.password })}>
                         Login
                     </Button>
                 </View>

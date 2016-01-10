@@ -3,8 +3,8 @@
  */
 
 export const apiConsts = {
-    main: 'sof.tokyo',
-    apiEndpoint: 'sof.tokyo/api'
+    main: 'http://sof-tokyo-node-server/',
+    apiEndpoint: 'http://sof-tokyo-node-server/api'
 };
 
 
