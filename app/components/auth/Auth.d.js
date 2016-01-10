@@ -3,5 +3,5 @@
  */
 
 
-var Login = require('./Login');
+var Login = require('./../../pages/Login');
 const actions = { Login };

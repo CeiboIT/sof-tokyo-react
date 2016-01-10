@@ -13,17 +13,14 @@ var windowsSize = Dimensions.get('window');
 
 import Button from 'apsl-react-native-button'
 
-var api =require("../../utils/api/UserApi");
+var api =require("../utils/api/UserApi");
 
 var t = require('tcomb-form-native');
 
 
 var {
     View,
-    Text,
-    StyleSheet,
-    TextInput,
-    TouchableHighlight,
+    StyleSheet
     } = React;
 
 var Icon = require('react-native-vector-icons/FontAwesome');

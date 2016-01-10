@@ -6,5 +6,6 @@ var feed = require("./Feed");
 var categories = {
     menu: require('./CategoriesMenu')
 };
+var login = require('./Login');
 
-module.exports = {feed, categories};
+module.exports = {feed, categories , login};

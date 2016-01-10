@@ -9,13 +9,9 @@ var windowSize = Dimensions.get("window");
 var api = require('../../utils/api/PostsApi');
 var PostElement = require('./PostElement');
 var PostView = require('./PostView');
-var Login = require('./../auth/Login');
+var Login = require('./../../pages/Login');
 
 var GridView = require('react-native-grid-view');
-var NavigatorManager = require("../../services/NavigationManager");
-
-
-
 
 var {
     StyleSheet
@@ -63,10 +59,6 @@ var styles = StyleSheet.create({
         padding: 10
     },
 
-    facebookHeader : {
-      backgroundColor: "#2A406B"
-    },
-
     footerContainer: {
         backgroundColor: '#E3E3E3',
         alignItems: 'center',
@@ -86,9 +78,6 @@ class PostsList extends React.Component{
             error: '',
             page: 1
         };
-
-        console.warn(NavigatorManager.setNavigationManager);
-
         this.getDataSource();
     }
 

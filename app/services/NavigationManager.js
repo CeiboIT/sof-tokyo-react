@@ -3,11 +3,23 @@
  */
 
 var Rx = require('rx');
+var React = require('react-native');
 var Pages = require('../pages/Pages.d');
+var Login = require('../pages/Login');
 var actionIcons = {};
-
 actionIcons.toggle = require('../components/actions/ToggleMenu')
 
+var {
+    StyleSheet
+} = React
+
+
+
+var styles = StyleSheet.create({
+    facebookHeader : {
+        backgroundColor: "#2A406B"
+    }
+})
 
 class NavigatorService {
 
@@ -15,37 +27,36 @@ class NavigatorService {
         this.manager = ''; //think in page instead of Components
 
         this.NavigationSubject = new Rx.Subject();
-        this.NavigationSubject.subscribe((route)=> {
-            switch(route.path) {
-                case('login'):
-                    this.manager.toRoute({
-                        "component": Login,
-                        "headerStyle": styles.facebookHeader
-                    });
-                    break;
-                case('categories'):
-                    this.manager.toRoute({
-                        "component": <Text>View for Categories</Text>
-                    });
-                    break;
-                case('post'):
-                    this.manager.toRoute({
-                        "component": PostView
-                    })
-            }
-        });
+
+        // Routes definition here
 
         this.startRoute = {
             component : Pages.feed,
             leftCorner: actionIcons.toggle
         }
-    }
+
+        this.NavigationSubject.subscribe((route)=> {
+            switch(route.path) {
+                case('login'):
+                    this.manager.toRoute({
+                        "component": Pages.login,
+                        "headerStyle": styles.facebookHeader
+                    });
+                    break;
+            }
+        });
+
+    };
 
     getFirstRoute() {
         return this.startRoute
     }
 
     setNavigationManager(managertoSet){
+        if(!this.manager) this.manager = managertoSet;
+    }
+
+    getNavigationManager(managertoSet){
         if(!this.manager) this.manager = managertoSet;
     }
 
