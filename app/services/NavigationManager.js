@@ -43,6 +43,9 @@ class NavigatorService {
                         "headerStyle": styles.facebookHeader
                     });
                     break;
+                case('product'):
+                    this.manager.toRoute({
+                    })
             }
         });
 

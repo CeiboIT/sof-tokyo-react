@@ -4,14 +4,11 @@
 
 
 var React = require('react-native');
-var Dimensions= require('Dimensions');
-var windowSize = Dimensions.get("window");
 var api = require('../../utils/api/PostsApi');
-var PostElement = require('./PostElement');
-var PostView = require('./PostView');
-var Login = require('./../../pages/Login');
 
+var PostElement = require('./PostElement');
 var GridView = require('react-native-grid-view');
+var PostsStream = require("../../services/Streams").getStream("Posts");
 
 var {
     StyleSheet
@@ -79,16 +76,20 @@ class PostsList extends React.Component{
             page: 1
         };
         this.getDataSource();
+
+        PostsStream.subscribe((response) => {
+            var _copy = this.state.dataSource;
+            response['posts'].map((post) => {
+                _copy.push(post);
+            });
+            this.setState({
+                dataSource: _copy
+            });
+        });
     }
 
     getDataSource(): ListView.DataSource {
-        return api.Posts(this.page)
-            .then((response) => {
-                console.log(Array.isArray(response.posts));
-                this.setState({
-                    dataSource: response['posts']
-                })
-            })
+        api.LoadPosts(this.page)
     }
 
     render(){

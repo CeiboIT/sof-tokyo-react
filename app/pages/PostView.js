@@ -8,7 +8,7 @@ var windowSize = Dimensions.get("window");
 
 var ResponsiveImage = require('react-native-responsive-image');
 var Icon = require('react-native-vector-icons/FontAwesome');
-var NavigatorSubject = require("../../services/NavigationManager")
+var NavigatorSubject = require("../services/NavigationManager")
 
 var {
     View,
@@ -45,12 +45,9 @@ var styles = StyleSheet.create({
 
 
 var imageSizes ={
-
     width: windowSize.width * 0.45,
     height: windowSize.height * 0.6
-
 };
-
 
 class NavigateToPost extends React.Component {
     constructor(props) {
@@ -59,6 +56,12 @@ class NavigateToPost extends React.Component {
 
     tap () {
         NavigatorSubject.onNext('post', this.props.id)
+    }
+
+    getPost() {
+
+
+
     }
 
     render() {

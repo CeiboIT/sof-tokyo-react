@@ -24,8 +24,6 @@ var api = {
     },
 
     async sendCredentials(credentials){
-        ErrorSubject.onNext({type:'login', error:'Network problem'});
-
         try {
             let response = await fetch(apiConsts.apiEndpoint + 'auth/login',{
                 method: 'POST',
@@ -39,8 +37,7 @@ var api = {
                 })
             });
 
-            UserSubject.onNext('login',response)
-
+        UserSubject.onNext('login',response)
 
         } catch(error){
             ErrorSubject.onNext('login', error);
