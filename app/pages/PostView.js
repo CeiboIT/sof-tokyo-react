@@ -5,10 +5,9 @@
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get("window");
-
 var ResponsiveImage = require('react-native-responsive-image');
-var Icon = require('react-native-vector-icons/FontAwesome');
-var NavigatorSubject = require("../services/NavigationManager")
+var PostStream = require("../services/Streams").getStream("Post");
+var api = require("../utils/api/PostApi");
 
 var {
     View,
@@ -49,47 +48,33 @@ var imageSizes ={
     height: windowSize.height * 0.6
 };
 
-class NavigateToPost extends React.Component {
+
+class PostView extends React.Component {
     constructor(props) {
         super(props);
+        api.RetrievePost(props.id);
+
+        this.state = {
+            postData: {}
+        };
+
+        PostStream.subscribe((response) => {
+            this.setState({
+                postData: response['post']
+            });
+        })
     }
 
-    tap () {
-        NavigatorSubject.onNext('post', this.props.id)
-    }
-
-    getPost() {
-
-
-
-    }
-
-    render() {
-        return (
-            <TouchableHighlight onTap={this.tap} style={styles.navIconContainer}
-                                underlayColor="transparent">
-                <Icon name="plus" size={10} color="#000"></Icon>
-            </TouchableHighlight>
-        )
-    }
-}
-
-NavigateToPost.propTypes= {
-    id: React.PropTypes.number
-};
-
-class PostElement extends React.Component {
     render() {
         return(
             <View style={styles.container}>
                 <View>
-                    <ResponsiveImage source={{uri: this.props.postData.thumbnail}}
+                    <ResponsiveImage source={{uri: this.state.postData.thumbnail}}
                                      initWidth={imageSizes.width} initHeight={imageSizes.height}
                     />
                 </View>
-                <NavigateToPost id={this.props.postData.id}></NavigateToPost>
                 <View>
-                    <Text style={styles.title}> { this.props.postData.title}</Text>
+                    <Text style={styles.title}> { this.state.postData.title}</Text>
                 </View>
                 <View>
                 </View>
@@ -98,9 +83,8 @@ class PostElement extends React.Component {
     }
 }
 
-PostElement.propTypes = {
-    postData: React.PropTypes.object
-
+PostView.PropTypes= {
+    postId: React.PropTypes.object
 };
 
-module.exports = PostElement;
+module.exports = PostView;

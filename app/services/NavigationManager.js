@@ -33,7 +33,7 @@ class NavigatorService {
         this.startRoute = {
             component : Pages.feed,
             leftCorner: actionIcons.toggle
-        }
+        };
 
         this.NavigationSubject.subscribe((route)=> {
             switch(route.path) {
@@ -43,10 +43,13 @@ class NavigatorService {
                         "headerStyle": styles.facebookHeader
                     });
                     break;
-                case('product'):
+                case('post'):
                     this.manager.toRoute({
+                        "component": Pages.post,
+                        "passProps": route.params
                     })
-            }
+                    break;
+            };
         });
 
     };

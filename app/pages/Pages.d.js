@@ -7,5 +7,6 @@ var categories = {
     menu: require('./CategoriesMenu')
 };
 var login = require('./Login');
+var post = require('./PostView');
 
-module.exports = {feed, categories , login};
+module.exports = {feed, categories , login, post};

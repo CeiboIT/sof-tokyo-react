@@ -3,28 +3,19 @@
  */
 
 var apiConsts  = require("../../constants/api").apiConsts;
-var PostsStream = require("../../services/Streams").getStream("Posts");
+
+var PostStream = require("../../services/Streams").getStream("Post");
 
 var productsEndpoint = apiConsts.apiEndpoint + 'products/';
 
 var api = {
-    async LoadPosts(page){
-        try {
-            let response = await fetch(productsEndpoint + 'list/' + page);
-            PostsStream.onNext(JSON.parse(response._bodyInit))
-        } catch(error){
-            console.warn(error);
-        }
-    },
-
     async RetrievePost(postId) {
         try {
             let response = await fetch(productsEndpoint + 'product/' + postId);
-            Post
+            PostStream.onNext(JSON.parse(response._bodyInit))
         } catch(error){
             console.warn(error);
         }
-
     }
 };
 

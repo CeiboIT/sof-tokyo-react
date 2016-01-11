@@ -9,7 +9,8 @@ var windowSize = Dimensions.get("window");
 var ResponsiveImage = require('react-native-responsive-image');
 var Icon = require('react-native-vector-icons/FontAwesome');
 
-var NavigatorSubject = require("../../services/NavigationManager")
+
+
 
 
 var {
@@ -55,7 +56,8 @@ var imageSizes ={
 
 var NavigateToPost  = React.createClass({
     goToPost () {
-       NavigatorSubject.onNext('post', this.props.id)
+        var subject= require("../../services/NavigationManager").getStream();
+        subject.onNext({path:'post', params: {id: this.props.id} })
     },
     render() {
         return (
