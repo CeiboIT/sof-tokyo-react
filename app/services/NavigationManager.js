@@ -7,11 +7,12 @@ var React = require('react-native');
 var Pages = require('../pages/Pages.d');
 var Login = require('../pages/Login');
 var actionIcons = {};
-actionIcons.toggle = require('../components/actions/ToggleMenu')
 
 var {
     StyleSheet
 } = React
+
+import { api } from "../utils/api/Api.d";
 
 
 
@@ -19,7 +20,7 @@ var styles = StyleSheet.create({
     facebookHeader : {
         backgroundColor: "#2A406B"
     }
-})
+});
 
 class NavigatorService {
 
@@ -32,7 +33,7 @@ class NavigatorService {
 
         this.startRoute = {
             component : Pages.feed,
-            leftCorner: actionIcons.toggle
+            rightCorner: actionIcons.toggle
         };
 
         this.NavigationSubject.subscribe((route)=> {
@@ -47,14 +48,20 @@ class NavigatorService {
                     this.manager.toRoute({
                         "component": Pages.post,
                         "passProps": route.params
+                    });
+                break;
+                case('schools'):
+                    api.schools.LoadSchools();
+                    this.manager.toRoute({
+                        "component": Pages.schools
                     })
-                    break;
-            };
+            }
         });
 
     };
 
     getFirstRoute() {
+        api.posts.LoadPosts(1);
         return this.startRoute
     }
 

@@ -15,7 +15,7 @@ var styles = StyleSheet.create({
     icon: {
         width: 25,
         marginTop:5,
-        marginLeft:8
+        marginRight:8
     }});
 
 var ToggleMenuIcon = React.createClass({

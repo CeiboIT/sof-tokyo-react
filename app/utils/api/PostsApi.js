@@ -15,16 +15,6 @@ var api = {
         } catch(error){
             console.warn(error);
         }
-    },
-
-    async RetrievePost(postId) {
-        try {
-            let response = await fetch(productsEndpoint + 'product/' + postId);
-            Post
-        } catch(error){
-            console.warn(error);
-        }
-
     }
 };
 

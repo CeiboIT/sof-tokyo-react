@@ -89,6 +89,13 @@ class FooterNav extends React.Component {
                     action: () => {
                         NavigationSubject.onNext({path: 'categories'})
                     }
+                },
+                {
+                    itemLabel: 'Schoools',
+                    iconName: 'users',
+                    action: () => {
+                        NavigationSubject.onNext({path: 'schools'})
+                    }
                 }
             ]
         };
