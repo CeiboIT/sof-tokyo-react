@@ -10,7 +10,6 @@ var Login = require('../pages/Login');
 var toggle = require('../components/actions/ToggleMenu');
 var navigation = require('../components/navigation/Navigation.d');
 
-var NavigationSubject = new Rx.Subject();
 
 var {
     StyleSheet
@@ -41,7 +40,7 @@ class NavigatorService {
     constructor(){
         this.manager = ''; //think in page instead of Components
 
-
+        this.NavigationSubject = new Rx.Subject();
 
         // Routes definition here
 
@@ -51,7 +50,12 @@ class NavigatorService {
             rightCorner: toggle
         };
 
-        NavigationSubject.subscribe((route)=> {
+        this.routerProxy = () => {
+            console.warn(Object.keys(arguments))
+            this.NavigationSubject.onNext.apply(this, arguments);
+        };
+
+        this.NavigationSubject.subscribe((route)=> {
             switch(route.path) {
                 case('back'):
                     this.manager.toBack(route.params);
@@ -74,7 +78,9 @@ class NavigatorService {
 
                 case('profile'):
                     this.manager.toRoute({
-                        "component" : Pages.profile
+                        "leftCorner": navigation.back,
+                        "component" : Pages.profile,
+                        "rightCorner": toggle
                     });
                 break;
 
@@ -85,7 +91,6 @@ class NavigatorService {
                         "component": Pages.schools,
                         rightCorner: toggle
                     })
-                break;
             }
         });
     };
@@ -105,7 +110,7 @@ class NavigatorService {
     }
 
     getStream(){
-        return NavigationSubject;
+        return this.NavigationSubject;
     }
 }
 
