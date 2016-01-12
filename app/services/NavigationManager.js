@@ -58,6 +58,13 @@ class NavigatorService {
                         rightCorner: toggle
                     });
                 break;
+
+                case('profile'):
+                    this.manager.toRoute({
+                        "component" : Pages.profile
+                    })
+                    break;
+
                 case('schools'):
                     api.schools.LoadSchools();
                     this.manager.toRoute({

@@ -9,7 +9,7 @@ var api = {
     async LoadSchools(postId) {
         try {
             let response = await fetch(schoolsEndpoint + 'list/');
-            SchoolsStream.onNext({schools: JSON.parse(response._bodyInit)})
+            SchoolsStream.onNext(JSON.parse(response._bodyInit))
         } catch(error){
             console.warn(error);
         }

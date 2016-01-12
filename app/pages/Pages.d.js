@@ -11,5 +11,6 @@ var categories = {
 var login = require('./Login');
 var post = require('./PostView');
 var schools = require('./Schools');
+var profile = require('./Profile');
 
-module.exports = { feed, categories , login, post, schools };
+module.exports = { feed, categories , login, post, schools, profile };

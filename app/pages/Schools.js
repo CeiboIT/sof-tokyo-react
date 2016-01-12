@@ -19,7 +19,7 @@ class Schools extends React.Component {
         };
 
         SchoolsStream.subscribe((response) => {
-            console.warn(Object.keys(response.schools));
+            console.warn(Object.keys(response['schools']));
             this.setState({
                 schools:response.schools
             })
