@@ -45,24 +45,28 @@ class NavigatorService {
                     break;
                 case('login'):
                     this.manager.toRoute({
+                        leftCorner: navigation.back,
                         "component": Pages.login,
                         "headerStyle": styles.facebookHeader
                     });
                     break;
                 case('post'):
                     this.manager.toRoute({
+                        leftCorner: navigation.back,
                         "component": Pages.post,
-                        "passProps": route.params
+                        "passProps": route.params,
+                        rightCorner: toggle
                     });
                 break;
                 case('schools'):
                     api.schools.LoadSchools();
                     this.manager.toRoute({
-                        "component": Pages.schools
+                        leftCorner: navigation.back,
+                        "component": Pages.schools,
+                        rightCorner: toggle
                     })
             }
         });
-
     };
 
     getFirstRoute() {

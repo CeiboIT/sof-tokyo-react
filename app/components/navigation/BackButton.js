@@ -4,6 +4,13 @@
 
 
 var React = require('react-native');
+
+var {
+    StyleSheet
+} = React;
+
+
+
 var Icon = require('react-native-vector-icons/FontAwesome');
 var I18nService = require('../../i18n');
 I18nService.set('ja-JP',{
@@ -15,23 +22,26 @@ var  {
     Text,
     View
 } = React;
-class BackButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.NavigationSubject= require("../../services/NavigationManager")
-    }
+
+
+var BackButton  = React.createClass({
+
     goBack() {
-        this.NavigationSubject.onNext('back', this.props.navigator)
-    }
+        //TODO Debe cambiar esto
+        var NavigationSubject = require("../../services/NavigationManager").getStream();
+        NavigationSubject.onNext( {path: 'back', navigator: this.props.navigator })
+    },
     render() {
+        console.warn(Object.keys(this.props));
+
         return (
-            <TouchableHighlight>
+            <TouchableHighlight onPress={this.goBack} underlayColor="transparent" >
                 <View>
                     <Icon name="arrow-left"><Text>{I18n.t('back')}</Text></Icon>
                 </View>
             </TouchableHighlight>
         )
     }
-}
+});
 
 module.exports= BackButton;
