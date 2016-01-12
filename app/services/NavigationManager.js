@@ -6,15 +6,16 @@ var Rx = require('rx');
 var React = require('react-native');
 var Pages = require('../pages/Pages.d');
 var Login = require('../pages/Login');
-var actionIcons = {};
+
+var toggle = require('../components/actions/ToggleMenu');
+var navigation = require('../components/navigation/Navigation.d');
+
 
 var {
     StyleSheet
 } = React
 
 import { api } from "../utils/api/Api.d";
-
-
 
 var styles = StyleSheet.create({
     facebookHeader : {
@@ -32,12 +33,16 @@ class NavigatorService {
         // Routes definition here
 
         this.startRoute = {
+            leftCorner: navigation.back,
             component : Pages.feed,
-            rightCorner: actionIcons.toggle
+            rightCorner: toggle
         };
 
         this.NavigationSubject.subscribe((route)=> {
             switch(route.path) {
+                case('back'):
+                    this.manager.toBack(route.params);
+                    break;
                 case('login'):
                     this.manager.toRoute({
                         "component": Pages.login,
@@ -81,4 +86,3 @@ class NavigatorService {
 var service = new NavigatorService();
 
 module.exports = service;
-

@@ -3,8 +3,19 @@
  */
 
 var React = require('react-native');
-var NavigationSubject= require("../../services/NavigationManager").getStream();
 var Icon = require('react-native-vector-icons/FontAwesome');
+
+var I18nService = require('../../i18n');
+
+I18nService.set('ja-JP', {
+    'home' : 'ホーム',
+    "new": "NEW",
+    "news": "お知らせ",
+    "myPage": "マイページ",
+    search: "検索"}
+);
+
+var I18n = I18nService.getTranslations();
 
 var {
     Text,
@@ -40,15 +51,18 @@ var styles = StyleSheet.create({
         margin: 10,
         width: 100,
         height: 100
+    },
+    buttonContentContainer : {
+        marginLeft: 10
     }
 });
 
 
 class FooterButton extends React.Component {
+
     render(){
-        console.log(this.props);
         return (
-            <TouchableHighlight onPress={this.props.data.action}>
+            <TouchableHighlight style={styles.buttonContainer} onPress={this.props.data.action}>
                 <View style={styles.buttonContentContainer}>
                     <Text>
                         { this.props.data.itemLabel }
@@ -71,8 +85,8 @@ class FooterNav extends React.Component {
         this.state = {
             showMenu: true
         };
-
-        NavigationSubject.subscribe((route) => {
+        this.NavigationSubject = require("../../services/NavigationManager").getStream();
+        this.NavigationSubject.subscribe((route) => {
             if(route.path ==  'login'){
                 this.setState({
                     showMenu: false
@@ -84,18 +98,39 @@ class FooterNav extends React.Component {
         this.props = {
             options : [
                 {
-                    itemLabel: 'Categories',
+                    itemLabel: I18n.t('home'),
                     iconName: 'users',
                     action: () => {
-                        NavigationSubject.onNext({path: 'categories'})
+                        this.NavigationSubject.onNext({path: 'feed'})
                     }
                 },
                 {
-                    itemLabel: 'Schoools',
+                    itemLabel: I18n.t('search'),
                     iconName: 'users',
                     action: () => {
-                        NavigationSubject.onNext({path: 'schools'})
+                        this.NavigationSubject.onNext({path: 'search'})
                     }
+                },
+                {
+                    itemLabel: I18n.t('new'),
+                    iconName: 'users',
+                    action: () => {
+                        this.NavigationSubject.onNext({path: 'schools'})
+                    }
+                },
+
+                {
+                    itemLabel: I18n.t('news'),
+                    iconName: 'users',
+                    action: () => {
+                        this.NavigationSubject.onNext({path: 'news'})
+                    }
+                },{
+                    itemLabel : I18n.t('myPage'),
+                    action: () => {
+                        this.NavigationSubject.onNext({'path': 'profile'})
+                    }
+
                 }
             ]
         };

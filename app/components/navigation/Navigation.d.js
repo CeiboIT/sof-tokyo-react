@@ -5,6 +5,6 @@
 
 var footer = require('./FooterNav');
 var sidePanel = require('./SitePanel');
+var back = require('./BackButton');
 
-
-const actions = { footer, sidePanel};
+module.exports = { footer, sidePanel, back};
