@@ -10,10 +10,20 @@ var Login = require('../pages/Login');
 var toggle = require('../components/actions/ToggleMenu');
 var navigation = require('../components/navigation/Navigation.d');
 
+var NavigationSubject = new Rx.Subject();
 
 var {
     StyleSheet
 } = React
+
+
+import Storage from 'react-native-storage';
+
+var _storage = new Storage({
+    size: 1000,
+    defaultExpires: 1000 * 3600 * 24,
+    enableCache: true
+});
 
 import { api } from "../utils/api/Api.d";
 
@@ -25,10 +35,13 @@ var styles = StyleSheet.create({
 
 class NavigatorService {
 
+
+
+
     constructor(){
         this.manager = ''; //think in page instead of Components
 
-        this.NavigationSubject = new Rx.Subject();
+
 
         // Routes definition here
 
@@ -38,7 +51,7 @@ class NavigatorService {
             rightCorner: toggle
         };
 
-        this.NavigationSubject.subscribe((route)=> {
+        NavigationSubject.subscribe((route)=> {
             switch(route.path) {
                 case('back'):
                     this.manager.toBack(route.params);
@@ -62,8 +75,8 @@ class NavigatorService {
                 case('profile'):
                     this.manager.toRoute({
                         "component" : Pages.profile
-                    })
-                    break;
+                    });
+                break;
 
                 case('schools'):
                     api.schools.LoadSchools();
@@ -72,9 +85,11 @@ class NavigatorService {
                         "component": Pages.schools,
                         rightCorner: toggle
                     })
+                break;
             }
         });
     };
+
 
     getFirstRoute() {
         api.posts.LoadPosts(1);
@@ -90,7 +105,7 @@ class NavigatorService {
     }
 
     getStream(){
-        return this.NavigationSubject;
+        return NavigationSubject;
     }
 }
 

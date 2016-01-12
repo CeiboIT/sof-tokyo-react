@@ -85,13 +85,20 @@ class FooterNav extends React.Component {
         this.state = {
             showMenu: true
         };
+
+
         this.NavigationSubject = require("../../services/NavigationManager").getStream();
         this.NavigationSubject.subscribe((route) => {
             if(route.path ==  'login'){
                 this.setState({
                     showMenu: false
                 });
+            }else {
+                this.setState({
+                    showMenu:true
+                })
             }
+
         });
 
         this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
@@ -128,7 +135,11 @@ class FooterNav extends React.Component {
                 },{
                     itemLabel : I18n.t('myPage'),
                     action: () => {
-                        this.NavigationSubject.onNext({'path': 'profile'})
+                        if(true) {
+                            this.NavigationSubject.onNext({'path': 'login'})
+                        } else {
+                            this.NavigationSubject.onNext({'path': 'profile'})
+                        }
                     }
 
                 }
@@ -145,8 +156,6 @@ class FooterNav extends React.Component {
                       renderRow={ (data) => <FooterButton data={data} navigator={this.props.navigator}/>}
             >
             </ListView>): null;
-
-
         return (
             <View style={styles.container}>
             { _menu }
