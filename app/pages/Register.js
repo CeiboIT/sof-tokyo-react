@@ -1,9 +1,5 @@
 /**
- * Created by mmasuyama on 1/7/2016.
- */
-
-/**
- * Created by mmasuyama on 1/7/2016.
+ * Created by epotignano on 12/01/16.
  */
 
 var React = require('react-native');
@@ -14,6 +10,7 @@ var windowsSize = Dimensions.get('window');
 import Button from 'apsl-react-native-button'
 
 var api =require("../utils/api/UserApi");
+
 var NavigationSubject =require("../services/NavigationManager");
 
 var t = require('tcomb-form-native');
@@ -21,9 +18,7 @@ var t = require('tcomb-form-native');
 var I18nService = require('../i18n');
 
 I18nService.set('ja-JP', {
-        'login' : 'ログイン',
-        'loginWithFacebook': 'Facebookで始める',
-        'register': "登録 "
+        'registerWithFacebook': 'RegisterFacebookで始める'
     }
 );
 
@@ -173,7 +168,7 @@ var options = {
 var username = {
 
 };
-var Login  = React.createClass({
+var Register  = React.createClass({
     loginWithFacebook() {
         FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
             if (!error) {
@@ -184,15 +179,15 @@ var Login  = React.createClass({
         })
     },
 
-    login(){
+    register(){
         var _credentials = this.refs.form.getValue();
         if(_credentials) {
             api.sendCredentials(_credentials)
         }
     },
 
-    register() {
-        NavigationSubject.onNext({path: 'register'})
+    login() {
+        NavigationSubject.onNext({path: 'login'})
     },
 
     render() {
@@ -201,7 +196,7 @@ var Login  = React.createClass({
                 <View style={styles.facebookContainer}>
                     <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
                         <Text>
-                            { I18n.t('loginWithFacebook') }
+                            { I18n.t('registerWithFacebook') }
                         </Text>
                     </Button>
                 </View>
@@ -209,8 +204,8 @@ var Login  = React.createClass({
 
                 <View style={styles.loginButtonContainer}>
                     <Button style={styles.loginButton} textStyle={styles.loginText}
-                            onPress={this.login}>
-                        { I18n.t('login')}
+                            onPress={this.register}>
+                        { I18n.t('register')}
                     </Button>
                 </View>
                 <View style={styles.loginButtonContainer}>
@@ -220,8 +215,8 @@ var Login  = React.createClass({
                 </View>
                 <View style={styles.loginButtonContainer}>
                     <Button style={styles.registerButton} textStyle={styles.registerText}
-                            onPress={this.register}>
-                        { I18n.t('register')}
+                            onPress={this.login}>
+                        { I18n.t('login')}
                     </Button>
                 </View>
 
@@ -230,4 +225,4 @@ var Login  = React.createClass({
     }
 });
 
-module.exports = Login;
+module.exports = Register;

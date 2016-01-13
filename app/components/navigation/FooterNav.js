@@ -4,6 +4,7 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/FontAwesome');
+var storage = require("../../services/Storage").getInstance();
 
 var I18nService = require('../../i18n');
 
@@ -135,7 +136,7 @@ class FooterNav extends React.Component {
                 },{
                     itemLabel : I18n.t('myPage'),
                     action: () => {
-                        if(true) {
+                        if(!storage['user']) {
                             this.NavigationSubject.onNext({'path': 'login'})
                         } else {
                             this.NavigationSubject.onNext({'path': 'profile'})

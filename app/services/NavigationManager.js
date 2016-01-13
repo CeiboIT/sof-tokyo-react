@@ -9,20 +9,9 @@ var Login = require('../pages/Login');
 
 var toggle = require('../components/actions/ToggleMenu');
 var navigation = require('../components/navigation/Navigation.d');
-
-
 var {
     StyleSheet
-} = React
-
-
-import Storage from 'react-native-storage';
-
-var _storage = new Storage({
-    size: 1000,
-    defaultExpires: 1000 * 3600 * 24,
-    enableCache: true
-});
+} = React;
 
 import { api } from "../utils/api/Api.d";
 
@@ -66,7 +55,15 @@ class NavigatorService {
                         "component": Pages.login,
                         "headerStyle": styles.facebookHeader
                     });
-                    break;
+                break;
+
+                case('register'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.register,
+                        "headerStyle": styles.facebookHeader
+                    });
+                break;
                 case('post'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
