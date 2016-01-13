@@ -176,6 +176,7 @@ var username = {
 
 };
 
+var storage = require("../services/Storage").getInstance();
 
 var Login  = React.createClass({
     loginWithFacebook() {
@@ -194,8 +195,20 @@ var Login  = React.createClass({
             api.sendCredentials(_credentials);
             UserSubject.subscribe((response)=>{
                 if(!response.error) {
+
+                    storage.save('loginCookie',{
+                        rawData : {
+                            cookieName: response.data['cookie_name'],
+                            cookie: response.data['cookie']
+                        }
+                    });
+                    storage.save('User',{
+                        rawData : {
+                            data: response.data['user']
+                        }
+                    });
                     var NavigationSubject = require("../services/NavigationManager").getStream();
-                    NavigationSubject.onNext({path: 'profile'})
+                    NavigationSubject.onNext({path: 'profile', id : 'me'})
                 } else {
                     this.state.error = error;
                 }

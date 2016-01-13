@@ -7,6 +7,9 @@
 var React = require('react-native');
 var UserStream = require("../services/Streams").getStream("User");
 
+var Badge = require('../components/user/Badge');
+var storage = require('../services/Storage').getInstance();
+
 var Login = require('./Login');
 
 var {
@@ -18,20 +21,25 @@ var {
 class Profile extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {
-            user: {}
-        };
+        if(props.id = 'me') {
+            this.state = {
+                user: storage['User']
+            };
+        }
+
     }
 
     render() {
-        var renderMe;
-
         return (
             <View>
-                <Text>Ay vida!</Text>
+                <Badge data={this.state.user}/>
             </View>
         )
     }
 }
+
+Profile.PropTypes = {
+  id : React.PropTypes.any
+};
 
 module.exports = Profile;

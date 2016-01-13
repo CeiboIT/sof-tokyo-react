@@ -77,7 +77,8 @@ class NavigatorService {
                     this.manager.toRoute({
                         "leftCorner": navigation.back,
                         "component" : Pages.profile,
-                        "rightCorner": toggle
+                        "rightCorner": toggle,
+                        "passProps": route.params
                     });
                 break;
 
