@@ -11,7 +11,7 @@ import Button from 'apsl-react-native-button'
 
 var api =require("../utils/api/UserApi");
 
-var NavigationSubject =require("../services/NavigationManager");
+
 
 var t = require('tcomb-form-native');
 
@@ -187,6 +187,7 @@ var Register  = React.createClass({
     },
 
     login() {
+        var NavigationSubject =require("../services/NavigationManager").getStream();
         NavigationSubject.onNext({path: 'login'})
     },
 

@@ -90,7 +90,7 @@ class FooterNav extends React.Component {
 
         this.NavigationSubject = require("../../services/NavigationManager").getStream();
         this.NavigationSubject.subscribe((route) => {
-            if(route.path ==  'login'){
+            if(route.path ==  'login' || route.path == 'register'){
                 this.setState({
                     showMenu: false
                 });

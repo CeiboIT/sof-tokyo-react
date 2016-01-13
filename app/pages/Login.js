@@ -14,7 +14,7 @@ var windowsSize = Dimensions.get('window');
 import Button from 'apsl-react-native-button'
 
 var api =require("../utils/api/UserApi");
-var NavigationSubject =require("../services/NavigationManager");
+
 
 var t = require('tcomb-form-native');
 
@@ -36,6 +36,8 @@ var {
     } = React;
 
 var Icon = require('react-native-vector-icons/FontAwesome');
+
+var UserSubject = require("../services/Streams").getStream("User");
 
 var styles = {
     Search: {
@@ -173,6 +175,8 @@ var options = {
 var username = {
 
 };
+
+
 var Login  = React.createClass({
     loginWithFacebook() {
         FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
@@ -187,11 +191,20 @@ var Login  = React.createClass({
     login(){
         var _credentials = this.refs.form.getValue();
         if(_credentials) {
-            api.sendCredentials(_credentials)
+            api.sendCredentials(_credentials);
+            UserSubject.subscribe((response)=>{
+                if(!response.error) {
+                    var NavigationSubject = require("../services/NavigationManager").getStream();
+                    NavigationSubject.onNext({path: 'profile'})
+                } else {
+                    this.state.error = error;
+                }
+            })
         }
     },
 
     register() {
+        var NavigationSubject = require("../services/NavigationManager").getStream();
         NavigationSubject.onNext({path: 'register'})
     },
 

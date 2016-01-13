@@ -8,6 +8,7 @@ var apiConsts  = require("../../constants/api").apiConsts;
 
 var ErrorSubject = require("../../services/Streams").getStream("Errors");
 var UserSubject = require("../../services/Streams").getStream("User");
+var storage = require("../../services/Storage").getInstance();
 
 var api = {
 
@@ -36,11 +37,23 @@ var api = {
                     password: credentials.password
                 })
             });
+        var parsedResp = JSON.parse(response._bodyInit);
 
-        UserSubject.onNext('login',response)
+            UserSubject.onNext({type: 'login', user: parsedResp['user']});
+        storage.save('loginCookie',{
+            rawData : {
+                cookieName: parsedResp['cookie_name'],
+                cookie: parsedResp['cookie']
+            }
+        });
+        storage.save('User',{
+            rawData : {
+                data: parsedResp['user']
+            }
+        });
 
         } catch(error){
-            ErrorSubject.onNext('login', error);
+            UserSubject.onNext({type: 'login', error});
         }
     }
 };

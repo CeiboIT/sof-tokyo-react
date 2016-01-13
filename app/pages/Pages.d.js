@@ -9,8 +9,9 @@ var categories = {
     menu: require('./CategoriesMenu')
 };
 var login = require('./Login');
+var register= require('./Register');
 var post = require('./PostView');
 var schools = require('./Schools');
 var profile = require('./Profile');
 
-module.exports = { feed, categories , login, post, schools, profile };
+module.exports = { feed, categories , login, post, schools, profile, register };
