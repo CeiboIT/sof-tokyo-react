@@ -10,6 +10,8 @@ var UserStream = require("../services/Streams").getStream("User");
 var Badge = require('../components/user/Badge');
 var storage = require('../services/Storage').getInstance();
 
+import LoadingContainer from 'react-native-loading-container';
+
 var Login = require('./Login');
 
 var {
@@ -21,20 +23,44 @@ var {
 class Profile extends React.Component{
     constructor(props) {
         super(props);
-        if(props.id = 'me') {
-            this.state = {
-                user: storage['User']
-            };
-        }
+
+
+
+        this.state = {
+            user: {}
+        };
+        console.warn(Object.keys(this.state.user))
 
     }
 
+    async getUserData () {
+        let _data = await storage.load({
+            key: 'User'
+        });
+
+        this.setState({
+            user: data.data
+        });
+
+        return _data;
+    }
+
+
     render() {
-        return (
+
+        var view= (
             <View>
                 <Badge data={this.state.user}/>
             </View>
-        )
+        );
+
+        if(this.state.user['id']){
+            _render = view;
+        } else {
+            _render = (<Text>Te quiero y vos nada, Ay vida</Text>)
+        }
+
+        return _render;
     }
 }
 

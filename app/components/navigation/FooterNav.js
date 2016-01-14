@@ -136,11 +136,22 @@ class FooterNav extends React.Component {
                 },{
                     itemLabel : I18n.t('myPage'),
                     action: () => {
-                        if(!storage['user']) {
-                            this.NavigationSubject.onNext({'path': 'login'})
-                        } else {
-                            this.NavigationSubject.onNext({'path': 'profile'})
-                        }
+                        storage.load({
+                            key: 'User'
+                        }).then( ret => {
+                            if(!ret.data['id']) {
+                                this.NavigationSubject.onNext({'path': 'login'})
+                            } else {
+                                this.NavigationSubject.onNext({'path': 'profile'})
+                            }
+                        }).catch( err => {
+                            // any exception including data not found
+                            // goes to catch()
+                            console.warn(err);
+                        });
+
+                        /*
+                        */
                     }
 
                 }

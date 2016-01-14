@@ -195,14 +195,15 @@ var Login  = React.createClass({
             api.sendCredentials(_credentials);
             UserSubject.subscribe((response)=>{
                 if(!response.error) {
-
-                    storage.save('loginCookie',{
+                    storage.save({
+                        key: 'cookies',
                         rawData : {
                             cookieName: response.data['cookie_name'],
                             cookie: response.data['cookie']
                         }
                     });
-                    storage.save('User',{
+                    storage.save({
+                        key: 'User',
                         rawData : {
                             data: response.data['user']
                         }
