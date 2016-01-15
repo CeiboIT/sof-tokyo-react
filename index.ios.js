@@ -5,49 +5,61 @@
 'use strict';
 
 var React = require('react-native');
-var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-} = React;
 
-var sofTokyo = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
-});
+var SitePanel = require("./app/components/navigation/SitePanel");
+var FooterNav= require("./app/components/navigation/FooterNav");
+
+var SidebarSubject = require("./app/services/Streams").getStream("Sidebar");
+var firstRoute = require("./app/services/NavigationManager").getFirstRoute();
+
+var Drawer = require('react-native-drawer');
+var Router = require('gb-native-router');
+
+var {
+    AppRegistry,
+    StyleSheet
+    } = React;
 
 var styles = StyleSheet.create({
-  container: {
+  container:{
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#111111'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  header: {
+    backgroundColor: '#FFF'
+  }
+
 });
 
+class sofTokyo extends React.Component{
+
+  constructor(props){
+    super(props);
+  }
+
+  subscribe() {
+    var _closed = true;
+    SidebarSubject.subscribe((type) => {
+      switch (type){
+        case 'open':
+          this.refs.drawer.open();
+          break;
+        case 'close':
+          this.refs.drawer.close();
+          break;
+      }
+    });
+  }
+
+  render() {
+    this.subscribe();
+    return (
+        <Drawer ref="drawer" content={<SitePanel/>}>
+          <Router ref="router" firstRoute={firstRoute} headerStyle={styles.header}>
+          </Router>
+          <FooterNav/>
+        </Drawer>
+    );
+  }
+}
 AppRegistry.registerComponent('sofTokyo', () => sofTokyo);
