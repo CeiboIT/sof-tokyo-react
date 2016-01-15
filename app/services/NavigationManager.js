@@ -7,6 +7,8 @@ var React = require('react-native');
 var Pages = require('../pages/Pages.d');
 var Login = require('../pages/Login');
 
+var storage = require('./Storage').getInstance();
+
 var toggle = require('../components/actions/ToggleMenu');
 var navigation = require('../components/navigation/Navigation.d');
 var {
@@ -22,10 +24,6 @@ var styles = StyleSheet.create({
 });
 
 class NavigatorService {
-
-
-
-
     constructor(){
         this.manager = ''; //think in page instead of Components
 
@@ -40,7 +38,7 @@ class NavigatorService {
         };
 
         this.routerProxy = () => {
-            console.warn(Object.keys(arguments))
+            console.warn(Object.keys(arguments));
             this.NavigationSubject.onNext.apply(this, arguments);
         };
 

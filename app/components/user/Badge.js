@@ -11,6 +11,9 @@ var {
     StyleSheet
 } = React;
 
+var Dimensions = require('Dimensions');
+var windowSize = Dimensions.get("window");
+
 var styles = StyleSheet.create({
 
     container: {
@@ -28,15 +31,25 @@ var styles = StyleSheet.create({
         alignSelf: 'center',
         fontSize: 16,
         color: 'white'
+    },
+
+    image: {
+        width: windowSize.width * 0.45,
+        height: windowSize.height * 0.6
     }
 });
 
 
 class Badge extends React.Component {
+
+    constructor(props){
+        super(props);
+    }
+
     render(){
         return (
             <View style={styles.container}>
-                <Image style={styles.image} source={{uri: this.data.avatar}}/>
+                <Image style={styles.image} source={{uri: "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y" }}/>
                 <Text style={styles.name}> {this.props.data.displayName} </Text>
             </View>
         )

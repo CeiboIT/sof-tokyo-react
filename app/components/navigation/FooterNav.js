@@ -142,7 +142,7 @@ class FooterNav extends React.Component {
                             if(!ret.data['id']) {
                                 this.NavigationSubject.onNext({'path': 'login'})
                             } else {
-                                this.NavigationSubject.onNext({'path': 'profile'})
+                                this.NavigationSubject.onNext({'path': 'profile', id: 'me'})
                             }
                         }).catch( err => {
                             // any exception including data not found

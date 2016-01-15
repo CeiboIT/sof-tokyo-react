@@ -9,10 +9,7 @@ var UserStream = require("../services/Streams").getStream("User");
 
 var Badge = require('../components/user/Badge');
 var storage = require('../services/Storage').getInstance();
-
-import LoadingContainer from 'react-native-loading-container';
-
-var Login = require('./Login');
+var GiftedSpinner = require('react-native-gifted-spinner');
 
 var {
     View,
@@ -23,48 +20,36 @@ var {
 class Profile extends React.Component{
     constructor(props) {
         super(props);
-
-
-
         this.state = {
             user: {}
         };
-        console.warn(Object.keys(this.state.user))
-
+        this.getUserData();
     }
 
-    async getUserData () {
-        let _data = await storage.load({
+    getUserData () {
+        storage.load({
             key: 'User'
+        }).then(ret => {
+            this.setState({
+                user: ret.data
+            });
         });
-
-        this.setState({
-            user: data.data
-        });
-
-        return _data;
     }
 
 
     render() {
 
-        var view= (
+        return(
             <View>
-                <Badge data={this.state.user}/>
+                <Badge data={this.state.user} />
+                <Text>{ JSON.stringify(this.state.user)}</Text>
             </View>
         );
 
-        if(this.state.user['id']){
-            _render = view;
-        } else {
-            _render = (<Text>Te quiero y vos nada, Ay vida</Text>)
-        }
-
-        return _render;
     }
 }
 
-Profile.PropTypes = {
+Profile.propTypes = {
   id : React.PropTypes.any
 };
 
