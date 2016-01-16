@@ -25,7 +25,7 @@ var styles = StyleSheet.create({
         fontSize: 21,
         marginTop: 10,
         marginBottom: 5,
-        color: 'white'
+        color: 'black'
     },
     handle: {
         alignSelf: 'center',
@@ -47,16 +47,17 @@ class Badge extends React.Component {
     }
 
     render(){
+        var _photo = (this.props.data.avatar) ? "http:" + this.props.data.avatar : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
         return (
             <View style={styles.container}>
-                <Image style={styles.image} source={{uri: "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y" }}/>
-                <Text style={styles.name}> {this.props.data.displayName} </Text>
+                <Image style={styles.image} source={{uri: _photo }}/>
+                <Text style={styles.name}> { this.props.data.email } </Text>
             </View>
         )
     }
 }
 
-Badge.propTypes = {
+Badge.stateProps = {
     data: React.PropTypes.object
 }
 

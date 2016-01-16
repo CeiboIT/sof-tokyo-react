@@ -42,7 +42,6 @@ class Profile extends React.Component{
         return(
             <View>
                 <Badge data={this.state.user} />
-                <Text>{ JSON.stringify(this.state.user)}</Text>
             </View>
         );
 
