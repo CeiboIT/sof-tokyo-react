@@ -8,6 +8,8 @@ var React = require('react-native');
 var UserStream = require("../services/Streams").getStream("User");
 
 var Badge = require('../components/user/Badge');
+
+var api = require('../utils/api/UserApi');
 var storage = require('../services/Storage').getInstance();
 var GiftedSpinner = require('react-native-gifted-spinner');
 
@@ -17,25 +19,32 @@ var {
     } = React;
 
 
-class Profile extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: {}
-        };
-        this.getUserData();
-    }
+var Profile = React.createClass({
 
-    getUserData () {
-        storage.load({
-            key: 'User'
-        }).then(ret => {
+    getInitialState() {
+        return {
+            user: {},
+            isLoading: true
+        }
+    },
+
+    componentWillMount() {
+        this.getUserData('me');
+        UserStream.subscribe((data) => {
             this.setState({
-                user: ret.data
-            });
-        });
-    }
+                user: data.data
+            })
+        })
+    },
 
+    getUserData(id) {
+        if(id = 'me'){
+            storage.load({key: 'UserId'})
+            .then((ret) => {
+                api.getUser(ret.data)
+            })
+        }
+    },
 
     render() {
 
@@ -46,7 +55,7 @@ class Profile extends React.Component{
         );
 
     }
-}
+});
 
 Profile.propTypes = {
   id : React.PropTypes.any
