@@ -63,7 +63,7 @@ class FooterButton extends React.Component {
 
     render(){
         return (
-            <TouchableHighlight style={styles.buttonContainer} onPress={this.props.data.action}>
+            <TouchableHighlight onPress={this.props.data.action}>
                 <View style={styles.buttonContentContainer}>
                     <Text>
                         { this.props.data.itemLabel }
@@ -116,6 +116,7 @@ class FooterNav extends React.Component {
                     itemLabel: I18n.t('search'),
                     iconName: 'users',
                     action: () => {
+                        console.warn('HEre');
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
@@ -163,6 +164,7 @@ class FooterNav extends React.Component {
                       renderRow={ (data) => <FooterButton data={data} navigator={this.props.navigator}/>}
             >
             </ListView>): null;
+        
         return (
             <View style={styles.container}>
             { _menu }

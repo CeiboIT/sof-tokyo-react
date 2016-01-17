@@ -75,7 +75,10 @@ class PostsList extends React.Component{
             error: '',
             page: 1
         };
-        this.getDataSource();
+
+        if(!this.props.data) {
+            this.getDataSource();
+        }
 
         PostsStream.subscribe((response) => {
             var _copy = this.state.dataSource;

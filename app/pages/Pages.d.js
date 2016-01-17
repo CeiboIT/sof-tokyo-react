@@ -13,5 +13,17 @@ var register= require('./Register');
 var post = require('./PostView');
 var schools = require('./Schools');
 var profile = require('./Profile');
+var search = require('./Search');
+var searchResults = require('./SearchResults');
 
-module.exports = { feed, categories , login, post, schools, profile, register };
+module.exports = {
+    feed,
+    categories ,
+    login,
+    post,
+    schools,
+    profile,
+    register,
+    search,
+    searchResults
+};

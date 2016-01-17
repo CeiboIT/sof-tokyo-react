@@ -62,6 +62,15 @@ class NavigatorService {
                         "headerStyle": styles.facebookHeader
                     });
                 break;
+
+                case('search'):
+
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.search,
+                        "headerStyle": toggle
+                    });
+                break;
                 case('post'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
@@ -70,6 +79,16 @@ class NavigatorService {
                         rightCorner: toggle
                     });
                 break;
+
+
+                case('searchResults'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.searchResults,
+                        "passProps": route.params,
+                        rightCorner: toggle
+                    });
+                    break;
 
                 case('profile'):
                     this.manager.toRoute({
