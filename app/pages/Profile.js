@@ -90,23 +90,22 @@ var Profile = React.createClass({
         var _ownerTab = (<TabNavigator>
             <TabNavigator.Item
                 style={styles.tabLabelContainer}
+                selected={this.state.selectedTab === 'profileData'}
+                renderIcon={() => <View><Icon name="user" size={20}/></View>}
+                renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
+                onPress={() => this.setState({ selectedTab: 'profileData' })}>
+                <Text>AyVida!</Text>
+            </TabNavigator.Item>
+
+            <TabNavigator.Item
+                style={styles.tabLabelContainer}
                 selected={this.state.selectedTab === 'home'}
                 renderIcon={() => <View><Icon name="bell-o" size={20}/></View>}
                 renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
                 onPress={() => this.setState({ selectedTab: 'home' })}>
                 <Text>Hola</Text>
             </TabNavigator.Item>
-            <TabNavigator.Item
-                renderIcon={(tabsProperties) => <View><Icon name="cog" size={20}/></View>}
-                renderSelectedIcon={() => <View><Icon name="cog" color="#FFF000" size={20}/></View>}
-                selected={this.state.selectedTab === 'profile'}
-                onPress={() => this.setState({ selectedTab: 'profile' })}>
-                <Text>Chau</Text>
-            </TabNavigator.Item>
         </TabNavigator>);
-
-
-
         return(
             <View>
                 <Badge data={this.state.user} />
