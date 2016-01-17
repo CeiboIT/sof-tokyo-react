@@ -13,12 +13,17 @@ var {
 
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get("window");
+var ParallaxView = require('react-native-parallax-view');
 
 var styles = StyleSheet.create({
 
     container: {
-        backgroundColor: '#FFFFFF',
-        paddingBottom: 10
+        backgroundColor: '#FFFFFF'
+    },
+
+    headerSection : {
+        height: windowSize.height * 0.2,
+        width : windowSize.width
     },
     name: {
         alignSelf: 'center',
@@ -33,33 +38,47 @@ var styles = StyleSheet.create({
         color: 'white'
     },
 
-    image: {
-        width: windowSize.width * 0.45,
-        height: windowSize.height * 0.6
+    badge: {
+        borderRadius: 40,
+        width: 80,
+        height: 80,
+        marginTop: windowSize.height * 0.025 ,
+        left: windowSize.width / 2 - 40,
+        borderWidth: 6,
+        borderColor: "#f7f7f7"
     }
 });
 
-
 class Badge extends React.Component {
-
     constructor(props){
         super(props);
     }
-
     render(){
-        var _photo = (this.props.data.avatar) ? "http:" + this.props.data.avatar : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
+        var parsePhotoUrl = function (photoUrl) {
+            if(photoUrl.indexOf("http") == -1) {
+                photoUrl = "http:" + photoUrl
+            }
+
+            return photoUrl;
+        }
+
+        var _photo = (this.props.data.avatar) ? parsePhotoUrl(this.props.data.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
         return (
+        <ParallaxView styles={styles.headerSection}
+            backgroundSource={{uri:null} }
+            windowHeight={windowSize.height * 0.2}
+            blur="dark"
+            header={(<Image style={styles.badge} source={{uri: _photo }}/>)}>
             <View style={styles.container}>
-                <Image style={styles.image} source={{uri: _photo }}/>
-                <Text style={styles.name}> { this.props.data.email } </Text>
+                <Text style={styles.name}> { this.props.data.displayname } </Text>
             </View>
+        </ParallaxView>
         )
     }
 }
 
 Badge.stateProps = {
     data: React.PropTypes.object
-}
-
+};
 
 module.exports = Badge;
