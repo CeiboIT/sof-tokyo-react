@@ -6,7 +6,9 @@ var {
     Text,
     View,
     Image,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight
+
     } = React;
 
 var Icon = require('react-native-vector-icons/FontAwesome');
@@ -34,6 +36,12 @@ var styles = StyleSheet.create({
 });
 
 var Avatar = React.createClass({
+
+    navigateToAuthor() {
+        var subject= require("../../services/NavigationManager").getStream();
+        subject.onNext({path: 'profile', params: {id: this.props.postData.author.id }})
+    },
+
     render() {
 
         var parsePhotoUrl = function (photoUrl) {
@@ -46,12 +54,15 @@ var Avatar = React.createClass({
 
         var _photo = (this.props.author.avatar) ? parsePhotoUrl(this.props.author.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
         return (
-            <View style={styles.avatarContainer}>
-                <Image  style={styles.image} source={{uri: _photo }} />
-                <Text style={styles.avatarName}>
-                    {this.props.author['displayname']}
-                </Text>
-            </View>
+            <TouchableHighlight onPress={this.navigateToAuthor}>
+                <View style={styles.avatarContainer}>
+                    <Image  style={styles.image} source={{uri: _photo }} />
+                    <Text style={styles.avatarName}>
+                        {this.props.author['displayname']}
+                    </Text>
+                </View>
+            </TouchableHighlight>
+
         )
     }
 });

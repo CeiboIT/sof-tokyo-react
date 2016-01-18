@@ -44,6 +44,11 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent:'flex-start',
         width: windowSize.width * 0.4
+    },
+    textContainer : {
+        flex:1,
+        flexDirection:'row',
+        justifyContent: 'flex-end'
     }
 
 });
@@ -79,9 +84,9 @@ var PostElement = React.createClass({
         NavigatorSubject.onNext({path: 'post', params: {id: this.props.postData.id }})
     },
 
-    navigateToAuthor() {
+    goToPost () {
         var subject= require("../../services/NavigationManager").getStream();
-        subject.onNext({path: 'profile', params: {id: this.props.postData.author.id }});
+        subject.onNext({path:'post', params: {id: this.props.postData.id} })
     },
 
     render() {
@@ -95,15 +100,15 @@ var PostElement = React.createClass({
                 <View>
                     <Text style={styles.title}> { this.props.postData.title}</Text>
                 </View>
-                <TouchableHighlight onPress={this.navigateToAuthor}>
-                    <View style={styles.authorDataDisplayContainer} >
-                        <Avatar author={this.props.postData.author}/>
-                        <Text style={styles.textContainer}>
+
+                <View style={styles.authorDataDisplayContainer} >
+                    <Avatar author={this.props.postData.author}/>
+                    <TouchableHighlight onPress={this.goToPost} style={styles.textContainer}>
+                        <Text>
                             {this.props.postData['comment_count']} <Icon name="comments"  size={20} color="##bbbbbb"/>
                         </Text>
-
-                    </View>
-                </TouchableHighlight>
+                    </TouchableHighlight>
+                </View>
             </View>
         )
     }
