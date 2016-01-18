@@ -6,7 +6,7 @@
 
 var React = require('react-native');
 var UserStream = require("../services/Streams").getStream("User");
-
+var GridView = require('react-native-grid-view');
 import TabNavigator from 'react-native-tab-navigator';
 
 var Badge = require('../components/user/Badge');
@@ -16,11 +16,15 @@ var storage = require('../services/Storage').getInstance();
 var GiftedSpinner = require('react-native-gifted-spinner');
 var Icon = require('react-native-vector-icons/FontAwesome');
 
+var ResponsiveImage = require('react-native-responsive-image');
+var Dimensions = require('Dimensions');
+var windowSize = Dimensions.get("window");
+
 var {
     View,
     Text,
     StyleSheet,
-    ScrollView
+    TouchableHighlight
     } = React;
 
 var styles = StyleSheet.create({
@@ -52,7 +56,47 @@ var styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 3,
     },
+
+
+    postContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: '#FFFFFF',
+        margin: 10,
+        width: windowSize.width * 0.4
+    },
+
+
 });
+var postImage = {
+    width: windowSize.width * 0.2,
+    height: windowSize.height * 0.35
+};
+
+var goToPost = function (rowData) {
+    var subject= require("../services/NavigationManager").getStream();
+    subject.onNext({path:'post', params: {id: rowData.id} })
+}
+
+
+var ElementDisplayer = React.createClass({
+
+    render() {
+        return (
+            <View styles={styles.postContainer}>
+                <TouchableHighlight onPress={goToPost(this.props.data)} >
+                    <ResponsiveImage source={{uri: this.props.data.thumbnail}}
+                                     initWidth={postImage.width} initHeight={postImage.height}/>
+                </TouchableHighlight>
+            </View>
+        )
+    }
+
+})
+
+ElementDisplayer.propTypes = {
+    data: React.PropTypes.object
+}
 
 var Profile = React.createClass({
 
@@ -64,7 +108,7 @@ var Profile = React.createClass({
         }
     },
 
-    componentWillMount() {
+    componentDidMount() {
         this.getUserData(this.props.id);
         UserStream.subscribe((data) => {
             if(this.props.id == 'me') {
@@ -77,7 +121,8 @@ var Profile = React.createClass({
                 this.setState({
                     user:data.data.author,
                     posts:data.data.posts,
-                    isLoading: false
+                    isLoading: false,
+                    selectedTab: 'posts'
                 })
             }
         })
@@ -93,6 +138,21 @@ var Profile = React.createClass({
             api.getMember(id);
         }
     },
+
+    selectedPosts() {
+      this.setState({
+          selectedTab : 'posts'
+      })
+    },
+
+    selectedHome() {
+        this.setState({
+            selectedTab : 'home'
+        })
+    },
+
+
+
 
     render() {
 
@@ -126,19 +186,21 @@ var Profile = React.createClass({
                 <TabNavigator>
                     <TabNavigator.Item
                         style={styles.tabLabelContainer}
-                        selected={ this.postHasBeenSelected }
-                        renderIcon={() => <View><Icon name="th-list" size={20} color="#"/></View>}
-                        renderSelectedIcon={() => <View><Icon name="th-list" color="#FFFFFF" size={20}/></View>}
-                        onPress={() => this.setState({ selectedTab: 'profileData' })}>
-                        <Text>AyVida!</Text>
+                        selected={ this.state.selectedTab === 'posts' }
+                        renderIcon={() => <View><Icon name="files-o" size={20} color="##bbbbbb"/></View>}
+                        renderSelectedIcon={() => <View><Icon name="files-o" color="#000000" size={20}/></View>}
+                        onPress={this.selectedPosts}
+                    >
+                        <Text>Holis</Text>
                     </TabNavigator.Item>
 
                     <TabNavigator.Item
                         style={styles.tabLabelContainer}
                         selected={this.state.selectedTab === 'home'}
-                        renderIcon={() => <View><Icon name="bell-o" size={20}/></View>}
-                        renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
-                        onPress={() => this.setState({ selectedTab: 'home' })}>
+                        renderIcon={() => <View><Icon name="bell-o" size={20} color="#bbbbbb"/></View>}
+                        renderSelectedIcon={() => <View><Icon name="bell-o" color="#000000" size={20}/></View>}
+                        onPress={this.selectedHome}
+                        >
                         <Text>Hola</Text>
                     </TabNavigator.Item>
                 </TabNavigator>
@@ -146,8 +208,6 @@ var Profile = React.createClass({
         );
 
         var _render = (this.props.id == 'me') ? _ownerTab : _visitorTab;
-
-
         return(
             <View>
                 <Badge data={this.state.user} />
@@ -156,10 +216,6 @@ var Profile = React.createClass({
         );
     }
 });
-
-
-
-
 
 Profile.propTypes = {
   id : React.PropTypes.any
