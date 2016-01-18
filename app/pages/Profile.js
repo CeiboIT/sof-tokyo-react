@@ -13,10 +13,10 @@ var Badge = require('../components/user/Badge');
 
 var api = require('../utils/api/UserApi');
 var storage = require('../services/Storage').getInstance();
-var GiftedSpinner = require('react-native-gifted-spinner');
+var PostElement = require('../components/posts/PostElement');
 var Icon = require('react-native-vector-icons/FontAwesome');
 
-var ResponsiveImage = require('react-native-responsive-image');
+
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get("window");
 
@@ -24,18 +24,20 @@ var {
     View,
     Text,
     StyleSheet,
-    TouchableHighlight
+    ScrollableView
     } = React;
 
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 30,
+        marginTop: 10,
+        height:windowSize.height
     },
 
     tabLabelContainer : {
         flex: 1,
-        borderBottomWidth: 3
+        borderBottomWidth: 3,
+        height: windowSize.height
 
     },
 
@@ -55,6 +57,13 @@ var styles = StyleSheet.create({
         shadowOffset: {width: 2, height: 2},
         shadowOpacity: 0.5,
         shadowRadius: 3,
+    },
+
+    tabViewContainer : {
+        flex:1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        height: windowSize.height
     },
 
 
@@ -79,24 +88,6 @@ var goToPost = function (rowData) {
 }
 
 
-var ElementDisplayer = React.createClass({
-
-    render() {
-        return (
-            <View styles={styles.postContainer}>
-                <TouchableHighlight onPress={goToPost(this.props.data)} >
-                    <ResponsiveImage source={{uri: this.props.data.thumbnail}}
-                                     initWidth={postImage.width} initHeight={postImage.height}/>
-                </TouchableHighlight>
-            </View>
-        )
-    }
-
-})
-
-ElementDisplayer.propTypes = {
-    data: React.PropTypes.object
-}
 
 var Profile = React.createClass({
 
@@ -151,13 +142,10 @@ var Profile = React.createClass({
         })
     },
 
-
-
-
     render() {
 
         var _ownerTab = (
-            <View>
+            <View style={{height: 300}}>
                 <TabNavigator>
                     <TabNavigator.Item
                         style={styles.tabLabelContainer}
@@ -165,7 +153,7 @@ var Profile = React.createClass({
                         renderIcon={() => <View><Icon name="user" size={20}/></View>}
                         renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
                         onPress={() => this.setState({ selectedTab: 'profileData' })}>
-                        <Text>AyVida!</Text>
+                        <Text>Test!</Text>
                     </TabNavigator.Item>
 
                     <TabNavigator.Item
@@ -183,7 +171,9 @@ var Profile = React.createClass({
 
         var _visitorTab = (
             <View>
-                <TabNavigator>
+                <TabNavigator
+                    sceneStyle={{ height: 1000 }}
+                >
                     <TabNavigator.Item
                         style={styles.tabLabelContainer}
                         selected={ this.state.selectedTab === 'posts' }
@@ -191,7 +181,11 @@ var Profile = React.createClass({
                         renderSelectedIcon={() => <View><Icon name="files-o" color="#000000" size={20}/></View>}
                         onPress={this.selectedPosts}
                     >
-                        <Text>Holis</Text>
+                           <GridView
+                               items={this.state.posts}
+                               itemsPerRow={2}
+                               renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
+                           />
                     </TabNavigator.Item>
 
                     <TabNavigator.Item
@@ -201,7 +195,7 @@ var Profile = React.createClass({
                         renderSelectedIcon={() => <View><Icon name="bell-o" color="#000000" size={20}/></View>}
                         onPress={this.selectedHome}
                         >
-                        <Text>Hola</Text>
+                        <Text>Test</Text>
                     </TabNavigator.Item>
                 </TabNavigator>
             </View>
@@ -209,7 +203,8 @@ var Profile = React.createClass({
 
         var _render = (this.props.id == 'me') ? _ownerTab : _visitorTab;
         return(
-            <View>
+
+            <View >
                 <Badge data={this.state.user} />
                 {_render}
             </View>
