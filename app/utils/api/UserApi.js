@@ -18,11 +18,15 @@ var api = {
     },
 
 
-
-    async getUser(userId) {
+    async getUser(userId, subject) {
         try {
             let response = await fetch(apiConsts.apiEndpoint + 'auth/get_user/' + userId)
-            UserSubject.onNext({data: JSON.parse(response._bodyInit)});
+            if(subject) {
+                subject.onNext({data: JSON.parse(response._bodyInit)})
+            } else {
+                UserSubject.onNext({data: JSON.parse(response._bodyInit)});
+            }
+
         } catch (error) {
 
         }

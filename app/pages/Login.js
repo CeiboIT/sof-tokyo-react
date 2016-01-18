@@ -251,7 +251,6 @@ var Login  = React.createClass({
                         { I18n.t('register')}
                     </Button>
                 </View>
-
             </View>
         );
     }
