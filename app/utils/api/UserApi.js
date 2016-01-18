@@ -17,10 +17,17 @@ var api = {
         })
     },
 
-    getUser(userId) {
-        return fetch(apiConsts.apiEndpoint + 'auth/get_user/' + userId + '/thumb').then((res) => {
-            res.json();
-        })
+    async getUser(userId, subject) {
+        try {
+            let response = await fetch(apiConsts.apiEndpoint + 'auth/get_user/' + userId)
+            if(subject) {
+                subject.onNext({data: JSON.parse(response._bodyInit)})
+            } else {
+                UserSubject.onNext({data: JSON.parse(response._bodyInit)});
+            }
+        } catch (error) {
+
+        }
     },
 
     async sendCredentials(credentials){
