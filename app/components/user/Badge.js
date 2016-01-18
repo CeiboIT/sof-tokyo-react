@@ -62,7 +62,7 @@ class Badge extends React.Component {
             return photoUrl;
         }
 
-        var _photo = (this.props.data.avatar) ? parsePhotoUrl(this.props.data.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
+        var _photo = (this.props.data && this.props.data.avatar) ? parsePhotoUrl(this.props.data.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
         return (
         <ParallaxView styles={styles.headerSection}
             backgroundSource={{uri:null} }

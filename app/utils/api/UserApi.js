@@ -18,6 +18,21 @@ var api = {
     },
 
 
+    async getMember(memberId, subject){
+
+        try {
+            let response = await fetch(apiConsts.apiEndpoint + 'members/member/' + memberId)
+            if(subject) {
+                subject.onNext({data: JSON.parse(response._bodyInit)})
+            } else {
+                UserSubject.onNext({data: JSON.parse(response._bodyInit)});
+            }
+
+        } catch (error){
+            console.warn(error)
+        }
+    },
+
     async getUser(userId, subject) {
         try {
             let response = await fetch(apiConsts.apiEndpoint + 'auth/get_user/' + userId)
@@ -28,7 +43,7 @@ var api = {
             }
 
         } catch (error) {
-
+            console.warn(error)
         }
     },
 

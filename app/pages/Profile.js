@@ -59,6 +59,7 @@ var Profile = React.createClass({
     getInitialState() {
         return {
             user: {},
+            posts: [],
             isLoading: true
         }
     },
@@ -66,50 +67,91 @@ var Profile = React.createClass({
     componentWillMount() {
         this.getUserData(this.props.id);
         UserStream.subscribe((data) => {
-            this.setState({
-                user: data.data,
-                isLoading:false,
-                selectedTab: 'home'
-            })
+            if(this.props.id == 'me') {
+                this.setState({
+                    user: data.data,
+                    isLoading:false,
+                    selectedTab: 'home'
+                })
+            } else {
+                this.setState({
+                    user:data.data.author,
+                    posts:data.data.posts,
+                    isLoading: false
+                })
+            }
         })
     },
 
     getUserData(id) {
-        if(id = 'me'){
+        if(id == 'me'){
             storage.load({key: 'UserId'})
             .then((ret) => {
                 api.getUser(ret.data)
             })
         } else {
-            api.getUser(id)
+            api.getMember(id);
         }
     },
 
     render() {
 
-        var _ownerTab = (<TabNavigator>
-            <TabNavigator.Item
-                style={styles.tabLabelContainer}
-                selected={this.state.selectedTab === 'profileData'}
-                renderIcon={() => <View><Icon name="user" size={20}/></View>}
-                renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
-                onPress={() => this.setState({ selectedTab: 'profileData' })}>
-                <Text>AyVida!</Text>
-            </TabNavigator.Item>
+        var _ownerTab = (
+            <View>
+                <TabNavigator>
+                    <TabNavigator.Item
+                        style={styles.tabLabelContainer}
+                        selected={this.state.selectedTab === 'profileData'}
+                        renderIcon={() => <View><Icon name="user" size={20}/></View>}
+                        renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
+                        onPress={() => this.setState({ selectedTab: 'profileData' })}>
+                        <Text>AyVida!</Text>
+                    </TabNavigator.Item>
 
-            <TabNavigator.Item
-                style={styles.tabLabelContainer}
-                selected={this.state.selectedTab === 'home'}
-                renderIcon={() => <View><Icon name="bell-o" size={20}/></View>}
-                renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
-                onPress={() => this.setState({ selectedTab: 'home' })}>
-                <Text>Hola</Text>
-            </TabNavigator.Item>
-        </TabNavigator>);
+                    <TabNavigator.Item
+                        style={styles.tabLabelContainer}
+                        selected={this.state.selectedTab === 'home'}
+                        renderIcon={() => <View><Icon name="bell-o" size={20}/></View>}
+                        renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
+                        onPress={() => this.setState({ selectedTab: 'home' })}>
+                        <Text>Hola</Text>
+                    </TabNavigator.Item>
+                </TabNavigator>
+            </View>
+        );
+
+
+        var _visitorTab = (
+            <View>
+                <TabNavigator>
+                    <TabNavigator.Item
+                        style={styles.tabLabelContainer}
+                        selected={ this.postHasBeenSelected }
+                        renderIcon={() => <View><Icon name="th-list" size={20} color="#"/></View>}
+                        renderSelectedIcon={() => <View><Icon name="th-list" color="#FFFFFF" size={20}/></View>}
+                        onPress={() => this.setState({ selectedTab: 'profileData' })}>
+                        <Text>AyVida!</Text>
+                    </TabNavigator.Item>
+
+                    <TabNavigator.Item
+                        style={styles.tabLabelContainer}
+                        selected={this.state.selectedTab === 'home'}
+                        renderIcon={() => <View><Icon name="bell-o" size={20}/></View>}
+                        renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
+                        onPress={() => this.setState({ selectedTab: 'home' })}>
+                        <Text>Hola</Text>
+                    </TabNavigator.Item>
+                </TabNavigator>
+            </View>
+        );
+
+        var _render = (this.props.id == 'me') ? _ownerTab : _visitorTab;
+
+
         return(
             <View>
                 <Badge data={this.state.user} />
-                {_ownerTab}
+                {_render}
             </View>
         );
     }
