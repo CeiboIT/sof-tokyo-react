@@ -203,9 +203,9 @@ var Login  = React.createClass({
                         }
                     });
                     storage.save({
-                        key: 'User',
+                        key: 'UserId',
                         rawData : {
-                            data: response.data['user']
+                            data: response.data['user']['id']
                         }
                     });
                     var NavigationSubject = require("../services/NavigationManager").getStream();
