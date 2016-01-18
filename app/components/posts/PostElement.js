@@ -8,8 +8,7 @@ var windowSize = Dimensions.get("window");
 
 var ResponsiveImage = require('react-native-responsive-image');
 var Icon = require('react-native-vector-icons/FontAwesome');
-
-
+var Avatar = require('../user/Avatar');
 
 
 
@@ -39,13 +38,15 @@ var styles = StyleSheet.create({
         width: windowSize.width * 0.4,
         marginVertical:5
     },
-
-    navIcon: {
-
+    authorDataDisplayContainer : {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent:'flex-start',
+        width: windowSize.width * 0.4
     }
 
 });
-
 
 var imageSizes ={
 
@@ -72,11 +73,16 @@ NavigateToPost.propTypes= {
     id: React.PropTypes.number
 };
 
-class PostElement extends React.Component {
+var PostElement = React.createClass({
     tap () {
         console.warn('Tapped');
         NavigatorSubject.onNext({path: 'post', params: {id: this.props.postData.id }})
-    }
+    },
+
+    navigateToAuthor() {
+        var subject= require("../../services/NavigationManager").getStream();
+        subject.onNext({path: 'profile', params: {id: this.props.postData.author.id }});
+    },
 
     render() {
         return(
@@ -89,12 +95,19 @@ class PostElement extends React.Component {
                 <View>
                     <Text style={styles.title}> { this.props.postData.title}</Text>
                 </View>
-                <View>
-                </View>
+                <TouchableHighlight onPress={this.navigateToAuthor}>
+                    <View style={styles.authorDataDisplayContainer} >
+                        <Avatar author={this.props.postData.author}/>
+                        <Text style={styles.textContainer}>
+                            {this.props.postData['comment_count']} <Icon name="comments"  size={20} color="##bbbbbb"/>
+                        </Text>
+
+                    </View>
+                </TouchableHighlight>
             </View>
         )
     }
-}
+});
 
 PostElement.propTypes = {
     postData: React.PropTypes.object

@@ -28,6 +28,11 @@ export class StreamsService{
 
     }
 
+    destroyStream(streamKey:string) {
+        delete this.streams[streamKey];
+        return;
+    }
+
     getStream (streamKey: string) {
         if(!this.streams[streamKey]) {
             this.setStream(streamKey, new Rx.Subject())

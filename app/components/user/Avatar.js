@@ -1,10 +1,7 @@
 /**
  * Created by mmasuyama on 1/7/2016.
  */
-
 var React = require('react-native');
-var UserAPI = require('../utils/API');
-
 var {
     Text,
     View,
@@ -12,46 +9,55 @@ var {
     StyleSheet
     } = React;
 
+var Icon = require('react-native-vector-icons/FontAwesome');
+
 var styles = StyleSheet.create({
     image: {
-        height: 125,
-        width: 125,
+        height: 25,
+        width: 25,
         borderRadius: 65,
-        marginTop: 10,
-        alignSelf: 'center'
+        marginTop: 5,
+        alignSelf: 'flex-end'
+    },
+
+    avatarContainer: {
+        flex:1,
+        flexDirection: "row",
+        justifyContent: "center"
+    },
+
+    avatarName: {
+        marginVertical : 6.25,
+        marginLeft: 3
     }
+
 });
 
+var Avatar = React.createClass({
+    render() {
 
-class Badge extends React.Component {
+        var parsePhotoUrl = function (photoUrl) {
+            if(photoUrl.indexOf("http") == -1) {
+                photoUrl = "http:" + photoUrl
+            }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            avatar: {}
-        }
-    };
+            return photoUrl;
+        };
 
-    getUserAvatar(userId){
-        UserAPI.getAvatar(userId).then((data)=> {
-            this.setState({
-                avatar: data
-            });
-        })
-    }
-
-    render(){
+        var _photo = (this.props.author.avatar) ? parsePhotoUrl(this.props.author.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
         return (
-            <View>
-                <Image style={styles.image} source={{uri: this.props.userInfo.avatar_url}}/>
+            <View style={styles.avatarContainer}>
+                <Image  style={styles.image} source={{uri: _photo }} />
+                <Text style={styles.avatarName}>
+                    {this.props.author['displayname']}
+                </Text>
             </View>
         )
     }
-}
+});
 
-Badge.propTypes = {
-    userId: React.PropTypes.object
-}
-
-
-module.exports = Badge;
+Avatar.propTypes = {
+    author: React.PropTypes.object,
+    metadata: React.PropTypes.object
+};
+module.exports = Avatar;
