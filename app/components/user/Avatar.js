@@ -39,7 +39,7 @@ var Avatar = React.createClass({
 
     navigateToAuthor() {
         var subject= require("../../services/NavigationManager").getStream();
-        subject.onNext({path: 'profile', params: {id: this.props.postData.author.id }})
+        subject.onNext({path: 'profile', params: {id: this.props.author.id }})
     },
 
     render() {
