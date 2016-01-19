@@ -24,18 +24,18 @@ var styles = StyleSheet.create({
 var PostLike = React.createClass({
     LikePost() {
         var PostLikeSubject = require("../../../services/Streams").getStream("PostLike" +  this.props.id)
-        api.LikePost(this.props.data.id);
+        api.LikePost(this.props.data.id, PostLikeSubject);
         PostLikeSubject.subscribe((data) => {
             console.log(data);
         })
     },
-
     render() {
       return (
           <View>
               <TouchableHighlight onPress={this.LikePost}>
-                  <Text></Text>
-                  <Icon name="like" size={30}/>
+                  <View style={styles.postLikeContainer}>
+                      <Icon name="like" size={30}>0</Icon>
+                  </View>
               </TouchableHighlight>
           </View>
       )
