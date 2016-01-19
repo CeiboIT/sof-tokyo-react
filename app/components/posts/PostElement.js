@@ -105,7 +105,7 @@ var PostElement = React.createClass({
                     <Avatar author={this.props.postData.author}/>
                     <TouchableHighlight onPress={this.goToPost} style={styles.textContainer}>
                         <Text>
-                            {this.props.postData['comment_count']} <Icon name="comments"  size={20} color="##bbbbbb"/>
+                            {this.props.postData['comment_count']} <Icon name="comments"  size={20} color="#bbbbbb"/>
                         </Text>
                     </TouchableHighlight>
                 </View>

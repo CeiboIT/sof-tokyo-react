@@ -11,7 +11,8 @@ var GridView = require('react-native-grid-view');
 var PostsStream = require("../../services/Streams").getStream("Posts");
 
 var {
-    StyleSheet
+    StyleSheet,
+    Text
 } = React;
 
 var styles = StyleSheet.create({
@@ -64,46 +65,41 @@ var styles = StyleSheet.create({
 });
 // In the video there are a couple errors, fixed them so it would build.
 
-class PostsList extends React.Component{
-    constructor(props){
-        super(props);
-        //Because this is the first route,it should set the navigationManager;
 
-        this.state = {
+
+
+var PostsList  = React.createClass({
+    getInitialState() {
+        return {
             dataSource: [],
             note: '',
             error: '',
             page: 1
         };
+    },
 
-        if(!this.props.data) {
-            this.getDataSource();
-        }
-
+    componentDidMount() {
+        api.LoadPosts(this.page)
         PostsStream.subscribe((response) => {
-            var _copy = this.state.dataSource;
-            response['posts'].map((post) => {
-                _copy.push(post);
-            });
             this.setState({
-                dataSource: _copy
+                dataSource: response['posts']
             });
         });
-    }
-
-    getDataSource(): ListView.DataSource {
-        api.LoadPosts(this.page)
-    }
+    },
 
     render(){
-        return (
-        <GridView
-            items={this.state.dataSource}
-            itemsPerRow={2}
-            renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData }></PostElement>}
-        />
-        )
+
+        var _grid = (
+            <GridView
+                items={this.state.dataSource}
+                itemsPerRow={2}
+                renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
+            />)
+
+        var _loading = (<Text>Dos amante que sentrega la piel!</Text>)
+        var _render = (this.state.dataSource &&  this.state.dataSource.length) ? _grid : _loading
+        return _render
     }
-}
+})
 
 module.exports = PostsList;
