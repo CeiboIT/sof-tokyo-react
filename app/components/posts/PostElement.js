@@ -49,6 +49,11 @@ var styles = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         justifyContent: 'flex-end'
+    },
+
+    elementFooter : {
+        flex: 1,
+        flexDirection: 'row'
     }
 
 });
@@ -78,6 +83,30 @@ NavigateToPost.propTypes= {
     id: React.PropTypes.number
 };
 
+var ElementFooter = React.createClass({
+
+
+    render() {
+        return (
+            <View style={styles.elementFooter}>
+                <TouchableHighlight>
+
+                </TouchableHighlight>
+                <TouchableHighlight onPress={this.goToPost} style={styles.textContainer}>
+                    <Text>
+                        {this.props.data['comment_count']} <Icon name="comments"  size={20} color="##bbbbbb"/>
+                    </Text>
+                </TouchableHighlight>
+            </View>
+        )
+    }
+
+})
+
+ElementFooter.propTypes= {
+    data: React.PropTypes.object
+};
+
 var PostElement = React.createClass({
     tap () {
         console.warn('Tapped');
@@ -100,7 +129,6 @@ var PostElement = React.createClass({
                 <View>
                     <Text style={styles.title}> { this.props.postData.title}</Text>
                 </View>
-
                 <View style={styles.authorDataDisplayContainer} >
                     <Avatar author={this.props.postData.author}/>
                     <TouchableHighlight onPress={this.goToPost} style={styles.textContainer}>
@@ -109,6 +137,8 @@ var PostElement = React.createClass({
                         </Text>
                     </TouchableHighlight>
                 </View>
+
+
             </View>
         )
     }
