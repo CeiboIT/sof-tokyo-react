@@ -58,7 +58,7 @@ var Avatar = React.createClass({
                 <View style={styles.avatarContainer}>
                     <Image  style={styles.image} source={{uri: _photo }} />
                     <Text style={styles.avatarName}>
-                        {this.props.author['displayname']}
+                        {this.props.author['name']}
                     </Text>
                 </View>
             </TouchableHighlight>
@@ -68,7 +68,6 @@ var Avatar = React.createClass({
 });
 
 Avatar.propTypes = {
-    author: React.PropTypes.object,
-    metadata: React.PropTypes.object
+    author: React.PropTypes.object
 };
 module.exports = Avatar;
