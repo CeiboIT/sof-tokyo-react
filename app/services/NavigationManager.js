@@ -63,8 +63,15 @@ class NavigatorService {
                     });
                 break;
 
-                case('search'):
+                case('feed') :
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        component : Pages.feed,
+                        rightCorner: toggle
+                    })
+                break;
 
+                case('search'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.search,

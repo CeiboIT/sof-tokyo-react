@@ -3,7 +3,7 @@
  */
 
 var React = require('react-native');
-var Icon = require('react-native-vector-icons/FontAwesome');
+var Icon = require('react-native-vector-icons/EvilIcons');
 var storage = require("../../services/Storage").getInstance();
 
 var I18nService = require('../../i18n');
@@ -106,36 +106,32 @@ class FooterNav extends React.Component {
         this.props = {
             options : [
                 {
-                    itemLabel: I18n.t('home'),
-                    iconName: 'users',
+                    itemLabel: <Icon name="exclamation" size={35}></Icon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'feed'})
                     }
                 },
                 {
-                    itemLabel: I18n.t('search'),
-                    iconName: 'users',
+                    itemLabel: <Icon name="search" size={35}></Icon>,
                     action: () => {
                         console.warn('HEre');
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
                 {
-                    itemLabel: I18n.t('new'),
-                    iconName: 'users',
+                    itemLabel: <Icon name="star" size={35}></Icon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'schools'})
                     }
                 },
 
                 {
-                    itemLabel: I18n.t('news'),
-                    iconName: 'users',
+                    itemLabel: <Icon name="bell" size={35}></Icon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'news'})
                     }
                 },{
-                    itemLabel : I18n.t('myPage'),
+                    itemLabel : <Icon name="user" size={35}></Icon>,
                     action: () => {
                         storage.load({
                             key: 'UserId'
