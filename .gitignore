@@ -33,4 +33,4 @@ local.properties
 node_modules/
 npm-debug.log
 
-android/sof-tokyo.keystore
+android/app/sof-tokyo.keystore
