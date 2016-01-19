@@ -172,14 +172,14 @@ var Profile = React.createClass({
         var _dynamicHeight = 0;
 
         if(this.state.posts && this.state.posts.length) {
-            _dynamicHeight = postElement.height * Math.abs( this.state.posts.length / 2) + 150
+            _dynamicHeight = postElement.height * Math.abs( this.state.posts.length / 2)
         }
 
         console.warn(_dynamicHeight);
 
         var _visitorTab = (
                 <TabNavigator
-                    sceneStyle={{ height: 500 }}
+                    sceneStyle={{ height: postElement.height - 50 }}
                 >
                     <TabNavigator.Item
                         selected={ this.state.selectedTab === 'posts' }
