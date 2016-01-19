@@ -16,6 +16,21 @@ var api = {
         } catch(error){
             console.warn(error);
         }
+    },
+
+
+    async LikePost(postId, subject) {
+        let actionResult = fetch(apiConsts.apiEndpoint + 'metadata/likes/product', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: postId
+            })
+        })
+
     }
 };
 
