@@ -24,7 +24,7 @@ var {
     View,
     Text,
     StyleSheet,
-    ScrollableView
+    ScrollView
     } = React;
 
 var styles = StyleSheet.create({
@@ -34,12 +34,6 @@ var styles = StyleSheet.create({
         height:windowSize.height
     },
 
-    tabLabelContainer : {
-        flex: 1,
-        borderBottomWidth: 3,
-        height: windowSize.height
-
-    },
 
     tabView: {
         flex: 1,
@@ -81,6 +75,10 @@ var postImage = {
     width: windowSize.width * 0.2,
     height: windowSize.height * 0.35
 };
+
+var postElement = {
+    height: windowSize.height * 0.8
+}
 
 var goToPost = function (rowData) {
     var subject= require("../services/NavigationManager").getStream();
@@ -142,13 +140,16 @@ var Profile = React.createClass({
         })
     },
 
+    calculateListHeight ( ) {
+
+    },
+
     render() {
 
         var _ownerTab = (
             <View style={{height: 300}}>
                 <TabNavigator>
                     <TabNavigator.Item
-                        style={styles.tabLabelContainer}
                         selected={this.state.selectedTab === 'profileData'}
                         renderIcon={() => <View><Icon name="user" size={20}/></View>}
                         renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
@@ -157,7 +158,7 @@ var Profile = React.createClass({
                     </TabNavigator.Item>
 
                     <TabNavigator.Item
-                        style={styles.tabLabelContainer}
+
                         selected={this.state.selectedTab === 'home'}
                         renderIcon={() => <View><Icon name="bell-o" size={20}/></View>}
                         renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
@@ -168,28 +169,35 @@ var Profile = React.createClass({
             </View>
         );
 
+        var _dynamicHeight = 0;
+
+        if(this.state.posts && this.state.posts.length) {
+            _dynamicHeight = postElement.height * Math.abs( this.state.posts.length / 2)
+        }
+
+        console.warn(_dynamicHeight);
 
         var _visitorTab = (
-            <View>
                 <TabNavigator
-                    sceneStyle={{ height: 1000 }}
+                    sceneStyle={{ height: 500 }}
                 >
                     <TabNavigator.Item
-                        style={styles.tabLabelContainer}
                         selected={ this.state.selectedTab === 'posts' }
                         renderIcon={() => <View><Icon name="files-o" size={20} color="##bbbbbb"/></View>}
                         renderSelectedIcon={() => <View><Icon name="files-o" color="#000000" size={20}/></View>}
                         onPress={this.selectedPosts}
                     >
-                           <GridView
-                               items={this.state.posts}
-                               itemsPerRow={2}
-                               renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
-                           />
+                        <ScrollView style={{height: 500}}>
+                            <GridView
+                                style={{height: _dynamicHeight}}
+                                items={this.state.posts}
+                                itemsPerRow={2}
+                                renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
+                            />
+                        </ScrollView>
                     </TabNavigator.Item>
 
                     <TabNavigator.Item
-                        style={styles.tabLabelContainer}
                         selected={this.state.selectedTab === 'home'}
                         renderIcon={() => <View><Icon name="bell-o" size={20} color="#bbbbbb"/></View>}
                         renderSelectedIcon={() => <View><Icon name="bell-o" color="#000000" size={20}/></View>}
@@ -198,13 +206,13 @@ var Profile = React.createClass({
                         <Text>Test</Text>
                     </TabNavigator.Item>
                 </TabNavigator>
-            </View>
+
         );
 
         var _render = (this.props.id == 'me') ? _ownerTab : _visitorTab;
         return(
 
-            <View >
+            <View>
                 <Badge data={this.state.user} />
                 {_render}
             </View>
