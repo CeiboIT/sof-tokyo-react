@@ -1,11 +1,8 @@
 /**
  * Created by mmasuyama on 1/7/2016.
  */
-
 var apiConsts  = require("../../constants/api").apiConsts;
-
 var PostStream = require("../../services/Streams").getStream("Post");
-
 var productsEndpoint = apiConsts.apiEndpoint + 'products/';
 
 var api = {
@@ -18,19 +15,22 @@ var api = {
         }
     },
 
-
     async LikePost(postId, subject) {
-        let actionResult = fetch(apiConsts.apiEndpoint + 'metadata/likes/product', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                productId: postId
+        try{
+            let actionResult = fetch(apiConsts.apiEndpoint + 'metadata/likes/product', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: postId
+                })
             })
-        })
-
+            subject.onNext(JSON.parse(actionResult._bodyInit))
+        } catch(error){
+            console.warn(error);
+        }
     }
 };
 

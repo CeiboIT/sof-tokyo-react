@@ -10,6 +10,7 @@ var ResponsiveImage = require('react-native-responsive-image');
 var Icon = require('react-native-vector-icons/FontAwesome');
 var Avatar = require('../user/Avatar');
 var PostLike = require('./helpers/PostLike')
+var  PostContentDisplayer = require('./helpers/PostContentDisplayer')
 
 var {
     View,
@@ -124,6 +125,9 @@ var PostElement = React.createClass({
                 <View>
                     <Text style={styles.title}> { this.props.postData.title}</Text>
                 </View>
+                <PostContentDisplayer content={this.props.postData.content}
+                    removeHTMLTags={true} crop={30}
+                />
                 <View style={styles.authorDataDisplayContainer} >
                     <Avatar author={this.props.postData.author}/>
                 </View>
