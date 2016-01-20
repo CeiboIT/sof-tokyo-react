@@ -11,6 +11,10 @@ var Storage = require("../services/Storage").getInstance();
 var api = require("../utils/api/PostApi");
 var GiftedSpinner = require('react-native-gifted-spinner');
 
+var PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer");
+var Avatar = require("../components/user/Avatar");
+var CommentItem = require("../components/posts/helpers/CommentItem");
+
 var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
 
@@ -26,31 +30,6 @@ var {
     Dimensions,
     } = React;
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#FFFFFF',
-        margin: 10,
-        width: windowSize.width * 0.4
-    },
-    title: {
-        fontSize: 15
-    },
-
-    navIconContainer: {
-        flex:1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        width: windowSize.width * 0.4,
-        marginVertical:5
-    },
-    navIcon: {
-
-    }
-});
-
-
 var imageSizes ={
     width: windowSize.width * 0.45,
     height: windowSize.height * 0.6
@@ -63,22 +42,36 @@ var PostView = React.createClass({
     getInitialState() {
         return {
             post: {},
-            isLoading:true
+            isLoading:true,
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (row1, row2) => row1 !== row2,
+            }),
         }
     },
+    renderRow: function(comment: Object) {
+        return <CommentItem
+            onSelect={() => this.selectPlayer(comment.user)}
+            comment={comment} />;
+    },
+
 
     _renderCommentsList: function() {
-        return <View style={styles.sectionSpacing}>
-            <View style={styles.separator} />
-            <Text style={styles.heading}>Comments</Text>
-            <View style={styles.separator} />
-            <ListView
-                ref="commentsView"
-                dataSource={this.state.dataSource}
-                renderRow={this.renderRow}
-                automaticallyAdjustContentInsets={false}
-            />
-        </View>
+        if(this.state.data && this.state.data.comments) {
+            this.state.dataSource.cloneWithRows(this.state.data.comments)
+            return <View style={styles.sectionSpacing}>
+                <View style={styles.separator} />
+                <Text style={styles.heading}>Comments</Text>
+                <View style={styles.separator} />
+                <ListView
+                    ref="commentsView"
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderRow}
+                    automaticallyAdjustContentInsets={false}
+                />
+            </View>
+        }
+
+        return null;
     },
 
     componentDidMount(){
@@ -91,20 +84,37 @@ var PostView = React.createClass({
         PostStream.subscribe((data => {
             this.setState({
                 isLoading: false,
-                postData: data['post']
+                data: data['post']
             })
         }))
     },
 
     render() {
-
+        var _photo = (this.state.data && this.state.data.thumbnail ) ? this.state.data.thumbnail : "http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg";
         PostId = this.props.id;
+
+        if(this.state.isLoading) return (<GiftedSpinner/>) ;
+
+
         var _postView = (
             <View style={styles.container}>
-                <Text>{JSON.stringify(this.state.postData)}</Text>
+                <ScrollView>
+                    <ResponsiveImage style={styles.image} source={{uri: _photo}}
+                                     initWidth={imageSizes.width}
+                                     initHeight={imageSizes.height}/>
+
+                    <PostContentDisplayer content={this.state.data.content}
+                                          removeHTMLTags={true}
+                    />
+                    <View >
+                        <Avatar author={this.state.data.author}/>
+                    </View>
+                    <View>
+                        {this._renderCommentsList()}
+                    </View>
+                </ScrollView>
             </View>)
-        var _render = (!this.state.isLoading) ? _postView :  (<GiftedSpinner/>) ;
-        return _render;
+        return _postView;
     }
 })
 
@@ -113,6 +123,12 @@ var styles = StyleSheet.create({
     spinner: {
         marginTop: 20,
         width: 50
+    },
+
+    postImage: {
+        flex:1,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     a: {
         fontWeight: "300",

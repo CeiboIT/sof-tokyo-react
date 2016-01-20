@@ -6,9 +6,9 @@ var PostStream = require("../../services/Streams").getStream("Post");
 var productsEndpoint = apiConsts.apiEndpoint + 'products/';
 
 var api = {
-    async RetrievePost(postId) {
+    async RetrievePost(postId, userId) {
         try {
-            let response = await fetch(productsEndpoint + 'product/' + postId);
+            let response = await fetch(productsEndpoint + 'product/' + postId + '/' + userId);
             PostStream.onNext(JSON.parse(response._bodyInit))
         } catch(error){
             console.warn(error);
