@@ -16,6 +16,7 @@ var {
 var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
 
+var Avatar = require('../../user/Avatar');
 
 var styles = StyleSheet.create({
     commentContent: {
@@ -62,12 +63,8 @@ var CommentItem = React.createClass({
             <TouchableHighlight underlayColor={"#f3f3f3"}>
                 <View>
                     <View style={styles.commentContent}>
-                        <Image source={this.props.comment.author.avatar}
-                               style={styles.avatar}/>
+                        <Avatar author={this.props.comment.author}/>
                         <View style={styles.commentBody}>
-                            <Text style={styles.userName}>
-                                {this.props.comment.author.displayname}
-                            </Text>
                             <Text style={styles.commentText}>
                                 {this.props.comment.content}
                             </Text>
