@@ -16,37 +16,6 @@ var {
 var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
 
-var CommentItem = React.createClass({
-    getDefaultProps: function() {
-        return {
-            comments: []
-        }
-    },
-
-    render: function() {
-        return
-        <View>
-            <TouchableHighlight onPress={this.props.onSelect.bind(this, this.props.comment)}
-                                underlayColor={"#f3f3f3"}>
-                <View>
-                    <View style={styles.commentContent}>
-                        <Image source={this.props.data.author.avatar}
-                               style={styles.avatar}/>
-                        <View style={styles.commentBody}>
-                            <Text style={styles.userName}>
-                                {this.props.data.author.displayname}
-                            </Text>
-                            <Text style={styles.commentText}>
-                                {this.props.data.content}
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={styles.cellBorder} />
-                </View>
-            </TouchableHighlight>
-        </View>;
-    }
-});
 
 var styles = StyleSheet.create({
     commentContent: {
@@ -80,5 +49,36 @@ var styles = StyleSheet.create({
         marginRight: 10
     }
 });
+
+var CommentItem = React.createClass({
+    getDefaultProps: function() {
+        return {
+            comments: []
+        }
+    },
+
+    render () {
+        return(<View>
+            <TouchableHighlight underlayColor={"#f3f3f3"}>
+                <View>
+                    <View style={styles.commentContent}>
+                        <Image source={this.props.comment.author.avatar}
+                               style={styles.avatar}/>
+                        <View style={styles.commentBody}>
+                            <Text style={styles.userName}>
+                                {this.props.comment.author.displayname}
+                            </Text>
+                            <Text style={styles.commentText}>
+                                {this.props.comment.content}
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={styles.cellBorder} />
+                </View>
+            </TouchableHighlight>
+        </View>);
+    }
+});
+
 
 module.exports = CommentItem;

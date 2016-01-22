@@ -10,6 +10,7 @@ var PostStream = require("../services/Streams").getStream("Post");
 var Storage = require("../services/Storage").getInstance();
 var api = require("../utils/api/PostApi");
 var GiftedSpinner = require('react-native-gifted-spinner');
+var GridView = require('react-native-grid-view');
 
 var PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer");
 var Avatar = require("../components/user/Avatar");
@@ -23,11 +24,8 @@ var {
     ScrollView,
     StyleSheet,
     Text,
-    TouchableOpacity,
-    TouchableHighlight,
     View,
-    ListView,
-    Dimensions,
+    Dimensions
     } = React;
 
 var imageSizes ={
@@ -42,36 +40,8 @@ var PostView = React.createClass({
     getInitialState() {
         return {
             post: {},
-            isLoading:true,
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2,
-            }),
+            isLoading:true
         }
-    },
-    renderRow: function(comment: Object) {
-        return <CommentItem
-            onSelect={() => this.selectPlayer(comment.user)}
-            comment={comment} />;
-    },
-
-
-    _renderCommentsList: function() {
-        if(this.state.data && this.state.data.comments) {
-            this.state.dataSource.cloneWithRows(this.state.data.comments)
-            return <View style={styles.sectionSpacing}>
-                <View style={styles.separator} />
-                <Text style={styles.heading}>Comments</Text>
-                <View style={styles.separator} />
-                <ListView
-                    ref="commentsView"
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderRow}
-                    automaticallyAdjustContentInsets={false}
-                />
-            </View>
-        }
-
-        return null;
     },
 
     componentDidMount(){
@@ -95,7 +65,6 @@ var PostView = React.createClass({
 
         if(this.state.isLoading) return (<GiftedSpinner/>) ;
 
-
         var _postView = (
             <View style={styles.container}>
                 <ScrollView>
@@ -109,9 +78,12 @@ var PostView = React.createClass({
                     <View >
                         <Avatar author={this.state.data.author}/>
                     </View>
-                    <View>
-                        {this._renderCommentsList()}
-                    </View>
+                    <GridView
+                        items={this.state.data.comments}
+                        itemsPerRow={1}
+                        renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
+                        }
+                    />
                 </ScrollView>
             </View>)
         return _postView;
