@@ -15,7 +15,7 @@ var GridView = require('react-native-grid-view');
 var PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer");
 var Avatar = require("../components/user/Avatar");
 var CommentItem = require("../components/posts/helpers/CommentItem");
-
+var CommentInput = require("../components/posts/helpers/CommentInput")
 var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
 
@@ -27,69 +27,6 @@ var {
     View,
     Dimensions
     } = React;
-
-var imageSizes ={
-    width: windowSize.width * 0.45,
-    height: windowSize.height * 0.6
-};
-
-var PostId;
-
-var PostView = React.createClass({
-
-    getInitialState() {
-        return {
-            post: {},
-            isLoading:true
-        }
-    },
-
-    componentDidMount(){
-        Storage.load({
-            key:'UserId'
-        }).then(ret => {
-            api.RetrievePost(PostId, ret.data)
-        })
-
-        PostStream.subscribe((data => {
-            this.setState({
-                isLoading: false,
-                data: data['post']
-            })
-        }))
-    },
-
-    render() {
-        var _photo = (this.state.data && this.state.data.thumbnail ) ? this.state.data.thumbnail : "http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg";
-        PostId = this.props.id;
-
-        if(this.state.isLoading) return (<GiftedSpinner/>) ;
-
-        var _postView = (
-            <View style={styles.container}>
-                <ScrollView>
-                    <ResponsiveImage style={styles.image} source={{uri: _photo}}
-                                     initWidth={imageSizes.width}
-                                     initHeight={imageSizes.height}/>
-
-                    <PostContentDisplayer content={this.state.data.content}
-                                          removeHTMLTags={true}
-                    />
-                    <View >
-                        <Avatar author={this.state.data.author}/>
-                    </View>
-                    <GridView
-                        items={this.state.data.comments}
-                        itemsPerRow={1}
-                        renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
-                        }
-                    />
-                </ScrollView>
-            </View>)
-        return _postView;
-    }
-})
-
 
 var styles = StyleSheet.create({
     spinner: {
@@ -192,6 +129,74 @@ var styles = StyleSheet.create({
         fontSize: 16
     }
 });
+
+
+var imageSizes ={
+    width: windowSize.width * 0.45,
+    height: windowSize.height * 0.6
+};
+
+var PostId;
+
+var PostView = React.createClass({
+
+    getInitialState() {
+        return {
+            post: {},
+            isLoading:true
+        }
+    },
+
+    componentDidMount(){
+        Storage.load({
+            key:'UserId'
+        }).then(ret => {
+            api.RetrievePost(PostId, ret.data)
+        })
+
+        PostStream.subscribe((data => {
+            if(data['type']!= 'comment') {
+                this.setState({
+                    isLoading: false,
+                    data: data['post']
+                })
+            } else {
+                console.warn(data)
+            }
+        }))
+    },
+
+    render() {
+        var _photo = (this.state.data && this.state.data.thumbnail ) ? this.state.data.thumbnail : "http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg";
+        PostId = this.props.id;
+
+        if(this.state.isLoading) return (<GiftedSpinner/>) ;
+
+        var _postView = (
+            <ScrollView style={styles.container}>
+                <View>
+                    <ResponsiveImage style={styles.image} source={{uri: _photo}}
+                                     initWidth={imageSizes.width}
+                                     initHeight={imageSizes.height}/>
+
+                    <PostContentDisplayer content={this.state.data.content}
+                                          removeHTMLTags={true}
+                    />
+                    <Avatar author={this.state.data.author}/>
+                    <GridView
+                        items={this.state.data.comments}
+                        itemsPerRow={1}
+                        renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
+                        }
+                    />
+                    <CommentInput id={this.state.data.id} subject={PostStream}/>
+                </View>
+            </ScrollView>)
+        return _postView;
+    }
+})
+
+
 
 PostView.PropTypes= {
     id: React.PropTypes.object
