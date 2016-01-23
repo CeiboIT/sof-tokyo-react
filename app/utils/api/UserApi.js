@@ -69,6 +69,41 @@ var api = {
         }
     },
 
+    registerNewUser(userData){
+        return new Promise((reject, resolve) => {
+            fetch(apiConsts.apiEndpoint + 'auth/nonce/user/register')
+                .then((nonce) => {
+                    var _nonce = JSON.parse(nonce._bodyInit).nonce
+                    fetch(apiConsts.apiEndpoint +'auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: userData.username,
+                            email: userData.email,
+                            nonce: _nonce,
+                            display_name: userData.displayName
+                        })
+                    })
+                        .then(result => {
+                            var _result = JSON.parse(result._bodyInit);
+                            if(_result.status !='error') {
+                                resolve(_result)
+                            } else {
+                                reject(_result);
+                            }
+                        })
+                        .catch((error) => {
+                            reject(error);
+                        })
+
+                })
+
+        })
+    },
+
     isAuthorized() {
         return new Promise((resolve, reject) => {
             var cookies;
