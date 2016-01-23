@@ -4,6 +4,7 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/EvilIcons');
+var FaIcon = require('react-native-vector-icons/FontAwesome');
 var storage = require("../../services/Storage").getInstance();
 
 var I18nService = require('../../i18n');
@@ -106,7 +107,7 @@ class FooterNav extends React.Component {
         this.props = {
             options : [
                 {
-                    itemLabel: <Icon name="exclamation" size={35}></Icon>,
+                    itemLabel: <FaIcon name="home" size={33}></FaIcon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'feed'})
                     }
@@ -130,7 +131,16 @@ class FooterNav extends React.Component {
                     action: () => {
                         this.NavigationSubject.onNext({path: 'news'})
                     }
-                },{
+                },
+                {
+                    itemLabel: <Icon name="trophy" size={35}></Icon>,
+                    action: () => {
+                        this.NavigationSubject.onNext({path: 'best'})
+                    }
+                },
+
+
+                {
                     itemLabel : <Icon name="user" size={35}></Icon>,
                     action: () => {
                         storage.load({

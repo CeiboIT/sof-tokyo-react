@@ -9,8 +9,8 @@ var windowSize = Dimensions.get("window");
 var ResponsiveImage = require('react-native-responsive-image');
 var Icon = require('react-native-vector-icons/FontAwesome');
 var Avatar = require('../user/Avatar');
-
-
+var PostLike = require('./helpers/PostLike')
+var  PostContentDisplayer = require('./helpers/PostContentDisplayer')
 
 var {
     View,
@@ -84,14 +84,10 @@ NavigateToPost.propTypes= {
 };
 
 var ElementFooter = React.createClass({
-
-
     render() {
         return (
             <View style={styles.elementFooter}>
-                <TouchableHighlight>
-
-                </TouchableHighlight>
+                <PostLike data={this.props.data}></PostLike>
                 <TouchableHighlight onPress={this.goToPost} style={styles.textContainer}>
                     <Text>
                         {this.props.data['comment_count']} <Icon name="comments"  size={20} color="##bbbbbb"/>
@@ -129,16 +125,13 @@ var PostElement = React.createClass({
                 <View>
                     <Text style={styles.title}> { this.props.postData.title}</Text>
                 </View>
+                <PostContentDisplayer content={this.props.postData.content}
+                    removeHTMLTags={true} crop={30}
+                />
                 <View style={styles.authorDataDisplayContainer} >
                     <Avatar author={this.props.postData.author}/>
-                    <TouchableHighlight onPress={this.goToPost} style={styles.textContainer}>
-                        <Text>
-                            {this.props.postData['comment_count']} <Icon name="comments"  size={20} color="#bbbbbb"/>
-                        </Text>
-                    </TouchableHighlight>
                 </View>
-
-
+                <ElementFooter data={this.props.postData}/>
             </View>
         )
     }
