@@ -6,6 +6,7 @@ var React = require('react-native');
 var Icon = require('react-native-vector-icons/EvilIcons');
 var FaIcon = require('react-native-vector-icons/FontAwesome');
 var storage = require("../../services/Storage").getInstance();
+var user = require("../../utils/api/UserApi");
 
 var I18nService = require('../../i18n');
 
@@ -143,13 +144,21 @@ class FooterNav extends React.Component {
                 {
                     itemLabel : <Icon name="user" size={35}></Icon>,
                     action: () => {
-                        storage.load({
-                            key: 'UserId'
-                        }).then( ret => {
-                            this.NavigationSubject.onNext({'path': 'profile', id: 'me'})
-                        }).catch((err)=> {
+                        user.isAuthorized()
+                            .then((data) => {
+                                if(!data.valid) {
+                                    this.NavigationSubject.onNext({'path': 'login'})
+                                }else {
+                                    storage.load({key: 'UserId'})
+                                        .then((data) => {
+                                            this.NavigationSubject.onNext({'path': 'profile', id: data.data})
+                                        })
+                                }
+                            }).catch((error) => {
+                            console.warn(JSON.stringify(error));
                             this.NavigationSubject.onNext({'path': 'login'})
-                        });
+                        })
+
                     }
 
                 }

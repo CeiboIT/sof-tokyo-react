@@ -5,7 +5,7 @@
 
 
 var apiConsts  = require("../../constants/api").apiConsts;
-
+var storage = require("../../services/Storage").getInstance();
 var ErrorSubject = require("../../services/Streams").getStream("Errors");
 var UserSubject = require("../../services/Streams").getStream("User");
 
@@ -67,6 +67,32 @@ var api = {
         } catch(error){
             UserSubject.onNext({type: 'login', error});
         }
+    },
+
+    isAuthorized() {
+        return new Promise((resolve, reject) => {
+            var cookies;
+            storage.load({key: 'cookies'})
+                .then(ret => {
+                    cookie = ret.cookie
+                    fetch(apiConsts.apiEndpoint + 'auth/is_authorized',{
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            cookie
+                        })
+                    }).then((result) => {
+                        resolve(JSON.parse(result._bodyInit))
+                    }).catch((error) => {
+                        reject(error);
+                    })
+                }).catch((error) => {
+                reject(error);
+            })
+        });
     }
 };
 
