@@ -67,8 +67,8 @@ var SitePanel = React.createClass ({
         SidebarSubject.onNext('close');
     },
 
-    navigateTo(path) {
-        NavigationSubject.onNext({path})
+    navigateToAbout() {
+        NavigationSubject.onNext({path: 'aboutSof'})
     },
 
     render(){
@@ -83,13 +83,13 @@ var SitePanel = React.createClass ({
                 </View>
 
                 <View style={styles.buttonsContainer} collapse={ true } >
-                    <TouchableHighlight onPress={this.navigateTo('women')}><Text>WOMEN</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateTo('men')}><Text>MEN</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateTo('style')}><Text>STYLE</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateTo('category')}><Text>CATEGORY</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateTo('school')}><Text>SCHOOL</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateTo('contact')}><Text>CONTACT</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateTo('about')}><Text>ABOUT Sof</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>WOMEN</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>MEN</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>STYLE</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>CATEGORY</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>SCHOOL</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>CONTACT</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToAbout}><Text>ABOUT Sof</Text></TouchableHighlight>
                 </View>
             </View>
         )
