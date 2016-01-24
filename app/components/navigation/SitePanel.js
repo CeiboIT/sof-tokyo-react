@@ -6,12 +6,11 @@ var React = require('react-native');
 var NavigationSubject= require("../../services/NavigationManager").getStream();
 var SidebarSubject = require("../../services/Streams").getStream("Sidebar");
 
-
-import Button from 'apsl-react-native-button'
-
 var {
     View,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight,
+    Text
     } = React;
 
 var Icon = require('react-native-vector-icons/FontAwesome');
@@ -55,40 +54,47 @@ var styles = StyleSheet.create({
 });
 
 
-class SitePanel extends React.Component {
+var SitePanel = React.createClass ({
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            User: {},
-            navigating: false
-        }
-    }
 
     login() {
         NavigationSubject.onNext({path: 'login'});
         SidebarSubject.onNext('close');
         return;
-    }
+    },
 
+    closeSidePanel() {
+        SidebarSubject.onNext('close');
+    },
+
+    navigateTo(path) {
+        NavigationSubject.onNext({path})
+    },
 
     render(){
 
         return (
             <View style={styles.container}>
+
+                <View>
+                    <TouchableHighlight onPress={this.closeSidePanel}>
+                        <Text>X</Text>
+                    </TouchableHighlight>
+                </View>
+
                 <View style={styles.buttonsContainer} collapse={ true } >
-                    <Button style={styles.login} textStyle={styles.loginText} onPress={this.login}>
-                        Login
-                    </Button>
-                    <Button style={styles.register} textStyle={styles.registerText}>
-                        Register
-                    </Button>
+                    <TouchableHighlight onPress={this.navigateTo('women')}><Text>WOMEN</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateTo('men')}><Text>MEN</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateTo('style')}><Text>STYLE</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateTo('category')}><Text>CATEGORY</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateTo('school')}><Text>SCHOOL</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateTo('contact')}><Text>CONTACT</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateTo('about')}><Text>ABOUT Sof</Text></TouchableHighlight>
                 </View>
             </View>
         )
     }
-}
+});
 
 SitePanel.StateProps = {
     User : React.PropTypes.object
