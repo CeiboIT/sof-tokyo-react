@@ -45,7 +45,6 @@ var Schools = React.createClass({
             selectedSchools:[]
         }
     },
-
     navigateToCheckout() {
         var Nav = require("../services/NavigationManager").getStream();
         Nav.onNext({path: 'schoolsCheckout', params: {schools: this.state.selectedSchools} })
@@ -53,9 +52,6 @@ var Schools = React.createClass({
 
     selectSchool(school) {
         this.state.selectedSchools.push(school);
-        this.state.selectedSchools.map((data) => {
-            console.warn(data.value);
-        })
     },
 
     componentDidMount() {

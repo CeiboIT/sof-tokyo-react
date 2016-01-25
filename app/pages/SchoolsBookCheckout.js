@@ -8,6 +8,17 @@
 var React = require('react-native');
 var GridView = require('react-native-grid-view');
 var communication = require("../utils/api/CommunicationApi");
+var user = require("../utils/api/UserApi");
+var t = require("tcomb-form-native");
+
+
+var Form = t.form.Form;
+
+var BuyForm = t.struct({
+    fromEmail: t.String,
+    fromName: t.String
+});
+
 
 var {
     StyleSheet,
@@ -35,13 +46,37 @@ SchoolElement.propTypes = {
 
 var SchoolsCheckout = React.createClass({
 
+    getInitialState(){
+        return {
+            isLoggedIn: true
+        }
+    },
+
+    componentDidMount() {
+        user.isAuthorized()
+            .then((result) => {
+                this.setState({
+                    isLoggedIn: result['value']
+                })
+            }).catch(error => {
+            this.setState({
+                isLoggedIn: false
+            })
+        })
+    },
+
     sendMail() {
+        var _params;
+        if(this.refs.form) {
+            var value = this.refs.form.getValue();
+            _params.fromEmail = value.fromEmail
+            _params.fromName = value.fromName
+        };
         var  _params= {
-            fromEmail : params.userEmail,
-            fromName : params.userName,
             subject : "Subject",
             content: ""
         }
+
         this.state.selectedSchools.map((element) => {
             _params.content += element.value;
         })
@@ -50,6 +85,11 @@ var SchoolsCheckout = React.createClass({
 
     render(){
         console.warn(Object.keys(this.props));
+
+        var _form = <Form type={BuyForm} ref="form"/>
+
+        var _renderForm = (!this.state.isLoggedIn) ? _form: null
+
         return(
             <View>
                 <GridView
@@ -57,6 +97,9 @@ var SchoolsCheckout = React.createClass({
                     itemsPerRow={1}
                     renderItem={(school) => <SchoolElement key={school.value} school={school} />}
                 />
+
+                {_renderForm}
+
                 <TouchableHighlight onPress={this.sendMail}>
                     <Text>
                         Finish
