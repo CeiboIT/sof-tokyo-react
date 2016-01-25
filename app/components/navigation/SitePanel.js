@@ -69,8 +69,13 @@ var SitePanel = React.createClass ({
 
     navigateToAbout() {
         NavigationSubject.onNext({path: 'aboutSof'})
+        SidebarSubject.onNext('close');
     },
 
+    navigateToSchools() {
+        NavigationSubject.onNext({path: 'schools'})
+        SidebarSubject.onNext('close');
+    },
     render(){
 
         return (
@@ -87,7 +92,7 @@ var SitePanel = React.createClass ({
                     <TouchableHighlight ><Text>MEN</Text></TouchableHighlight>
                     <TouchableHighlight ><Text>STYLE</Text></TouchableHighlight>
                     <TouchableHighlight ><Text>CATEGORY</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>SCHOOL</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToSchools}><Text>SCHOOL</Text></TouchableHighlight>
                     <TouchableHighlight ><Text>CONTACT</Text></TouchableHighlight>
                     <TouchableHighlight onPress={this.navigateToAbout}><Text>ABOUT Sof</Text></TouchableHighlight>
                 </View>

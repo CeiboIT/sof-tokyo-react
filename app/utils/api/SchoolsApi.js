@@ -6,9 +6,9 @@ var SchoolsStream = require("../../services/Streams").getStream("Schools");
 var schoolsEndpoint = apiConsts.apiEndpoint + 'metadata/schools/';
 
 var api = {
-    async LoadSchools(postId) {
+    async LoadSchools() {
         try {
-            let response = await fetch(schoolsEndpoint + 'list/');
+            let response = await fetch(schoolsEndpoint + 'list');
             SchoolsStream.onNext(JSON.parse(response._bodyInit))
         } catch(error){
             console.warn(error);
