@@ -108,6 +108,13 @@ class NavigatorService {
                         rightCorner: toggle
                     })
                 break;
+                case('schoolProfile'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.schoolProfile,
+                        rightCorner: toggle
+                    })
+                break;
                 case('aboutSof'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,

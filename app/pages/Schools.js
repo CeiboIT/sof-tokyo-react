@@ -64,7 +64,7 @@ var Schools = React.createClass({
             <GridView
                 items={this.state.schools}
                 itemsPerRow={1}
-                renderItem={(rowData) => <SchoolElement school={rowData} />}
+                renderItem={(rowData) => <SchoolElement key={rowData.value} school={rowData} />}
             />
         )
     }
