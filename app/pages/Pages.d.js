@@ -16,6 +16,8 @@ var schools = require('./Schools');
 var profile = require('./Profile');
 var search = require('./Search');
 var searchResults = require('./SearchResults');
+var schoolProfile = require('./SchoolProfile');
+var schoolBooksCheckout = require('./SchoolsBookCheckout');
 
 module.exports = {
     feed,
@@ -27,5 +29,7 @@ module.exports = {
     register,
     search,
     searchResults,
-    about
+    about,
+    schoolProfile,
+    schoolBooksCheckout
 };

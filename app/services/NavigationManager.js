@@ -12,7 +12,8 @@ var storage = require('./Storage').getInstance();
 var toggle = require('../components/actions/ToggleMenu');
 var navigation = require('../components/navigation/Navigation.d');
 var {
-    StyleSheet
+    StyleSheet,
+    Text
 } = React;
 
 import { api } from "../utils/api/Api.d";
@@ -109,10 +110,12 @@ class NavigatorService {
                     })
                 break;
                 case('schoolProfile'):
+                    console.warn(route.params.school.value);
                     this.manager.toRoute({
-                        leftCorner: navigation.back,
+                        "leftCorner": navigation.back,
                         "component": Pages.schoolProfile,
-                        rightCorner: toggle
+                        "rightCorner": toggle,
+                        "passProps": route.params
                     })
                 break;
                 case('aboutSof'):
@@ -120,6 +123,14 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.about,
                         rightCorner: toggle
+                    })
+                break;
+                case('schoolsCheckout'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.schoolBooksCheckout,
+                        rightCorner: toggle,
+                        "passProps": route.params
                     })
                 break;
             }
