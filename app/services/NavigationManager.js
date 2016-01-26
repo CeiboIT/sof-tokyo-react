@@ -70,7 +70,6 @@ class NavigatorService {
                         rightCorner: toggle
                     })
                 break;
-
                 case('search'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
@@ -86,8 +85,6 @@ class NavigatorService {
                         rightCorner: toggle
                     });
                 break;
-
-
                 case('searchResults'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
@@ -95,8 +92,7 @@ class NavigatorService {
                         "passProps": route.params,
                         rightCorner: toggle
                     });
-                    break;
-
+                break;
                 case('profile'):
                     this.manager.toRoute({
                         "leftCorner": navigation.back,
@@ -105,14 +101,20 @@ class NavigatorService {
                         "passProps": route.params
                     });
                 break;
-
                 case('schools'):
-                    api.schools.LoadSchools();
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.schools,
                         rightCorner: toggle
                     })
+                break;
+                case('aboutSof'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.about,
+                        rightCorner: toggle
+                    })
+                break;
             }
         });
     };

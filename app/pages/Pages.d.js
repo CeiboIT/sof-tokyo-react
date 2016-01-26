@@ -9,6 +9,7 @@ var categories = {
     menu: require('./CategoriesMenu')
 };
 var login = require('./Login');
+var about = require('./About');
 var register= require('./Register');
 var post = require('./PostView');
 var schools = require('./Schools');
@@ -25,5 +26,6 @@ module.exports = {
     profile,
     register,
     search,
-    searchResults
+    searchResults,
+    about
 };

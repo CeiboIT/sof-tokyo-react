@@ -15,7 +15,7 @@ var GridView = require('react-native-grid-view');
 var PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer");
 var Avatar = require("../components/user/Avatar");
 var CommentItem = require("../components/posts/helpers/CommentItem");
-var CommentInput = require("../components/posts/helpers/CommentInput")
+
 var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
 
