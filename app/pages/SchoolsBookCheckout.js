@@ -10,13 +10,15 @@ var GridView = require('react-native-grid-view');
 var communication = require("../utils/api/CommunicationApi");
 var user = require("../utils/api/UserApi");
 var t = require("tcomb-form-native");
+var Rx = require("rx");
+var storage = require("../services/Storage");
 
 
 var Form = t.form.Form;
 
 var BuyForm = t.struct({
-    fromEmail: t.String,
-    fromName: t.String
+    email: t.String,
+    name: t.String
 });
 
 
@@ -67,20 +69,35 @@ var SchoolsCheckout = React.createClass({
 
     sendMail() {
         var _params;
-        if(this.refs.form) {
+        var _mailStream = new Rx.Subject();
+        if(!this.state.isLoggedIn) {
             var value = this.refs.form.getValue();
-            _params.fromEmail = value.fromEmail
-            _params.fromName = value.fromName
-        };
-        var  _params= {
-            subject : "Subject",
-            content: ""
+            var  _params= {
+                fromEmail : value.email,
+                fromName : value.name,
+                subject : "Subject",
+                content: ""
+            };
+            this.props.schools.map((element) => {
+                _params.content += element.value;
+            });
+            communication.sendMail(_params);
+        } else {
+            var _stream = new Rx.Subject();
+            storage.load({key: 'UserId'})
+                .then(ret => {
+                    user.getMember(ret.data, _stream)
+                })
+
+            _stream.subscribe((data) => {
+                communication.sendMail(_params)
+            })
+
         }
 
-        this.state.selectedSchools.map((element) => {
-            _params.content += element.value;
+        _mailStream.subscribe((result) => {
+
         })
-        communication.sendMail(_params)
     },
 
     render(){
