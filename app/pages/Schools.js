@@ -69,7 +69,7 @@ var Schools = React.createClass({
             <View>
                 <TouchableHighlight onPress={this.navigateToCheckout}>
                     <Text>
-                        Request Book
+                        Request Books
                     </Text>
                 </TouchableHighlight>
 

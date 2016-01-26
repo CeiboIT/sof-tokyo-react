@@ -13,7 +13,6 @@ var t = require("tcomb-form-native");
 var Rx = require("rx");
 var storage = require("../services/Storage");
 
-
 var Form = t.form.Form;
 
 var BuyForm = t.struct({
@@ -68,45 +67,21 @@ var SchoolsCheckout = React.createClass({
     },
 
     sendMail() {
-        var _params;
         var _mailStream = new Rx.Subject();
-        if(!this.state.isLoggedIn) {
-            var value = this.refs.form.getValue();
-            var  _params= {
-                fromEmail : value.email,
-                fromName : value.name,
-                subject : "Subject",
-                content: ""
-            };
-            this.props.schools.map((element) => {
-                _params.content += element.value;
-            });
-            communication.sendMail(_params);
-        } else {
-            var _stream = new Rx.Subject();
-            storage.load({key: 'UserId'})
-                .then(ret => {
-                    user.getMember(ret.data, _stream)
-                })
-
-            _stream.subscribe((data) => {
-                communication.sendMail(_params)
-            })
-
-        }
-
+        var value = this.refs.form.getValue();
+        var  _params= {
+            fromEmail : value.email,
+            fromName : value.name,
+            subject : "Subject",
+            schools: this.props.schools
+        };
+        communication.sendMail(_params, _mailStream);
         _mailStream.subscribe((result) => {
 
         })
     },
 
-    render(){
-        console.warn(Object.keys(this.props));
-
-        var _form = <Form type={BuyForm} ref="form"/>
-
-        var _renderForm = (!this.state.isLoggedIn) ? _form: null
-
+    render() {
         return(
             <View>
                 <GridView
@@ -115,8 +90,7 @@ var SchoolsCheckout = React.createClass({
                     renderItem={(school) => <SchoolElement key={school.value} school={school} />}
                 />
 
-                {_renderForm}
-
+                <Form type={BuyForm} ref="form"/>
                 <TouchableHighlight onPress={this.sendMail}>
                     <Text>
                         Finish
@@ -125,11 +99,15 @@ var SchoolsCheckout = React.createClass({
             </View>
         )
     }
+
+
+
+
 });
 
 SchoolsCheckout.propTypes = {
     schools: React.PropTypes.any
-}
+};
 
 module.exports = SchoolsCheckout;
 
