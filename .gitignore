@@ -35,3 +35,7 @@ npm-debug.log
 
 # ios push certificats
 ios/certs
+
+# android keystore for singning apk
+android/app/sof-tokyo.keystore
+
