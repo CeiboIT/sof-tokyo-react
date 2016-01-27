@@ -62,16 +62,34 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        manifestPlaceholders = [manifestApplicationId: "com.softokyo", onesignal_app_id: "653a33c7-194d-476e-9b0c-783463accf3c",
+        onesignal_google_project_number: "203157544549"]
     }
+
+    signingConfigs {
+          release {
+              storeFile file(MYAPP_RELEASE_STORE_FILE)
+              storePassword MYAPP_RELEASE_STORE_PASSWORD
+              keyAlias MYAPP_RELEASE_KEY_ALIAS
+              keyPassword MYAPP_RELEASE_KEY_PASSWORD
+          }
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false  // Set this to true to enable Proguard
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 }
 
 dependencies {
+    // Added for OneSignalSDK
+    compile "com.android.support:support-v4:18.0.+"
+    compile "com.onesignal:OneSignal:2.0.8"
+
     compile project(':react-native-i18n')
     compile project(':react-native-vector-icons')
     compile fileTree(dir: "libs", include: ["*.jar"])
