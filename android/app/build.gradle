@@ -63,7 +63,7 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
         manifestPlaceholders = [manifestApplicationId: "com.softokyo", onesignal_app_id: "653a33c7-194d-476e-9b0c-783463accf3c",
-        onesignal_google_project_number: "203157544549"]
+        onesignal_google_project_number: "627515274842"]
     }
 
     signingConfigs {
