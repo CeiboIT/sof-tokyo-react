@@ -27,42 +27,54 @@ var styles = StyleSheet.create({
         margin: 10,
         width: windowSize.width * 0.4
     },
-    title: {
-        fontSize: 15
+    contentTitle : {
+        borderLeftWidth: 2,
+        borderColor: '#8a52ad',
+        paddingLeft: 2
     },
-
+    title: {
+        fontSize: 15,
+        color: '#444444'
+    },
     navIconContainer: {
         flex:1,
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        width: windowSize.width * 0.4,
-        marginVertical:5
+        padding: 5
+        //width: windowSize.width * 0.4,
+        //marginVertical:5
     },
     authorDataDisplayContainer : {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:'flex-start',
-        width: windowSize.width * 0.4
+        width: windowSize.width * 0.5,
+        padding: 5
     },
     textContainer : {
         flex:1,
         flexDirection:'row',
         justifyContent: 'flex-end'
     },
-
+    padding : {
+        padding: 5
+    },
     elementFooter : {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        padding: 5
+    },
+    iconPlus : {
+        color: '#aaaaaa',
+        fontSize: 12
     }
 
 });
 
 var imageSizes ={
-
-    width: windowSize.width * 0.45,
-    height: windowSize.height * 0.6
-
+    width: windowSize.width * 0.55,
+    height: windowSize.height * 0.55
 };
 
 var NavigateToPost  = React.createClass({
@@ -73,7 +85,7 @@ var NavigateToPost  = React.createClass({
     render() {
         return (
             <TouchableHighlight onPress={this.goToPost} style={styles.navIconContainer} underlayColor="transparent">
-                <Icon name="plus" size={10} color="#000"/>
+                <Icon name="plus" style={styles.iconPlus}/>
             </TouchableHighlight>
         )
     }
@@ -90,7 +102,7 @@ var ElementFooter = React.createClass({
                 <PostLike data={this.props.data}></PostLike>
                 <TouchableHighlight onPress={this.goToPost} style={styles.textContainer}>
                     <Text>
-                        {this.props.data['comment_count']} <Icon name="comments"  size={20} color="##bbbbbb"/>
+                        {this.props.data['comment_count']} <Icon name="comments-o" size={18} color="#bbbbbb"/>
                     </Text>
                 </TouchableHighlight>
             </View>
@@ -122,11 +134,11 @@ var PostElement = React.createClass({
                                      initWidth={imageSizes.width} initHeight={imageSizes.height}/>
                 </View>
                 <NavigateToPost id={this.props.postData.id}/>
-                <View>
+                <View style={styles.contentTitle}>
                     <Text style={styles.title}> { this.props.postData.title}</Text>
                 </View>
                 <PostContentDisplayer content={this.props.postData.content}
-                    removeHTMLTags={true} crop={30}
+                    removeHTMLTags={true} crop={30} style={styles.padding}
                 />
                 <View style={styles.authorDataDisplayContainer} >
                     <Avatar author={this.props.postData.author}/>

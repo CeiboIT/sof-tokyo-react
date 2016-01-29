@@ -13,6 +13,12 @@ var {
     } = React;
 
 var styles = StyleSheet.create({
+    content : {
+        padding: 5
+    },
+    text : {
+      color: '#777777'  
+    },
     postLikeContainer: {
         flex: 1,
         flexDirection: 'row'
@@ -38,8 +44,8 @@ var PostContentDisplayer = React.createClass({
         }
 
         return (
-            <View>
-                <Text>
+            <View style={styles.content}>
+                <Text style={styles.text}>
                     {_content}
                 </Text>
             </View>
