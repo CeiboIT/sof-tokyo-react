@@ -4,12 +4,12 @@
 var apiConsts  = require("../../constants/api").apiConsts;
 var PostStream = require("../../services/Streams").getStream("Post");
 var productsEndpoint = apiConsts.apiEndpoint + 'products/';
-
+var storage = require("../../services/Storage").getInstance();
 
 var api = {
     async RetrievePost(postId, userId) {
         try {
-            let response = await fetch(productsEndpoint + 'product/' + postId + '/' + userId);
+            let response = await fetch(productsEndpoint + 'product/' + postId);
             PostStream.onNext(JSON.parse(response._bodyInit))
         } catch(error){
             console.warn(error);
@@ -34,26 +34,34 @@ var api = {
         }
     },
 
-    async sendComment(comment, postId, subject) {
-        try {
-            let cookie = await storage.load({key: 'cookies'});
-            let commentPost = await fetch(productsEndpoint + 'comments/create',{
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    cookie: cookie.data,
-                    productId: postId,
-                    content: comment
+    sendComment(comment, postId, subject) {
+        storage.load({key: 'cookies'})
+            .then(ret => {
+                fetch(productsEndpoint + 'comments/create',{
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        cookie: ret.cookie,
+                        productId: postId,
+                        content: comment
+                    })
+                }).then((response) => {
+                    subject.onNext({type:'newComment', data: JSON.parse(response._bodyInit)})
+                })
+                .catch(error => {
+                    console.warn(error);
                 })
             })
-            subject.onNext({type:'comment', data: JSON.parse(commentPost._bodyInit)})
-        }catch(error){
-            console.warn(error);
-        }
+        ;
+    },
+
+    getPostComments(postID) {
+
     }
+
 };
 
 module.exports = api;
