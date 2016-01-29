@@ -15,6 +15,10 @@ var api = {
         } catch(error){
             console.warn(error);
         }
+    },
+
+    async bySchool(school) {
+
     }
 };
 
