@@ -211,6 +211,8 @@ var PostView = React.createClass({
             </View>
         )
 
+        var _renderForm = (this.state.isLoggedIn) ? _commentForm : <Text>Log in for comment</Text>
+
         var _renderComments;
         if(this.state.data && this.state.data.comments && this.state.data.comments.length){
             _renderComments = <GridView
