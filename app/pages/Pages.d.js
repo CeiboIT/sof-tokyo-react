@@ -16,6 +16,7 @@ var schools = require('./Schools');
 var profile = require('./Profile');
 var search = require('./Search');
 var searchResults = require('./SearchResults');
+var uploadImage = require('./UploadImage');
 
 module.exports = {
     feed,
@@ -27,5 +28,6 @@ module.exports = {
     register,
     search,
     searchResults,
-    about
+    about,
+    uploadImage
 };

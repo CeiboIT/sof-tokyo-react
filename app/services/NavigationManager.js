@@ -115,6 +115,13 @@ class NavigatorService {
                         rightCorner: toggle
                     })
                 break;
+                case('uploadImage'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.uploadImage,
+                        rightCorner: toggle
+                    })
+                break;
             }
         });
     };

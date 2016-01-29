@@ -71,6 +71,10 @@ var SitePanel = React.createClass ({
         NavigationSubject.onNext({path: 'aboutSof'})
     },
 
+    navigateToUploadImage() {
+        NavigationSubject.onNext({path: 'uploadImage'})
+    },
+
     render(){
 
         return (
@@ -90,7 +94,8 @@ var SitePanel = React.createClass ({
                     <TouchableHighlight ><Text>SCHOOL</Text></TouchableHighlight>
                     <TouchableHighlight ><Text>CONTACT</Text></TouchableHighlight>
                     <TouchableHighlight onPress={this.navigateToAbout}><Text>ABOUT Sof</Text></TouchableHighlight>
-                </View>
+                    <TouchableHighlight onPress={this.navigateToUploadImage}><Text>UploadImage</Text></TouchableHighlight>
+        </View>
             </View>
         )
     }

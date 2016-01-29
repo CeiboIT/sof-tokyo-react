@@ -30,6 +30,8 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
         super.onCreate(savedInstanceState);
         mReactRootView = new ReactRootView(this);
 
+        mImagePicker = new ImagePickerPackage(this);
+
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
                 .setBundleAssetName("index.android.bundle")

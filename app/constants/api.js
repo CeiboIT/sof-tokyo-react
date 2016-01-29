@@ -4,7 +4,8 @@
 
 export const apiConsts = {
     main: 'https://sof-tokyo-node-server.herokuapp.com/',
-    apiEndpoint: 'https://sof-tokyo-node-server.herokuapp.com/api/'
+    apiEndpoint: 'https://sof-tokyo-node-server.herokuapp.com/api/',
+    imageCloudServer: 'https://api.cloudinary.com/v1_1/dervvwuw6/image/'
 };
 
 
