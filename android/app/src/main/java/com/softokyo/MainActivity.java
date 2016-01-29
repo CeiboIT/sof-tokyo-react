@@ -13,16 +13,17 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
-//import android.content.Intent; // import
-//import com.imagepicker.ImagePickerPackage; // import
+import android.content.Intent;
+import com.imagepicker.ImagePickerPackage;
+
+import com.onesignal.OneSignal;
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
     private ReactRootView mReactRootView;
 
-    // declare package
-    //private ImagePickerPackage mImagePicker;
+    private ImagePickerPackage mImagePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setBundleAssetName("index.android.bundle")
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
-                //.addPackage(mImagePicker)
+                .addPackage(mImagePicker)
                 .addPackage(new ReactNativeI18n())
                 .addPackage(new VectorIconsPackage())
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
@@ -44,6 +45,9 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
         mReactRootView.startReactApplication(mReactInstanceManager, "sofTokyo", null);
 
         setContentView(mReactRootView);
+
+        OneSignal.startInit(this).init();
+
     }
 
     @Override
@@ -86,9 +90,9 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
             mReactInstanceManager.onResume(this, this);
         }
     }
-    //@Override
-    //public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-      //  super.onActivityResult(requestCode, resultCode, data);
-       // mImagePicker.handleActivityResult(requestCode, resultCode, data);
-    //}
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mImagePicker.handleActivityResult(requestCode, resultCode, data);
+    }
 }
