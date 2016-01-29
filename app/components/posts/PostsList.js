@@ -95,6 +95,9 @@ var PostsList  = React.createClass({
                 items={this.state.dataSource}
                 itemsPerRow={2}
                 renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
+                style={{
+                    backgroundColor: '#F7F7F7'
+                }}
             />)
 
         var _loading = (
@@ -102,6 +105,7 @@ var PostsList  = React.createClass({
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
+                backgroundColor: '#F7F7F7'
               }}>
                 <GiftedSpinner/>
             </View>
