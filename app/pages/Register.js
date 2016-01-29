@@ -18,7 +18,10 @@ var t = require('tcomb-form-native');
 var I18nService = require('../i18n');
 
 I18nService.set('ja-JP', {
-        'registerWithFacebook': 'RegisterFacebookで始める'
+        'registerWithFacebook': 'Facebookで始める',
+        'registerUsername': 'ユーザー名 (必須)',
+        'registerMail': 'メールアドレス (必須)',
+        'registerDisplayName': '表示ユーザー名	(必須)',
     }
 );
 
@@ -158,8 +161,10 @@ var Form = t.form.Form;
 
 var UserCredentials = t.struct({
     username: t.String,
-    password: t.String
+    email: t.String,
+    displayName: t.String
 });
+
 var options = {
 
 
@@ -180,9 +185,12 @@ var Register  = React.createClass({
     },
 
     register(){
-        var _credentials = this.refs.form.getValue();
-        if(_credentials) {
-            api.sendCredentials(_credentials)
+        var _data = this.refs.form.getValue();
+        if(_data) {
+            api.registerNewUser(_data)
+                .then(data => {
+                    console.warn(data)
+                })
         }
     },
 

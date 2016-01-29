@@ -9,12 +9,15 @@ var categories = {
     menu: require('./CategoriesMenu')
 };
 var login = require('./Login');
+var about = require('./About');
 var register= require('./Register');
 var post = require('./PostView');
 var schools = require('./Schools');
 var profile = require('./Profile');
 var search = require('./Search');
 var searchResults = require('./SearchResults');
+var schoolProfile = require('./SchoolProfile');
+var schoolBooksCheckout = require('./SchoolsBookCheckout');
 
 module.exports = {
     feed,
@@ -25,5 +28,8 @@ module.exports = {
     profile,
     register,
     search,
-    searchResults
+    searchResults,
+    about,
+    schoolProfile,
+    schoolBooksCheckout
 };

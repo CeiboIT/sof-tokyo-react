@@ -3,8 +3,10 @@
  */
 
 var React = require('react-native');
-var Icon = require('react-native-vector-icons/FontAwesome');
+var Icon = require('react-native-vector-icons/EvilIcons');
+var FaIcon = require('react-native-vector-icons/FontAwesome');
 var storage = require("../../services/Storage").getInstance();
+var user = require("../../utils/api/UserApi");
 
 var I18nService = require('../../i18n');
 
@@ -106,44 +108,57 @@ class FooterNav extends React.Component {
         this.props = {
             options : [
                 {
-                    itemLabel: I18n.t('home'),
-                    iconName: 'users',
+                    itemLabel: <FaIcon name="home" size={33}></FaIcon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'feed'})
                     }
                 },
                 {
-                    itemLabel: I18n.t('search'),
-                    iconName: 'users',
+                    itemLabel: <Icon name="search" size={35}></Icon>,
                     action: () => {
                         console.warn('HEre');
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
                 {
-                    itemLabel: I18n.t('new'),
-                    iconName: 'users',
+                    itemLabel: <Icon name="star" size={35}></Icon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'schools'})
                     }
                 },
 
                 {
-                    itemLabel: I18n.t('news'),
-                    iconName: 'users',
+                    itemLabel: <Icon name="bell" size={35}></Icon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'news'})
                     }
-                },{
-                    itemLabel : I18n.t('myPage'),
+                },
+                {
+                    itemLabel: <Icon name="trophy" size={35}></Icon>,
                     action: () => {
-                        storage.load({
-                            key: 'UserId'
-                        }).then( ret => {
-                            this.NavigationSubject.onNext({'path': 'profile', id: 'me'})
-                        }).catch((err)=> {
+                        this.NavigationSubject.onNext({path: 'best'})
+                    }
+                },
+
+
+                {
+                    itemLabel : <Icon name="user" size={35}></Icon>,
+                    action: () => {
+                        user.isAuthorized()
+                            .then((data) => {
+                                if(!data.valid) {
+                                    this.NavigationSubject.onNext({'path': 'login'})
+                                }else {
+                                    storage.load({key: 'UserId'})
+                                        .then((data) => {
+                                            this.NavigationSubject.onNext({'path': 'profile', id: data.data})
+                                        })
+                                }
+                            }).catch((error) => {
+                            console.warn(JSON.stringify(error));
                             this.NavigationSubject.onNext({'path': 'login'})
-                        });
+                        })
+
                     }
 
                 }

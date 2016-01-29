@@ -9,10 +9,11 @@ var api = require('../../utils/api/PostsApi');
 var PostElement = require('./PostElement');
 var GridView = require('react-native-grid-view');
 var PostsStream = require("../../services/Streams").getStream("Posts");
+var GiftedSpinner = require('react-native-gifted-spinner');
 
 var {
     StyleSheet,
-    Text
+    View
 } = React;
 
 var styles = StyleSheet.create({
@@ -67,14 +68,14 @@ var styles = StyleSheet.create({
 
 
 
-
 var PostsList  = React.createClass({
     getInitialState() {
         return {
             dataSource: [],
             note: '',
             error: '',
-            page: 1
+            page: 1,
+            isLoading: true
         };
     },
 
@@ -94,10 +95,23 @@ var PostsList  = React.createClass({
                 items={this.state.dataSource}
                 itemsPerRow={2}
                 renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
+                style={{
+                    backgroundColor: '#F7F7F7'
+                }}
             />)
 
-        var _loading = (<Text>Dos amante que sentrega la piel!</Text>)
-        var _render = (this.state.dataSource &&  this.state.dataSource.length) ? _grid : _loading
+        var _loading = (
+            <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#F7F7F7'
+              }}>
+                <GiftedSpinner/>
+            </View>
+        )
+
+        var _render = (this.state.dataSource && this.state.dataSource.length) ? _grid : _loading
         return _render
     }
 })
