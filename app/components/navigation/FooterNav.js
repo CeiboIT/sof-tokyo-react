@@ -151,7 +151,9 @@ class FooterNav extends React.Component {
                                 }else {
                                     storage.load({key: 'UserId'})
                                         .then((data) => {
-                                            this.NavigationSubject.onNext({'path': 'profile', params: {id: data.data} })
+                                            this.NavigationSubject.onNext({'path': 'profile', params: {
+                                                id: data.data,
+                                                owner:true} })
                                         })
                                 }
                             }).catch((error) => {

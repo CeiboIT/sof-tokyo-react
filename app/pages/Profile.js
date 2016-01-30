@@ -98,34 +98,15 @@ var Profile = React.createClass({
     },
 
     componentDidMount() {
-        this.getUserData(this.props.id);
+        api.getMember(this.props.id);
         UserStream.subscribe((data) => {
-            if(this.props.id == 'me') {
-                this.setState({
-                    user: data.data,
-                    isLoading:false,
-                    selectedTab: 'home'
-                })
-            } else {
-                this.setState({
-                    user:data.data.author,
-                    posts:data.data.posts,
-                    isLoading: false,
-                    selectedTab: 'posts'
-                })
-            }
-        })
-    },
-
-    getUserData(id) {
-        if(id == 'me'){
-            storage.load({key: 'UserId'})
-            .then((ret) => {
-                api.getUser(ret.data)
+            this.setState({
+                user:data.data.author,
+                posts:data.data.posts || [],
+                isLoading: false,
+                selectedTab: 'posts'
             })
-        } else {
-            api.getMember(id);
-        }
+        })
     },
 
     selectedPosts() {
@@ -140,33 +121,28 @@ var Profile = React.createClass({
         })
     },
 
-    calculateListHeight ( ) {
-
-    },
 
     render() {
 
         var _ownerTab = (
-            <View style={{height: 300}}>
-                <TabNavigator>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'profileData'}
-                        renderIcon={() => <View><Icon name="user" size={20}/></View>}
-                        renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
-                        onPress={() => this.setState({ selectedTab: 'profileData' })}>
-                        <Text>Test!</Text>
-                    </TabNavigator.Item>
+           <TabNavigator>
+                <TabNavigator.Item
+                    selected={this.state.selectedTab === 'profileData'}
+                    renderIcon={() => <View><Icon name="user" size={20}/></View>}
+                    renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
+                    onPress={() => this.setState({ selectedTab: 'profileData' })}>
+                    <Text>Test!</Text>
+                </TabNavigator.Item>
 
-                    <TabNavigator.Item
+                <TabNavigator.Item
 
-                        selected={this.state.selectedTab === 'home'}
-                        renderIcon={() => <View><Icon name="bell-o" size={20}/></View>}
-                        renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
-                        onPress={() => this.setState({ selectedTab: 'home' })}>
-                        <Text>Hola</Text>
-                    </TabNavigator.Item>
-                </TabNavigator>
-            </View>
+                    selected={this.state.selectedTab === 'home'}
+                    renderIcon={() => <View><Icon name="bell-o" size={20}/></View>}
+                    renderSelectedIcon={() => <View><Icon name="bell-o" color="#FFF000" size={20}/></View>}
+                    onPress={() => this.setState({ selectedTab: 'home' })}>
+                    <Text>Hola</Text>
+                </TabNavigator.Item>
+            </TabNavigator>
         );
 
         var _dynamicHeight = 0;
