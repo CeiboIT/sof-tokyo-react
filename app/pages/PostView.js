@@ -44,17 +44,20 @@ var styles = StyleSheet.create({
         marginTop: 20,
         width: 50
     },
-
-    postImage: {
-        flex:1,
-        flexDirection: 'row',
-        alignItems: 'center'
+    container : {
+        margin: 10,
+        flexDirection: 'column'
     },
-    a: {
+    postImageContainer : {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10
+    },
+    a : {
         fontWeight: "300",
         color: "#ea4c89"
     },
-    p: {
+    p : {
         marginBottom: 0,
         flexDirection: "row",
         marginTop: 0,
@@ -143,8 +146,8 @@ var styles = StyleSheet.create({
 
 
 var imageSizes ={
-    width: windowSize.width * 0.45,
-    height: windowSize.height * 0.6
+    width: windowSize.width * 0.55,
+    height: windowSize.height * 0.7
 };
 
 var PostId;
@@ -223,12 +226,13 @@ var PostView = React.createClass({
             />
         }
         var _postView = (
-            <ScrollView style={styles.container}>
-                <View>
-                    <ResponsiveImage style={styles.image} source={{uri: _photo}}
+            <ScrollView>
+                <View style={styles.container}>
+                    <View style={styles.postImageContainer}>
+                        <ResponsiveImage source={{uri: _photo}}
                                      initWidth={imageSizes.width}
                                      initHeight={imageSizes.height}/>
-
+                    </View>
                     <PostContentDisplayer content={this.state.data.content}
                                           removeHTMLTags={true}
                     />

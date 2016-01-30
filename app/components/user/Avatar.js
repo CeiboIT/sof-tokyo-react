@@ -18,13 +18,11 @@ var styles = StyleSheet.create({
         height: 20,
         width: 20,
         borderRadius: 50,
-        //marginTop: 5,
         alignSelf: 'flex-end'
     },
     avatarContainer: {
-        flex:1,
-        flexDirection: "row",
-        justifyContent: "center"
+        flex: 1,
+        flexDirection: "row"
     },
     avatarName: {
         marginVertical : 3,

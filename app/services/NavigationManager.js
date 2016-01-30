@@ -45,7 +45,6 @@ class NavigatorService {
         };
 
         this.routerProxy = () => {
-            // console.warn(Object.keys(arguments));
             this.NavigationSubject.onNext.apply(this, arguments);
         };
 
@@ -127,7 +126,8 @@ class NavigatorService {
                         "leftCorner": navigation.back,
                         "component": Pages.schoolProfile,
                         "rightCorner": toggle,
-                        "passProps": route.params
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader
                     })
                 break;
                 case('aboutSof'):
@@ -143,7 +143,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.schoolBooksCheckout,
                         rightCorner: toggle,
-                        "passProps": route.params
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader
                     })
                 break;
             }

@@ -25,11 +25,13 @@ var styles = StyleSheet.create({
     }
 })
 var regex = /(<([^>]+)>)/ig;
+var regexViews = /^Post Views\:(.*)$/gm;
 
 var PostContentDisplayer = React.createClass({
     render() {
 
-        var _content = this.props.content
+        var _content = this.props.content;
+        
         if(!!_content) {
 
             if(this.props.removeHTMLTags) {
@@ -42,6 +44,12 @@ var PostContentDisplayer = React.createClass({
         } else {
             _content= ""
         }
+        // console.warn(_content)
+        // var myRegexp = /Views(.*)/;
+        // var _match = myRegexp.exec(_content)
+        // if(_match) {
+        //     console.warn(_match[1]);
+        // }
 
         return (
             <View style={styles.content}>
