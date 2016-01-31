@@ -17,16 +17,23 @@ var api = {
             console.warn(error);
         }
     },
-
     async bySchool(school) {
 
     },
-
     async ByLikes() {
         try {
             let response = await fetch( productsEndpoint+ 'ranking/likes')
             PostsStream.onNext(JSON.parse(response._bodyInit))
         } catch(error) {
+            console.warn(error);
+        }
+    },
+    async NewPosts(page) {
+        try {
+            if(!page) page = 1;
+            let response = await fetch(productsEndpoint + 'new/' + page);
+            PostsStream.onNext(JSON.parse(response._bodyInit))
+        } catch(error){
             console.warn(error);
         }
     }

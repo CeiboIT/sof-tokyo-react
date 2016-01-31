@@ -131,6 +131,15 @@ class NavigatorService {
                     })
                 break;
 
+                case('newPosts'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.newPosts,
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
+                    })
+                break;
+
                 case('schoolProfile'):
                     console.warn(route.params.school.value);
                     this.manager.toRoute({
