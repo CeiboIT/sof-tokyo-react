@@ -191,11 +191,6 @@ var Profile = React.createClass({
                         onPress={this.selectedPosts}
                     >
                         <ScrollView style={{height: 500}}>
-                            <View>
-                                <TouchableHighlight onPress={this.createNewPost}>
-                                    <Text> { I18n.t("createPost") } </Text>
-                                </TouchableHighlight>
-                            </View>
                             { _visitorGrid }
                         </ScrollView>
                     </TabNavigator.Item>
