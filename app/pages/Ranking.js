@@ -1,4 +1,9 @@
 /**
+ * Created by epotignano on 30/01/16.
+ */
+
+
+/**
  * Created by epotignano on 10/01/16.
  */
 
@@ -15,9 +20,8 @@ var Feed = React.createClass ({
     },
 
     render(){
-        this.registerNavigatorManager();
         return(
-            <PostsList elementsPerRow={2} loadPostsFn={api.LoadPosts}/>
+            <PostsList elementsPerRow={1} loadPostsFn={api.ByLikes}/>
         )
     }
 });

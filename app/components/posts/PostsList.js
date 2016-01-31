@@ -2,10 +2,12 @@
  * Created by mmasuyama on 1/7/2016.
  */
 
+/** IMPORTANTE
+
+Every load function has to use PostsStream
+*/
 
 var React = require('react-native');
-var api = require('../../utils/api/PostsApi');
-
 var PostElement = require('./PostElement');
 var GridView = require('react-native-grid-view');
 var PostsStream = require("../../services/Streams").getStream("Posts");
@@ -80,12 +82,16 @@ var PostsList  = React.createClass({
     },
 
     componentDidMount() {
-        api.LoadPosts(this.page)
+        this.props.loadPostsFn()
         PostsStream.subscribe((response) => {
+            //Implementar inteligencia para entender si hay que aplicar paginación o no.
+
             this.setState({
                 dataSource: response['posts']
             });
         });
+
+
     },
 
     render(){
@@ -93,7 +99,7 @@ var PostsList  = React.createClass({
         var _grid = (
             <GridView
                 items={this.state.dataSource}
-                itemsPerRow={2}
+                itemsPerRow={this.props.elementsPerRow}
                 renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
                 style={{
                     backgroundColor: '#F7F7F7'
@@ -115,5 +121,10 @@ var PostsList  = React.createClass({
         return _render
     }
 })
+
+PostsList.propTypes = {
+    loadPostsFn : React.PropTypes.func,
+    elementsPerRow : React.PropTypes.number
+}
 
 module.exports = PostsList;

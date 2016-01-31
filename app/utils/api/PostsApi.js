@@ -10,6 +10,7 @@ var productsEndpoint = apiConsts.apiEndpoint + 'products/';
 var api = {
     async LoadPosts(page){
         try {
+            if(!page) page = 1;
             let response = await fetch(productsEndpoint + 'list/' + page);
             PostsStream.onNext(JSON.parse(response._bodyInit))
         } catch(error){
@@ -19,6 +20,15 @@ var api = {
 
     async bySchool(school) {
 
+    },
+
+    async ByLikes() {
+        try {
+            let response = await fetch( productsEndpoint+ 'ranking/likes')
+            PostsStream.onNext(JSON.parse(response._bodyInit))
+        } catch(error) {
+            console.warn(error);
+        }
     }
 };
 

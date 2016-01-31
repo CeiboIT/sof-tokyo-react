@@ -121,6 +121,16 @@ class NavigatorService {
                         "headerStyle": styles.generalHeader
                     })
                 break;
+
+                case('ranking'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.ranking,
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
+                    })
+                break;
+
                 case('schoolProfile'):
                     console.warn(route.params.school.value);
                     this.manager.toRoute({

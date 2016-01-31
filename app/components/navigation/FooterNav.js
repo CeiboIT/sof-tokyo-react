@@ -136,7 +136,7 @@ class FooterNav extends React.Component {
                 {
                     itemLabel: <Icon name="trophy" size={35}></Icon>,
                     action: () => {
-                        this.NavigationSubject.onNext({path: 'best'})
+                        this.NavigationSubject.onNext({path: 'ranking'})
                     }
                 },
 

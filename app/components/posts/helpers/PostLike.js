@@ -36,18 +36,30 @@ var PostLike = React.createClass({
             console.log(data);
         })
     },
+
+    retrieveLikes(metadata) {
+        var _value;
+        metadata.some((element) => {
+            if(element['field'] == '_item_likes'){
+                _value = element['value'];
+                return true;
+            }
+        })
+        return _value;
+    },
     render() {
-      return (
+        var _likes = this.retrieveLikes(this.props.data['metadata']);
+        return (
           <View style={styles.postLikeContainer}>
               <TouchableHighlight onPress={this.LikePost}>
                   <View>
                     <Text style={styles.likeText}>
-                      <Icon name="heart-o" size={18} color="#bbbbbb"/> 0
+                      <Icon name="heart-o" size={18} color="#bbbbbb"/> { _likes }
                     </Text>
                   </View>
               </TouchableHighlight>
           </View>
-      )
+        )
     }
 })
 

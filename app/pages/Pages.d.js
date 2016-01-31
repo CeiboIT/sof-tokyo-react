@@ -18,6 +18,7 @@ var search = require('./Search');
 var searchResults = require('./SearchResults');
 var schoolProfile = require('./SchoolProfile');
 var schoolBooksCheckout = require('./SchoolsBookCheckout');
+var ranking = require('./Ranking');
 
 module.exports = {
     feed,
@@ -31,5 +32,6 @@ module.exports = {
     searchResults,
     about,
     schoolProfile,
-    schoolBooksCheckout
+    schoolBooksCheckout,
+    ranking
 };
