@@ -68,38 +68,66 @@ var styles = StyleSheet.create({
 });
 // In the video there are a couple errors, fixed them so it would build.
 
-
+var _page = 1;
 
 var PostsList  = React.createClass({
     getInitialState() {
         return {
             dataSource: [],
-            note: '',
-            error: '',
             page: 1,
-            isLoading: true
+            isLoading: true,
+            initial: true,
+            infiniteScroll: false
         };
     },
 
     componentDidMount() {
         this.props.loadPostsFn()
         PostsStream.subscribe((response) => {
-            //Implementar inteligencia para entender si hay que aplicar paginación o no.
+            if(this.state.initial && _page == 1)  {
+                if(response.pages != _page) {
+                    this.setState({
+                        infiniteScroll: true,
+                        initial : false
+                    })
+                } else {
+                    this.setSate({
+                        infiniteScroll:false
+                    })
+                }
+                this.setState({
+                    dataSource: response['posts']
+                });
+            } else {
 
-            this.setState({
-                dataSource: response['posts']
-            });
+                var _posts = this.state.dataSource;
+                response['posts'].forEach((post) => {
+                        _posts.push(post);
+                });
+
+                this.setState({
+                    dataSource: _posts
+                })
+            }
+
         });
 
 
     },
 
+    loadMorePosts(){
+        if( this.state.infiniteScroll ) {
+            _page = _page + 1;
+            this.props.loadPostsFn(_page);
+        }
+    },
     render(){
 
         var _grid = (
             <GridView
                 items={this.state.dataSource}
                 itemsPerRow={this.props.elementsPerRow}
+                onEndReached={this.loadMorePosts}
                 renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
                 style={{
                     backgroundColor: '#F7F7F7'
