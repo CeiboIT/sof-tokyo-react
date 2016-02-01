@@ -20,7 +20,10 @@ import { api } from "../utils/api/Api.d";
 
 var styles = StyleSheet.create({
     facebookHeader : {
-        backgroundColor: "#2A406B"
+        backgroundColor: "#2A406B",
+        color: "#FFFFFF",
+        borderBottomWidth: 1,
+        borderColor : "#2A406B"
     },
     generalHeader : {
         backgroundColor: "#FFFFFF",

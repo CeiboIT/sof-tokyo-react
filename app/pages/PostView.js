@@ -235,6 +235,7 @@ var PostView = React.createClass({
                     </View>
                     <PostContentDisplayer content={this.state.data.content}
                                           removeHTMLTags={true}
+                                          views={true}
                     />
                     <Avatar author={this.state.data.author}/>
                     { _renderComments }
