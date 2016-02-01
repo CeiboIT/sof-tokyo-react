@@ -15,22 +15,21 @@ var Icon = require('react-native-vector-icons/FontAwesome');
 
 var styles = StyleSheet.create({
     image: {
-        height: 25,
-        width: 25,
-        borderRadius: 65,
-        marginTop: 5,
+        height: 20,
+        width: 20,
+        borderRadius: 50,
+        //marginTop: 5,
         alignSelf: 'flex-end'
     },
-
     avatarContainer: {
         flex:1,
         flexDirection: "row",
         justifyContent: "center"
     },
-
     avatarName: {
-        marginVertical : 6.25,
-        marginLeft: 3
+        marginVertical : 3,
+        marginLeft: 5,
+        color: '#b3b3b3'
     }
 
 });

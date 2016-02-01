@@ -9,8 +9,12 @@ var ResponsiveImage = require('react-native-responsive-image');
 var PostStream = require("../services/Streams").getStream("Post");
 var Storage = require("../services/Storage").getInstance();
 var api = require("../utils/api/PostApi");
+var UserApi = require("../utils/api/UserApi");
 var GiftedSpinner = require('react-native-gifted-spinner');
 var GridView = require('react-native-grid-view');
+
+var t = require("tcomb-form-native");
+var Rx = require("rx");
 
 var PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer");
 var Avatar = require("../components/user/Avatar");
@@ -25,8 +29,15 @@ var {
     StyleSheet,
     Text,
     View,
-    Dimensions
+    Dimensions,
+    TouchableHighlight
     } = React;
+
+var Comment = t.struct({
+    comment: t.String
+})
+
+var Form = t.form.Form;
 
 var styles = StyleSheet.create({
     spinner: {
@@ -143,27 +154,47 @@ var PostView = React.createClass({
     getInitialState() {
         return {
             post: {},
-            isLoading:true
+            isLoading:true,
+            isLoggedIn: false,
+            data: {},
+            commentStream: new Rx.Subject()
         }
     },
 
     componentDidMount(){
+        UserApi.isAuthorized().then((result) => {
+            this.setState({
+                isLoggedIn: result['valid']
+            })
+        });
+
         Storage.load({
             key:'UserId'
         }).then(ret => {
             api.RetrievePost(PostId, ret.data)
         })
+        .catch(() => {
+            api.RetrievePost(PostId)
+        })
 
         PostStream.subscribe((data => {
-            if(data['type']!= 'comment') {
-                this.setState({
-                    isLoading: false,
-                    data: data['post']
-                })
-            } else {
-                console.warn(data)
-            }
+            this.setState({
+                isLoading: false,
+                data: data['post']
+            })
         }))
+
+        this.state.commentStream.subscribe((result)  => {
+            if(result.data.status == 'ok') {
+                api.RetrievePost(PostId)
+            }
+        })
+
+    },
+
+    addComment() {
+        var _comment = this.refs.form.getValue();
+        api.sendComment(_comment.comment, this.props.id, this.state.commentStream)
     },
 
     render() {
@@ -171,7 +202,26 @@ var PostView = React.createClass({
         PostId = this.props.id;
 
         if(this.state.isLoading) return (<GiftedSpinner/>) ;
+        var _commentForm = (
+            <View>
+                <Form type={Comment} ref="form"/>
+                <TouchableHighlight onPress={this.addComment}>
+                    <Text>Add Comment</Text>
+                </TouchableHighlight>
+            </View>
+        )
 
+        var _renderForm = (this.state.isLoggedIn) ? _commentForm : <Text>Log in for comment</Text>
+
+        var _renderComments;
+        if(this.state.data && this.state.data.comments && this.state.data.comments.length){
+            _renderComments = <GridView
+                items={this.state.data.comments}
+                itemsPerRow={1}
+                renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
+                        }
+            />
+        }
         var _postView = (
             <ScrollView style={styles.container}>
                 <View>
@@ -183,13 +233,8 @@ var PostView = React.createClass({
                                           removeHTMLTags={true}
                     />
                     <Avatar author={this.state.data.author}/>
-                    <GridView
-                        items={this.state.data.comments}
-                        itemsPerRow={1}
-                        renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
-                        }
-                    />
-                    <CommentInput id={this.state.data.id} subject={PostStream}/>
+                    { _renderComments }
+                    { _commentForm }
                 </View>
             </ScrollView>)
         return _postView;

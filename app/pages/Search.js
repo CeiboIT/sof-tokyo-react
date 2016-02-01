@@ -24,7 +24,8 @@ var styles = {
         flex: 1,
         padding: 30,
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: '#F7F7F7'
     },
     title: {
         marginBottom: 20,
