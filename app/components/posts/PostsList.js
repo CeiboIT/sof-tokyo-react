@@ -15,7 +15,10 @@ var GiftedSpinner = require('react-native-gifted-spinner');
 
 var {
     StyleSheet,
-    View
+    View,
+    TouchableHighlight,
+    Text,
+    ScrollView
 } = React;
 
 var styles = StyleSheet.create({
@@ -124,15 +127,21 @@ var PostsList  = React.createClass({
     render(){
 
         var _grid = (
-            <GridView
-                items={this.state.dataSource}
-                itemsPerRow={this.props.elementsPerRow}
-                onEndReached={this.loadMorePosts}
-                renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
-                style={{
-                    backgroundColor: '#F7F7F7'
-                }}
-            />)
+            <ScrollView>
+                <GridView
+                    items={this.state.dataSource}
+                    itemsPerRow={this.props.elementsPerRow}
+                    renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
+                    style={{
+                        backgroundColor: '#F7F7F7'
+                    }}
+                />
+
+                <TouchableHighlight onPress={this.loadMorePosts}>
+                    <Text> Load more posts </Text>
+                </TouchableHighlight>
+            </ScrollView>
+         )
 
         var _loading = (
             <View style={{
