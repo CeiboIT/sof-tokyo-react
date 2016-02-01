@@ -20,7 +20,10 @@ import { api } from "../utils/api/Api.d";
 
 var styles = StyleSheet.create({
     facebookHeader : {
-        backgroundColor: "#2A406B"
+        backgroundColor: "#2A406B",
+        color: "#FFFFFF",
+        borderBottomWidth: 1,
+        borderColor : "#2A406B"
     },
     generalHeader : {
         backgroundColor: "#FFFFFF",
@@ -45,7 +48,6 @@ class NavigatorService {
         };
 
         this.routerProxy = () => {
-            // console.warn(Object.keys(arguments));
             this.NavigationSubject.onNext.apply(this, arguments);
         };
 
@@ -146,7 +148,8 @@ class NavigatorService {
                         "leftCorner": navigation.back,
                         "component": Pages.schoolProfile,
                         "rightCorner": toggle,
-                        "passProps": route.params
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader
                     })
                 break;
                 case('aboutSof'):
@@ -162,7 +165,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.schoolBooksCheckout,
                         rightCorner: toggle,
-                        "passProps": route.params
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader
                     })
                 break;
             }
