@@ -8,23 +8,22 @@ var ImageUploadSubject = require('../../services/Streams').getStream('ImageUploa
 var uploadEndPoint = apiConsts.imageCloudServer  + 'upload/';
 
 var api  = {
-
     async uploadImage(params) {
         try {
             console.warn(uploadEndPoint);
-            console.warn(JSON.stringify(params.uri));
             let response = await fetch(uploadEndPoint,
-            {
-                'method': 'POST',
-                //'Content-Type': 'application/x-www-form-urlencoded',
-                'body': params.uri
-            }).catch(function (err) {
-                console.warn('fetch error')
-                console.warn(err);
-            });
-            //ImageUploadSubject.onNext({type: 'uploadImage', data: JSON.parse(response)})
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({file: params.uri })
+                });
+            console.warn(JSON.stringify(response));
+            ImageUploadSubject.onNext({type: 'uploadImage', data: JSON.parse(response._bodyInit)})
         } catch(error){
-            console.warn('try cathc error', error);
+            console.warn(error);
         }
     }
 }

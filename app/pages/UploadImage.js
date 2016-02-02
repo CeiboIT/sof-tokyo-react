@@ -80,9 +80,11 @@ var UpoloadImage = React.createClass({
     uploadImage () {
         var params = this.state.selectedImage;
         imageUploadApi.uploadImage(params)
-        imageUploadStream.subscribe((results) =>{
+        imageUploadStream.subscribe((results) => {
+            console.warn('response from upload', JSON.stringify(results.data));
+            console.warn('public id', results.data.public_id);
             this.setState({
-                uploadImageResponse: results
+                uploadImageResponse: results.data.public_id
             });
         })
 
@@ -128,7 +130,7 @@ var UpoloadImage = React.createClass({
                     Send to cloudinary
                 </Button>
                 <Text>
-                    {this.state.uploadImageResponse}
+                    publicId: {this.state.uploadImageResponse}
                 </Text>
             </View>
         )
