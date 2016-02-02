@@ -20,6 +20,8 @@ var schoolProfile = require('./SchoolProfile');
 var schoolBooksCheckout = require('./SchoolsBookCheckout');
 var ranking = require('./Ranking');
 var newPosts = require('./NewPosts');
+var styles = require('./Styles');
+var byStyle = require('./byStyle');
 
 
 module.exports = {
@@ -36,5 +38,7 @@ module.exports = {
     schoolProfile,
     schoolBooksCheckout,
     ranking,
-    newPosts
+    newPosts,
+    styles,
+    byStyle
 };

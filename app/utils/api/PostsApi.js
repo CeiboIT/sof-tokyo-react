@@ -10,8 +10,7 @@ var productsEndpoint = apiConsts.apiEndpoint + 'products/';
 var api = {
     async LoadPosts(page){
         try {
-            if(!page) page = 1;
-            let response = await fetch(productsEndpoint + 'list/' + page);
+            let response = await fetch(productsEndpoint + 'list/' + page || 1);
             PostsStream.onNext(JSON.parse(response._bodyInit))
         } catch(error){
             console.warn(error);
@@ -30,12 +29,20 @@ var api = {
     },
     async NewPosts(page) {
         try {
-            if(!page) page = 1;
-            let response = await fetch(productsEndpoint + 'new/' + page);
+            let response = await fetch(productsEndpoint + 'new/' + page || 1);
             PostsStream.onNext(JSON.parse(response._bodyInit))
         } catch(error){
             console.warn(error);
         }
+    },
+
+    async ByStyle(styleId, page) {
+      try {
+          let response = await fetch(productsEndpoint + 'bystyle/' + styleId + '/' + (page || 1));
+          PostsStream.onNext(JSON.parse(response._bodyInit))
+      }catch(error) {
+          console.warn(error);
+      }
     }
 };
 

@@ -123,6 +123,25 @@ class NavigatorService {
                         "headerStyle": styles.generalHeader
                     })
                 break;
+                case('styles'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.styles,
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
+                    })
+                break;
+                case('postsByStyle'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.byStyle,
+                        rightCorner: toggle,
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader
+                    })
+                break;
+
+
 
                 case('ranking'):
                     this.manager.toRoute({

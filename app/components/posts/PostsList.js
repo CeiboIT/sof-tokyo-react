@@ -85,7 +85,12 @@ var PostsList  = React.createClass({
     },
 
     componentDidMount() {
-        this.props.loadPostsFn()
+        if(this.props.id) {
+            this.props.loadPostsFn(this.props.id)
+        } else {
+            this.props.loadPostsFn()
+        }
+
         PostsStream.subscribe((response) => {
             if(this.state.initial && _page == 1)  {
                 if(response.pages != _page) {
@@ -121,11 +126,14 @@ var PostsList  = React.createClass({
     loadMorePosts(){
         if( this.state.infiniteScroll ) {
             _page = _page + 1;
-            this.props.loadPostsFn(_page);
+            if(this.props.id) {
+                this.props.loadPostsFn(this.props.id, _page);
+            } else {
+                this.props.loadPostsFn(_page);
+            }
         }
     },
     render(){
-
         var _grid = (
             <ScrollView>
                 <GridView
@@ -161,7 +169,8 @@ var PostsList  = React.createClass({
 
 PostsList.propTypes = {
     loadPostsFn : React.PropTypes.func,
-    elementsPerRow : React.PropTypes.number
+    elementsPerRow : React.PropTypes.number,
+    id : React.PropTypes.number
 }
 
 module.exports = PostsList;
