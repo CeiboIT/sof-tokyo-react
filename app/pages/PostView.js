@@ -19,6 +19,7 @@ var Rx = require("rx");
 var PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer");
 var Avatar = require("../components/user/Avatar");
 var CommentItem = require("../components/posts/helpers/CommentItem");
+var HTMLView = require('react-native-htmlview');
 
 var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
@@ -235,7 +236,7 @@ var PostView = React.createClass({
                 itemsPerRow={1}
                 renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
                         }
-            />
+            /> 
         }
         var _postView = (
             <ScrollView style={styles.scrollView}>
@@ -251,7 +252,9 @@ var PostView = React.createClass({
                                           views={true}
                     />
                     </View>
-                    <Avatar style={styles.author} author={this.state.data.author}/>
+                    <View style={styles.author}>
+                        <Avatar author={this.state.data.author}/>
+                    </View>
                     <View style={styles.section}>
                         { _renderComments }
                         { _commentForm }

@@ -48,7 +48,9 @@ var styles = StyleSheet.create({
         flex:1,
         color: '#8799A3'
     },
-
+    activeIcon : {
+        color: '#0000FF'
+    },
     list: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -71,7 +73,7 @@ class FooterButton extends React.Component {
         return (
             <TouchableHighlight onPress={this.props.data.action}>
                 <View style={styles.buttonContentContainer}>
-                    <Text>
+                    <Text style={styles.icon}>
                         { this.props.data.itemLabel }
                     </Text>
                 </View>
@@ -112,7 +114,7 @@ class FooterNav extends React.Component {
         this.props = {
             options : [
                 {
-                    itemLabel: <FaIcon name="home" size={33} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="home" size={33}></FaIcon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'feed'})
                     }

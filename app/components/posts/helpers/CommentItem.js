@@ -17,25 +17,24 @@ var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
 
 var Avatar = require('../../user/Avatar');
+var HTMLView = require('react-native-htmlview');
 
 var styles = StyleSheet.create({
     commentContent: {
         padding: 10,
         flex: 1,
-        flexDirection: "row",
-        alignItems: "flex-start"
+        flexDirection: "column"
     },
     userName: {
-        fontWeight: "700"
+        fontWeight: "bold"
     },
     commentBody: {
         flex: 1,
-        flexDirection: "column",
-        justifyContent: "center"
+        flexDirection: "column"
     },
     commentText: {
         flex: 1,
-        flexDirection: "row"
+        flexDirection: "column"
     },
     cellBorder: {
         backgroundColor: "rgba(0, 0, 0, 0.2)",
@@ -44,9 +43,9 @@ var styles = StyleSheet.create({
         marginLeft: 4,
     },
     avatar: {
-        borderRadius: 20,
-        width: 40,
-        height: 40,
+        borderRadius: 50,
+        width: 100,
+        height: 100,
         marginRight: 10
     }
 });
@@ -57,7 +56,7 @@ var CommentItem = React.createClass({
             comments: []
         }
     },
-
+    
     render () {
         return(<View>
             <TouchableHighlight underlayColor={"#f3f3f3"}>
@@ -66,7 +65,9 @@ var CommentItem = React.createClass({
                         <Avatar author={this.props.comment.author}/>
                         <View style={styles.commentBody}>
                             <Text style={styles.commentText}>
-                                {this.props.comment.content}
+                                <HTMLView
+                                    value={this.props.comment.content}
+                                />
                             </Text>
                         </View>
                     </View>
