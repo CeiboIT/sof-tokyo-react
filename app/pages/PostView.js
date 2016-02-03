@@ -45,11 +45,20 @@ var styles = StyleSheet.create({
         width: 50
     },
     scrollView : {
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#F7F7F7'
     },
     container : {
+        flexDirection: 'column',
         margin: 10,
-        flexDirection: 'column'
+    },
+    section : {
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
+    },
+    author : {
+      margin: 10  
     },
     postImageContainer : {
         justifyContent: 'center',
@@ -231,18 +240,22 @@ var PostView = React.createClass({
         var _postView = (
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                    <View style={styles.postImageContainer}>
-                        <ResponsiveImage source={{uri: _photo}}
-                                     initWidth={imageSizes.width}
-                                     initHeight={imageSizes.height}/>
-                    </View>
+                    <View style={styles.section}>
+                        <View style={styles.postImageContainer}>
+                            <ResponsiveImage source={{uri: _photo}}
+                                        initWidth={imageSizes.width}
+                                        initHeight={imageSizes.height}/>
+                        </View>
                     <PostContentDisplayer content={this.state.data.content}
                                           removeHTMLTags={true}
                                           views={true}
                     />
-                    <Avatar author={this.state.data.author}/>
-                    { _renderComments }
-                    { _commentForm }
+                    </View>
+                    <Avatar style={styles.author} author={this.state.data.author}/>
+                    <View style={styles.section}>
+                        { _renderComments }
+                        { _commentForm }
+                    </View>
                 </View>
             </ScrollView>)
         return _postView;
