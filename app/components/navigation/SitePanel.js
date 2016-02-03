@@ -91,6 +91,11 @@ var SitePanel = React.createClass ({
         SidebarSubject.onNext('close');
     },
 
+    navigateToCategories() {
+        NavigationSubject.onNext({path: 'categoriesMenu'})
+        SidebarSubject.onNext('close');
+    },
+
 
     render(){
 
@@ -106,8 +111,8 @@ var SitePanel = React.createClass ({
                 <View style={styles.buttonsContainer} collapse={ true } >
                     <TouchableHighlight onPress={this.navigateToWomen}><Text>WOMEN</Text></TouchableHighlight>
                     <TouchableHighlight ><Text>MEN</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigatoToStyle}><Text>STYLE</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>CATEGORY</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToStyle} ><Text>STYLE</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToCategories} ><Text>CATEGORY</Text></TouchableHighlight>
                     <TouchableHighlight onPress={this.navigateToSchools}><Text>SCHOOL</Text></TouchableHighlight>
                     <TouchableHighlight ><Text>CONTACT</Text></TouchableHighlight>
                     <TouchableHighlight onPress={this.navigateToAbout}><Text>ABOUT Sof</Text></TouchableHighlight>

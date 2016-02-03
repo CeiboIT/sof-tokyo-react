@@ -92,7 +92,7 @@ var PostsList  = React.createClass({
         }
 
         PostsStream.subscribe((response) => {
-            if(this.state.initial && _page == 1)  {
+            if(this.state.initial && _page == 1  && !this.state.isLoading)  {
                 if(response.pages != _page) {
                     this.setState({
                         infiniteScroll: true,
@@ -104,7 +104,8 @@ var PostsList  = React.createClass({
                     })
                 }
                 this.setState({
-                    dataSource: response['posts']
+                    dataSource: response['posts'],
+                    isLoading: false
                 });
             } else {
 

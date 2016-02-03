@@ -140,9 +140,14 @@ class NavigatorService {
                         "headerStyle": styles.generalHeader
                     })
                 break;
-
-
-
+                case('categoriesMenu'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.categoriesPage,
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
+                    })
+                break;
                 case('ranking'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,

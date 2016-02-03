@@ -22,7 +22,7 @@ var ranking = require('./Ranking');
 var newPosts = require('./NewPosts');
 var styles = require('./Styles');
 var byStyle = require('./byStyle');
-
+var categoriesPage = require('./CategoriesMenu');
 
 module.exports = {
     feed,
@@ -40,5 +40,6 @@ module.exports = {
     ranking,
     newPosts,
     styles,
-    byStyle
+    byStyle,
+    categoriesPage
 };
