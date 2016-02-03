@@ -44,7 +44,7 @@ var BackButton  = React.createClass({
         return (
             <TouchableHighlight onPress={this.goBack} underlayColor="transparent" >
                 <View>
-                    <Icon name="arrow-left" style={styles.text}><Text>{I18n.t('back')}</Text></Icon>
+                    <Icon name="chevron-left" style={styles.text}> <Text>{I18n.t('back')}</Text></Icon>
                 </View>
             </TouchableHighlight>
         )

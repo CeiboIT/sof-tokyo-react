@@ -46,7 +46,7 @@ var styles = StyleSheet.create({
     icon: {
         alignItems:'center',
         flex:1,
-        color: '#424242'
+        color: '#8799A3'
     },
 
     list: {

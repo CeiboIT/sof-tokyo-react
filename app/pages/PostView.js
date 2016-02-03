@@ -44,6 +44,9 @@ var styles = StyleSheet.create({
         marginTop: 20,
         width: 50
     },
+    scrollView : {
+        backgroundColor: '#FFFFFF'
+    },
     container : {
         margin: 10,
         flexDirection: 'column'
@@ -226,7 +229,7 @@ var PostView = React.createClass({
             />
         }
         var _postView = (
-            <ScrollView>
+            <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
                     <View style={styles.postImageContainer}>
                         <ResponsiveImage source={{uri: _photo}}

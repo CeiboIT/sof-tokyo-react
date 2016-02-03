@@ -23,12 +23,16 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
     container: {
         flex: 1,
         flexDirection: 'column',
     },
-
+    close : {
+        margin: 10
+    },
+    button : {
+      padding: 5
+    },
     login: {
         borderColor: '#00b9f7',
         backgroundColor: 'transparent',
@@ -82,19 +86,19 @@ var SitePanel = React.createClass ({
             <View style={styles.container}>
 
                 <View>
-                    <TouchableHighlight onPress={this.closeSidePanel}>
-                        <Text>X</Text>
+                    <TouchableHighlight style={styles.close} onPress={this.closeSidePanel}>
+                        <Text><Icon name="times" size={18}/></Text>
                     </TouchableHighlight>
                 </View>
 
                 <View style={styles.buttonsContainer} collapse={ true } >
-                    <TouchableHighlight ><Text>WOMEN</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>MEN</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>STYLE</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>CATEGORY</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateToSchools}><Text>SCHOOL</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>CONTACT</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateToAbout}><Text>ABOUT Sof</Text></TouchableHighlight>
+                    <TouchableHighlight style={styles.button}><Text>WOMEN</Text></TouchableHighlight>
+                    <TouchableHighlight style={styles.button}><Text>MEN</Text></TouchableHighlight>
+                    <TouchableHighlight style={styles.button}><Text>STYLE</Text></TouchableHighlight>
+                    <TouchableHighlight style={styles.button}><Text>CATEGORY</Text></TouchableHighlight>
+                    <TouchableHighlight style={styles.button} onPress={this.navigateToSchools}><Text>SCHOOL</Text></TouchableHighlight>
+                    <TouchableHighlight style={styles.button}><Text>CONTACT</Text></TouchableHighlight>
+                    <TouchableHighlight style={styles.button}onPress={this.navigateToAbout}><Text>ABOUT Sof</Text></TouchableHighlight>
                 </View>
             </View>
         )
