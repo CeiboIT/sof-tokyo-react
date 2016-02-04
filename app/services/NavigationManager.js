@@ -6,14 +6,16 @@ var Rx = require('rx');
 var React = require('react-native');
 var Pages = require('../pages/Pages.d');
 var Login = require('../pages/Login');
-
+var ResponsiveImage = require('react-native-responsive-image');
 var storage = require('./Storage').getInstance();
 
 var toggle = require('../components/actions/ToggleMenu');
 var navigation = require('../components/navigation/Navigation.d');
 var {
+    View,
     StyleSheet,
-    Text
+    Text,
+    Image
 } = React;
 
 import { api } from "../utils/api/Api.d";
@@ -29,7 +31,25 @@ var styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
         borderBottomWidth: 1,
         borderColor : "#e5e5e5"
+    },
+    logo : {
+        height: 50   
     }
+});
+
+var imageSizes ={
+    height: 50,
+    width: 200
+};
+
+var logo = React.createClass({
+  render: function() {
+    return <ResponsiveImage style={styles.logo} 
+                            source={{uri: 'http://sof.tokyo/wp-content/uploads/2015/06/logo.png'}} 
+                            initHeight={imageSizes.height}
+                            initWidth={imageSizes.width}
+            />;
+  }
 });
 
 class NavigatorService {
@@ -44,7 +64,8 @@ class NavigatorService {
             leftCorner: navigation.back,
             component : Pages.feed,
             rightCorner: toggle,
-            "headerStyle": styles.generalHeader
+            "headerStyle": styles.generalHeader,
+            titleComponent: logo
         };
 
         this.routerProxy = () => {

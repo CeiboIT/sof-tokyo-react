@@ -35,12 +35,7 @@ var styles = StyleSheet.create({
         justifyContent: "center"
     },
     commentText: {
-        flex: 1,
-        flexDirection: "column",
-        alignItems: "flex-start",
-        marginTop: -18,
-        marginLeft : 45,
-        color: '#999999'
+
     },
     cellBorder: {
         backgroundColor: "rgba(0, 0, 0, 0.2)",
