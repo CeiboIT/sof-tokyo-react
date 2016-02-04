@@ -25,7 +25,7 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         margin: 10,
-        width: windowSize.width * 0.4
+        width: windowSize.width * 0.55
     },
     contentTitle : {
         borderLeftWidth: 2,
@@ -49,7 +49,7 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:'flex-start',
-        width: windowSize.width * 0.5,
+        width: windowSize.width * 0.55,
         padding: 5
     },
     textContainer : {
@@ -135,7 +135,7 @@ var PostElement = React.createClass({
                 </View>
                 <NavigateToPost id={this.props.postData.id}/>
                 <View style={styles.contentTitle}>
-                    <Text style={styles.title}> { this.props.postData.title}</Text>
+                    <Text style={styles.title}> { this.props.postData.title }</Text>
                 </View>
                 <PostContentDisplayer content={this.props.postData.content}
                     removeHTMLTags={true} crop={30} style={styles.padding}

@@ -46,9 +46,11 @@ var styles = StyleSheet.create({
         width: 50
     },
     scrollView : {
+        flex: 1,
         backgroundColor: '#F7F7F7'
     },
     container : {
+        flex: 1,
         flexDirection: 'column',
         margin: 10,
     },
@@ -155,6 +157,17 @@ var styles = StyleSheet.create({
         fontWeight: "700",
         fontSize: 16
     },
+    button : {
+        borderColor: "#8a52ad",
+        borderWidth: 2,
+        paddingVertical: 5,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    buttonText : {
+        color: "#8a52ad"
+        
+    },
     grind : {
         alignSelf: 'flex-start'
     }
@@ -224,8 +237,8 @@ var PostView = React.createClass({
         var _commentForm = (
             <View>
                 <Form type={Comment} ref="form"/>
-                <TouchableHighlight onPress={this.addComment}>
-                    <Text>Add Comment</Text>
+                <TouchableHighlight onPress={this.addComment} style={styles.button}>
+                    <Text style={styles.buttonText}>Add Comment</Text>
                 </TouchableHighlight>
             </View>
         )

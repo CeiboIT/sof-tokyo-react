@@ -27,11 +27,7 @@ var styles = StyleSheet.create({
     },
     header: {
         backgroundColor: '#FFF'
-    },
-    text: {
-        color: '#FF0000'
     }
-
 });
 
 class sofTokyo extends React.Component{
