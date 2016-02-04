@@ -9,11 +9,16 @@ var api = require('../../utils/api/PostsApi');
 var PostElement = require('./PostElement');
 var GridView = require('react-native-grid-view');
 var PostsStream = require("../../services/Streams").getStream("Posts");
+var Carousel = require('react-native-carousel');
 var GiftedSpinner = require('react-native-gifted-spinner');
+var Dimensions = require('Dimensions');
+var screen = Dimensions.get('window');
 
 var {
     StyleSheet,
-    View
+    View,
+    Text,
+    Dimensions
 } = React;
 
 var styles = StyleSheet.create({
@@ -62,7 +67,15 @@ var styles = StyleSheet.create({
         backgroundColor: '#E3E3E3',
         alignItems: 'center',
         flexDirection: 'row'
-    }
+    },
+  carouselContainer: {
+    width: screen.width,
+    height: screen.height*0.25,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  }
 });
 // In the video there are a couple errors, fixed them so it would build.
 
@@ -91,14 +104,28 @@ var PostsList  = React.createClass({
     render(){
 
         var _grid = (
-            <GridView
-                items={this.state.dataSource}
-                itemsPerRow={2}
-                renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
-                style={{
-                    backgroundColor: '#F7F7F7'
-                }}
-            />)
+            <View>
+                <Carousel width={screen.width} delay={5000} hideIndicators={true}>
+                    <View style={styles.carouselContainer}>
+                        <Text>Page 1</Text>
+                    </View>
+                    <View style={styles.carouselContainer}>
+                        <Text>Page 2</Text>
+                    </View>
+                    <View style={styles.carouselContainer}>
+                        <Text>Page 3</Text>
+                    </View>
+                </Carousel>
+                <GridView
+                    items={this.state.dataSource}
+                    itemsPerRow={2}
+                    renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
+                    style={{
+                        backgroundColor: '#F7F7F7'
+                    }}
+                />
+            </View>
+            )
 
         var _loading = (
             <View style={{
