@@ -23,30 +23,30 @@ var styles = StyleSheet.create({
     commentContent: {
         padding: 10,
         flex: 1,
-        flexDirection: "column"
+        flexDirection: "column",
+        alignItems: "flex-start"
     },
     userName: {
         fontWeight: "bold"
     },
     commentBody: {
         flex: 1,
-        flexDirection: "column"
+        flexDirection: "column",
+        justifyContent: "center"
     },
     commentText: {
         flex: 1,
-        flexDirection: "column"
+        flexDirection: "column",
+        alignItems: "flex-start",
+        marginTop: -18,
+        marginLeft : 45,
+        color: '#999999'
     },
     cellBorder: {
         backgroundColor: "rgba(0, 0, 0, 0.2)",
         // Trick to get the thinest line the device can display
         height: 1 / PixelRatio.get(),
         marginLeft: 4,
-    },
-    avatar: {
-        borderRadius: 50,
-        width: 100,
-        height: 100,
-        marginRight: 10
     }
 });
 
@@ -55,14 +55,13 @@ var CommentItem = React.createClass({
         return {
             comments: []
         }
-    },
-    
+    },    
     render () {
         return(<View>
-            <TouchableHighlight underlayColor={"#f3f3f3"}>
+            <TouchableHighlight>
                 <View>
                     <View style={styles.commentContent}>
-                        <Avatar author={this.props.comment.author}/>
+                        <Avatar author={this.props.comment.author} size={'large'}/>
                         <View style={styles.commentBody}>
                             <Text style={styles.commentText}>
                                 <HTMLView
@@ -71,7 +70,6 @@ var CommentItem = React.createClass({
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.cellBorder} />
                 </View>
             </TouchableHighlight>
         </View>);

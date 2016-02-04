@@ -154,6 +154,9 @@ var styles = StyleSheet.create({
     heading: {
         fontWeight: "700",
         fontSize: 16
+    },
+    grind : {
+        alignSelf: 'flex-start'
     }
 });
 
@@ -232,6 +235,7 @@ var PostView = React.createClass({
         var _renderComments;
         if(this.state.data && this.state.data.comments && this.state.data.comments.length){
             _renderComments = <GridView
+                style={styles.grind}
                 items={this.state.data.comments}
                 itemsPerRow={1}
                 renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>

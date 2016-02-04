@@ -20,6 +20,12 @@ var styles = StyleSheet.create({
         borderRadius: 50,
         alignSelf: 'flex-end'
     },
+    imageLarge: {
+        height: 40,
+        width: 40,
+        borderRadius: 50,
+        alignSelf: 'flex-end'
+    },
     avatarContainer: {
         flex: 1,
         flexDirection: "row"
@@ -28,6 +34,11 @@ var styles = StyleSheet.create({
         marginVertical : 3,
         marginLeft: 5,
         color: '#b3b3b3'
+    },
+    avatarNameLarge : {
+        marginLeft: 5,
+        color: '#b3b3b3',
+        fontWeight : 'bold'
     }
 
 });
@@ -53,8 +64,8 @@ var Avatar = React.createClass({
         return (
             <TouchableHighlight onPress={this.navigateToAuthor}>
                 <View style={styles.avatarContainer}>
-                    <Image  style={styles.image} source={{uri: _photo }} />
-                    <Text style={styles.avatarName}>
+                    <Image style={(this.props.size === 'large') ? styles.imageLarge : styles.image} source={{uri: _photo }} />
+                    <Text style={(this.props.size === 'large') ? styles.avatarNameLarge : styles.avatarName}>
                         {this.props.author['name']}
                     </Text>
                 </View>
@@ -65,6 +76,7 @@ var Avatar = React.createClass({
 });
 
 Avatar.propTypes = {
-    author: React.PropTypes.object
+    author: React.PropTypes.object,
+    size: React.PropTypes.string
 };
 module.exports = Avatar;
