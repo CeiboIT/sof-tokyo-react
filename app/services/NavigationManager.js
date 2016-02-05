@@ -98,7 +98,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         component : Pages.feed,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
                 case('search'):
@@ -106,7 +107,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.search,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     });
                 break;
                 case('post'):
@@ -115,7 +117,8 @@ class NavigatorService {
                         "component": Pages.post,
                         "passProps": route.params,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     });
                 break;
                 case('searchResults'):
@@ -124,7 +127,8 @@ class NavigatorService {
                         "component": Pages.searchResults,
                         "passProps": route.params,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     });
                 break;
                 case('profile'):
@@ -133,7 +137,8 @@ class NavigatorService {
                         "component" : Pages.profile,
                         "rightCorner": toggle,
                         "passProps": route.params,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     });
                 break;
                 case('schools'):
@@ -141,7 +146,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.schools,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
                 case('schoolProfile'):
@@ -151,7 +157,8 @@ class NavigatorService {
                         "component": Pages.schoolProfile,
                         "rightCorner": toggle,
                         "passProps": route.params,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
                 case('aboutSof'):
@@ -159,7 +166,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.about,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
                 case('schoolsCheckout'):
@@ -168,7 +176,8 @@ class NavigatorService {
                         "component": Pages.schoolBooksCheckout,
                         rightCorner: toggle,
                         "passProps": route.params,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
             }

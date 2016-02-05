@@ -4,11 +4,14 @@
 
 
 var React = require('react-native');
-var api = require('../../utils/api/PostsApi');
+var apiPosts = require('../../utils/api/PostsApi');
+var apiBanners = require('../../utils/api/BannersApi');
 
 var PostElement = require('./PostElement');
+var BannerElement = require('../banners/BannerElement');
 var GridView = require('react-native-grid-view');
 var PostsStream = require("../../services/Streams").getStream("Posts");
+var BannersStream = require("../../services/Streams").getStream("Banners");
 var Carousel = require('react-native-carousel');
 var GiftedSpinner = require('react-native-gifted-spinner');
 var Dimensions = require('Dimensions');
@@ -18,7 +21,9 @@ var {
     StyleSheet,
     View,
     Text,
-    Dimensions
+    Dimensions,
+    ScrollView,
+    ListView
 } = React;
 
 var styles = StyleSheet.create({
@@ -68,14 +73,14 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row'
     },
-  carouselContainer: {
-    width: screen.width,
-    height: screen.height*0.25,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  }
+    carouselContainer: {
+        width: screen.width,
+        height: screen.height*0.25,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+    }
 });
 // In the video there are a couple errors, fixed them so it would build.
 
@@ -85,6 +90,7 @@ var PostsList  = React.createClass({
     getInitialState() {
         return {
             dataSource: [],
+            test: [],
             note: '',
             error: '',
             page: 1,
@@ -93,10 +99,16 @@ var PostsList  = React.createClass({
     },
 
     componentDidMount() {
-        api.LoadPosts(this.page)
+        apiPosts.LoadPosts(this.page)
         PostsStream.subscribe((response) => {
             this.setState({
                 dataSource: response['posts']
+            });
+        });
+        apiBanners.LoadBanners(this.page)
+        BannersStream.subscribe((response) => {
+            this.setState({
+                banners: response['banners']
             });
         });
     },
@@ -104,27 +116,21 @@ var PostsList  = React.createClass({
     render(){
 
         var _grid = (
-            <View>
-                <Carousel width={screen.width} delay={5000} hideIndicators={true}>
-                    <View style={styles.carouselContainer}>
-                        <Text>Page 1</Text>
-                    </View>
-                    <View style={styles.carouselContainer}>
-                        <Text>Page 2</Text>
-                    </View>
-                    <View style={styles.carouselContainer}>
-                        <Text>Page 3</Text>
-                    </View>
-                </Carousel>
-                <GridView
-                    items={this.state.dataSource}
-                    itemsPerRow={2}
-                    renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
-                    style={{
-                        backgroundColor: '#F7F7F7'
-                    }}
-                />
-            </View>
+            <ScrollView>
+                <View>
+                    <Carousel width={screen.width}>
+                        <BannerElement bannerData={ this.state.banners } />
+                    </Carousel>
+                    <GridView
+                        items={this.state.dataSource}
+                        itemsPerRow={2}
+                        renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
+                        style={{
+                            backgroundColor: '#F7F7F7'
+                        }}
+                    />
+                </View>
+            </ScrollView>
             )
 
         var _loading = (
@@ -138,7 +144,7 @@ var PostsList  = React.createClass({
             </View>
         )
 
-        var _render = (this.state.dataSource && this.state.dataSource.length) ? _grid : _loading
+        var _render = (this.state.dataSource && this.state.dataSource.length && this.state.banners && this.state.banners.length) ? _grid : _loading
         return _render
     }
 })

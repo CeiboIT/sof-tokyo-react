@@ -10,6 +10,7 @@
     "fbemitter": "^2.0.1",
     "gb-native-router": "^0.6.0",
     "react-native": "^0.17.0",
+    "react-native-carousel": "^0.4.4",
     "react-native-drawer": "^1.10.2",
     "react-native-gifted-spinner": "0.0.3",
     "react-native-grid-view": "^0.3.7",
