@@ -15,6 +15,9 @@ import com.facebook.soloader.SoLoader;
 
 import com.onesignal.OneSignal;
 
+import com.remobile.splashscreen.*;
+
+
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
@@ -30,6 +33,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setBundleAssetName("index.android.bundle")
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
+                .addPackage(new RCTSplashScreenPackage(this))
                 .addPackage(new ReactNativeI18n())
                 .addPackage(new VectorIconsPackage())
                 .setUseDeveloperSupport(BuildConfig.DEBUG)

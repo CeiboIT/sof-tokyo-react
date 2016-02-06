@@ -15,6 +15,8 @@ var firstRoute = require("./app/services/NavigationManager").getFirstRoute();
 var Drawer = require('react-native-drawer');
 var Router = require('gb-native-router');
 
+var SplashScreen = require('@remobile/react-native-splashscreen');
+
 var {
     AppRegistry,
     StyleSheet
@@ -34,6 +36,10 @@ class sofTokyo extends React.Component{
 
     constructor(props){
         super(props);
+    }
+
+    componentDidMount() {
+        SplashScreen.hide();
     }
 
     subscribe() {
