@@ -154,7 +154,6 @@ var styles = StyleSheet.create({
         fontSize: 20
     },
 
-
     facebookText: {
         color:"#FFF",
         fontSize: 25
@@ -228,9 +227,7 @@ var Login  = React.createClass({
             <View style={styles.Search}>
                 <View style={styles.facebookContainer}>
                     <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
-                        <Text>
-                            { I18n.t('loginWithFacebook') }
-                        </Text>
+                        { I18n.t('loginWithFacebook') }
                     </Button>
                 </View>
                 <Form ref="form" type={UserCredentials}/>

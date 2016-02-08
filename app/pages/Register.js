@@ -8,12 +8,11 @@ var Dimensions= require('Dimensions');
 var windowsSize = Dimensions.get('window');
 
 import Button from 'apsl-react-native-button'
+//import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 var api =require("../utils/api/UserApi");
 
-
-
-var t = require('tcomb-form-native');
+//var t = require('tcomb-form-native');
 
 var I18nService = require('../i18n');
 
@@ -21,13 +20,15 @@ I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
         'registerUsername': 'ユーザー名 (必須)',
         'registerMail': 'メールアドレス (必須)',
-        'registerDisplayName': '表示ユーザー名	(必須)',
+        'registerDisplayName': '表示ユーザー名	(必須)'
     }
 );
 
 var I18n = I18nService.getTranslations();
 
 var {
+    TextInput,
+    Picker,
     View,
     Text,
     StyleSheet
@@ -61,7 +62,7 @@ var styles = {
     },
     buttonText: {
         fontSize: 18,
-        color: '#111',
+        //color: '#111',
         alignSelf: 'center'
     },
     button: {
@@ -156,24 +157,38 @@ var styles = StyleSheet.create({
         fontSize: 25
     }
 });
+var Form = require('react-native-form');
 
-var Form = t.form.Form;
+//var Form = t.form.Form;
 
-var UserCredentials = t.struct({
-    username: t.String,
-    email: t.String,
-    displayName: t.String
-});
+//const Regions = t.enums({
+//    Japan: 'Japan',
+//    US: 'US',
+//    Europe: 'Europe',
+//    Other: 'Other'
+//}, 'Region');
 
-var options = {
+var affiliations = [{ value: 'A', text: 'A' }, { value: 'B', text: 'B' }];
+//
+//const formOptions = {
+//    fields: {
+//        affiliation: {
+//            options: affiliations
+//        }
+//    }
+//};
 
+//var UserCredentials = t.struct({
+//    username: t.String,
+//    email: t.String,
+//    displayName: t.String,
+//    password: t.String,
+//    age: t.Number,
+//    affiliation: t.String
+//});
 
-};
-
-var username = {
-
-};
 var Register  = React.createClass({
+
     loginWithFacebook() {
         FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
             if (!error) {
@@ -201,37 +216,54 @@ var Register  = React.createClass({
 
     render() {
         return(
-            <View style={styles.Search}>
-                <View style={styles.facebookContainer}>
-                    <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
-                        <Text>
+                <View style={styles.Search}>
+                    <View style={styles.facebookContainer}>
+                        <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
                             { I18n.t('registerWithFacebook') }
+                        </Button>
+                    </View>
+                    <Form ref="form">
+                        <TextInput name="username" placeholder="Username"/>
+                        <TextInput name="email" placeholder="Email"/>
+                        <TextInput name="displayName" placeholder="Display name"/>
+                        <TextInput name="password" placeholder="Password"/>
+                        <TextInput name="age" placeholder="Age"/>
+                        <Picker
+                            selectedValue={this.state.language}
+                            onValueChange={(lang) => this.setState({language: lang})}>
+
+                                <Picker.Item label="1" value="1" />
+                        </Picker>
+                    </Form>
+
+                    <View style={styles.loginButtonContainer}>
+                        <Button style={styles.loginButton} textStyle={styles.loginText}
+                                onPress={this.register}>
+                            { I18n.t('register')}
+                        </Button>
+                    </View>
+                    <View style={styles.loginButtonContainer}>
+                        <Text>
+                            か
                         </Text>
-                    </Button>
-                </View>
-                <Form ref="form" type={UserCredentials}/>
+                    </View>
+                    <View style={styles.loginButtonContainer}>
+                        <Button style={styles.registerButton} textStyle={styles.registerText}
+                                onPress={this.login}>
+                            { I18n.t('login')}
+                        </Button>
+                    </View>
 
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.loginButton} textStyle={styles.loginText}
-                            onPress={this.register}>
-                        { I18n.t('register')}
-                    </Button>
                 </View>
-                <View style={styles.loginButtonContainer}>
-                    <Text>
-                        か
-                    </Text>
-                </View>
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.registerButton} textStyle={styles.registerText}
-                            onPress={this.login}>
-                        { I18n.t('login')}
-                    </Button>
-                </View>
-
-            </View>
         );
     }
 });
 
 module.exports = Register;
+
+/* <TextInput name="email" />,
+ <TextInput name="displayName" />,
+ <TextInput name="password" />,
+ <TextInput name="age" />,
+ <TextInput name="affiliation" />
+ */

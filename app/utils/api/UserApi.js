@@ -73,6 +73,7 @@ var api = {
         return new Promise((reject, resolve) => {
             fetch(apiConsts.apiEndpoint + 'auth/nonce/user/register')
                 .then((nonce) => {
+                    console.warn('registerNewUser > nonce' , JSON.stringify(nonce));
                     var _nonce = JSON.parse(nonce._bodyInit).nonce
                     fetch(apiConsts.apiEndpoint +'auth/register', {
                         method: 'POST',
@@ -87,17 +88,18 @@ var api = {
                             display_name: userData.displayName
                         })
                     })
-                        .then(result => {
-                            var _result = JSON.parse(result._bodyInit);
-                            if(_result.status !='error') {
-                                resolve(_result)
-                            } else {
-                                reject(_result);
-                            }
-                        })
-                        .catch((error) => {
-                            reject(error);
-                        })
+                    .then(result => {
+                        var _result = JSON.parse(result._bodyInit);
+                        if(_result.status !='error') {
+                            resolve(_result)
+                        } else {
+                            reject(_result);
+                        }
+                    })
+                    .catch((error) => {
+                        console.warn('registerNewUser > error' , JSON.stringify(error));
+                        reject(error);
+                    })
 
                 })
 

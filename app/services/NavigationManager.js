@@ -145,7 +145,7 @@ class NavigatorService {
                     })
                 break;
                 case('schoolProfile'):
-                    console.warn(route.params.school.value);
+                    //console.warn(route.params.school.value);
                     this.manager.toRoute({
                         "leftCorner": navigation.back,
                         "component": Pages.schoolProfile,
