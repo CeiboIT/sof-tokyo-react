@@ -15,8 +15,16 @@ var {
     ScrollView,
     View,
     StyleSheet,
-    TouchableHighlight
+    TouchableHighlight,
+    Text
     } = React;
+
+var styles = StyleSheet.create({
+    groupText : {
+        color: 'red'
+    }
+});
+
 var ChildCategory = React.createClass({
    render(){
        return(
@@ -25,7 +33,12 @@ var ChildCategory = React.createClass({
             </TouchableHighlight>
        )
    }
-})
+});
+
+ChildCategory.propTypes = {
+    onSelect: React.PropTypes.any,
+    children: React.PropTypes.object
+};
 
 var CategoryElement = React.createClass({
     navigateToCategory(rowData) {
@@ -35,7 +48,7 @@ var CategoryElement = React.createClass({
     render() {
         return (
             <View>
-                <Text> {this.props.subcategory['trad']}</Text>
+                <Text style={styles.groupText}> {this.props.subcategory['trad']}</Text>
                 <GridView
                     items={this.props.subcategory['childs']}
                     renderItem={(rowData) =>
