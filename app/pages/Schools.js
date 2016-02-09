@@ -15,18 +15,38 @@ var GiftedSpinner = require('react-native-gifted-spinner');
 var {
     StyleSheet,
     View,
+    ScrollView,
     Text,
     TouchableHighlight
     } = React;
 
-
+var styles = StyleSheet.create({
+    scrollView : {
+        backgroundColor: '#F7F7F7'
+    },
+    container : {
+        flexDirection: 'column',
+        backgroundColor: '#FFFFFF',
+        margin: 10,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
+    },
+    title : {
+        fontWeight : 'bold',
+        margin : 10
+    },
+    items : {
+        padding : 5
+    }
+});
 
 var SchoolElement = React.createClass({
     render() {
         return(
             <View>
                 <TouchableHighlight onPress={this.props.onSelect}>
-                    <Text >{this.props.school.value}</Text>
+                    <Text style={styles.items}>{this.props.school.value}</Text>
                 </TouchableHighlight>
             </View>
         )
@@ -66,23 +86,25 @@ var Schools = React.createClass({
     render(){
         if(!this.state.schools.length) return (<GiftedSpinner/>)
         return(
-            <View>
-                <TouchableHighlight onPress={this.navigateToCheckout}>
-                    <Text>
-                        Request Books
-                    </Text>
-                </TouchableHighlight>
+            <ScrollView style={styles.scrollView}>
+                <View style={styles.container}>
+                    <TouchableHighlight onPress={this.navigateToCheckout}>
+                        <Text style={styles.title}>
+                            Request Books
+                        </Text>
+                    </TouchableHighlight>
 
-                <GridView
-                    items={this.state.schools}
-                    itemsPerRow={1}
-                    renderItem={(rowData) => <SchoolElement
-                        onSelect={() => this.selectSchool(rowData)}
-                        key={rowData.value}
-                        school={rowData} /> }
-
-                />
-            </View>
+                    <GridView
+                        style={styles.test}
+                        items={this.state.schools}
+                        itemsPerRow={1}
+                        renderItem={(rowData) => <SchoolElement
+                            onSelect={() => this.selectSchool(rowData)}
+                            key={rowData.value}
+                            school={rowData} /> }
+                    />
+                </View>
+            </ScrollView>
         )
     }
 });

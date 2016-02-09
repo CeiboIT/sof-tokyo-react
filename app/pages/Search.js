@@ -45,16 +45,16 @@ var styles = {
     },
     buttonText: {
         fontSize: 18,
-        color: '#111',
+        color: '#8a52ad',
         alignSelf: 'center'
     },
     button: {
         height: 45,
         flexDirection: 'row',
         backgroundColor: 'white',
-        borderColor: 'grey',
-        borderWidth: 1,
-        borderRadius: 8,
+        borderColor: '#8a52ad',
+        borderWidth: 2,
+        borderRadius: 0,
         marginBottom: 10,
         marginTop: 10,
         alignSelf: 'stretch',
@@ -95,7 +95,7 @@ var Search =  React.createClass({
                     ref="form"
                     type={SearchForm}
                 />
-                <Button style={styles.button} textStyle={styles.loginText}
+                <Button style={styles.button} textStyle={styles.buttonText}
                         onPress={this.handleSubmit}>
                     { I18n.t('search')}
                 </Button>

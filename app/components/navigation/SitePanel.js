@@ -23,12 +23,16 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
     container: {
         flex: 1,
         flexDirection: 'column',
     },
-
+    close : {
+        margin: 10
+    },
+    button : {
+      padding: 5
+    },
     login: {
         borderColor: '#00b9f7',
         backgroundColor: 'transparent',
@@ -103,8 +107,8 @@ var SitePanel = React.createClass ({
             <View style={styles.container}>
 
                 <View>
-                    <TouchableHighlight onPress={this.closeSidePanel}>
-                        <Text>X</Text>
+                    <TouchableHighlight style={styles.close} onPress={this.closeSidePanel}>
+                        <Text><Icon name="times" size={18}/></Text>
                     </TouchableHighlight>
                 </View>
 

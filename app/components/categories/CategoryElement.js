@@ -11,22 +11,18 @@
 
 var React = require("react-native");
 var GridView = require("react-native-grid-view");
-
-
 var {
     ScrollView,
     View,
     StyleSheet,
     TouchableHighlight
     } = React;
-
 var ChildCategory = React.createClass({
    render(){
        return(
             <TouchableHighlight onPress={this.props.onSelect}>
                 <Text>{this.props.children['trad']}</Text>
             </TouchableHighlight>
-
        )
    }
 })

@@ -19,6 +19,7 @@ var Rx = require("rx");
 var PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer");
 var Avatar = require("../components/user/Avatar");
 var CommentItem = require("../components/posts/helpers/CommentItem");
+var HTMLView = require('react-native-htmlview');
 
 var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
@@ -44,9 +45,23 @@ var styles = StyleSheet.create({
         marginTop: 20,
         width: 50
     },
+    scrollView : {
+        flex: 1,
+        backgroundColor: '#F7F7F7'
+    },
     container : {
+        flex: 1,
+        flexDirection: 'column',
         margin: 10,
-        flexDirection: 'column'
+    },
+    section : {
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
+    },
+    author : {
+      margin: 10
     },
     postImageContainer : {
         justifyContent: 'center',
@@ -141,6 +156,20 @@ var styles = StyleSheet.create({
     heading: {
         fontWeight: "700",
         fontSize: 16
+    },
+    button : {
+        borderColor: "#8a52ad",
+        borderWidth: 2,
+        paddingVertical: 5,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    buttonText : {
+        color: "#8a52ad"
+
+    },
+    grind : {
+        alignSelf: 'flex-start'
     }
 });
 
@@ -208,8 +237,8 @@ var PostView = React.createClass({
         var _commentForm = (
             <View>
                 <Form type={Comment} ref="form"/>
-                <TouchableHighlight onPress={this.addComment}>
-                    <Text>Add Comment</Text>
+                <TouchableHighlight onPress={this.addComment} style={styles.button}>
+                    <Text style={styles.buttonText}>Add Comment</Text>
                 </TouchableHighlight>
             </View>
         )
@@ -219,6 +248,7 @@ var PostView = React.createClass({
         var _renderComments;
         if(this.state.data && this.state.data.comments && this.state.data.comments.length){
             _renderComments = <GridView
+                style={styles.grind}
                 items={this.state.data.comments}
                 itemsPerRow={1}
                 renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
@@ -226,13 +256,14 @@ var PostView = React.createClass({
             />
         }
         var _postView = (
-            <ScrollView>
+            <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                    <View style={styles.postImageContainer}>
-                        <ResponsiveImage source={{uri: _photo}}
-                                     initWidth={imageSizes.width}
-                                     initHeight={imageSizes.height}/>
-                    </View>
+                    <View style={styles.section}>
+                        <View style={styles.postImageContainer}>
+                            <ResponsiveImage source={{uri: _photo}}
+                                        initWidth={imageSizes.width}
+                                        initHeight={imageSizes.height}/>
+                        </View>
                     <PostContentDisplayer content={this.state.data.content}
                                           removeHTMLTags={true}
                                           views={true}
@@ -240,6 +271,14 @@ var PostView = React.createClass({
                     <Avatar author={this.state.data.author}/>
                     { _renderComments }
                     { _renderForm }
+                    </View>
+                    <View style={styles.author}>
+                        <Avatar author={this.state.data.author}/>
+                    </View>
+                    <View style={styles.section}>
+                        { _renderComments }
+                        { _commentForm }
+                    </View>
                 </View>
             </ScrollView>)
         return _postView;
