@@ -4,7 +4,8 @@
 
 
 var React = require('react-native');
-var Icon = require('react-native-vector-icons/EvilIcons');
+// var Icon = require('react-native-vector-icons/EvilIcons');
+var Icon = require('react-native-vector-icons/FontAwesome');
 var api = require('../../../utils/api/PostApi')
 
 var {
@@ -16,8 +17,14 @@ var {
 
 var styles = StyleSheet.create({
     postLikeContainer: {
-        flex: 1,
-        flexDirection: 'row'
+        flex:1,
+        flexDirection:'row',
+        // justifyContent: 'flex-start'
+    },
+    likeText : {
+        flex:1,
+        flexDirection:'row',
+        justifyContent: 'flex-start'  
     }
 })
 
@@ -31,10 +38,12 @@ var PostLike = React.createClass({
     },
     render() {
       return (
-          <View>
+          <View style={styles.postLikeContainer}>
               <TouchableHighlight onPress={this.LikePost}>
-                  <View style={styles.postLikeContainer}>
-                      <Icon name="like" size={30}>0</Icon>
+                  <View>
+                    <Text style={styles.likeText}>
+                      <Icon name="heart-o" size={18} color="#bbbbbb"/> 0
+                    </Text>
                   </View>
               </TouchableHighlight>
           </View>

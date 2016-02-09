@@ -4,7 +4,10 @@
 
 export const apiConsts = {
     main: 'https://sof-tokyo-node-server.herokuapp.com/',
-    apiEndpoint: 'https://sof-tokyo-node-server.herokuapp.com/api/'
+    apiEndpoint: 'https://sof-tokyo-node-server.herokuapp.com/api/',
+    ownerEmail: 'epotignano@gmail.com'
 };
+
+
 
 

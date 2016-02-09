@@ -6,21 +6,50 @@ var Rx = require('rx');
 var React = require('react-native');
 var Pages = require('../pages/Pages.d');
 var Login = require('../pages/Login');
-
+var ResponsiveImage = require('react-native-responsive-image');
 var storage = require('./Storage').getInstance();
 
 var toggle = require('../components/actions/ToggleMenu');
 var navigation = require('../components/navigation/Navigation.d');
 var {
-    StyleSheet
+    View,
+    StyleSheet,
+    Text,
+    Image
 } = React;
 
 import { api } from "../utils/api/Api.d";
 
 var styles = StyleSheet.create({
     facebookHeader : {
-        backgroundColor: "#2A406B"
+        backgroundColor: "#2A406B",
+        color: "#FFFFFF",
+        borderBottomWidth: 1,
+        borderColor : "#2A406B"
+    },
+    generalHeader : {
+        backgroundColor: "#FFFFFF",
+        borderBottomWidth: 1,
+        borderColor : "#e5e5e5"
+    },
+    logo : {
+        height: 50   
     }
+});
+
+var imageSizes ={
+    height: 50,
+    width: 200
+};
+
+var logo = React.createClass({
+  render: function() {
+    return <ResponsiveImage style={styles.logo} 
+                            source={{uri: 'http://sof.tokyo/wp-content/uploads/2015/06/logo.png'}} 
+                            initHeight={imageSizes.height}
+                            initWidth={imageSizes.width}
+            />;
+  }
 });
 
 class NavigatorService {
@@ -34,11 +63,12 @@ class NavigatorService {
         this.startRoute = {
             leftCorner: navigation.back,
             component : Pages.feed,
-            rightCorner: toggle
+            rightCorner: toggle,
+            "headerStyle": styles.generalHeader,
+            titleComponent: logo
         };
 
         this.routerProxy = () => {
-            console.warn(Object.keys(arguments));
             this.NavigationSubject.onNext.apply(this, arguments);
         };
 
@@ -67,14 +97,16 @@ class NavigatorService {
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         component : Pages.feed,
-                        rightCorner: toggle
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
                     })
                 break;
                 case('search'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.search,
-                        "headerStyle": toggle
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
                     });
                 break;
                 case('post'):
@@ -82,7 +114,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.post,
                         "passProps": route.params,
-                        rightCorner: toggle
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
                     });
                 break;
                 case('searchResults'):
@@ -90,7 +123,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.searchResults,
                         "passProps": route.params,
-                        rightCorner: toggle
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
                     });
                 break;
                 case('profile'):
@@ -98,27 +132,48 @@ class NavigatorService {
                         "leftCorner": navigation.back,
                         "component" : Pages.profile,
                         "rightCorner": toggle,
-                        "passProps": route.params
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader
                     });
                 break;
                 case('schools'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.schools,
-                        rightCorner: toggle
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
+                    })
+                break;
+                case('schoolProfile'):
+                    console.warn(route.params.school.value);
+                    this.manager.toRoute({
+                        "leftCorner": navigation.back,
+                        "component": Pages.schoolProfile,
+                        "rightCorner": toggle,
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader
                     })
                 break;
                 case('aboutSof'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.about,
-                        rightCorner: toggle
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader
+                    })
+                break;
+                case('schoolsCheckout'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.schoolBooksCheckout,
+                        rightCorner: toggle,
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader
                     })
                 break;
             }
         });
     };
-
 
     getFirstRoute() {
         api.posts.LoadPosts(1);
