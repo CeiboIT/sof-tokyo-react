@@ -9,13 +9,18 @@ var ResponsiveImage = require('react-native-responsive-image');
 var PostStream = require("../services/Streams").getStream("Post");
 var Storage = require("../services/Storage").getInstance();
 var api = require("../utils/api/PostApi");
+var UserApi = require("../utils/api/UserApi");
 var GiftedSpinner = require('react-native-gifted-spinner');
 var GridView = require('react-native-grid-view');
+
+var t = require("tcomb-form-native");
+var Rx = require("rx");
 
 var PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer");
 var Avatar = require("../components/user/Avatar");
 var CommentItem = require("../components/posts/helpers/CommentItem");
-var CommentInput = require("../components/posts/helpers/CommentInput")
+var HTMLView = require('react-native-htmlview');
+
 var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
 
@@ -25,25 +30,49 @@ var {
     StyleSheet,
     Text,
     View,
-    Dimensions
+    Dimensions,
+    TouchableHighlight
     } = React;
+
+var Comment = t.struct({
+    comment: t.String
+})
+
+var Form = t.form.Form;
 
 var styles = StyleSheet.create({
     spinner: {
         marginTop: 20,
         width: 50
     },
-
-    postImage: {
-        flex:1,
-        flexDirection: 'row',
-        alignItems: 'center'
+    scrollView : {
+        flex: 1,
+        backgroundColor: '#F7F7F7'
     },
-    a: {
+    container : {
+        flex: 1,
+        flexDirection: 'column',
+        margin: 10,
+    },
+    section : {
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
+    },
+    author : {
+      margin: 10
+    },
+    postImageContainer : {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10
+    },
+    a : {
         fontWeight: "300",
         color: "#ea4c89"
     },
-    p: {
+    p : {
         marginBottom: 0,
         flexDirection: "row",
         marginTop: 0,
@@ -127,13 +156,27 @@ var styles = StyleSheet.create({
     heading: {
         fontWeight: "700",
         fontSize: 16
+    },
+    button : {
+        borderColor: "#8a52ad",
+        borderWidth: 2,
+        paddingVertical: 5,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    buttonText : {
+        color: "#8a52ad"
+
+    },
+    grind : {
+        alignSelf: 'flex-start'
     }
 });
 
 
 var imageSizes ={
-    width: windowSize.width * 0.45,
-    height: windowSize.height * 0.6
+    width: windowSize.width * 0.55,
+    height: windowSize.height * 0.7
 };
 
 var PostId;
@@ -143,27 +186,47 @@ var PostView = React.createClass({
     getInitialState() {
         return {
             post: {},
-            isLoading:true
+            isLoading:true,
+            isLoggedIn: false,
+            data: {},
+            commentStream: new Rx.Subject()
         }
     },
 
     componentDidMount(){
+        UserApi.isAuthorized().then((result) => {
+            this.setState({
+                isLoggedIn: result['valid']
+            })
+        });
+
         Storage.load({
             key:'UserId'
         }).then(ret => {
             api.RetrievePost(PostId, ret.data)
         })
+        .catch(() => {
+            api.RetrievePost(PostId)
+        })
 
         PostStream.subscribe((data => {
-            if(data['type']!= 'comment') {
-                this.setState({
-                    isLoading: false,
-                    data: data['post']
-                })
-            } else {
-                console.warn(data)
-            }
+            this.setState({
+                isLoading: false,
+                data: data['post']
+            })
         }))
+
+        this.state.commentStream.subscribe((result)  => {
+            if(result.data.status == 'ok') {
+                api.RetrievePost(PostId)
+            }
+        })
+
+    },
+
+    addComment() {
+        var _comment = this.refs.form.getValue();
+        api.sendComment(_comment.comment, this.props.id, this.state.commentStream)
     },
 
     render() {
@@ -171,25 +234,51 @@ var PostView = React.createClass({
         PostId = this.props.id;
 
         if(this.state.isLoading) return (<GiftedSpinner/>) ;
+        var _commentForm = (
+            <View>
+                <Form type={Comment} ref="form"/>
+                <TouchableHighlight onPress={this.addComment} style={styles.button}>
+                    <Text style={styles.buttonText}>Add Comment</Text>
+                </TouchableHighlight>
+            </View>
+        )
 
+        var _renderForm = (this.state.isLoggedIn) ? _commentForm : <Text>Log in for comment</Text>
+
+        var _renderComments;
+        if(this.state.data && this.state.data.comments && this.state.data.comments.length){
+            _renderComments = <GridView
+                style={styles.grind}
+                items={this.state.data.comments}
+                itemsPerRow={1}
+                renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
+                        }
+            />
+        }
         var _postView = (
-            <ScrollView style={styles.container}>
-                <View>
-                    <ResponsiveImage style={styles.image} source={{uri: _photo}}
-                                     initWidth={imageSizes.width}
-                                     initHeight={imageSizes.height}/>
-
+            <ScrollView style={styles.scrollView}>
+                <View style={styles.container}>
+                    <View style={styles.section}>
+                        <View style={styles.postImageContainer}>
+                            <ResponsiveImage source={{uri: _photo}}
+                                        initWidth={imageSizes.width}
+                                        initHeight={imageSizes.height}/>
+                        </View>
                     <PostContentDisplayer content={this.state.data.content}
                                           removeHTMLTags={true}
+                                          views={true}
                     />
                     <Avatar author={this.state.data.author}/>
-                    <GridView
-                        items={this.state.data.comments}
-                        itemsPerRow={1}
-                        renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
-                        }
-                    />
-                    <CommentInput id={this.state.data.id} subject={PostStream}/>
+                    { _renderComments }
+                    { _renderForm }
+                    </View>
+                    <View style={styles.author}>
+                        <Avatar author={this.state.data.author}/>
+                    </View>
+                    <View style={styles.section}>
+                        { _renderComments }
+                        { _commentForm }
+                    </View>
                 </View>
             </ScrollView>)
         return _postView;

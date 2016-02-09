@@ -6,6 +6,7 @@ var React = require('react-native');
 var Icon = require('react-native-vector-icons/EvilIcons');
 var FaIcon = require('react-native-vector-icons/FontAwesome');
 var storage = require("../../services/Storage").getInstance();
+var user = require("../../utils/api/UserApi");
 
 var I18nService = require('../../i18n');
 
@@ -29,7 +30,10 @@ var {
 
 var styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FFF'
+        backgroundColor: "#FFFFFF",
+        borderTopWidth: 1,
+        borderColor : "#e5e5e5",
+        padding: 5
     },
 
     buttonContentContainer : {
@@ -41,9 +45,12 @@ var styles = StyleSheet.create({
 
     icon: {
         alignItems:'center',
-        flex:1
+        flex:1,
+        color: '#8799A3'
     },
-
+    activeIcon : {
+        color: '#0000FF'
+    },
     list: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -66,7 +73,7 @@ class FooterButton extends React.Component {
         return (
             <TouchableHighlight onPress={this.props.data.action}>
                 <View style={styles.buttonContentContainer}>
-                    <Text>
+                    <Text style={styles.icon}>
                         { this.props.data.itemLabel }
                     </Text>
                 </View>
@@ -113,43 +120,52 @@ class FooterNav extends React.Component {
                     }
                 },
                 {
-                    itemLabel: <Icon name="search" size={35}></Icon>,
+                    itemLabel: <Icon name="search" size={35} style={styles.icon}></Icon>,
                     action: () => {
-                        console.warn('HEre');
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
                 {
-                    itemLabel: <Icon name="star" size={35}></Icon>,
+                    itemLabel: <Icon name="star" size={35} style={styles.icon}></Icon>,
                     action: () => {
-                        this.NavigationSubject.onNext({path: 'schools'})
+                        this.NavigationSubject.onNext({path: 'newPosts'})
                     }
                 },
 
                 {
-                    itemLabel: <Icon name="bell" size={35}></Icon>,
+                    itemLabel: <Icon name="bell" size={35} style={styles.icon}></Icon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'news'})
                     }
                 },
                 {
-                    itemLabel: <Icon name="trophy" size={35}></Icon>,
+                    itemLabel: <Icon name="trophy" size={35} style={styles.icon}></Icon>,
                     action: () => {
-                        this.NavigationSubject.onNext({path: 'best'})
+                        this.NavigationSubject.onNext({path: 'ranking'})
                     }
                 },
 
 
                 {
-                    itemLabel : <Icon name="user" size={35}></Icon>,
+                    itemLabel : <Icon name="user" size={35} style={styles.icon}></Icon>,
                     action: () => {
-                        storage.load({
-                            key: 'UserId'
-                        }).then( ret => {
-                            this.NavigationSubject.onNext({'path': 'profile', id: 'me'})
-                        }).catch((err)=> {
+                        user.isAuthorized()
+                            .then((data) => {
+                                if(!data.valid) {
+                                    this.NavigationSubject.onNext({'path': 'login'})
+                                }else {
+                                    storage.load({key: 'UserId'})
+                                        .then((data) => {
+                                            this.NavigationSubject.onNext({'path': 'profile', params: {
+                                                id: data.data,
+                                                owner:true} })
+                                        })
+                                }
+                            }).catch((error) => {
+                            console.warn(JSON.stringify(error));
                             this.NavigationSubject.onNext({'path': 'login'})
-                        });
+                        })
+
                     }
 
                 }

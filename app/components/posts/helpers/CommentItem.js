@@ -17,16 +17,17 @@ var Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
 
 var Avatar = require('../../user/Avatar');
+var HTMLView = require('react-native-htmlview');
 
 var styles = StyleSheet.create({
     commentContent: {
         padding: 10,
         flex: 1,
-        flexDirection: "row",
+        flexDirection: "column",
         alignItems: "flex-start"
     },
     userName: {
-        fontWeight: "700"
+        fontWeight: "bold"
     },
     commentBody: {
         flex: 1,
@@ -34,20 +35,13 @@ var styles = StyleSheet.create({
         justifyContent: "center"
     },
     commentText: {
-        flex: 1,
-        flexDirection: "row"
+
     },
     cellBorder: {
         backgroundColor: "rgba(0, 0, 0, 0.2)",
         // Trick to get the thinest line the device can display
         height: 1 / PixelRatio.get(),
         marginLeft: 4,
-    },
-    avatar: {
-        borderRadius: 20,
-        width: 40,
-        height: 40,
-        marginRight: 10
     }
 });
 
@@ -56,21 +50,21 @@ var CommentItem = React.createClass({
         return {
             comments: []
         }
-    },
-
+    },    
     render () {
         return(<View>
-            <TouchableHighlight underlayColor={"#f3f3f3"}>
+            <TouchableHighlight>
                 <View>
                     <View style={styles.commentContent}>
-                        <Avatar author={this.props.comment.author}/>
+                        <Avatar author={this.props.comment.author} size={'large'}/>
                         <View style={styles.commentBody}>
                             <Text style={styles.commentText}>
-                                {this.props.comment.content}
+                                <HTMLView
+                                    value={this.props.comment.content}
+                                />
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.cellBorder} />
                 </View>
             </TouchableHighlight>
         </View>);

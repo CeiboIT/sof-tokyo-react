@@ -9,7 +9,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import <OneSignal/OneSignal.h>
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) OneSignal *oneSignal;
 
 @property (nonatomic, strong) UIWindow *window;
 

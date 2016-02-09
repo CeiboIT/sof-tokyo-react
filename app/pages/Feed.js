@@ -4,8 +4,7 @@
 
 var React = require('react-native');
 var PostsList = require('../components/posts/PostsList');
-
-
+var api = require('../utils/api/PostsApi');
 
 var Feed = React.createClass ({
 
@@ -18,7 +17,7 @@ var Feed = React.createClass ({
     render(){
         this.registerNavigatorManager();
         return(
-            <PostsList/>
+            <PostsList elementsPerRow={2} loadPostsFn={api.LoadPosts}/>
         )
     }
 });

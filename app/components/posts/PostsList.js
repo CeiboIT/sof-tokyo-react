@@ -2,10 +2,12 @@
  * Created by mmasuyama on 1/7/2016.
  */
 
+/** IMPORTANTE
+
+Every load function has to use PostsStream
+*/
 
 var React = require('react-native');
-var api = require('../../utils/api/PostsApi');
-
 var PostElement = require('./PostElement');
 var GridView = require('react-native-grid-view');
 var PostsStream = require("../../services/Streams").getStream("Posts");
@@ -13,7 +15,10 @@ var GiftedSpinner = require('react-native-gifted-spinner');
 
 var {
     StyleSheet,
-    View
+    View,
+    TouchableHighlight,
+    Text,
+    ScrollView
 } = React;
 
 var styles = StyleSheet.create({
@@ -66,42 +71,93 @@ var styles = StyleSheet.create({
 });
 // In the video there are a couple errors, fixed them so it would build.
 
-
+var _page = 1;
 
 var PostsList  = React.createClass({
     getInitialState() {
         return {
             dataSource: [],
-            note: '',
-            error: '',
             page: 1,
-            isLoading: true
+            isLoading: true,
+            initial: true,
+            infiniteScroll: false
         };
     },
 
     componentDidMount() {
-        api.LoadPosts(this.page)
+        if(this.props.id) {
+            this.props.loadPostsFn(this.props.id)
+        } else {
+            this.props.loadPostsFn()
+        }
+
         PostsStream.subscribe((response) => {
-            this.setState({
-                dataSource: response['posts']
-            });
+            if(this.state.initial && _page == 1  && !this.state.isLoading)  {
+                if(response.pages != _page) {
+                    this.setState({
+                        infiniteScroll: true,
+                        initial : false
+                    })
+                } else {
+                    this.setSate({
+                        infiniteScroll:false
+                    })
+                }
+                this.setState({
+                    dataSource: response['posts'],
+                    isLoading: false
+                });
+            } else {
+
+                var _posts = this.state.dataSource;
+                response['posts'].forEach((post) => {
+                        _posts.push(post);
+                });
+
+                this.setState({
+                    dataSource: _posts
+                })
+            }
+
         });
+
+
     },
 
+    loadMorePosts(){
+        if( this.state.infiniteScroll ) {
+            _page = _page + 1;
+            if(this.props.id) {
+                this.props.loadPostsFn(this.props.id, _page);
+            } else {
+                this.props.loadPostsFn(_page);
+            }
+        }
+    },
     render(){
-
         var _grid = (
-            <GridView
-                items={this.state.dataSource}
-                itemsPerRow={2}
-                renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
-            />)
+            <ScrollView>
+                <GridView
+                    items={this.state.dataSource}
+                    itemsPerRow={this.props.elementsPerRow}
+                    renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
+                    style={{
+                        backgroundColor: '#F7F7F7'
+                    }}
+                />
+
+                <TouchableHighlight onPress={this.loadMorePosts}>
+                    <Text> Load more posts </Text>
+                </TouchableHighlight>
+            </ScrollView>
+         )
 
         var _loading = (
             <View style={{
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
+                backgroundColor: '#F7F7F7'
               }}>
                 <GiftedSpinner/>
             </View>
@@ -111,5 +167,11 @@ var PostsList  = React.createClass({
         return _render
     }
 })
+
+PostsList.propTypes = {
+    loadPostsFn : React.PropTypes.func,
+    elementsPerRow : React.PropTypes.number,
+    id : React.PropTypes.number
+}
 
 module.exports = PostsList;

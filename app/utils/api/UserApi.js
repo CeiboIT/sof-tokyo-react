@@ -5,7 +5,7 @@
 
 
 var apiConsts  = require("../../constants/api").apiConsts;
-
+var storage = require("../../services/Storage").getInstance();
 var ErrorSubject = require("../../services/Streams").getStream("Errors");
 var UserSubject = require("../../services/Streams").getStream("User");
 
@@ -67,6 +67,67 @@ var api = {
         } catch(error){
             UserSubject.onNext({type: 'login', error});
         }
+    },
+
+    registerNewUser(userData){
+        return new Promise((reject, resolve) => {
+            fetch(apiConsts.apiEndpoint + 'auth/nonce/user/register')
+                .then((nonce) => {
+                    var _nonce = JSON.parse(nonce._bodyInit).nonce
+                    fetch(apiConsts.apiEndpoint +'auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: userData.username,
+                            email: userData.email,
+                            nonce: _nonce,
+                            display_name: userData.displayName
+                        })
+                    })
+                        .then(result => {
+                            var _result = JSON.parse(result._bodyInit);
+                            if(_result.status !='error') {
+                                resolve(_result)
+                            } else {
+                                reject(_result);
+                            }
+                        })
+                        .catch((error) => {
+                            reject(error);
+                        })
+
+                })
+
+        })
+    },
+
+    isAuthorized() {
+        return new Promise((resolve, reject) => {
+            var cookies;
+            storage.load({key: 'cookies'})
+                .then(ret => {
+                    cookie = ret.cookie
+                    fetch(apiConsts.apiEndpoint + 'auth/is_authorized',{
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            cookie
+                        })
+                    }).then((result) => {
+                        resolve(JSON.parse(result._bodyInit))
+                    }).catch((error) => {
+                        reject(error);
+                    })
+                }).catch((error) => {
+                reject(error);
+            })
+        });
     }
 };
 
