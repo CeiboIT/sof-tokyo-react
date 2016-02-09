@@ -14,14 +14,7 @@ var {
     } = React;
 
 var styles = StyleSheet.create({
-    container: {
-        width: screen.width,
-        height: screen.height*0.25,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent'
-    }
+
 });
 
 var imageSizes ={
@@ -42,22 +35,11 @@ var BannerElement = React.createClass({
     },
     render() {
         return(
-            <View>
-          {
-              this.props.bannerData.map(function(banner) {
-                return <View key={banner.id}>{banner.post_content}</View>
-              })
-          }  
-            </View>
-            
+                <ResponsiveImage source={{uri: this.getImage()}}
+                                 initWidth={screen.width} initHeight={imageSizes.height} />
         )
     }
 });
-
-// <View style={styles.container}>
-//                 <ResponsiveImage source={{uri: this.getImage()}}
-//                                  initWidth={screen.width} initHeight={imageSizes.height} />
-//             </View>
 
 BannerElement.propTypes = {
     bannerData: React.PropTypes.object

@@ -1,8 +1,6 @@
 /**
  * Created by mmasuyama on 1/7/2016.
  */
-
-
 var React = require('react-native');
 var apiPosts = require('../../utils/api/PostsApi');
 var apiBanners = require('../../utils/api/BannersApi');
@@ -39,8 +37,11 @@ var styles = StyleSheet.create({
         justifyContent: 'center'
     },
 
-    item: {
-
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7F7F7'        
     },
 
     title: {
@@ -82,15 +83,12 @@ var styles = StyleSheet.create({
         backgroundColor: 'transparent',
     }
 });
-// In the video there are a couple errors, fixed them so it would build.
-
-
 
 var PostsList  = React.createClass({
     getInitialState() {
         return {
             dataSource: [],
-            test: [],
+            banners: [],
             note: '',
             error: '',
             page: 1,
@@ -118,8 +116,14 @@ var PostsList  = React.createClass({
         var _grid = (
             <ScrollView>
                 <View>
-                    <Carousel width={screen.width}>
-                        <BannerElement bannerData={ this.state.banners } />
+                    <Carousel width={screen.width} delay={5000}>
+                        {
+                            this.state.banners.map(function(banner) {
+                                return <View style={styles.carouselContainer} key={banner.ID}>
+                                            <BannerElement bannerData={banner}/>
+                                       </View>
+                                })
+                        }  
                     </Carousel>
                     <GridView
                         items={this.state.dataSource}
@@ -134,12 +138,7 @@ var PostsList  = React.createClass({
             )
 
         var _loading = (
-            <View style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#F7F7F7'
-              }}>
+            <View style={styles.loading}>
                 <GiftedSpinner/>
             </View>
         )
