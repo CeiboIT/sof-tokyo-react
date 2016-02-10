@@ -1,6 +1,3 @@
-/**
- * Created by epotignano on 11/01/16.
- */
 var apiConsts  = require("../../constants/api").apiConsts;
 var BannersStream = require("../../services/Streams").getStream("Banners");
 var bannersEndpoint = apiConsts.apiEndpoint + 'blog/banners';
@@ -13,7 +10,7 @@ var api = {
         } catch(error){
             console.warn(error);
         }
-    }
+    },
 };
 
 module.exports = api;

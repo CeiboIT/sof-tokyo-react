@@ -39,7 +39,7 @@ var styles = StyleSheet.create({
 
 var imageSizes ={
     height: 50,
-    width: 200
+    width: 180
 };
 
 var logo = React.createClass({
@@ -115,6 +115,16 @@ class NavigatorService {
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.post,
+                        "passProps": route.params,
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
+                    });
+                break;
+                case('news'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.news,
                         "passProps": route.params,
                         rightCorner: toggle,
                         "headerStyle": styles.generalHeader,

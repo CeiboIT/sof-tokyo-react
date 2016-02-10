@@ -13,6 +13,7 @@ var about = require('./About');
 var register= require('./Register');
 var post = require('./PostView');
 var schools = require('./Schools');
+var news = require('./News');
 var profile = require('./Profile');
 var search = require('./Search');
 var searchResults = require('./SearchResults');
@@ -25,6 +26,7 @@ module.exports = {
     login,
     post,
     schools,
+    news,
     profile,
     register,
     search,

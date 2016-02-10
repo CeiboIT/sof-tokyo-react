@@ -10,7 +10,8 @@ var ResponsiveImage = require('react-native-responsive-image');
 var {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight
     } = React;
 
 var styles = StyleSheet.create({
@@ -33,16 +34,25 @@ var BannerElement = React.createClass({
             return 'http://sof.tokyo/wp-content/uploads/2015/06/logo.png';
         }
     },
+    goToNew () {
+        var subject= require("../../services/NavigationManager").getStream();
+        subject.onNext({path:'news', params: {id: this.props.bannerId} })
+    },
     render() {
         return(
-                <ResponsiveImage source={{uri: this.getImage()}}
-                                 initWidth={screen.width} initHeight={imageSizes.height} />
+            <TouchableHighlight onPress={this.goToNew()}>
+                <View>
+                   <ResponsiveImage source={{uri: this.getImage()}}
+                                    initWidth={screen.width} initHeight={imageSizes.height} />
+                </View>
+            </TouchableHighlight>
         )
     }
 });
 
 BannerElement.propTypes = {
-    bannerData: React.PropTypes.object
+    bannerData : React.PropTypes.object,
+    bannerId : React.PropTypes.number
 };
 
 module.exports = BannerElement;

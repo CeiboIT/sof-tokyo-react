@@ -20,8 +20,7 @@ var {
     View,
     Text,
     Dimensions,
-    ScrollView,
-    ListView
+    ScrollView
 } = React;
 
 var styles = StyleSheet.create({
@@ -120,8 +119,8 @@ var PostsList  = React.createClass({
                         {
                             this.state.banners.map(function(banner) {
                                 return <View style={styles.carouselContainer} key={banner.ID}>
-                                            <BannerElement bannerData={banner}/>
-                                       </View>
+                                                <BannerElement bannerData={banner} bannerId={banner.ID}/>
+                                        </View>
                                 })
                         }  
                     </Carousel>
