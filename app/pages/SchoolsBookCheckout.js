@@ -32,8 +32,8 @@ var SchoolElement = React.createClass({
     render() {
         return(
             <View>
-                <TouchableHighlight>
-                    <Text >{this.props.school.value}</Text>
+                <TouchableHighlight underlayColor={'transparent'}>
+                    <Text>{this.props.school.value}</Text>
                 </TouchableHighlight>
             </View>
         )
@@ -91,7 +91,7 @@ var SchoolsCheckout = React.createClass({
                 />
 
                 <Form type={BuyForm} ref="form"/>
-                <TouchableHighlight onPress={this.sendMail}>
+                <TouchableHighlight underlayColor={'transparent'} onPress={this.sendMail}>
                     <Text>
                         Finish
                     </Text>

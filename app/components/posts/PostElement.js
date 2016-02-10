@@ -84,7 +84,7 @@ var NavigateToPost  = React.createClass({
     },
     render() {
         return (
-            <TouchableHighlight onPress={this.goToPost} style={styles.navIconContainer} underlayColor="transparent">
+            <TouchableHighlight onPress={this.goToPost} style={styles.navIconContainer} underlayColor={'transparent'}>
                 <Icon name="plus" style={styles.iconPlus}/>
             </TouchableHighlight>
         )
@@ -100,7 +100,7 @@ var ElementFooter = React.createClass({
         return (
             <View style={styles.elementFooter}>
                 <PostLike data={this.props.data}></PostLike>
-                <TouchableHighlight onPress={this.goToPost} style={styles.textContainer}>
+                <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPost} style={styles.textContainer}>
                     <Text>
                         {this.props.data['comment_count']} <Icon name="comments-o" size={18} color="#bbbbbb"/>
                     </Text>

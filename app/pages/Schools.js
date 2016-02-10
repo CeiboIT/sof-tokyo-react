@@ -45,7 +45,7 @@ var SchoolElement = React.createClass({
     render() {
         return(
             <View>
-                <TouchableHighlight onPress={this.props.onSelect}>
+                <TouchableHighlight underlayColor={'transparent'} onPress={this.props.onSelect}>
                     <Text style={styles.items}>{this.props.school.value}</Text>
                 </TouchableHighlight>
             </View>
@@ -88,7 +88,7 @@ var Schools = React.createClass({
         return(
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                    <TouchableHighlight onPress={this.navigateToCheckout}>
+                    <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToCheckout}>
                         <Text style={styles.title}>
                             Request Books
                         </Text>

@@ -71,7 +71,7 @@ class FooterButton extends React.Component {
 
     render(){
         return (
-            <TouchableHighlight onPress={this.props.data.action}>
+            <TouchableHighlight underlayColor={'transparent'} onPress={this.props.data.action}>
                 <View style={styles.buttonContentContainer}>
                     <Text style={styles.icon}>
                         { this.props.data.itemLabel }

@@ -39,7 +39,7 @@ var PostLike = React.createClass({
     render() {
       return (
           <View style={styles.postLikeContainer}>
-              <TouchableHighlight onPress={this.LikePost}>
+              <TouchableHighlight underlayColor={'transparent'} onPress={this.LikePost}>
                   <View>
                     <Text style={styles.likeText}>
                       <Icon name="heart-o" size={18} color="#bbbbbb"/> 0

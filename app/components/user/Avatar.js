@@ -62,7 +62,7 @@ var Avatar = React.createClass({
 
         var _photo = (this.props.author.avatar) ? parsePhotoUrl(this.props.author.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
         return (
-            <TouchableHighlight onPress={this.navigateToAuthor}>
+            <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToAuthor}>
                 <View style={styles.avatarContainer}>
                     <Image style={(this.props.size === 'large') ? styles.imageLarge : styles.image} source={{uri: _photo }} />
                     <Text style={(this.props.size === 'large') ? styles.avatarNameLarge : styles.avatarName}>
