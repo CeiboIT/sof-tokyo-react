@@ -37,37 +37,11 @@ var styles = StyleSheet.create({
     }
 });
 
-var NewElement = React.createClass({
-    render() {
-        return(
-            <View>
-                <TouchableHighlight onPress={this.props.onSelect}>
-                    <Text style={styles.items}>{this.props.new.value}</Text>
-                </TouchableHighlight>
-            </View>
-        )
-    }
-})
-
-NewElement.propTypes = {
-    new: React.PropTypes.object,
-    onSelect: React.PropTypes.any
-}
-
 var News = React.createClass({
     getInitialState() {
         return {
-            news: [],
-            selectedNews:[]
+            news: []
         }
-    },
-    navigateToCheckout() {
-        var Nav = require("../services/NavigationManager").getStream();
-        Nav.onNext({path: 'newsCheckout', params: {news: this.state.selectedNews} })
-    },
-
-    selectNew(new) {
-        this.state.selectedNews.push(new);
     },
 
     componentDidMount() {
@@ -84,21 +58,7 @@ var News = React.createClass({
         return(
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                    <TouchableHighlight onPress={this.navigateToCheckout}>
-                        <Text style={styles.title}>
-                            Request Books
-                        </Text>
-                    </TouchableHighlight>
-
-                    <GridView
-                        style={styles.test}
-                        items={this.state.news}
-                        itemsPerRow={1}
-                        renderItem={(rowData) => <NewElement
-                            onSelect={() => this.selectNew(rowData)}
-                            key={rowData.value}
-                            new={rowData} /> }
-                    />
+                   
                 </View>
             </ScrollView>
         )
