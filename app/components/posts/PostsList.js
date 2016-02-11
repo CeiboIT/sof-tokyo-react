@@ -58,6 +58,17 @@ var styles = StyleSheet.create({
         backgroundColor: '#E3E3E3',
         alignItems: 'center',
         flexDirection: 'row'
+    },
+    loadMore : {
+        borderColor: "#8a52ad",
+        borderWidth: 1,
+        padding: 5,
+        margin: 10,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    loadMoreText : {
+        color: "#8a52ad"
     }
 });
 // In the video there are a couple errors, fixed them so it would build.
@@ -137,8 +148,8 @@ var PostsList  = React.createClass({
                     }}
                 />
 
-                <TouchableHighlight onPress={this.loadMorePosts}>
-                    <Text> Load more posts </Text>
+                <TouchableHighlight underlayColor={'transparent'} onPress={this.loadMorePosts} style={styles.loadMore}>
+                    <Text style={styles.loadMoreText}> Load more posts </Text>
                 </TouchableHighlight>
             </ScrollView>
          )
