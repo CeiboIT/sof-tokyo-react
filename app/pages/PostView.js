@@ -237,7 +237,7 @@ var PostView = React.createClass({
         var _commentForm = (
             <View>
                 <Form type={Comment} ref="form"/>
-                <TouchableHighlight onPress={this.addComment} style={styles.button}>
+                <TouchableHighlight onPress={this.addComment} underlayColor={'transparent'} style={styles.button}>
                     <Text style={styles.buttonText}>Add Comment</Text>
                 </TouchableHighlight>
             </View>

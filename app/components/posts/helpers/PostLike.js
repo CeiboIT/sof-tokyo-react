@@ -51,7 +51,7 @@ var PostLike = React.createClass({
         var _likes = this.retrieveLikes(this.props.data['metadata']);
         return (
           <View style={styles.postLikeContainer}>
-              <TouchableHighlight onPress={this.LikePost}>
+              <TouchableHighlight underlayColor={'transparent'} onPress={this.LikePost}>
                   <View>
                     <Text style={styles.likeText}>
                       <Icon name="heart-o" size={18} color="#bbbbbb"/> { _likes }

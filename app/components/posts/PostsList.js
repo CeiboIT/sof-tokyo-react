@@ -1,12 +1,3 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
-/** IMPORTANTE
-
-Every load function has to use PostsStream
-*/
-
 var React = require('react-native');
 var PostElement = require('./PostElement');
 var GridView = require('react-native-grid-view');

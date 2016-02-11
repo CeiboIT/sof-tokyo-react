@@ -35,7 +35,7 @@ var styles = StyleSheet.create({
         justifyContent: "center"
     },
     commentText: {
-
+        flexWrap: 'wrap'
     },
     cellBorder: {
         backgroundColor: "rgba(0, 0, 0, 0.2)",
@@ -53,7 +53,7 @@ var CommentItem = React.createClass({
     },    
     render () {
         return(<View>
-            <TouchableHighlight>
+            <TouchableHighlight underlayColor={'transparent'}>
                 <View>
                     <View style={styles.commentContent}>
                         <Avatar author={this.props.comment.author} size={'large'}/>
