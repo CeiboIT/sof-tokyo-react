@@ -2,18 +2,14 @@
  * Created by epotignano on 12/01/16.
  */
 
-var React = require('react-native');
+import Button from 'apsl-react-native-button'
+import Popup from 'react-native-popup';
 
+var React = require('react-native');
 var Dimensions= require('Dimensions');
 var windowsSize = Dimensions.get('window');
-
-import Button from 'apsl-react-native-button'
-//import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
 var api =require("../utils/api/UserApi");
-
-//var t = require('tcomb-form-native');
-
+var t = require('tcomb-form-native');
 var I18nService = require('../i18n');
 
 I18nService.set('ja-JP', {
@@ -28,7 +24,6 @@ var I18n = I18nService.getTranslations();
 
 var {
     TextInput,
-    Picker,
     View,
     Text,
     StyleSheet
@@ -62,7 +57,7 @@ var styles = {
     },
     buttonText: {
         fontSize: 18,
-        //color: '#111',
+        color: '#111',
         alignSelf: 'center'
     },
     button: {
@@ -157,35 +152,19 @@ var styles = StyleSheet.create({
         fontSize: 25
     }
 });
-var Form = require('react-native-form');
 
-//var Form = t.form.Form;
+var Form = t.form.Form;
 
-//const Regions = t.enums({
-//    Japan: 'Japan',
-//    US: 'US',
-//    Europe: 'Europe',
-//    Other: 'Other'
-//}, 'Region');
-
-var affiliations = [{ value: 'A', text: 'A' }, { value: 'B', text: 'B' }];
-//
-//const formOptions = {
-//    fields: {
-//        affiliation: {
-//            options: affiliations
-//        }
-//    }
-//};
-
-//var UserCredentials = t.struct({
-//    username: t.String,
-//    email: t.String,
-//    displayName: t.String,
-//    password: t.String,
-//    age: t.Number,
-//    affiliation: t.String
-//});
+var UserCredentials = t.struct({
+    username: t.String,
+    email: t.String,
+    display_name: t.String,
+    password: t.String,
+    years: t.Number,
+    //school: t.String,
+    //ob: t.String,
+    //country: t.String
+});
 
 var Register  = React.createClass({
 
@@ -199,18 +178,26 @@ var Register  = React.createClass({
         })
     },
 
-    register(){
+    register() {
+        var NavigationSubject = require("../services/NavigationManager").getStream();
+        console.warn('refs', JSON.stringify(this.refs.form.getValue()));
         var _data = this.refs.form.getValue();
         if(_data) {
             api.registerNewUser(_data)
-                .then(data => {
-                    console.warn(data)
-                })
+                .then(response => {
+                    console.warn('Register > data ', JSON.stringify(response));
+                    if (response.status === 'error') {
+                        this.popup.alert(response.error);
+                    } else {
+                        console.warn('Register > ok ', JSON.stringify(response));
+                        NavigationSubject.onNext({ 'path': 'login' });
+                    }
+                });
         }
     },
 
     login() {
-        var NavigationSubject =require("../services/NavigationManager").getStream();
+        var NavigationSubject = require("../services/NavigationManager").getStream();
         NavigationSubject.onNext({path: 'login'})
     },
 
@@ -222,19 +209,8 @@ var Register  = React.createClass({
                             { I18n.t('registerWithFacebook') }
                         </Button>
                     </View>
-                    <Form ref="form">
-                        <TextInput name="username" placeholder="Username"/>
-                        <TextInput name="email" placeholder="Email"/>
-                        <TextInput name="displayName" placeholder="Display name"/>
-                        <TextInput name="password" placeholder="Password"/>
-                        <TextInput name="age" placeholder="Age"/>
-                        <Picker
-                            selectedValue={this.state.language}
-                            onValueChange={(lang) => this.setState({language: lang})}>
 
-                                <Picker.Item label="1" value="1" />
-                        </Picker>
-                    </Form>
+                    <Form ref="form" type={UserCredentials} />
 
                     <View style={styles.loginButtonContainer}>
                         <Button style={styles.loginButton} textStyle={styles.loginText}
@@ -253,7 +229,7 @@ var Register  = React.createClass({
                             { I18n.t('login')}
                         </Button>
                     </View>
-
+                    <Popup ref={(popup) => { this.popup = popup }}/>
                 </View>
         );
     }
@@ -261,9 +237,11 @@ var Register  = React.createClass({
 
 module.exports = Register;
 
-/* <TextInput name="email" />,
- <TextInput name="displayName" />,
- <TextInput name="password" />,
- <TextInput name="age" />,
- <TextInput name="affiliation" />
- */
+/*
+<TextInput name="username" placeholder="Username"/>
+<TextInput name="email" placeholder="Email"/>
+    <TextInput name="displayName" placeholder="Display name"/>
+    <TextInput name="password" placeholder="Password"/>
+    <TextInput name="age" placeholder="Age"/>
+    <TextInput name="affiliation" placeholder="affiliantion"/>
+*/

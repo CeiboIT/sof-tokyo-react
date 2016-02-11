@@ -29,7 +29,7 @@ var api = {
             }
 
         } catch (error){
-            console.warn(error)
+            console.warn('getMember > error', JSON.stringify(error));
         }
     },
 
@@ -43,7 +43,7 @@ var api = {
             }
 
         } catch (error) {
-            console.warn(error)
+            console.warn('getUser > error ', JSON.stringify(error));
         }
     },
 
@@ -85,12 +85,18 @@ var api = {
                             username: userData.username,
                             email: userData.email,
                             nonce: _nonce,
-                            display_name: userData.displayName
+                            display_name: userData.display_name,
+                            password: userData.password,
+                            years: userData.years
+                            //school: userData.school,
+                            //ob: userData.ob,
+                            //country: userData.country
                         })
                     })
                     .then(result => {
+                        console.warn('registerNewUser > response', JSON.stringify(result));
                         var _result = JSON.parse(result._bodyInit);
-                        if(_result.status !='error') {
+                        if(_result.status != 'error') {
                             resolve(_result)
                         } else {
                             reject(_result);
