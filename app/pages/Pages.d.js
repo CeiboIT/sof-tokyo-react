@@ -22,7 +22,7 @@ var schoolBooksCheckout = require('./SchoolsBookCheckout');
 
 module.exports = {
     feed,
-    categories ,
+    categories,
     login,
     post,
     schools,

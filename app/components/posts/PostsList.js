@@ -4,23 +4,16 @@
  */
 var React = require('react-native');
 var apiPosts = require('../../utils/api/PostsApi');
-var apiBanners = require('../../utils/api/BannersApi');
 
 var PostElement = require('./PostElement');
-var BannerElement = require('../banners/BannerElement');
 var GridView = require('react-native-grid-view');
 var PostsStream = require("../../services/Streams").getStream("Posts");
-var BannersStream = require("../../services/Streams").getStream("Banners");
-var Carousel = require('react-native-carousel');
 var GiftedSpinner = require('react-native-gifted-spinner');
-var Dimensions = require('Dimensions');
-var screen = Dimensions.get('window');
 
 var {
     StyleSheet,
     View,
     Text,
-    Dimensions,
     ScrollView
 } = React;
 
@@ -73,14 +66,6 @@ var styles = StyleSheet.create({
         backgroundColor: '#E3E3E3',
         alignItems: 'center',
         flexDirection: 'row'
-    },
-    carouselContainer: {
-        width: screen.width,
-        height: screen.height*0.25,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent',
     }
 });
 
@@ -88,7 +73,6 @@ var PostsList  = React.createClass({
     getInitialState() {
         return {
             dataSource: [],
-            banners: [],
             note: '',
             error: '',
             page: 1,
@@ -103,44 +87,12 @@ var PostsList  = React.createClass({
                 dataSource: response['posts']
             });
         });
-        apiBanners.LoadBanners(this.page)
-        BannersStream.subscribe((response) => {
-            this.setState({
-                banners: response['banners']
-            });
-        });
-    },
-    carouselSize () {
-        var style = {
-            width: screen.width,
-            height: null,
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'transparent',
-        }
-        if(screen.width <= 360){
-            style.height = screen.height*0.25;
-        }else{
-            style.height = screen.height*0.4;
-        }   
-
-        return style  
     },
     render(){
 
         var _grid = (
             <ScrollView>
                 <View>
-                    <Carousel width={screen.width} delay={5000}>
-                        {
-                            this.state.banners.map((banner) => {
-                                return <View style={[this.carouselSize()]} key={banner.ID}>
-                                                <BannerElement bannerData={banner} bannerId={banner.ID}/>
-                                        </View>
-                                })
-                        }  
-                    </Carousel>
                     <GridView
                         items={this.state.dataSource}
                         itemsPerRow={2}
@@ -159,7 +111,7 @@ var PostsList  = React.createClass({
             </View>
         )
 
-        var _render = (this.state.dataSource && this.state.dataSource.length && this.state.banners && this.state.banners.length) ? _grid : _loading
+        var _render = (this.state.dataSource && this.state.dataSource.length) ? _grid : _loading
         return _render
     }
 })

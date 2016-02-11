@@ -3,9 +3,7 @@ var React = require('react-native');
 var GridView = require('react-native-grid-view');
 var NewsStream = require("../services/Streams").getStream("News");
 
-
 var api = require("../utils/api/NewsApi");
-var communication = require("../utils/api/CommunicationApi");
 var GiftedSpinner = require('react-native-gifted-spinner');
 
 var {
@@ -45,7 +43,7 @@ var News = React.createClass({
     },
 
     componentDidMount() {
-        api.LoadNews();
+        //api.RetrieveNew();
         NewsStream.subscribe((data)=> {
             this.setState({
                 news: data['banner']
@@ -54,7 +52,7 @@ var News = React.createClass({
     },
 
     render(){
-        if(!this.state.news.length) return (<GiftedSpinner/>)
+        // if(!this.state.news.length) return (<GiftedSpinner/>)
         return(
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>

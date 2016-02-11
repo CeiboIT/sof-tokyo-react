@@ -121,16 +121,7 @@ class NavigatorService {
                         titleComponent: logo
                     });
                 break;
-                // case('news'):
-                //     this.manager.toRoute({
-                //         leftCorner: navigation.back,
-                //         "component": Pages.news,
-                //         "passProps": route.params,
-                //         rightCorner: toggle,
-                //         "headerStyle": styles.generalHeader,
-                //         titleComponent: logo
-                //     });
-                // break;
+                
                 case('searchResults'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
@@ -190,6 +181,16 @@ class NavigatorService {
                         titleComponent: logo
                     })
                 break;
+                // case('news'):
+                //     this.manager.toRoute({
+                //         leftCorner: navigation.back,
+                //         "component": Pages.news,
+                //         "passProps": route.params,
+                //         rightCorner: toggle,
+                //         "headerStyle": styles.generalHeader,
+                //         titleComponent: logo
+                //     });
+                // break;
             }
         });
     };
