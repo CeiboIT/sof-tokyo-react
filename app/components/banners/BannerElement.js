@@ -38,12 +38,17 @@ var BannerElement = React.createClass({
         var subject= require("../../services/NavigationManager").getStream();
         subject.onNext({path:'news', params: {id: this.props.bannerId} })
     },
+    imgageSize () {
+        var height = null;
+        (screen.width <= 360) ? height = screen.height*0.25 : height = screen.height*0.4;
+        return height  
+    },
     render() {
         return(
             <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNew()}>
                 <View>
                    <ResponsiveImage source={{uri: this.getImage()}}
-                                    initWidth={screen.width} initHeight={imageSizes.height} />
+                                    initWidth={screen.width} initHeight={[this.imgageSize()]} />
                 </View>
             </TouchableHighlight>
         )

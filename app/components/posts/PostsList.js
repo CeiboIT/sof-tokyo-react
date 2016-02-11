@@ -124,7 +124,7 @@ var PostsList  = React.createClass({
         }else{
             style.height = screen.height*0.4;
         }   
-        
+
         return style  
     },
     render(){
@@ -132,10 +132,10 @@ var PostsList  = React.createClass({
         var _grid = (
             <ScrollView>
                 <View>
-                    <Carousel width={[this.carouselSize()]} delay={5000}>
+                    <Carousel width={screen.width} delay={5000}>
                         {
-                            this.state.banners.map(function(banner) {
-                                return <View style={styles.carouselContainer} key={banner.ID}>
+                            this.state.banners.map((banner) => {
+                                return <View style={[this.carouselSize()]} key={banner.ID}>
                                                 <BannerElement bannerData={banner} bannerId={banner.ID}/>
                                         </View>
                                 })

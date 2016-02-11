@@ -128,7 +128,7 @@ var PostElement = React.createClass({
             width: windowSize.width * 0.55
         }
         if(windowSize.width <= 360){
-            size.height = windowSize.height * 0.6 ;
+            size.height = windowSize.height * 0.6;
         }else{
             size.height = windowSize.height * 2;
         }   
