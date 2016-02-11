@@ -35,7 +35,7 @@ var styles = StyleSheet.create({
         justifyContent: "center"
     },
     commentText: {
-
+        flexWrap: 'wrap'
     },
     cellBorder: {
         backgroundColor: "rgba(0, 0, 0, 0.2)",

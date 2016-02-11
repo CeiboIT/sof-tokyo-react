@@ -1,3 +1,4 @@
+/* global , */
 /**
  * Created by mmasuyama on 1/7/2016.
  */
@@ -109,13 +110,29 @@ var PostsList  = React.createClass({
             });
         });
     },
-
+    carouselSize () {
+        var style = {
+            width: screen.width,
+            height: null,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'transparent',
+        }
+        if(screen.width <= 360){
+            style.height = screen.height*0.25;
+        }else{
+            style.height = screen.height*0.4;
+        }   
+        
+        return style  
+    },
     render(){
 
         var _grid = (
             <ScrollView>
                 <View>
-                    <Carousel width={screen.width} delay={5000}>
+                    <Carousel width={[this.carouselSize()]} delay={5000}>
                         {
                             this.state.banners.map(function(banner) {
                                 return <View style={styles.carouselContainer} key={banner.ID}>

@@ -45,8 +45,16 @@ var styles = StyleSheet.create({
 
     icon: {
         alignItems:'center',
+        justifyContent: 'center',
         flex:1,
-        color: '#8799A3'
+        color: '#b897cd',
+        marginRight: 20
+    },
+    iconLast : {
+        margin: 0
+    },
+    iconSel : {
+        color: 'red'
     },
     activeIcon : {
         color: '#0000FF'
@@ -62,7 +70,8 @@ var styles = StyleSheet.create({
         height: 100
     },
     buttonContentContainer : {
-        marginLeft: 10
+        alignItems:'center',
+        justifyContent: 'center'
     }
 });
 
@@ -114,33 +123,32 @@ class FooterNav extends React.Component {
         this.props = {
             options : [
                 {
-                    itemLabel: <FaIcon name="home" size={33}></FaIcon>,
+                    itemLabel: <FaIcon name="home" size={33} style={[styles.icon]}></FaIcon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'feed'})
                     }
                 },
                 {
-                    itemLabel: <Icon name="search" size={35} style={styles.icon}></Icon>,
+                    itemLabel: <FaIcon name="search" size={30} style={[styles.icon]}></FaIcon>,
                     action: () => {
-                        console.warn('HEre');
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
                 {
-                    itemLabel: <Icon name="star" size={35} style={styles.icon}></Icon>,
+                    itemLabel: <FaIcon name="star-o" size={30} style={styles.icon}></FaIcon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'schools'})
                     }
                 },
 
                 {
-                    itemLabel: <Icon name="bell" size={35} style={styles.icon}></Icon>,
+                    itemLabel: <FaIcon name="bell-o" size={30} style={styles.icon}></FaIcon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'news'})
                     }
                 },
                 {
-                    itemLabel: <Icon name="trophy" size={35} style={styles.icon}></Icon>,
+                    itemLabel: <FaIcon name="trophy" size={30} style={styles.icon}></FaIcon>,
                     action: () => {
                         this.NavigationSubject.onNext({path: 'best'})
                     }
@@ -148,7 +156,7 @@ class FooterNav extends React.Component {
 
 
                 {
-                    itemLabel : <Icon name="user" size={35} style={styles.icon}></Icon>,
+                    itemLabel : <FaIcon name="user" size={30} style={[styles.icon, styles.iconLast]}></FaIcon>,
                     action: () => {
                         user.isAuthorized()
                             .then((data) => {
