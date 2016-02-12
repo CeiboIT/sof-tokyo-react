@@ -102,6 +102,7 @@ var Profile = React.createClass({
             <ScrollView　style={styles.container}>
                 <View>
                     <TouchableHighlight
+                        underlayColor={'transparent'}
                         style={styles.button}
                         onPress={this.requestSchoolBook}>
                         <Text>Request Book</Text>

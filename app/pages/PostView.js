@@ -61,7 +61,7 @@ var styles = StyleSheet.create({
         borderColor: '#e5e5e5'
     },
     author : {
-      margin: 10  
+      margin: 10
     },
     postImageContainer : {
         justifyContent: 'center',
@@ -166,7 +166,7 @@ var styles = StyleSheet.create({
     },
     buttonText : {
         color: "#8a52ad"
-        
+
     },
     grind : {
         alignSelf: 'flex-start'
@@ -237,7 +237,7 @@ var PostView = React.createClass({
         var _commentForm = (
             <View>
                 <Form type={Comment} ref="form"/>
-                <TouchableHighlight onPress={this.addComment} style={styles.button}>
+                <TouchableHighlight onPress={this.addComment} underlayColor={'transparent'} style={styles.button}>
                     <Text style={styles.buttonText}>Add Comment</Text>
                 </TouchableHighlight>
             </View>
@@ -253,7 +253,7 @@ var PostView = React.createClass({
                 itemsPerRow={1}
                 renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
                         }
-            /> 
+            />
         }
         var _postView = (
             <ScrollView style={styles.scrollView}>
@@ -268,6 +268,9 @@ var PostView = React.createClass({
                                           removeHTMLTags={true}
                                           views={true}
                     />
+                    <Avatar author={this.state.data.author}/>
+                    { _renderComments }
+                    { _renderForm }
                     </View>
                     <View style={styles.author}>
                         <Avatar author={this.state.data.author}/>

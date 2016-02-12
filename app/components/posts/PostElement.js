@@ -5,6 +5,7 @@
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get("window");
+var PixelRatio = require("PixelRatio");
 
 var ResponsiveImage = require('react-native-responsive-image');
 var Icon = require('react-native-vector-icons/FontAwesome');
@@ -15,6 +16,7 @@ var  PostContentDisplayer = require('./helpers/PostContentDisplayer')
 var {
     View,
     Text,
+    Image,
     StyleSheet,
     TouchableHighlight
     } = React;
@@ -72,11 +74,6 @@ var styles = StyleSheet.create({
 
 });
 
-var imageSizes ={
-    width: windowSize.width * 0.55,
-    height: windowSize.height * 0.55
-};
-
 var NavigateToPost  = React.createClass({
     goToPost () {
         var subject= require("../../services/NavigationManager").getStream();
@@ -84,7 +81,7 @@ var NavigateToPost  = React.createClass({
     },
     render() {
         return (
-            <TouchableHighlight onPress={this.goToPost} style={styles.navIconContainer} underlayColor="transparent">
+            <TouchableHighlight onPress={this.goToPost} style={styles.navIconContainer} underlayColor={'transparent'}>
                 <Icon name="plus" style={styles.iconPlus}/>
             </TouchableHighlight>
         )
@@ -100,7 +97,7 @@ var ElementFooter = React.createClass({
         return (
             <View style={styles.elementFooter}>
                 <PostLike data={this.props.data}></PostLike>
-                <TouchableHighlight onPress={this.goToPost} style={styles.textContainer}>
+                <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPost} style={styles.textContainer}>
                     <Text>
                         {this.props.data['comment_count']} <Icon name="comments-o" size={18} color="#bbbbbb"/>
                     </Text>
@@ -125,13 +122,25 @@ var PostElement = React.createClass({
         var subject= require("../../services/NavigationManager").getStream();
         subject.onNext({path:'post', params: {id: this.props.postData.id} })
     },
-
+    imageSize () {
+        var size = {
+            height: null,
+            width: windowSize.width * 0.55
+        }
+        if(windowSize.width <= 360){
+            size.height = windowSize.height * 0.6;
+        }else{
+            size.height = windowSize.height * 2;
+        }   
+        
+        return size  
+    },
     render() {
         return(
             <View style={styles.container}>
-                <View>
-                    <ResponsiveImage source={{uri: this.props.postData.thumbnail}}
-                                     initWidth={imageSizes.width} initHeight={imageSizes.height}/>
+                <View style={{overflow:'hidden'}}>
+                    <Image style={[this.imageSize()]} 
+                            source={{uri: this.props.postData.thumbnail}} />
                 </View>
                 <NavigateToPost id={this.props.postData.id}/>
                 <View style={styles.contentTitle}>

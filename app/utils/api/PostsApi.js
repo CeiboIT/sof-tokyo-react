@@ -10,15 +10,39 @@ var productsEndpoint = apiConsts.apiEndpoint + 'products/';
 var api = {
     async LoadPosts(page){
         try {
-            let response = await fetch(productsEndpoint + 'list/' + page);
+            let response = await fetch(productsEndpoint + 'list/' + page || 1);
+            PostsStream.onNext(JSON.parse(response._bodyInit))
+        } catch(error){
+            console.warn(error);
+        }
+    },
+    async bySchool(school) {
+
+    },
+    async ByLikes() {
+        try {
+            let response = await fetch( productsEndpoint+ 'ranking/likes')
+            PostsStream.onNext(JSON.parse(response._bodyInit))
+        } catch(error) {
+            console.warn(error);
+        }
+    },
+    async NewPosts(page) {
+        try {
+            let response = await fetch(productsEndpoint + 'new/' + page || 1);
             PostsStream.onNext(JSON.parse(response._bodyInit))
         } catch(error){
             console.warn(error);
         }
     },
 
-    async bySchool(school) {
-
+    async ByStyle(styleId, page) {
+      try {
+          let response = await fetch(productsEndpoint + 'bystyle/' + styleId + '/' + (page || 1));
+          PostsStream.onNext(JSON.parse(response._bodyInit))
+      }catch(error) {
+          console.warn(error);
+      }
     }
 };
 

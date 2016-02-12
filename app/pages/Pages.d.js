@@ -13,23 +13,35 @@ var about = require('./About');
 var register= require('./Register');
 var post = require('./PostView');
 var schools = require('./Schools');
+var news = require('./News');
 var profile = require('./Profile');
 var search = require('./Search');
 var searchResults = require('./SearchResults');
 var schoolProfile = require('./SchoolProfile');
 var schoolBooksCheckout = require('./SchoolsBookCheckout');
+var ranking = require('./Ranking');
+var newPosts = require('./NewPosts');
+var styles = require('./Styles');
+var byStyle = require('./byStyle');
+var categoriesPage = require('./CategoriesMenu');
 
 module.exports = {
     feed,
-    categories ,
+    categories,
     login,
     post,
     schools,
+    news,
     profile,
     register,
     search,
     searchResults,
     about,
     schoolProfile,
-    schoolBooksCheckout
+    schoolBooksCheckout,
+    ranking,
+    newPosts,
+    styles,
+    byStyle,
+    categoriesPage
 };

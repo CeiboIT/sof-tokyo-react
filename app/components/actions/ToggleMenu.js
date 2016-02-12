@@ -24,8 +24,8 @@ var ToggleMenuIcon = React.createClass({
     },
     render() {
         return (
-            <TouchableHighlight onPress={this.tap} underlayColor="transparent">
-                <Icon name="bars" color="#000" style={styles.icon} size={30}></Icon>
+            <TouchableHighlight onPress={this.tap} underlayColor={'transparent'}>
+                <Icon name="bars" color="#222222" style={styles.icon} size={30}></Icon>
             </TouchableHighlight>
         )
     }
