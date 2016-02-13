@@ -18,7 +18,11 @@ I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
         'registerUsername': 'ユーザー名 (必須)',
         'registerMail': 'メールアドレス (必須)',
-        'registerDisplayName': '表示ユーザー名	(必須)'
+        'registerDisplayName': '表示ユーザー名	(必須)',
+        'registerOk': 'Register succesful, please check your email to finish the process',
+        'ok': 'ok',
+        'register_error_000': 'Email already exists, please choose another',
+        'register_error_001': 'Username already exists, please choose another'
     }
 );
 
@@ -159,17 +163,6 @@ var styles = StyleSheet.create({
 //var Form = t.form.Form;
 import Form from 'react-native-form'
 
-var UserCredentials = t.struct({
-    username: t.String,
-    email: t.String,
-    display_name: t.String,
-    password: t.String,
-    years: t.Number,
-    //school: t.String,
-    //ob: t.String,
-    //country: t.String
-});
-
 var Register  = React.createClass({
 
     loginWithFacebook() {
@@ -185,19 +178,24 @@ var Register  = React.createClass({
     register(values) {
         var NavigationSubject = require("../services/NavigationManager").getStream();
         console.warn('refs', JSON.stringify(this.refs.form.getValues()));
-        var _data = this.refs.form.getValues
-
-
-        ();
+        var _data = this.refs.form.getValues();
         if(_data) {
             api.registerNewUser(_data)
                 .then(response => {
                     console.warn('Register > data ', JSON.stringify(response));
                     if (response.status === 'error') {
-                        this.popup.alert(response.error);
+                        this.popup.alert(I18n.t('register_error_'+ response.code));
                     } else {
                         console.warn('Register > ok ', JSON.stringify(response));
-                        NavigationSubject.onNext({ 'path': 'login' });
+                        this.popup.tip({
+                            content: I18n.t('registerOk'),
+                            btn: {
+                                text: I18n.t('ok'),
+                                callback: () => {
+                                    NavigationSubject.onNext({ 'path': 'login' });
+                                }
+                            }
+                        });
                     }
                 });
         }
@@ -211,7 +209,7 @@ var Register  = React.createClass({
     render() {
         return(
                 <View style={styles.Search}>
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps={true}>
                     <View style={styles.facebookContainer}>
                         <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
                             { I18n.t('registerWithFacebook') }
@@ -221,7 +219,6 @@ var Register  = React.createClass({
                             <TextInput name="username" placeholder="Username"/>
                             <TextInput name="email" placeholder="Email"/>
                             <TextInput name="display_name" placeholder="Display name"/>
-                            <TextInput name="password" placeholder="Password"/>
                             <TextInput name="years" placeholder="Age"/>
                             <TextInput name="affiliation" placeholder="affiliantion"/>
                         </Form>

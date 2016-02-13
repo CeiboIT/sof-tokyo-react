@@ -84,7 +84,6 @@ var api = {
                             email: userData.email,
                             nonce: _nonce,
                             display_name: userData.display_name,
-                            password: userData.password,
                             years: userData.years
                             //school: userData.school,
                             //ob: userData.ob,
