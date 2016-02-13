@@ -33,7 +33,7 @@ var styles = StyleSheet.create({
         borderColor : "#e5e5e5"
     },
     logo : {
-        height: 50   
+        height: 50
     }
 });
 
@@ -44,8 +44,8 @@ var imageSizes ={
 
 var logo = React.createClass({
   render: function() {
-    return <ResponsiveImage style={styles.logo} 
-                            source={{uri: 'http://sof.tokyo/wp-content/uploads/2015/06/logo.png'}} 
+    return <ResponsiveImage style={styles.logo}
+                            source={{uri: 'http://sof.tokyo/wp-content/uploads/2015/06/logo.png'}}
                             initHeight={imageSizes.height}
                             initWidth={imageSizes.width}
             />;
@@ -121,7 +121,7 @@ class NavigatorService {
                         titleComponent: logo
                     });
                 break;
-                
+
                 case('searchResults'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
@@ -222,6 +222,13 @@ class NavigatorService {
                         "passProps": route.params,
                         "headerStyle": styles.generalHeader,
                         titleComponent: logo
+                    })
+                break;
+                case('uploadImage'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.uploadImage,
+                        rightCorner: toggle
                     })
                 break;
                 // case('news'):

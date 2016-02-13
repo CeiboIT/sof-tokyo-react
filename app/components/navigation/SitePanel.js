@@ -76,6 +76,10 @@ var SitePanel = React.createClass ({
         SidebarSubject.onNext('close');
     },
 
+    navigateToUploadImage() {
+        NavigationSubject.onNext({path: 'uploadImage'})
+    },
+
     navigateToSchools() {
         NavigationSubject.onNext({path: 'schools'})
         SidebarSubject.onNext('close');
@@ -112,15 +116,16 @@ var SitePanel = React.createClass ({
                     </TouchableHighlight>
                 </View>
 
-                <View style={styles.buttonsContainer} collapse={ true }>
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button} onPress={this.navigateToWomen}><Text>WOMEN</Text></TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>MEN</Text></TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button} onPress={this.navigateToStyle} ><Text>STYLE</Text></TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button} onPress={this.navigateToCategories} ><Text>CATEGORY</Text></TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button} onPress={this.navigateToSchools}><Text>SCHOOL</Text></TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button} ><Text>CONTACT</Text></TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button} onPress={this.navigateToAbout}><Text>ABOUT Sof</Text></TouchableHighlight>
-                </View>
+                <View style={styles.buttonsContainer} collapse={ true } >
+                    <TouchableHighlight ><Text>WOMEN</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>MEN</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>STYLE</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>CATEGORY</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToSchools}><Text>SCHOOL</Text></TouchableHighlight>
+                    <TouchableHighlight ><Text>CONTACT</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToAbout}><Text>ABOUT Sof</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToUploadImage}><Text>UploadImage</Text></TouchableHighlight>
+        </View>
             </View>
         )
     }

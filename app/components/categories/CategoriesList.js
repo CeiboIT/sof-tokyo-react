@@ -39,7 +39,7 @@ var CategoriesList = React.createClass({
             <ScrollView>
                 <GridView
                     items={ this.state.subcategories }
-                    itemsPerRow={ 1 }
+                    itemsPerRow={ 2 }
                     renderItem={(rowData) => <CategoryElement key={rowData.id} subcategory={ rowData } />}
                     style={{
                         backgroundColor: '#F7F7F7'

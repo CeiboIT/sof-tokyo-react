@@ -7,5 +7,6 @@ export const api = {
     schools : require("./SchoolsApi"),
     banners : require("./BannersApi"),
     news : require("./NewsApi"),
-    user : require("./UserApi")
+    user : require("./UserApi"),
+    uploadImage: require("./ImageUploadApi")
 };

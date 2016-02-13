@@ -44,6 +44,7 @@ var CategoryElement = React.createClass({
     navigateToCategory(rowData) {
         console.warn(rowData);
         var Navigation = require("../../services/NavigationManager").getStream();
+        Navigation.onNext({path:'productsByCategory', params: rowData })
     },
     render() {
         return (
@@ -51,6 +52,7 @@ var CategoryElement = React.createClass({
                 <Text style={styles.groupText}> {this.props.subcategory['trad']}</Text>
                 <GridView
                     items={this.props.subcategory['childs']}
+                    itemsPerRow={3}
                     renderItem={(rowData) =>
                         <ChildCategory key={rowData.id} children={rowData} onSelect={this.navigateToCategory(rowData)} />
                     }
