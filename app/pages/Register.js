@@ -11,6 +11,8 @@ var windowsSize = Dimensions.get('window');
 var api =require("../utils/api/UserApi");
 var t = require('tcomb-form-native');
 var I18nService = require('../i18n');
+//var {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
+
 
 I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
@@ -24,6 +26,7 @@ var I18n = I18nService.getTranslations();
 
 var {
     TextInput,
+    ScrollView,
     View,
     Text,
     StyleSheet
@@ -153,7 +156,8 @@ var styles = StyleSheet.create({
     }
 });
 
-var Form = t.form.Form;
+//var Form = t.form.Form;
+import Form from 'react-native-form'
 
 var UserCredentials = t.struct({
     username: t.String,
@@ -178,10 +182,13 @@ var Register  = React.createClass({
         })
     },
 
-    register() {
+    register(values) {
         var NavigationSubject = require("../services/NavigationManager").getStream();
-        console.warn('refs', JSON.stringify(this.refs.form.getValue()));
-        var _data = this.refs.form.getValue();
+        console.warn('refs', JSON.stringify(this.refs.form.getValues()));
+        var _data = this.refs.form.getValues
+
+
+        ();
         if(_data) {
             api.registerNewUser(_data)
                 .then(response => {
@@ -204,13 +211,20 @@ var Register  = React.createClass({
     render() {
         return(
                 <View style={styles.Search}>
+                    <ScrollView>
                     <View style={styles.facebookContainer}>
                         <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
                             { I18n.t('registerWithFacebook') }
                         </Button>
                     </View>
-
-                    <Form ref="form" type={UserCredentials} />
+                        <Form ref="form">
+                            <TextInput name="username" placeholder="Username"/>
+                            <TextInput name="email" placeholder="Email"/>
+                            <TextInput name="display_name" placeholder="Display name"/>
+                            <TextInput name="password" placeholder="Password"/>
+                            <TextInput name="years" placeholder="Age"/>
+                            <TextInput name="affiliation" placeholder="affiliantion"/>
+                        </Form>
 
                     <View style={styles.loginButtonContainer}>
                         <Button style={styles.loginButton} textStyle={styles.loginText}
@@ -230,6 +244,7 @@ var Register  = React.createClass({
                         </Button>
                     </View>
                     <Popup ref={(popup) => { this.popup = popup }}/>
+                    </ScrollView>
                 </View>
         );
     }
@@ -238,6 +253,9 @@ var Register  = React.createClass({
 module.exports = Register;
 
 /*
+
+ <Form ref="form" type={UserCredentials} />
+
 <TextInput name="username" placeholder="Username"/>
 <TextInput name="email" placeholder="Email"/>
     <TextInput name="displayName" placeholder="Display name"/>

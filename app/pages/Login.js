@@ -6,15 +6,15 @@
  * Created by mmasuyama on 1/7/2016.
  */
 
+import Button from 'apsl-react-native-button'
+import Popup from 'react-native-popup';
+
 var React = require('react-native');
 
 var Dimensions= require('Dimensions');
 var windowsSize = Dimensions.get('window');
 
-import Button from 'apsl-react-native-button'
-
 var api =require("../utils/api/UserApi");
-
 
 var t = require('tcomb-form-native');
 
@@ -194,24 +194,28 @@ var Login  = React.createClass({
         if(_credentials) {
             api.sendCredentials(_credentials);
             UserSubject.subscribe((response)=>{
-                if(!response.error) {
-                    storage.save({
-                        key: 'cookies',
-                        rawData : {
-                            cookieName: response.data['cookie_name'],
-                            cookie: response.data['cookie']
-                        }
-                    });
-                    storage.save({
-                        key: 'UserId',
-                        rawData : {
-                            data: response.data['user']['id']
-                        }
-                    });
-                    var NavigationSubject = require("../services/NavigationManager").getStream();
-                    NavigationSubject.onNext({path: 'profile', id : 'me'})
-                } else {
-                    this.state.error = error;
+                console.warn('Login > login ', JSON.stringify(response));
+                if (response.type === 'login') {
+                    if (!response.data.error) {
+                        storage.save({
+                            key: 'cookies',
+                            rawData : {
+                                cookieName: response.data['cookie_name'],
+                                cookie: response.data['cookie']
+                            }
+                        });
+                        storage.save({
+                            key: 'UserId',
+                            rawData : {
+                                data: response.data['user']['id']
+                            }
+                        });
+                        var NavigationSubject = require("../services/NavigationManager").getStream();
+                        NavigationSubject.onNext({path: 'profile', id : 'me'})
+                    } else {
+                        console.warn('Login > login error', JSON.stringify(response.data));
+                        this.popup.alert('error_login_' + response.data.code);
+                    }
                 }
             })
         }
@@ -249,6 +253,7 @@ var Login  = React.createClass({
                         { I18n.t('register')}
                     </Button>
                 </View>
+                <Popup ref={(popup) => { this.popup = popup }}/>
             </View>
         );
     }

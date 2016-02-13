@@ -17,7 +17,6 @@ var api = {
         })
     },
 
-
     async getMember(memberId, subject){
 
         try {
@@ -61,9 +60,8 @@ var api = {
                     password: credentials.password
                 })
             });
-
-        UserSubject.onNext({type: 'login', data: JSON.parse(response._bodyInit)});
-
+            console.warn('sendCredentials > response ' , JSON.stringify(response._bodyInit));
+            UserSubject.onNext({type: 'login', data: JSON.parse(response._bodyInit)});
         } catch(error){
             UserSubject.onNext({type: 'login', error});
         }
@@ -74,7 +72,7 @@ var api = {
             fetch(apiConsts.apiEndpoint + 'auth/nonce/user/register')
                 .then((nonce) => {
                     console.warn('registerNewUser > nonce' , JSON.stringify(nonce));
-                    var _nonce = JSON.parse(nonce._bodyInit).nonce
+                    var _nonce = JSON.parse(nonce._bodyInit).nonce;
                     fetch(apiConsts.apiEndpoint +'auth/register', {
                         method: 'POST',
                         headers: {
@@ -110,6 +108,11 @@ var api = {
                 })
 
         })
+    },
+
+    logout () {
+        console.warn('logout');
+        return storage.remove({key: 'cookies'});
     },
 
     isAuthorized() {
