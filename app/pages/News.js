@@ -4,8 +4,7 @@ var GridView = require('react-native-grid-view');
 var NewsStream = require("../services/Streams").getStream("News");
 var Carousel = require("../components/banners/Carousel");
 var GiftedSpinner = require('react-native-gifted-spinner');
-var apiBanners = require('../utils/api/BannersApi');
-var BannersStream = require("../../services/Streams").getStream("Banners");
+
 var {
     StyleSheet,
     View,

@@ -38,15 +38,57 @@ var styles = StyleSheet.create({
     },
     items : {
         padding : 5
+    },
+    school : {
+        borderColor: "#8a52ad",
+        borderWidth: 1,
+        padding: 5,
+        margin: 10,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    selectedSchool : {
+        borderColor: "#FF0000",
+        backgroundColor: "#8a52ad",
+        borderWidth: 1,
+        padding: 5,
+        margin: 10,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+
+    loadMoreText : {
+        color: "#8a52ad"
     }
 });
 
 var SchoolElement = React.createClass({
+
+    getInitialState() {
+        return {
+            selected: false
+        }
+    },
+
+    elementSelected() {
+
+        var _selected = !this.state.selected;
+
+        this.setState({
+            selected : _selected
+        });
+        this.props.onSelect();
+    },
+
     render() {
+
+        var _style = (this.state.selected) ? styles.selectedSchool : styles.school;
+
         return(
             <View>
-                <TouchableHighlight underlayColor={'transparent'} onPress={this.props.onSelect}>
-                    <Text style={styles.items}>{this.props.school.value}</Text>
+                <TouchableHighlight underlayColor={'transparent'} onPress={this.elementSelected }
+                    style={ _style }>
+                    <Text style={styles.loadMoreText}>{this.props.school.value}</Text>
                 </TouchableHighlight>
             </View>
         )
@@ -71,7 +113,14 @@ var Schools = React.createClass({
     },
 
     selectSchool(school) {
-        this.state.selectedSchools.push(school);
+        if(school) {
+            var _index = this.state.selectedSchools.indexOf(school);
+            if(_index === -1) {
+                this.state.selectedSchools.push(school);
+            } else {
+                this.state.selectedSchools.splice(_index, 1);
+            }
+        }
     },
 
     componentDidMount() {
