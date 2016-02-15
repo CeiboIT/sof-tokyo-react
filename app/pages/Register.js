@@ -82,6 +82,10 @@ var styles = {
 };
 
 var styles = StyleSheet.create({
+    form: {
+        paddingTop: 5,
+        paddingBottom: 40
+    },
     buttonsContainer: {
         flex: 1,
         flexDirection: 'column',
@@ -214,12 +218,15 @@ var Register  = React.createClass({
                             { I18n.t('registerWithFacebook') }
                         </Button>
                     </View>
+
+                    <View style={styles.form}>
                         <Form ref="form">
                             <TextInput name="username" placeholder="Username"/>
                             <TextInput name="email" placeholder="Email"/>
                             <TextInput name="display_name" placeholder="Display name"/>
                             <TextInput name="years" placeholder="Age"/>
                         </Form>
+                    </View>
 
                     <View style={styles.loginButtonContainer}>
                         <Button style={styles.loginButton} textStyle={styles.loginText}
