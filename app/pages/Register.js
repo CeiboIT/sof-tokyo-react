@@ -183,20 +183,20 @@ var Register  = React.createClass({
             api.registerNewUser(_data)
                 .then(response => {
                     console.warn('Register > data ', JSON.stringify(response));
-                    if (response.status === 'error') {
-                        this.popup.alert(I18n.t('register_error_'+ response.code));
-                    } else {
-                        console.warn('Register > ok ', JSON.stringify(response));
-                        this.popup.tip({
-                            content: I18n.t('registerOk'),
-                            btn: {
-                                text: I18n.t('ok'),
-                                callback: () => {
-                                    NavigationSubject.onNext({ 'path': 'login' });
-                                }
+                    this.popup.tip({
+                        title: I18n.t('register'),
+                        content: I18n.t('registerOk'),
+                        btn: {
+                            text: I18n.t('ok'),
+                            callback: () => {
+                                NavigationSubject.onNext({ 'path': 'login' });
                             }
-                        });
-                    }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.warn('Register > error ', JSON.stringify(error));
+                    this.popup.alert(I18n.t('register_error_' + error.code));
                 });
         }
     },
@@ -220,7 +220,6 @@ var Register  = React.createClass({
                             <TextInput name="email" placeholder="Email"/>
                             <TextInput name="display_name" placeholder="Display name"/>
                             <TextInput name="years" placeholder="Age"/>
-                            <TextInput name="affiliation" placeholder="affiliantion"/>
                         </Form>
 
                     <View style={styles.loginButtonContainer}>

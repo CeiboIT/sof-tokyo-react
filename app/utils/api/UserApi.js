@@ -68,7 +68,7 @@ var api = {
     },
 
     registerNewUser(userData){
-        return new Promise((reject, resolve) => {
+        return new Promise((resolve, reject) => {
             fetch(apiConsts.apiEndpoint + 'auth/nonce/user/register')
                 .then((nonce) => {
                     console.warn('registerNewUser > nonce' , JSON.stringify(nonce));
@@ -85,27 +85,28 @@ var api = {
                             nonce: _nonce,
                             display_name: userData.display_name,
                             years: userData.years
-                            //school: userData.school,
-                            //ob: userData.ob,
-                            //country: userData.country
                         })
                     })
                     .then(result => {
-                        console.warn('registerNewUser > response', JSON.stringify(result));
                         var _result = JSON.parse(result._bodyInit);
+                        console.warn('registerNewUser > response', JSON.stringify(_result));
                         if(_result.status != 'error') {
-                            resolve(_result)
+                            console.warn('registerNewUser > resolve', JSON.stringify(_result));
+                            resolve(_result);
                         } else {
+                            console.warn('registerNewUser > reject', JSON.stringify(_result));
                             reject(_result);
                         }
                     })
                     .catch((error) => {
-                        console.warn('registerNewUser > error' , JSON.stringify(error));
+                        console.warn('registerNewUser > fetch post > error ' , JSON.stringify(error));
                         reject(error);
-                    })
-
+                    });
                 })
-
+                .catch((error) => {
+                    console.warn('registerNewUser > fetch nonce > error' , JSON.stringify(error));
+                    reject(error);
+                })
         })
     },
 

@@ -23,7 +23,8 @@ var I18nService = require('../i18n');
 I18nService.set('ja-JP', {
         'login' : 'ログイン',
         'loginWithFacebook': 'Facebookで始める',
-        'register': "登録 "
+        'register': '登録 ',
+        'error_login_100': 'Username or password invalid'
     }
 );
 
@@ -167,15 +168,6 @@ var UserCredentials = t.struct({
     password: t.String
 });
 
-var options = {
-
-
-};
-
-var username = {
-
-};
-
 var storage = require("../services/Storage").getInstance();
 
 var Login  = React.createClass({
@@ -214,7 +206,7 @@ var Login  = React.createClass({
                         NavigationSubject.onNext({path: 'profile', id : 'me'})
                     } else {
                         console.warn('Login > login error', JSON.stringify(response.data));
-                        this.popup.alert('error_login_' + response.data.code);
+                        this.popup.alert(I18n.t('error_login_' + response.data.code));
                     }
                 }
             })
