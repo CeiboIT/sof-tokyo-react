@@ -4,15 +4,14 @@
 
 import Button from 'apsl-react-native-button'
 import Popup from 'react-native-popup';
+import PickerAndroid from 'react-native-picker-android';
+import Form from 'react-native-form';
 
 var React = require('react-native');
 var Dimensions= require('Dimensions');
 var windowsSize = Dimensions.get('window');
 var api =require("../utils/api/UserApi");
-var t = require('tcomb-form-native');
 var I18nService = require('../i18n');
-//var {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
-
 
 I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
@@ -30,13 +29,120 @@ var I18n = I18nService.getTranslations();
 
 var {
     TextInput,
-    ScrollView,
+    Platform,
+    PickerIOS,
     View,
     Text,
     StyleSheet
     } = React;
 
-var Icon = require('react-native-vector-icons/FontAwesome');
+
+let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
+let PickerItem = Picker.Item;
+
+let CAR_MAKES_AND_MODELS = [ {text: 'hola', value: 'h'}, {text: 'chau', value: 'c'}];
+
+var Register  = React.createClass({
+    getInitialState() {
+        return {
+            carMake: 'hola',
+            modelIndex: 0,
+        }
+    },
+
+    loginWithFacebook() {
+        FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
+            if (!error) {
+                console.info("Login data: ", data);
+            } else {
+                console.info("Error: ", data);
+            }
+        })
+    },
+
+    register(values) {
+        var NavigationSubject = require("../services/NavigationManager").getStream();
+        console.warn('refs', JSON.stringify(this.refs.form.getValues()));
+        var _data = this.refs.form.getValues();
+        if(_data) {
+            api.registerNewUser(_data)
+                .then(response => {
+                    console.warn('Register > data ', JSON.stringify(response));
+                    this.popup.tip({
+                        title: I18n.t('register'),
+                        content: I18n.t('registerOk'),
+                        btn: {
+                            text: I18n.t('ok'),
+                            callback: () => {
+                                NavigationSubject.onNext({ 'path': 'login' });
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.warn('Register > error ', JSON.stringify(error));
+                    this.popup.alert(I18n.t('register_error_' + error.code));
+                });
+        }
+    },
+
+    login() {
+        var NavigationSubject = require("../services/NavigationManager").getStream();
+        NavigationSubject.onNext({path: 'login'})
+    },
+
+    render() {
+        return(
+                <View style={styles.Search}>
+                    <View style={styles.facebookContainer}>
+                        <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
+                            { I18n.t('registerWithFacebook') }
+                        </Button>
+                    </View>
+
+                    <View style={styles.form}>
+                        <Form ref="form">
+                            <TextInput name="username" placeholder="Username"/>
+                            <TextInput name="email" placeholder="Email"/>
+                            <TextInput name="display_name" placeholder="Display name"/>
+                            <TextInput name="years" placeholder="Age"/>
+                        </Form>
+                        <Text> {this.state.carMake}</Text>
+                        <Picker
+                            selectedValue={this.state.carMake}
+                            onValueChange={(carMake) => this.setState({carMake})}>
+                            {CAR_MAKES_AND_MODELS.map((carMake) => (
+                                <PickerItem
+                                    key={carMake}
+                                    value={carMake.value}
+                                    label={carMake.text}
+                                />
+                            ))}
+                        </Picker>
+                    </View>
+
+                    <View style={styles.loginButtonContainer}>
+                        <Button style={styles.loginButton} textStyle={styles.loginText}
+                                onPress={this.register}>
+                            { I18n.t('register')}
+                        </Button>
+                    </View>
+                    <View style={styles.loginButtonContainer}>
+                        <Text>
+                            か
+                        </Text>
+                    </View>
+                    <View style={styles.loginButtonContainer}>
+                        <Button style={styles.registerButton} textStyle={styles.registerText}
+                                onPress={this.login}>
+                            { I18n.t('login')}
+                        </Button>
+                    </View>
+                    <Popup ref={(popup) => { this.popup = popup }}/>
+                </View>
+        );
+    }
+});
 
 var styles = {
     Search: {
@@ -100,7 +206,6 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
     facebookButton: {
         flex:1,
         borderColor: '#2A406B',
@@ -161,93 +266,6 @@ var styles = StyleSheet.create({
     facebookText: {
         color:"#FFF",
         fontSize: 25
-    }
-});
-
-//var Form = t.form.Form;
-import Form from 'react-native-form'
-
-var Register  = React.createClass({
-
-    loginWithFacebook() {
-        FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
-            if (!error) {
-                console.info("Login data: ", data);
-            } else {
-                console.info("Error: ", data);
-            }
-        })
-    },
-
-    register(values) {
-        var NavigationSubject = require("../services/NavigationManager").getStream();
-        console.warn('refs', JSON.stringify(this.refs.form.getValues()));
-        var _data = this.refs.form.getValues();
-        if(_data) {
-            api.registerNewUser(_data)
-                .then(response => {
-                    console.warn('Register > data ', JSON.stringify(response));
-                    this.popup.tip({
-                        title: I18n.t('register'),
-                        content: I18n.t('registerOk'),
-                        btn: {
-                            text: I18n.t('ok'),
-                            callback: () => {
-                                NavigationSubject.onNext({ 'path': 'login' });
-                            }
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.warn('Register > error ', JSON.stringify(error));
-                    this.popup.alert(I18n.t('register_error_' + error.code));
-                });
-        }
-    },
-
-    login() {
-        var NavigationSubject = require("../services/NavigationManager").getStream();
-        NavigationSubject.onNext({path: 'login'})
-    },
-
-    render() {
-        return(
-                <View style={styles.Search}>
-                    <View style={styles.facebookContainer}>
-                        <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
-                            { I18n.t('registerWithFacebook') }
-                        </Button>
-                    </View>
-
-                    <View style={styles.form}>
-                        <Form ref="form">
-                            <TextInput name="username" placeholder="Username"/>
-                            <TextInput name="email" placeholder="Email"/>
-                            <TextInput name="display_name" placeholder="Display name"/>
-                            <TextInput name="years" placeholder="Age"/>
-                        </Form>
-                    </View>
-
-                    <View style={styles.loginButtonContainer}>
-                        <Button style={styles.loginButton} textStyle={styles.loginText}
-                                onPress={this.register}>
-                            { I18n.t('register')}
-                        </Button>
-                    </View>
-                    <View style={styles.loginButtonContainer}>
-                        <Text>
-                            か
-                        </Text>
-                    </View>
-                    <View style={styles.loginButtonContainer}>
-                        <Button style={styles.registerButton} textStyle={styles.registerText}
-                                onPress={this.login}>
-                            { I18n.t('login')}
-                        </Button>
-                    </View>
-                    <Popup ref={(popup) => { this.popup = popup }}/>
-                </View>
-        );
     }
 });
 
