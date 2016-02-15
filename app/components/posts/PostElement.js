@@ -139,8 +139,10 @@ var PostElement = React.createClass({
         return(
             <View style={styles.container}>
                 <View style={{overflow:'hidden'}}>
-                    <Image style={[this.imageSize()]} 
+                    <TouchableHighlight underlayColor={'rgba(0,0,0,0.9)'} onPress={this.goToPost}>
+                        <Image style={[this.imageSize()]} 
                             source={{uri: this.props.postData.thumbnail}} />
+                    </TouchableHighlight>
                 </View>
                 <NavigateToPost id={this.props.postData.id}/>
                 <View style={styles.contentTitle}>
