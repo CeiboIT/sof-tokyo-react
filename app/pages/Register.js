@@ -209,7 +209,6 @@ var Register  = React.createClass({
     render() {
         return(
                 <View style={styles.Search}>
-                    <ScrollView keyboardShouldPersistTaps={true}>
                     <View style={styles.facebookContainer}>
                         <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
                             { I18n.t('registerWithFacebook') }
@@ -240,7 +239,6 @@ var Register  = React.createClass({
                         </Button>
                     </View>
                     <Popup ref={(popup) => { this.popup = popup }}/>
-                    </ScrollView>
                 </View>
         );
     }
@@ -249,6 +247,9 @@ var Register  = React.createClass({
 module.exports = Register;
 
 /*
+ <ScrollView keyboardShouldPersistTaps={true}>
+ </ScrollView>
+
 
  <Form ref="form" type={UserCredentials} />
 
