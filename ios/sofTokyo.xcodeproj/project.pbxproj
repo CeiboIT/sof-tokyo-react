@@ -29,6 +29,8 @@
 		96060E7A1C526E4D007DD501 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96060E791C526E4D007DD501 /* GameKit.framework */; };
 		96060E7C1C526E65007DD501 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96060E7B1C526E65007DD501 /* StoreKit.framework */; };
 		964FB64A1C56918F003A7DD1 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 964FB6411C567347003A7DD1 /* libRCTPushNotification.a */; };
+		9672B4AD1C6B713F00177646 /* logo_76.png in Resources */ = {isa = PBXBuildFile; fileRef = 9672B4AC1C6B713F00177646 /* logo_76.png */; };
+		9672B4AF1C6B77CD00177646 /* logo_152.png in Resources */ = {isa = PBXBuildFile; fileRef = 9672B4AE1C6B77CD00177646 /* logo_152.png */; };
 		96A8DC621C566CA300E0FA78 /* libOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96A8DC611C566C9700E0FA78 /* libOneSignal.a */; };
 		96E922BD1C5418A9000C9693 /* logo_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E922BC1C5418A9000C9693 /* logo_120.png */; };
 		9D6E4CB678C54FD3BB36836C /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE5FFD5CD58459A9D50006E /* Foundation.ttf */; };
@@ -214,6 +216,8 @@
 		96060E791C526E4D007DD501 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		96060E7B1C526E65007DD501 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		964FB6351C567347003A7DD1 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
+		9672B4AC1C6B713F00177646 /* logo_76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_76.png; path = ../assets/logo_76.png; sourceTree = "<group>"; };
+		9672B4AE1C6B77CD00177646 /* logo_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_152.png; path = ../assets/logo_152.png; sourceTree = "<group>"; };
 		96A8DC5B1C566C9700E0FA78 /* OneSignal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OneSignal.xcodeproj; path = "../../OneSignal-iOS-SDK/iOS_SDK/OneSignal.xcodeproj"; sourceTree = "<group>"; };
 		96E922BC1C5418A9000C9693 /* logo_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_120.png; sourceTree = "<group>"; };
 		A10B22A646FE4CA58BB2806A /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 0; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
@@ -410,6 +414,8 @@
 		855E82430D1E40948874BA50 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9672B4AE1C6B77CD00177646 /* logo_152.png */,
+				9672B4AC1C6B713F00177646 /* logo_76.png */,
 				96E922BC1C5418A9000C9693 /* logo_120.png */,
 				B62890AC35494A10A28C9884 /* Entypo.ttf */,
 				A474CC70E49F4CE09DC95A60 /* EvilIcons.ttf */,
@@ -755,6 +761,8 @@
 				A4B72C61E3204F27A608B6C6 /* Entypo.ttf in Resources */,
 				C5CE82A7ACCB445CB03DD178 /* EvilIcons.ttf in Resources */,
 				632CF828B05F40B080E43B16 /* FontAwesome.ttf in Resources */,
+				9672B4AD1C6B713F00177646 /* logo_76.png in Resources */,
+				9672B4AF1C6B77CD00177646 /* logo_152.png in Resources */,
 				9D6E4CB678C54FD3BB36836C /* Foundation.ttf in Resources */,
 				A73F101D68324B5E89EF7ED4 /* Ionicons.ttf in Resources */,
 				E173C4409CBA49A3BBE47EBB /* MaterialIcons.ttf in Resources */,
