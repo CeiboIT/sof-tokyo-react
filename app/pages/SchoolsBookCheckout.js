@@ -12,6 +12,16 @@ var user = require("../utils/api/UserApi");
 var t = require("tcomb-form-native");
 var Rx = require("rx");
 var storage = require("../services/Storage");
+var I18nService = require('../i18n');
+
+I18nService.set('ja-JP', {
+        'nameForCheckout' : 'お名前',
+        'emailForCheckout': 'メールアドレス'
+    }
+);
+
+var I18n = I18nService.getTranslations();
+
 
 var Form = t.form.Form;
 
@@ -19,6 +29,13 @@ var BuyForm = t.struct({
     email: t.String,
     name: t.String
 });
+
+var BuyFormOptions = {
+    fields: {
+        email: { label: I18n.t('emailForCheckout')},
+        name: { label: I18n.t('nameForCheckout')}
+    }
+}
 
 
 var {
@@ -90,7 +107,7 @@ var SchoolsCheckout = React.createClass({
                     renderItem={(school) => <SchoolElement key={school.value} school={school} />}
                 />
 
-                <Form type={BuyForm} ref="form"/>
+                <Form type={ BuyForm } options={ BuyFormOptions } ref="form"/>
                 <TouchableHighlight underlayColor={'transparent'} onPress={this.sendMail}>
                     <Text>
                         Finish
