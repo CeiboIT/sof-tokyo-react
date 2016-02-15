@@ -32,6 +32,7 @@ var {
     Platform,
     PickerIOS,
     View,
+	ScrollView,
     Text,
     StyleSheet
     } = React;
@@ -93,21 +94,21 @@ var Register  = React.createClass({
 
     render() {
         return(
+			<ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
                 <View style={styles.Search}>
                     <View style={styles.facebookContainer}>
                         <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
                             { I18n.t('registerWithFacebook') }
                         </Button>
                     </View>
-
-                    <View style={styles.form}>
-                        <Form ref="form">
-                            <TextInput name="username" placeholder="Username"/>
-                            <TextInput name="email" placeholder="Email"/>
-                            <TextInput name="display_name" placeholder="Display name"/>
-                            <TextInput name="years" placeholder="Age"/>
-                        </Form>
-                        <Text> {this.state.carMake}</Text>
+					<View>
+                	
+						<Form ref="form">
+						    <TextInput style={{height: 60}} name="username" placeholder="Username"/>                   
+                        	<TextInput style={{height: 60}} name="email" placeholder="Email"/>
+                        	<TextInput style={{height: 60}} name="display_name" placeholder="Display name"/>
+                        	<TextInput style={{height: 60}} name="years" placeholder="Age"/>
+                    	</Form>
                         <Picker
                             selectedValue={this.state.carMake}
                             onValueChange={(carMake) => this.setState({carMake})}>
@@ -140,6 +141,7 @@ var Register  = React.createClass({
                     </View>
                     <Popup ref={(popup) => { this.popup = popup }}/>
                 </View>
+				</ScrollView>
         );
     }
 });
@@ -272,7 +274,7 @@ var styles = StyleSheet.create({
 module.exports = Register;
 
 /*
- <ScrollView keyboardShouldPersistTaps={true}>
+ 
  </ScrollView>
 
 
