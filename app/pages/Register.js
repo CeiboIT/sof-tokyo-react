@@ -2,32 +2,35 @@
  * Created by epotignano on 12/01/16.
  */
 
-var React = require('react-native');
+import Button from 'apsl-react-native-button'
+import Popup from 'react-native-popup';
 
+var React = require('react-native');
 var Dimensions= require('Dimensions');
 var windowsSize = Dimensions.get('window');
-
-import Button from 'apsl-react-native-button'
-
 var api =require("../utils/api/UserApi");
-
-
-
 var t = require('tcomb-form-native');
-
 var I18nService = require('../i18n');
+//var {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
+
 
 I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
         'registerUsername': 'ユーザー名 (必須)',
         'registerMail': 'メールアドレス (必須)',
         'registerDisplayName': '表示ユーザー名	(必須)',
+        'registerOk': 'Register succesful, please check your email to finish the process',
+        'ok': 'ok',
+        'register_error_000': 'Email already exists, please choose another',
+        'register_error_001': 'Username already exists, please choose another'
     }
 );
 
 var I18n = I18nService.getTranslations();
 
 var {
+    TextInput,
+    ScrollView,
     View,
     Text,
     StyleSheet
@@ -157,23 +160,11 @@ var styles = StyleSheet.create({
     }
 });
 
-var Form = t.form.Form;
+//var Form = t.form.Form;
+import Form from 'react-native-form'
 
-var UserCredentials = t.struct({
-    username: t.String,
-    email: t.String,
-    displayName: t.String
-});
-
-var options = {
-
-
-};
-
-var username = {
-
-};
 var Register  = React.createClass({
+
     loginWithFacebook() {
         FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
             if (!error) {
@@ -184,54 +175,87 @@ var Register  = React.createClass({
         })
     },
 
-    register(){
-        var _data = this.refs.form.getValue();
+    register(values) {
+        var NavigationSubject = require("../services/NavigationManager").getStream();
+        console.warn('refs', JSON.stringify(this.refs.form.getValues()));
+        var _data = this.refs.form.getValues();
         if(_data) {
             api.registerNewUser(_data)
-                .then(data => {
-                    console.warn(data)
+                .then(response => {
+                    console.warn('Register > data ', JSON.stringify(response));
+                    this.popup.tip({
+                        title: I18n.t('register'),
+                        content: I18n.t('registerOk'),
+                        btn: {
+                            text: I18n.t('ok'),
+                            callback: () => {
+                                NavigationSubject.onNext({ 'path': 'login' });
+                            }
+                        }
+                    });
                 })
+                .catch(error => {
+                    console.warn('Register > error ', JSON.stringify(error));
+                    this.popup.alert(I18n.t('register_error_' + error.code));
+                });
         }
     },
 
     login() {
-        var NavigationSubject =require("../services/NavigationManager").getStream();
+        var NavigationSubject = require("../services/NavigationManager").getStream();
         NavigationSubject.onNext({path: 'login'})
     },
 
     render() {
         return(
-            <View style={styles.Search}>
-                <View style={styles.facebookContainer}>
-                    <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
-                        <Text>
+                <View style={styles.Search}>
+                    <ScrollView keyboardShouldPersistTaps={true}>
+                    <View style={styles.facebookContainer}>
+                        <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
                             { I18n.t('registerWithFacebook') }
+                        </Button>
+                    </View>
+                        <Form ref="form">
+                            <TextInput name="username" placeholder="Username"/>
+                            <TextInput name="email" placeholder="Email"/>
+                            <TextInput name="display_name" placeholder="Display name"/>
+                            <TextInput name="years" placeholder="Age"/>
+                        </Form>
+
+                    <View style={styles.loginButtonContainer}>
+                        <Button style={styles.loginButton} textStyle={styles.loginText}
+                                onPress={this.register}>
+                            { I18n.t('register')}
+                        </Button>
+                    </View>
+                    <View style={styles.loginButtonContainer}>
+                        <Text>
+                            か
                         </Text>
-                    </Button>
+                    </View>
+                    <View style={styles.loginButtonContainer}>
+                        <Button style={styles.registerButton} textStyle={styles.registerText}
+                                onPress={this.login}>
+                            { I18n.t('login')}
+                        </Button>
+                    </View>
+                    <Popup ref={(popup) => { this.popup = popup }}/>
+                    </ScrollView>
                 </View>
-                <Form ref="form" type={UserCredentials}/>
-
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.loginButton} textStyle={styles.loginText}
-                            onPress={this.register}>
-                        { I18n.t('register')}
-                    </Button>
-                </View>
-                <View style={styles.loginButtonContainer}>
-                    <Text>
-                        か
-                    </Text>
-                </View>
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.registerButton} textStyle={styles.registerText}
-                            onPress={this.login}>
-                        { I18n.t('login')}
-                    </Button>
-                </View>
-
-            </View>
         );
     }
 });
 
 module.exports = Register;
+
+/*
+
+ <Form ref="form" type={UserCredentials} />
+
+<TextInput name="username" placeholder="Username"/>
+<TextInput name="email" placeholder="Email"/>
+    <TextInput name="displayName" placeholder="Display name"/>
+    <TextInput name="password" placeholder="Password"/>
+    <TextInput name="age" placeholder="Age"/>
+    <TextInput name="affiliation" placeholder="affiliantion"/>
+*/

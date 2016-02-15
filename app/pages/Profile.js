@@ -16,7 +16,6 @@ var storage = require('../services/Storage').getInstance();
 var PostElement = require('../components/posts/PostElement');
 var Icon = require('react-native-vector-icons/FontAwesome');
 
-
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get("window");
 
@@ -33,8 +32,6 @@ var styles = StyleSheet.create({
         marginTop: 10,
         height:windowSize.height
     },
-
-
     tabView: {
         flex: 1,
         padding: 10,
@@ -84,8 +81,6 @@ var goToPost = function (rowData) {
     var subject= require("../services/NavigationManager").getStream();
     subject.onNext({path:'post', params: {id: rowData.id} })
 }
-
-
 
 var Profile = React.createClass({
 
@@ -140,8 +135,11 @@ var Profile = React.createClass({
         })
     },
 
-    calculateListHeight ( ) {
-
+    logout() {
+        var NavigationSubject = require("../services/NavigationManager").getStream();
+        api.logout()
+            .then(() =>
+                NavigationSubject.onNext({path: 'feed'}));
     },
 
     render() {
@@ -174,8 +172,6 @@ var Profile = React.createClass({
         if(this.state.posts && this.state.posts.length) {
             _dynamicHeight = postElement.height * Math.abs( this.state.posts.length / 2)
         }
-
-        console.warn(_dynamicHeight);
 
         var _visitorTab = (
                 <TabNavigator
@@ -213,6 +209,7 @@ var Profile = React.createClass({
         return(
 
             <View>
+                <Text onPress={this.logout}> logout </Text>
                 <Badge data={this.state.user} />
                 {_render}
             </View>

@@ -39,7 +39,7 @@ var BackButton  = React.createClass({
         NavigationSubject.onNext( {path: 'back', navigator: this.props.navigator })
     },
     render() {
-        console.warn(Object.keys(this.props));
+        //console.warn(Object.keys(this.props));
 
         return (
             <TouchableHighlight onPress={this.goBack} underlayColor="transparent" >
