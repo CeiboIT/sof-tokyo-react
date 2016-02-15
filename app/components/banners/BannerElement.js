@@ -45,7 +45,7 @@ var BannerElement = React.createClass({
     },
     render() {
         return(
-            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNew()}>
+            <TouchableHighlight underlayColor={'transparent'} onPress={ this.goToNew }>
                 <View>
                    <ResponsiveImage source={{uri: this.getImage()}}
                                     initWidth={screen.width} initHeight={[this.imgageSize()]} />

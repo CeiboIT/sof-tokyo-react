@@ -2,10 +2,10 @@ var React = require('react-native');
 
 var GridView = require('react-native-grid-view');
 var NewsStream = require("../services/Streams").getStream("News");
-
-var api = require("../utils/api/NewsApi");
+var Carousel = require("../components/banners/Carousel");
 var GiftedSpinner = require('react-native-gifted-spinner');
-
+var apiBanners = require('../utils/api/BannersApi');
+var BannersStream = require("../../services/Streams").getStream("Banners");
 var {
     StyleSheet,
     View,
@@ -42,21 +42,13 @@ var News = React.createClass({
         }
     },
 
-    componentDidMount() {
-        //api.RetrieveNew();
-        NewsStream.subscribe((data)=> {
-            this.setState({
-                news: data['banner']
-            })
-        })
-    },
 
     render(){
         // if(!this.state.news.length) return (<GiftedSpinner/>)
         return(
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                   
+                    <Carousel />
                 </View>
             </ScrollView>
         )

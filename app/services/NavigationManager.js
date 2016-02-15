@@ -85,6 +85,7 @@ class NavigatorService {
                     });
                 break;
 
+
                 case('register'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
@@ -204,6 +205,17 @@ class NavigatorService {
                         titleComponent: logo
                     })
                 break;
+
+                case('news'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.news,
+                        rightCorner: toggle,
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
+                    })
+                break;
+
                 case('aboutSof'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
@@ -230,6 +242,8 @@ class NavigatorService {
                         rightCorner: toggle
                     })
                 break;
+
+
                 // case('news'):
                 //     this.manager.toRoute({
                 //         leftCorner: navigation.back,
