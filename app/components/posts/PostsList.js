@@ -87,6 +87,8 @@ var PostsList  = React.createClass({
     },
 
     componentDidMount() {
+        var _initial = true;
+
         if(this.props.id) {
             this.props.loadPostsFn(this.props.id)
         } else {
@@ -94,11 +96,11 @@ var PostsList  = React.createClass({
         }
 
         PostsStream.subscribe((response) => {
-            if(this.state.initial && _page == 1  && !this.state.isLoading)  {
-                if(response.pages != _page) {
+            if(_initial && _page == 1)  {
+                _initial = false;
+                if(response.pages != 1) {
                     this.setState({
-                        infiniteScroll: true,
-                        initial : false
+                        infiniteScroll: true
                     })
                 } else {
                     this.setSate({
@@ -137,6 +139,15 @@ var PostsList  = React.createClass({
         }
     },
     render(){
+
+        var _loadMoreButton = (
+            <TouchableHighlight underlayColor={'transparent'} onPress={this.loadMorePosts} style={styles.loadMore}>
+                <Text style={styles.loadMoreText}> Load more posts </Text>
+            </TouchableHighlight>
+        );
+
+        var _renderLoadButton = (this.state.infiniteScroll) ? _loadMoreButton : null;
+
         var _grid = (
             <ScrollView>
                 <GridView
@@ -147,10 +158,7 @@ var PostsList  = React.createClass({
                         backgroundColor: '#F7F7F7'
                     }}
                 />
-
-                <TouchableHighlight underlayColor={'transparent'} onPress={this.loadMorePosts} style={styles.loadMore}>
-                    <Text style={styles.loadMoreText}> Load more posts </Text>
-                </TouchableHighlight>
+                { _renderLoadButton }
             </ScrollView>
          )
 
@@ -165,7 +173,7 @@ var PostsList  = React.createClass({
             </View>
         )
 
-        var _render = (this.state.dataSource && this.state.dataSource.length) ? _grid : _loading
+        var _render = (this.state.dataSource && this.state.dataSource.length) ? _grid : _loading;
         return _render
     }
 })
