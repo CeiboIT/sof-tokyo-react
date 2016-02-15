@@ -23,7 +23,6 @@ import { api } from "../utils/api/Api.d";
 var styles = StyleSheet.create({
     facebookHeader : {
         backgroundColor: "#2A406B",
-        color: "#FFFFFF",
         borderBottomWidth: 1,
         borderColor : "#2A406B"
     },
@@ -145,7 +144,7 @@ class NavigatorService {
                     })
                 break;
                 case('schoolProfile'):
-                    console.warn(route.params.school.value);
+                    //console.warn(route.params.school.value);
                     this.manager.toRoute({
                         "leftCorner": navigation.back,
                         "component": Pages.schoolProfile,
