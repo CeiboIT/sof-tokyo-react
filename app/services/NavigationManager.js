@@ -195,7 +195,6 @@ class NavigatorService {
                 break;
 
                 case('schoolProfile'):
-                    console.warn(route.params.school.value);
                     this.manager.toRoute({
                         "leftCorner": navigation.back,
                         "component": Pages.schoolProfile,
@@ -246,12 +245,14 @@ class NavigatorService {
     };
 
     getFirstRoute() {
-        api.posts.LoadPosts(1);
         return this.startRoute
     }
 
     setNavigationManager(managertoSet){
-        if(!this.manager) this.manager = managertoSet;
+        if(!this.manager) {
+            console.warn('Going to asign!');
+            this.manager = managertoSet;
+        }
     }
 
     getNavigationManager(managertoSet){
