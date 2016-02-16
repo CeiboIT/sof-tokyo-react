@@ -32,6 +32,7 @@ var {
     Platform,
     PickerIOS,
     View,
+	ScrollView,
     Text,
     StyleSheet
     } = React;
@@ -51,7 +52,7 @@ var Register  = React.createClass({
 
     getInitialState() {
         return {
-            country: 'JAPAN',
+            country: 'JAPAN'
         }
     },
 
@@ -105,6 +106,7 @@ var Register  = React.createClass({
 
     render() {
         return(
+			<ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
                 <View style={styles.Search}>
                     <View style={styles.facebookContainer}>
                         <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
@@ -112,26 +114,24 @@ var Register  = React.createClass({
                         </Button>
                     </View>
 
-                    <View style={styles.form}>
-                        <Form ref="form">
-                            <TextInput name="username" placeholder="Username"/>
-                            <TextInput name="email" placeholder="Email"/>
-                            <TextInput name="display_name" placeholder="Display name"/>
-                            <TextInput name="years" placeholder="Age"/>
-                        </Form>
-                        <Picker
-                            selectedValue={this.state.country}
-                            onValueChange={(country) => this.setState({country})}>
-                            {Countries.map((country) => (
-                                <PickerItem
-                                    key={country}
-                                    value={country.value}
-                                    label={country.text}
-                                />
-                            ))}
-                        </Picker>
+                    <Form ref="form">
+                        <TextInput style={{height: 60}} name="username" placeholder="Username"/>
+                        <TextInput style={{height: 60}} name="email" placeholder="Email"/>
+                        <TextInput style={{height: 60}} name="display_name" placeholder="Display name"/>
+                        <TextInput style={{height: 60}} name="years" placeholder="Age"/>
+                    </Form>
 
-                    </View>
+                    <Picker
+                        selectedValue={this.state.country}
+                        onValueChange={(country) => this.setState({country})}>
+                        {Countries.map((country) => (
+                            <PickerItem
+                                key={country}
+                                value={country.value}
+                                label={country.text}
+                            />
+                        ))}
+                    </Picker>
 
                     <View style={styles.loginButtonContainer}>
                         <Button style={styles.loginButton} textStyle={styles.loginText}
@@ -151,7 +151,9 @@ var Register  = React.createClass({
                         </Button>
                     </View>
                     <Popup ref={(popup) => { this.popup = popup }}/>
+
                 </View>
+            </ScrollView>
         );
     }
 });
@@ -282,18 +284,3 @@ var styles = StyleSheet.create({
 });
 
 module.exports = Register;
-
-/*
- <ScrollView keyboardShouldPersistTaps={true}>
- </ScrollView>
-
-
- <Form ref="form" type={UserCredentials} />
-
-<TextInput name="username" placeholder="Username"/>
-<TextInput name="email" placeholder="Email"/>
-    <TextInput name="displayName" placeholder="Display name"/>
-    <TextInput name="password" placeholder="Password"/>
-    <TextInput name="age" placeholder="Age"/>
-    <TextInput name="affiliation" placeholder="affiliantion"/>
-*/
