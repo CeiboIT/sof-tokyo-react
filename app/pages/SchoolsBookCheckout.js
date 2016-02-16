@@ -1,18 +1,11 @@
-/**
- * Created by epotignano on 25/01/16.
- */
-/**
- * Created by epotignano on 10/01/16.
- */
-
-var React = require('react-native');
-var GridView = require('react-native-grid-view');
-var communication = require("../utils/api/CommunicationApi");
-var user = require("../utils/api/UserApi");
-var t = require("tcomb-form-native");
-var Rx = require("rx");
-var storage = require("../services/Storage");
-var I18nService = require('../i18n');
+var React = require('react-native'),
+    GridView = require('react-native-grid-view'),
+    communication = require("../utils/api/CommunicationApi"),
+    user = require("../utils/api/UserApi"),
+    t = require("tcomb-form-native"),
+    Rx = require("rx"),
+    storage = require("../services/Storage"),
+    I18nService = require('../i18n');
 
 I18nService.set('ja-JP', {
         'nameForCheckout' : 'お名前',
@@ -20,11 +13,9 @@ I18nService.set('ja-JP', {
     }
 );
 
-var I18n = I18nService.getTranslations();
-
-
-var Form = t.form.Form;
-
+var I18n = I18nService.getTranslations(),
+    Form = t.form.Form;
+    
 var BuyForm = t.struct({
     email: t.String,
     name: t.String
@@ -37,7 +28,6 @@ var BuyFormOptions = {
     }
 }
 
-
 var {
     StyleSheet,
     View,
@@ -45,11 +35,32 @@ var {
     TouchableHighlight
     } = React;
 
+var styles = StyleSheet.create({
+     schools : {
+        borderColor: "transparent",
+        borderWidth: 1,
+        padding: 5,
+        alignItems: "center",
+        justifyContent: "center"
+     },
+     checkOut : {
+        padding: 5,
+        borderWidth: 1,
+        borderColor: "#8a52ad",
+        margin : 10,
+        justifyContent: "center",
+        alignItems: "center"
+     },
+     checkOutText : {
+         color: "#8a52ad"
+     }
+});
+
 var SchoolElement = React.createClass({
     render() {
         return(
             <View>
-                <TouchableHighlight underlayColor={'transparent'}>
+                <TouchableHighlight underlayColor={'transparent'} style={styles.schools}>
                     <Text>{this.props.school.value}</Text>
                 </TouchableHighlight>
             </View>
@@ -108,8 +119,8 @@ var SchoolsCheckout = React.createClass({
                 />
 
                 <Form type={ BuyForm } options={ BuyFormOptions } ref="form"/>
-                <TouchableHighlight underlayColor={'transparent'} onPress={this.sendMail}>
-                    <Text>
+                <TouchableHighlight underlayColor={'transparent'} onPress={this.sendMail} style={styles.checkOut}>
+                    <Text style={styles.checkOutText}>
                         Finish
                     </Text>
                 </TouchableHighlight>

@@ -28,32 +28,12 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
     },
     close : {
-        margin: 10
+        margin: 5,
+        padding: 5
     },
     button : {
-      padding: 5
-    },
-    login: {
-        borderColor: '#00b9f7',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3
-    },
-
-    loginText: {
-        color:"#00b9f7",
-        fontSize: 25
-    },
-
-    registerText: {
-        color:"#8e44ad",
-        fontSize: 25
-    },
-    register: {
-        borderColor: '#8e44ad',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3
+      padding: 10,
+      paddingTop: 0
     }
 });
 
@@ -117,14 +97,14 @@ var SitePanel = React.createClass ({
                 </View>
 
                 <View style={styles.buttonsContainer} collapse={ true } >
-                    <TouchableHighlight ><Text>WOMEN</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>MEN</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>STYLE</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>CATEGORY</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateToSchools}><Text>SCHOOL</Text></TouchableHighlight>
-                    <TouchableHighlight ><Text>CONTACT</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateToAbout}><Text>ABOUT Sof</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateToUploadImage}><Text>UploadImage</Text></TouchableHighlight>
+                    <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>WOMEN</Text></TouchableHighlight>
+                    <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>MEN</Text></TouchableHighlight>
+                    <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>STYLE</Text></TouchableHighlight>
+                    <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>CATEGORY</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToSchools} underlayColor={'transparent'} style={styles.button}><Text>SCHOOL</Text></TouchableHighlight>
+                    <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>CONTACT</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToAbout} underlayColor={'transparent'} style={styles.button}><Text>ABOUT Sof</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToUploadImage} underlayColor={'transparent'} style={styles.button}><Text>UploadImage</Text></TouchableHighlight>
         </View>
             </View>
         )

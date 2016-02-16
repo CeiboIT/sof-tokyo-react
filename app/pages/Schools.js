@@ -32,33 +32,42 @@ var styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#e5e5e5'
     },
+    titleContainer : {
+        padding: 5,
+        borderWidth: 1,
+        borderColor: "#8a52ad",
+        margin : 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
     title : {
-        fontWeight : 'bold',
-        margin : 10
+        
     },
     items : {
         padding : 5
     },
     school : {
-        borderColor: "#8a52ad",
+        borderColor: "transparent",
         borderWidth: 1,
         padding: 5,
-        margin: 10,
+        margin: 5,
         alignItems: "center",
         justifyContent: "center"
     },
     selectedSchool : {
-        borderColor: "#FF0000",
+        borderColor: "#8a52ad",
         backgroundColor: "#8a52ad",
         borderWidth: 1,
         padding: 5,
-        margin: 10,
+        margin: 5,
         alignItems: "center",
         justifyContent: "center"
     },
-
     loadMoreText : {
         color: "#8a52ad"
+    },
+    selectedLoadMoreText : {
+        color: "white"
     }
 });
 
@@ -82,13 +91,14 @@ var SchoolElement = React.createClass({
 
     render() {
 
-        var _style = (this.state.selected) ? styles.selectedSchool : styles.school;
+        var _style = (this.state.selected) ? styles.selectedSchool : styles.school,
+            _styleText = (this.state.selected) ? styles.selectedLoadMoreText : styles.loadMoreText;
 
         return(
             <View>
                 <TouchableHighlight underlayColor={'transparent'} onPress={this.elementSelected }
                     style={ _style }>
-                    <Text style={styles.loadMoreText}>{this.props.school.value}</Text>
+                    <Text style={ _styleText }>{this.props.school.value}</Text>
                 </TouchableHighlight>
             </View>
         )
@@ -137,9 +147,9 @@ var Schools = React.createClass({
         return(
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                    <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToCheckout}>
+                    <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToCheckout} style={styles.titleContainer}>
                         <Text style={styles.title}>
-                            Request Books
+                            Request Books »
                         </Text>
                     </TouchableHighlight>
 
