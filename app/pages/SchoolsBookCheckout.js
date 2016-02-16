@@ -17,14 +17,14 @@ var I18n = I18nService.getTranslations(),
     Form = t.form.Form;
     
 var BuyForm = t.struct({
-    email: t.String,
-    name: t.String
+    fromEmail: t.String,
+    fromName: t.String
 });
 
 var BuyFormOptions = {
     fields: {
-        email: { label: I18n.t('emailForCheckout')},
-        name: { label: I18n.t('nameForCheckout')}
+        fromEmail: { label: I18n.t('emailForCheckout')},
+        fromName: { label: I18n.t('nameForCheckout')}
     }
 }
 
@@ -98,14 +98,13 @@ var SchoolsCheckout = React.createClass({
         var _mailStream = new Rx.Subject();
         var value = this.refs.form.getValue();
         var  _params= {
-            fromEmail : value.email,
-            fromName : value.name,
-            subject : "Subject",
+            fromEmail : value.fromEmail,
+            fromName : value.fromName,
             schools: this.props.schools
         };
         communication.sendMail(_params, _mailStream);
         _mailStream.subscribe((result) => {
-
+            console.warn(result);
         })
     },
 
