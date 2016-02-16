@@ -14,7 +14,6 @@ var api = require("../utils/api/UserApi");
 var schoolApi = require('../utils/api/SchoolsApi');
 var I18nService = require('../i18n');
 var SchoolsStream = require('../services/Streams').getStream('Schools');
-var Modal = require('react-native-modalbox');
 
 I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
@@ -124,10 +123,6 @@ var Register  = React.createClass({
     login() {
         var NavigationSubject = require("../services/NavigationManager").getStream();
         NavigationSubject.onNext({path: 'login'})
-    },
-
-    openModal: function(id) {
-        this.refs.modal.open();
     },
 
     toggleCountry() {
@@ -258,14 +253,6 @@ var styles = {
         backgroundColor: "#3B5998",
         color: "white",
         padding: 10
-    },
-    modal: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    modal3: {
-        height: 50,
-        width: 300
     },
     Search: {
         flex: 1,
