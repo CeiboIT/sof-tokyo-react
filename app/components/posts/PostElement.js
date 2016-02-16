@@ -135,13 +135,20 @@ var PostElement = React.createClass({
         
         return size  
     },
+    getThumbnail () {
+      if(this.props.postData.thumbnail){
+          return this.props.postData.thumbnail
+      }else{
+        return '"' + this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage[0]+ '"';  
+      }
+    },
     render() {
         return(
             <View style={styles.container}>
                 <View style={{overflow:'hidden'}}>
                     <TouchableHighlight underlayColor={'rgba(0,0,0,0.9)'} onPress={this.goToPost}>
                         <Image style={[this.imageSize()]} 
-                            source={{uri: this.props.postData.thumbnail}} />
+                            source={{uri:  this.getThumbnail() }} />
                     </TouchableHighlight>
                 </View>
                 <NavigateToPost id={this.props.postData.id}/>

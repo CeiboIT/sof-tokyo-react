@@ -32,7 +32,8 @@ var {
     Text,
     View,
     Dimensions,
-    TouchableHighlight
+    TouchableHighlight,
+    Image
     } = React;
 
 var Comment = t.struct({
@@ -183,11 +184,10 @@ var styles = StyleSheet.create({
     height: windowSize.height * 0.7
   },
   
-  btnModal : {
+  btnModalContainer : {
     position: 'absolute',
     top: 10,
-    right: 10,
-    color: 'gray'    
+    right: 10
   }
 });
 
@@ -298,7 +298,7 @@ var PostView = React.createClass({
             
             _subImages = <GridView
                             items={images}
-                            renderItem={(rowData) => <View><TouchableHighlight underlayColor={'transparent'} onPress={()=>this.openModal(rowData)}><View><ResponsiveImage source={{uri: rowData.image}} initWidth={100} initHeight={100} key={rowData.id}/></View></TouchableHighlight></View>
+                            renderItem={(rowData) => <View key={rowData.id}><TouchableHighlight underlayColor={'transparent'} onPress={()=>this.openModal(rowData)} key={rowData.id}><View><Image source={{uri: rowData.image}} style={{width: 86, height: 86}} key={rowData.id}/></View></TouchableHighlight></View>
                             }
                          />
         }
@@ -356,7 +356,7 @@ var PostView = React.createClass({
                     </View>
                 </View>
                 <Modal isOpen={this.state.isOpen} onClosed={this.closeModal} style={styles.modal} position={"top"}>
-                    <TouchableHighlight onPress={this.closeModal} underlayColor={'transparent'} style={styles.btnModal}><Text><Icon name="times" size={18}/></Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.closeModal} underlayColor={'transparent'} style={styles.btnModalContainer}><Text><Icon name="times" size={18} style={{color: 'gray'}}/></Text></TouchableHighlight>
                     <ResponsiveImage source={{uri: this.state.imageSel}} initWidth={imageSizes.width} initHeight={imageSizes.height}/>
                 </Modal>
             </ScrollView>)
