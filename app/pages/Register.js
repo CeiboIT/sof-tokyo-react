@@ -10,18 +10,24 @@ import Form from 'react-native-form';
 var React = require('react-native');
 var Dimensions= require('Dimensions');
 var windowsSize = Dimensions.get('window');
-var api =require("../utils/api/UserApi");
+var api = require("../utils/api/UserApi");
+var schoolApi = require('../utils/api/SchoolsApi');
 var I18nService = require('../i18n');
+var SchoolsStream = require('../services/Streams').getStream('Schools');
+var Modal = require('react-native-modalbox');
 
 I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
         'registerUsername': 'ユーザー名 (必須)',
         'registerMail': 'メールアドレス (必須)',
         'registerDisplayName': '表示ユーザー名	(必須)',
-        'registerOk': 'Register succesful, please check your email to finish the process',
+        'registerOk': 'Register successful, please check your email to finish the process',
         'ok': 'ok',
         'register_error_000': 'Email already exists, please choose another',
-        'register_error_001': 'Username already exists, please choose another'
+        'register_error_001': 'Username already exists, please choose another',
+        'country': '現在地',
+        'obog': 'OB・OG',
+        'school': '所属'
     }
 );
 
@@ -50,8 +56,21 @@ let OB_OG = [{ text: 'OB', value: 'OB'}, { text: 'OG', value: 'OG' }];
 
 var Register  = React.createClass({
 
+    componentDidMount() {
+        schoolApi.LoadSchools();
+        SchoolsStream.subscribe((results) => {
+            console.warn('componentDidMount > schools', JSON.stringify(results));
+            this.setState({schools: results.schools});
+        });
+    },
+
     getInitialState() {
         return {
+            showCountry: false,
+            showObog: false,
+            showSchool: false,
+            swipeToClose: false,
+            schools: [],
             country: 'JAPAN'
         }
     },
@@ -70,13 +89,16 @@ var Register  = React.createClass({
     getRegisterValues() {
         var registerValues = this.refs.form.getValues();
         registerValues.country = this.state.country;
+        registerValues.obog = this.state.obog;
+        registerValues.school = this.state.school;
+        console.warn('registerValues > ', JSON.stringify(registerValues));
         return registerValues;
     },
 
     register(values) {
         var NavigationSubject = require("../services/NavigationManager").getStream();
         console.warn('refs', JSON.stringify(this.refs.form.getValues()));
-        var _data = getRegisterValues();
+        var _data = this.getRegisterValues();
         if(_data) {
             api.registerNewUser(_data)
                 .then(response => {
@@ -104,6 +126,74 @@ var Register  = React.createClass({
         NavigationSubject.onNext({path: 'login'})
     },
 
+    openModal: function(id) {
+        this.refs.modal.open();
+    },
+
+    toggleCountry() {
+        this.setState({showCountry: !this.state.showCountry});
+    },
+
+    toggleObog() {
+        this.setState({showObog: !this.state.showObog});
+    },
+
+    toggleSchool() {
+        this.setState({showSchool: !this.state.showSchool});
+    },
+
+    showCountry() {
+        if (this
+
+                .state.showCountry) {
+            return (<Picker
+                selectedValue={this.state.country}
+                onValueChange={(country) => this.setState({country: country})}>
+                {Countries.map((country) => (
+                    <PickerItem
+                        key={country}
+                        value={country.value}
+                        label={country.text}
+                    />
+                ))}
+            </Picker>);
+        }
+    },
+
+    showObog() {
+        if (this.state.showObog) {
+            return (<Picker
+            selectedValue={this.state.obog}
+            onValueChange={(obog) => this.setState({obog: obog})}>
+            {OB_OG.map((obog) => (
+                <PickerItem
+                    key={obog}
+                    value={obog.value}
+                    label={obog.text}
+                />
+            ))}
+        </Picker>
+        );
+        }
+    },
+
+    showSchool() {
+        if (this.state.showSchool) {
+            return (<Picker
+                    selectedValue={this.state.school}
+                    onValueChange={(school) => this.setState({school: school})}>
+                    {this.state.schools.map((school) => (
+                        <PickerItem
+                            key={school}
+                            value={school.value}
+                            label={school.value}
+                        />
+                    ))}
+                </Picker>
+            );
+        }
+    },
+
     render() {
         return(
 			<ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
@@ -120,18 +210,23 @@ var Register  = React.createClass({
                         <TextInput style={{height: 60}} name="display_name" placeholder="Display name"/>
                         <TextInput style={{height: 60}} name="years" placeholder="Age"/>
                     </Form>
+                    <Text style={{height: 60, textDecorationLine: 'underline'}}
+                          onPress={this.toggleCountry}>
+                        Country: <Text> {this.state.country} </Text>
+                    </Text>
+                    {this.showCountry()}
 
-                    <Picker
-                        selectedValue={this.state.country}
-                        onValueChange={(country) => this.setState({country})}>
-                        {Countries.map((country) => (
-                            <PickerItem
-                                key={country}
-                                value={country.value}
-                                label={country.text}
-                            />
-                        ))}
-                    </Picker>
+                    <Text style={{height: 60}}
+                          onPress={this.toggleObog}>
+                        Obog: <Text> {this.state.obog} </Text>
+                    </Text>
+                    {this.showObog()}
+
+                    <Text style={{height: 60}}
+                          onPress={this.toggleSchool}>
+                        School: <Text> {this.state.school} </Text>
+                    </Text>
+                    {this.showSchool()}
 
                     <View style={styles.loginButtonContainer}>
                         <Button style={styles.loginButton} textStyle={styles.loginText}
@@ -151,14 +246,27 @@ var Register  = React.createClass({
                         </Button>
                     </View>
                     <Popup ref={(popup) => { this.popup = popup }}/>
-
                 </View>
             </ScrollView>
-        );
+    );
     }
 });
 
 var styles = {
+    btn: {
+        margin: 10,
+        backgroundColor: "#3B5998",
+        color: "white",
+        padding: 10
+    },
+    modal: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modal3: {
+        height: 50,
+        width: 300
+    },
     Search: {
         flex: 1,
         padding: 30,
@@ -284,3 +392,32 @@ var styles = StyleSheet.create({
 });
 
 module.exports = Register;
+
+/*
+ <Text>{I18n.t('obog')}</Text>
+ <Picker
+ selectedValue={this.state.obog}
+ onValueChange={(obog) => this.setState({obog})}>
+ {OB_OG.map((obog) => (
+ <PickerItem
+ key={obog}
+ value={obog.value}
+ label={obog.text}
+ />
+ ))}
+ </Picker>
+
+ <Text>{I18n.t('school')}</Text>
+ <Picker
+ selectedValue={this.state.school}
+ onValueChange={(school) => this.setState({school})}>
+ {this.state.schools.map((school) => (
+ <PickerItem
+ key={school}
+ value={school.value}
+ label={school.value}
+ />
+ ))}
+ </Picker>
+
+ */

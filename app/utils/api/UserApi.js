@@ -84,7 +84,10 @@ var api = {
                             email: userData.email,
                             nonce: _nonce,
                             display_name: userData.display_name,
-                            years: userData.years
+                            years: userData.years,
+                            ob: userData.obog,
+                            country: userData.country,
+                            school: userData.school
                         })
                     })
                     .then(result => {
