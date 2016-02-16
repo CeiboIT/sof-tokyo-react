@@ -838,6 +838,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sof.sofTokyo;
 				PRODUCT_NAME = sofTokyo;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -870,6 +871,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sof.sofTokyo;
 				PRODUCT_NAME = sofTokyo;
 				PROVISIONING_PROFILE = "";
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

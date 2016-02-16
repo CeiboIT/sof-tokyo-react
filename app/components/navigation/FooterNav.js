@@ -122,7 +122,6 @@ class FooterNav extends React.Component {
                 {
                     itemLabel: <Icon name="search" size={35} style={styles.icon}></Icon>,
                     action: () => {
-                        console.warn('HEre');
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
