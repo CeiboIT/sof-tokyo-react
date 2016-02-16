@@ -40,15 +40,21 @@ var {
 let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
 let PickerItem = Picker.Item;
 
-let CAR_MAKES_AND_MODELS = [ {text: 'hola', value: 'h'}, {text: 'chau', value: 'c'}];
+let Countries = [ {text: 'Japan', value: 'JAPAN'},
+    {text: 'US', value: 'US'},
+    {text: 'Euro', value: 'EURO'},
+    {text: 'Other', value: 'OTHER'}];
+
+let OB_OG = [{ text: 'OB', value: 'OB'}, { text: 'OG', value: 'OG' }];
 
 var Register  = React.createClass({
+
     getInitialState() {
         return {
-            carMake: 'hola',
-            modelIndex: 0,
+            country: 'JAPAN',
         }
     },
+
 
     loginWithFacebook() {
         FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
@@ -60,10 +66,16 @@ var Register  = React.createClass({
         })
     },
 
+    getRegisterValues() {
+        var registerValues = this.refs.form.getValues();
+        registerValues.country = this.state.country;
+        return registerValues;
+    },
+
     register(values) {
         var NavigationSubject = require("../services/NavigationManager").getStream();
         console.warn('refs', JSON.stringify(this.refs.form.getValues()));
-        var _data = this.refs.form.getValues();
+        var _data = getRegisterValues();
         if(_data) {
             api.registerNewUser(_data)
                 .then(response => {
@@ -107,18 +119,18 @@ var Register  = React.createClass({
                             <TextInput name="display_name" placeholder="Display name"/>
                             <TextInput name="years" placeholder="Age"/>
                         </Form>
-                        <Text> {this.state.carMake}</Text>
                         <Picker
-                            selectedValue={this.state.carMake}
-                            onValueChange={(carMake) => this.setState({carMake})}>
-                            {CAR_MAKES_AND_MODELS.map((carMake) => (
+                            selectedValue={this.state.country}
+                            onValueChange={(country) => this.setState({country})}>
+                            {Countries.map((country) => (
                                 <PickerItem
-                                    key={carMake}
-                                    value={carMake.value}
-                                    label={carMake.text}
+                                    key={country}
+                                    value={country.value}
+                                    label={country.text}
                                 />
                             ))}
                         </Picker>
+
                     </View>
 
                     <View style={styles.loginButtonContainer}>
