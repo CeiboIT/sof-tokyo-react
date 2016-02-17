@@ -31,18 +31,19 @@ var styles = StyleSheet.create({
         justifyContent: "center"
     },
     logo : {
-        height: 50
+        height: 50,
+        width: 160
     }
 });
 
 var imageSizes ={
-    height: 50,
-    width: 180
+    height: 40,
+    width: 150
 };
 
 var logo = React.createClass({
   render: function() {
-    return <View style={styles.logoContainer}><ResponsiveImage style={styles.logo}
+    return <View style={styles.logoContainer}><ResponsiveImage
                             source={{uri: 'http://sof.tokyo/wp-content/uploads/2015/06/logo.png'}}
                             initHeight={imageSizes.height}
                             initWidth={imageSizes.width}
@@ -156,7 +157,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.styles,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
                 case('postsByStyle'):
@@ -165,7 +167,8 @@ class NavigatorService {
                         "component": Pages.byStyle,
                         rightCorner: toggle,
                         "passProps": route.params,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
                 case('postsBySex'):
@@ -174,7 +177,8 @@ class NavigatorService {
                         "component": Pages.bySex,
                         rightCorner: toggle,
                         "passProps": route.params,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
                 case('categoriesMenu'):
@@ -182,7 +186,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.categoriesPage,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
                 case('ranking'):
@@ -190,7 +195,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.ranking,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
 
@@ -199,7 +205,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         "component": Pages.newPosts,
                         rightCorner: toggle,
-                        "headerStyle": styles.generalHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     })
                 break;
 
@@ -247,7 +254,8 @@ class NavigatorService {
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.uploadImage,
-                        rightCorner: toggle
+                        rightCorner: toggle,
+                        titleComponent: logo
                     })
                 break;
             }
