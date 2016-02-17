@@ -13,6 +13,8 @@
 
 #import "RCTPushNotificationManager.h"
 
+#import "RCTSplashScreen.h"
+
 
 @implementation AppDelegate
 
@@ -49,6 +51,7 @@
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
 
+  [RCTSplashScreen show:rootView]; //<--- add show SplashScreen
   
   /* Add OneSignal configuration */
   

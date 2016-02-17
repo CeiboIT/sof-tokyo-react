@@ -17,7 +17,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
@@ -31,6 +30,10 @@
 		964FB64A1C56918F003A7DD1 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 964FB6411C567347003A7DD1 /* libRCTPushNotification.a */; };
 		9672B4AD1C6B713F00177646 /* logo_76.png in Resources */ = {isa = PBXBuildFile; fileRef = 9672B4AC1C6B713F00177646 /* logo_76.png */; };
 		9672B4AF1C6B77CD00177646 /* logo_152.png in Resources */ = {isa = PBXBuildFile; fileRef = 9672B4AE1C6B77CD00177646 /* logo_152.png */; };
+		967837F01C74AC4F00D78652 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967837EF1C74AC4F00D78652 /* LaunchScreen.xib */; };
+		967838031C74AC6300D78652 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 967838021C74AC6300D78652 /* splash.png */; };
+		967934031C74161800F9A25B /* libRCTSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 967933FB1C7415CD00F9A25B /* libRCTSplashScreen.a */; };
+		967934051C74185800F9A25B /* SplashScreenResource in Resources */ = {isa = PBXBuildFile; fileRef = 967934041C74185700F9A25B /* SplashScreenResource */; };
 		96A8DC621C566CA300E0FA78 /* libOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96A8DC611C566C9700E0FA78 /* libOneSignal.a */; };
 		96E922BD1C5418A9000C9693 /* logo_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E922BC1C5418A9000C9693 /* logo_120.png */; };
 		9D6E4CB678C54FD3BB36836C /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE5FFD5CD58459A9D50006E /* Foundation.ttf */; };
@@ -119,6 +122,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTPushNotification;
 		};
+		967933FA1C7415CD00F9A25B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 967933ED1C7415CC00F9A25B /* RCTSplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3245CDED1BFEE35C00EABF68;
+			remoteInfo = RCTSplashScreen;
+		};
 		9682A92A1C4F0C6C003950C6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D77AEA68B3964ECAAE418D9E /* RNI18n.xcodeproj */;
@@ -167,7 +177,6 @@
 		13B07F961A680F5B00A75B9A /* sofTokyo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sofTokyo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = sofTokyo/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = sofTokyo/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = sofTokyo/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = sofTokyo/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = sofTokyo/main.m; sourceTree = "<group>"; };
@@ -218,6 +227,10 @@
 		964FB6351C567347003A7DD1 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		9672B4AC1C6B713F00177646 /* logo_76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_76.png; path = ../assets/logo_76.png; sourceTree = "<group>"; };
 		9672B4AE1C6B77CD00177646 /* logo_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_152.png; path = ../assets/logo_152.png; sourceTree = "<group>"; };
+		967837EF1C74AC4F00D78652 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource/LaunchScreen.xib"; sourceTree = "<group>"; };
+		967838021C74AC6300D78652 /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash.png; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource/splash.png"; sourceTree = "<group>"; };
+		967933ED1C7415CC00F9A25B /* RCTSplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSplashScreen.xcodeproj; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen.xcodeproj"; sourceTree = "<group>"; };
+		967934041C74185700F9A25B /* SplashScreenResource */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SplashScreenResource; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource"; sourceTree = "<group>"; };
 		96A8DC5B1C566C9700E0FA78 /* OneSignal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OneSignal.xcodeproj; path = "../../OneSignal-iOS-SDK/iOS_SDK/OneSignal.xcodeproj"; sourceTree = "<group>"; };
 		96E922BC1C5418A9000C9693 /* logo_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_120.png; sourceTree = "<group>"; };
 		A10B22A646FE4CA58BB2806A /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 0; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
@@ -251,6 +264,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				967934031C74161800F9A25B /* libRCTSplashScreen.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				964FB64A1C56918F003A7DD1 /* libRCTPushNotification.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -333,12 +347,13 @@
 		13B07FAE1A68108700A75B9A /* sofTokyo */ = {
 			isa = PBXGroup;
 			children = (
+				967837EF1C74AC4F00D78652 /* LaunchScreen.xib */,
+				967838021C74AC6300D78652 /* splash.png */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = sofTokyo;
@@ -363,6 +378,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				967933ED1C7415CC00F9A25B /* RCTSplashScreen.xcodeproj */,
 				964FB6351C567347003A7DD1 /* RCTPushNotification.xcodeproj */,
 				96A8DC5B1C566C9700E0FA78 /* OneSignal.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -416,6 +432,7 @@
 			children = (
 				9672B4AE1C6B77CD00177646 /* logo_152.png */,
 				9672B4AC1C6B713F00177646 /* logo_76.png */,
+				967934041C74185700F9A25B /* SplashScreenResource */,
 				96E922BC1C5418A9000C9693 /* logo_120.png */,
 				B62890AC35494A10A28C9884 /* Entypo.ttf */,
 				A474CC70E49F4CE09DC95A60 /* EvilIcons.ttf */,
@@ -489,6 +506,14 @@
 			isa = PBXGroup;
 			children = (
 				964FB6411C567347003A7DD1 /* libRCTPushNotification.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		967933EE1C7415CC00F9A25B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				967933FB1C7415CD00F9A25B /* libRCTSplashScreen.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -612,6 +637,10 @@
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
 				{
+					ProductGroup = 967933EE1C7415CC00F9A25B /* Products */;
+					ProjectRef = 967933ED1C7415CC00F9A25B /* RCTSplashScreen.xcodeproj */;
+				},
+				{
 					ProductGroup = 832341B11AAA6A8300B99B32 /* Products */;
 					ProjectRef = 832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */;
 				},
@@ -721,6 +750,13 @@
 			remoteRef = 964FB6401C567347003A7DD1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		967933FB1C7415CD00F9A25B /* libRCTSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTSplashScreen.a;
+			remoteRef = 967933FA1C7415CD00F9A25B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9682A92B1C4F0C6C003950C6 /* libRNI18n.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -757,14 +793,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				967838031C74AC6300D78652 /* splash.png in Resources */,
 				A4B72C61E3204F27A608B6C6 /* Entypo.ttf in Resources */,
 				C5CE82A7ACCB445CB03DD178 /* EvilIcons.ttf in Resources */,
 				632CF828B05F40B080E43B16 /* FontAwesome.ttf in Resources */,
 				9672B4AD1C6B713F00177646 /* logo_76.png in Resources */,
 				9672B4AF1C6B77CD00177646 /* logo_152.png in Resources */,
+				967837F01C74AC4F00D78652 /* LaunchScreen.xib in Resources */,
 				9D6E4CB678C54FD3BB36836C /* Foundation.ttf in Resources */,
 				A73F101D68324B5E89EF7ED4 /* Ionicons.ttf in Resources */,
+				967934051C74185800F9A25B /* SplashScreenResource in Resources */,
 				E173C4409CBA49A3BBE47EBB /* MaterialIcons.ttf in Resources */,
 				17069E6FC3D94735A1542EC9 /* Octicons.ttf in Resources */,
 				96E922BD1C5418A9000C9693 /* logo_120.png in Resources */,
@@ -803,18 +841,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = sofTokyo;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -839,6 +865,7 @@
 					"$(SRCROOT)/../node_modules/react-native-responsive-image/ResponsiveImageExample/ios/ResponsiveImageExample",
 					"/Users/seba/Documents/OneSignal-iOS-SDK/iOS_SDK/**",
 					"/Users/seba/Documents/sof-tokyo-react/node_modules/react-native/Libraries/PushNotificationIOS/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen",
 				);
 				INFOPLIST_FILE = sofTokyo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -872,6 +899,7 @@
 					"$(SRCROOT)/../node_modules/react-native-responsive-image/ResponsiveImageExample/ios/ResponsiveImageExample",
 					"/Users/seba/Documents/OneSignal-iOS-SDK/iOS_SDK/**",
 					"/Users/seba/Documents/sof-tokyo-react/node_modules/react-native/Libraries/PushNotificationIOS/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen",
 				);
 				INFOPLIST_FILE = sofTokyo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
