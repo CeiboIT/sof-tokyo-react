@@ -62,7 +62,7 @@ var CategoryElement = React.createClass({
                 </View>
                 <GridView
                     items={this.props.subcategory['childs']}
-                    itemsPerRow={2}
+                    itemsPerRow={1}
                     renderItem={(rowData) =>
                         <ChildCategory key={rowData.id} children={rowData} onSelect={this.navigateToCategory(rowData)} />
                     }

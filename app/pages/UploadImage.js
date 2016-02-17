@@ -22,7 +22,10 @@ var styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems:'center',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
     },
     base: {
         width: 60,
@@ -116,22 +119,24 @@ var UpoloadImage = React.createClass({
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>
-                    Upload image
-                </Text>
-                <Button style={styles.button} textStyle={styles.loginText}
-                        onPress={this.openPicker}>
-                    Select image
-                </Button>
-                <Image source={this.state.selectedImage} style={styles.base} />
-                <Button style={styles.button} textStyle={styles.loginText}
-                        onPress={this.uploadImage}>
-                    Send to cloudinary
-                </Button>
-                <Text>
-                    publicId: {this.state.uploadImageResponse}
-                </Text>
+            <View style={{flex: 1,backgroundColor:'#F7F7F7', padding:10}}>
+                <View style={styles.container}>
+                    <Text>
+                        Upload image
+                    </Text>
+                    <Button style={styles.button} textStyle={styles.loginText}
+                            onPress={this.openPicker}>
+                        Select image
+                    </Button>
+                    <Image source={this.state.selectedImage} style={styles.base} />
+                    <Button style={styles.button} textStyle={styles.loginText}
+                            onPress={this.uploadImage}>
+                        Send to cloudinary
+                    </Button>
+                    <Text>
+                        publicId: {this.state.uploadImageResponse}
+                    </Text>
+                </View>
             </View>
         )
     }
