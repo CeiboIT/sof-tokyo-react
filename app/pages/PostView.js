@@ -205,7 +205,7 @@ var PostView = React.createClass({
             isOpen: true,
             imageSel: element.image
             });
-     this.refs.scrollView.scrollTo(0);
+        this.refs.scrollView.scrollTo(0);
     },
 
     closeModal: function(element) {

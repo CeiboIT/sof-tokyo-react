@@ -202,13 +202,6 @@ var Register  = React.createClass({
     render() {
         return(
             <View style={styles.Search}>
-                <View style={styles.facebookContainer}>
-                    <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
-                        <Text>
-                            { I18n.t('registerWithFacebook') }
-                        </Text>
-                    </Button>
-                </View>
                 <Form ref="form" type={UserCredentials}/>
 
                 <View style={styles.loginButtonContainer}>

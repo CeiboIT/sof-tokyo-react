@@ -1,12 +1,7 @@
-/**
- * Created by epotignano on 19/01/16.
- */
-
-
-var React = require('react-native');
-// var Icon = require('react-native-vector-icons/EvilIcons');
-var Icon = require('react-native-vector-icons/FontAwesome');
-var api = require('../../../utils/api/PostApi')
+var React = require('react-native'),
+    Icon = require('react-native-vector-icons/FontAwesome'),
+    api = require('../../../utils/api/PostApi'),
+    UserApi = require("../../../utils/api/UserApi");
 
 var {
     View,
@@ -18,8 +13,7 @@ var {
 var styles = StyleSheet.create({
     postLikeContainer: {
         flex:1,
-        flexDirection:'row',
-        // justifyContent: 'flex-start'
+        flexDirection:'row'
     },
     likeText : {
         flex:1,
@@ -29,12 +23,36 @@ var styles = StyleSheet.create({
 })
 
 var PostLike = React.createClass({
-    LikePost() {
-        var PostLikeSubject = require("../../../services/Streams").getStream("PostLike" +  this.props.id)
-        api.LikePost(this.props.data.id, PostLikeSubject);
-        PostLikeSubject.subscribe((data) => {
-            console.log(data);
+
+    getInitialState() {
+        return {
+            isLoggedIn: false,
+            like: 0
+        }
+    },
+
+    componentDidMount(){
+        UserApi.isAuthorized().then((result) => {
+            this.setState({
+                isLoggedIn: result['valid']
+            })
+        });
+        this.setState({
+            like: this.retrieveLikes(this.props.data['metadata'])
         })
+    },
+
+    LikePost() {
+        if(this.state.isLoggedIn){
+            var PostLikeSubject = require("../../../services/Streams").getStream("PostLike" +  this.props.id);
+            api.LikePost(this.props.data.id, PostLikeSubject);
+            PostLikeSubject.subscribe((data) => {
+
+            });
+            this.setState({
+                like: parseInt(this.state.like) + 1
+            })
+        }
     },
 
     retrieveLikes(metadata) {
@@ -50,13 +68,12 @@ var PostLike = React.createClass({
         return _value;
     },
     render() {
-        var _likes = this.retrieveLikes(this.props.data['metadata']);
         return (
           <View style={styles.postLikeContainer}>
               <TouchableHighlight underlayColor={'transparent'} onPress={this.LikePost}>
                   <View>
                     <Text style={styles.likeText}>
-                      <Icon name="heart-o" size={18} color="#bbbbbb"/> { _likes }
+                        <Icon name="heart-o" size={18} color="#bbbbbb"/> { this.state.like }
                     </Text>
                   </View>
               </TouchableHighlight>
