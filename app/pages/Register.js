@@ -378,74 +378,31 @@ var styles = StyleSheet.create({
     }
 });
 
-var Form = t.form.Form;
-
-var UserCredentials = t.struct({
-    username: t.String,
-    email: t.String,
-    displayName: t.String
-});
-
-var options = {
-
-
-};
-
-var username = {
-
-};
-var Register  = React.createClass({
-    loginWithFacebook() {
-        FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
-            if (!error) {
-                console.info("Login data: ", data);
-            } else {
-                console.info("Error: ", data);
-            }
-        })
-    },
-
-    register(){
-        var _data = this.refs.form.getValue();
-        if(_data) {
-            api.registerNewUser(_data)
-                .then(data => {
-                    console.warn(data)
-                })
-        }
-    },
-
-    login() {
-        var NavigationSubject =require("../services/NavigationManager").getStream();
-        NavigationSubject.onNext({path: 'login'})
-    },
-
-    render() {
-        return(
-            <View style={styles.Search}>
-                <Form ref="form" type={UserCredentials}/>
-
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.loginButton} textStyle={styles.loginText}
-                            onPress={this.register}>
-                        { I18n.t('register')}
-                    </Button>
-                </View>
-                <View style={styles.loginButtonContainer}>
-                    <Text>
-                        か
-                    </Text>
-                </View>
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.registerButton} textStyle={styles.registerText}
-                            onPress={this.login}>
-                        { I18n.t('login')}
-                    </Button>
-                </View>
-
-            </View>
-        );
-    }
-});
-
 module.exports = Register;
+
+/*
+ <Text>{I18n.t('obog')}</Text>
+ <Picker
+ selectedValue={this.state.obog}
+ onValueChange={(obog) => this.setState({obog})}>
+ {OB_OG.map((obog) => (
+ <PickerItem
+ key={obog}
+ value={obog.value}
+ label={obog.text}
+ />
+ ))}
+ </Picker>
+ <Text>{I18n.t('school')}</Text>
+ <Picker
+ selectedValue={this.state.school}
+ onValueChange={(school) => this.setState({school})}>
+ {this.state.schools.map((school) => (
+ <PickerItem
+ key={school}
+ value={school.value}
+ label={school.value}
+ />
+ ))}
+ </Picker>
+ */

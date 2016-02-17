@@ -10,7 +10,6 @@
     "fbemitter": "^2.0.1",
     "form-data": "^1.0.0-rc3",
     "gb-native-router": "^0.6.0",
-    "gb-native-router": "0.6.0",
     "react-native": "^0.17.0",
     "react-native-button": "^1.4.2",
     "react-native-carousel": "^0.4.4",
