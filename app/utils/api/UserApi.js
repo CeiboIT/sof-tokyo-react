@@ -17,7 +17,6 @@ var api = {
         })
     },
 
-
     async getMember(memberId, subject){
 
         try {
@@ -29,7 +28,7 @@ var api = {
             }
 
         } catch (error){
-            console.warn(error)
+            console.warn('getMember > error', JSON.stringify(error));
         }
     },
 
@@ -43,7 +42,7 @@ var api = {
             }
 
         } catch (error) {
-            console.warn(error)
+            console.warn('getUser > error ', JSON.stringify(error));
         }
     },
 
@@ -61,19 +60,19 @@ var api = {
                     password: credentials.password
                 })
             });
-
-        UserSubject.onNext({type: 'login', data: JSON.parse(response._bodyInit)});
-
+            console.warn('sendCredentials > response ' , JSON.stringify(response._bodyInit));
+            UserSubject.onNext({type: 'login', data: JSON.parse(response._bodyInit)});
         } catch(error){
             UserSubject.onNext({type: 'login', error});
         }
     },
 
     registerNewUser(userData){
-        return new Promise((reject, resolve) => {
+        return new Promise((resolve, reject) => {
             fetch(apiConsts.apiEndpoint + 'auth/nonce/user/register')
                 .then((nonce) => {
-                    var _nonce = JSON.parse(nonce._bodyInit).nonce
+                    console.warn('registerNewUser > nonce' , JSON.stringify(nonce));
+                    var _nonce = JSON.parse(nonce._bodyInit).nonce;
                     fetch(apiConsts.apiEndpoint +'auth/register', {
                         method: 'POST',
                         headers: {
@@ -84,24 +83,39 @@ var api = {
                             username: userData.username,
                             email: userData.email,
                             nonce: _nonce,
-                            display_name: userData.displayName
+                            display_name: userData.display_name,
+                            years: userData.years,
+                            ob: userData.obog,
+                            country: userData.country,
+                            school: userData.school
                         })
                     })
-                        .then(result => {
-                            var _result = JSON.parse(result._bodyInit);
-                            if(_result.status !='error') {
-                                resolve(_result)
-                            } else {
-                                reject(_result);
-                            }
-                        })
-                        .catch((error) => {
-                            reject(error);
-                        })
-
+                    .then(result => {
+                        var _result = JSON.parse(result._bodyInit);
+                        console.warn('registerNewUser > response', JSON.stringify(_result));
+                        if(_result.status != 'error') {
+                            console.warn('registerNewUser > resolve', JSON.stringify(_result));
+                            resolve(_result);
+                        } else {
+                            console.warn('registerNewUser > reject', JSON.stringify(_result));
+                            reject(_result);
+                        }
+                    })
+                    .catch((error) => {
+                        console.warn('registerNewUser > fetch post > error ' , JSON.stringify(error));
+                        reject(error);
+                    });
                 })
-
+                .catch((error) => {
+                    console.warn('registerNewUser > fetch nonce > error' , JSON.stringify(error));
+                    reject(error);
+                })
         })
+    },
+
+    logout () {
+        console.warn('logout');
+        return storage.remove({key: 'cookies'});
     },
 
     isAuthorized() {

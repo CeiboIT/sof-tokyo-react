@@ -78,6 +78,7 @@ var SitePanel = React.createClass ({
 
     navigateToUploadImage() {
         NavigationSubject.onNext({path: 'uploadImage'})
+        SidebarSubject.onNext('close');
     },
 
     navigateToSchools() {
