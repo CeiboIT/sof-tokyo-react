@@ -43,6 +43,16 @@ var api = {
       }catch(error) {
           console.warn(error);
       }
+    },
+
+    async forMen(sex, page) {
+        try {
+            let response = await fetch(productsEndpoint + 'bysex/' + sex + '/' + (page || 1 ));
+            PostsStream.onNext(JSON.parse(response._bodyInit))
+        }
+        catch(error) {
+            console.warn(error);
+        }
     }
 };
 

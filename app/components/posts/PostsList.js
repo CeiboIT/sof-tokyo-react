@@ -107,20 +107,23 @@ var PostsList  = React.createClass({
                         infiniteScroll:false
                     })
                 }
-                this.setState({
-                    dataSource: response['posts'],
-                    isLoading: false
-                });
+                if(response['posts']) {
+                    this.setState({
+                        dataSource: response['posts'],
+                        isLoading: false
+                    });
+                }
             } else {
-
-                var _posts = this.state.dataSource;
-                response['posts'].forEach((post) => {
+                if(response['posts']) {
+                    var _posts = this.state.dataSource;
+                    response['posts'].forEach((post) => {
                         _posts.push(post);
-                });
+                    });
 
-                this.setState({
-                    dataSource: _posts
-                })
+                    this.setState({
+                        dataSource: _posts
+                    })
+                }
             }
 
         });
@@ -181,7 +184,7 @@ var PostsList  = React.createClass({
 PostsList.propTypes = {
     loadPostsFn : React.PropTypes.func,
     elementsPerRow : React.PropTypes.number,
-    id : React.PropTypes.number
+    id : React.PropTypes.any
 }
 
 module.exports = PostsList;

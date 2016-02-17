@@ -72,7 +72,7 @@ var SitePanel = React.createClass ({
     },
 
     navigateToAbout() {
-        NavigationSubject.onNext({path: 'aboutSof'})
+        NavigationSubject.onNext({path: 'aboutSof'});
         SidebarSubject.onNext('close');
     },
 
@@ -81,26 +81,26 @@ var SitePanel = React.createClass ({
     },
 
     navigateToSchools() {
-        NavigationSubject.onNext({path: 'schools'})
+        NavigationSubject.onNext({path: 'schools'});
         SidebarSubject.onNext('close');
     },
 
     navigateToWomen() {
-        NavigationSubject.onNext({path: 'women'})
+        NavigationSubject.onNext({path: 'postsBySex', params: {sex: 'womens'} });
         SidebarSubject.onNext('close');
     },
 
     navigateToMen() {
-        NavigationSubject.onNext({path: 'men'})
+        NavigationSubject.onNext({path: 'postsBySex', params: {sex: 'mens'}});
         SidebarSubject.onNext('close');
     },
     navigatoToStyle() {
-        NavigationSubject.onNext({path: 'styles'})
+        NavigationSubject.onNext({path: 'styles'});
         SidebarSubject.onNext('close');
     },
 
     navigateToCategories() {
-        NavigationSubject.onNext({path: 'categoriesMenu'})
+        NavigationSubject.onNext({path: 'categoriesMenu'});
         SidebarSubject.onNext('close');
     },
 
@@ -117,8 +117,8 @@ var SitePanel = React.createClass ({
                 </View>
 
                 <View style={styles.buttonsContainer} collapse={ true } >
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>WOMEN</Text></TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>MEN</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={ this.navigateToWomen } underlayColor={'transparent'} style={styles.button}><Text>WOMEN</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={ this.navigateToMen } underlayColor={'transparent'} style={styles.button}><Text>MEN</Text></TouchableHighlight>
                     <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>STYLE</Text></TouchableHighlight>
                     <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToCategories} style={styles.button}><Text>CATEGORY</Text></TouchableHighlight>
                     <TouchableHighlight onPress={this.navigateToSchools} underlayColor={'transparent'} style={styles.button}><Text>SCHOOL</Text></TouchableHighlight>

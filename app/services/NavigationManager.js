@@ -169,6 +169,15 @@ class NavigatorService {
                         "headerStyle": styles.generalHeader
                     })
                 break;
+                case('postsBySex'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.bySex,
+                        rightCorner: toggle,
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader
+                    })
+                break;
                 case('categoriesMenu'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,

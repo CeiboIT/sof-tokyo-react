@@ -39,12 +39,14 @@ var PostLike = React.createClass({
 
     retrieveLikes(metadata) {
         var _value;
-        metadata.some((element) => {
-            if(element['field'] == '_item_likes'){
-                _value = element['value'];
-                return true;
-            }
-        })
+        if(metadata) {
+            metadata.some((element) => {
+                if(element['field'] == '_item_likes'){
+                    _value = element['value'];
+                    return true;
+                }
+            })
+        }
         return _value;
     },
     render() {
