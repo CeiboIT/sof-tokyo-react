@@ -11,7 +11,8 @@ var React = require('react-native'),
 I18nService.set('ja-JP', {
         'login' : 'ログイン',
         'loginWithFacebook': 'Facebookで始める',
-        'register': "登録 "
+        'register': '登録 ',
+        'error_login_100': 'Username or password invalid'
     }
 );
 
@@ -116,7 +117,7 @@ var styles = StyleSheet.create({
     registerText: {
         color: "#444444",
         fontSize: 20
-    }
+    },
 });
 
 var Form = t.form.Form;
@@ -133,7 +134,6 @@ var options = {
 var username = {
 
 };
-
 var storage = require("../services/Storage").getInstance();
 
 var Login  = React.createClass({
@@ -152,24 +152,28 @@ var Login  = React.createClass({
         if(_credentials) {
             api.sendCredentials(_credentials);
             UserSubject.subscribe((response)=>{
-                if(!response.error) {
-                    storage.save({
-                        key: 'cookies',
-                        rawData : {
-                            cookieName: response.data['cookie_name'],
-                            cookie: response.data['cookie']
-                        }
-                    });
-                    storage.save({
-                        key: 'UserId',
-                        rawData : {
-                            data: response.data['user']['id']
-                        }
-                    });
-                    var NavigationSubject = require("../services/NavigationManager").getStream();
-                    NavigationSubject.onNext({path: 'profile', id : 'me'})
-                } else {
-                    this.state.error = error;
+                console.warn('Login > login ', JSON.stringify(response));
+                if (response.type === 'login') {
+                    if (!response.data.error) {
+                        storage.save({
+                            key: 'cookies',
+                            rawData : {
+                                cookieName: response.data['cookie_name'],
+                                cookie: response.data['cookie']
+                            }
+                        });
+                        storage.save({
+                            key: 'UserId',
+                            rawData : {
+                                data: response.data['user']['id']
+                            }
+                        });
+                        var NavigationSubject = require("../services/NavigationManager").getStream();
+                        NavigationSubject.onNext({path: 'profile', id : 'me'})
+                    } else {
+                        console.warn('Login > login error', JSON.stringify(response.data));
+                        this.popup.alert(I18n.t('error_login_' + response.data.code));
+                    }
                 }
             })
         }
@@ -202,6 +206,7 @@ var Login  = React.createClass({
                         { I18n.t('register')}
                     </Button>
                 </View>
+                <Popup ref={(popup) => { this.popup = popup }}/>
             </View>
         );
     }

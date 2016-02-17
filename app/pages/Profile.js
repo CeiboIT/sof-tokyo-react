@@ -1,9 +1,6 @@
 /**
  * Created by epotignano on 12/01/16.
  */
-
-
-
 var React = require('react-native');
 var UserStream = require("../services/Streams").getStream("User");
 var GridView = require('react-native-grid-view');
@@ -40,8 +37,6 @@ var styles = StyleSheet.create({
         marginTop: 10,
         height:windowSize.height
     },
-
-
     tabView: {
         flex: 1,
         padding: 10,
@@ -126,8 +121,15 @@ var Profile = React.createClass({
         })
     },
 
+
     createNewPost() {
 
+    },
+    logout() {
+        var NavigationSubject = require("../services/NavigationManager").getStream();
+        api.logout()
+            .then(() =>
+                NavigationSubject.onNext({path: 'feed'}));
     },
 
     render() {
@@ -178,8 +180,6 @@ var Profile = React.createClass({
             _dynamicHeight = postElement.height * Math.abs( this.state.posts.length / 2)
         }
 
-        console.warn(_dynamicHeight);
-
         var _visitorTab = (
                 <TabNavigator
                     sceneStyle={{ height: postElement.height - 50 }}
@@ -211,6 +211,7 @@ var Profile = React.createClass({
         return(
 
             <View>
+                <Text onPress={this.logout}> logout </Text>
                 <Badge data={this.state.user} />
                 {_render}
             </View>

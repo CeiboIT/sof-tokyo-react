@@ -2,7 +2,6 @@
  * Created by epotignano on 11/01/16.
  */
 
-
 var React = require('react-native');
 
 var {
