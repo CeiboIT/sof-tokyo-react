@@ -21,16 +21,14 @@ var {
 import { api } from "../utils/api/Api.d";
 
 var styles = StyleSheet.create({
-    facebookHeader : {
-        backgroundColor: "#2A406B",
-        color: "#FFFFFF",
-        borderBottomWidth: 1,
-        borderColor : "#2A406B"
-    },
     generalHeader : {
         backgroundColor: "#FFFFFF",
         borderBottomWidth: 1,
         borderColor : "#e5e5e5"
+    },
+    logoContainer : {
+        alignItems: "center",
+        justifyContent: "center"
     },
     logo : {
         height: 50
@@ -44,11 +42,11 @@ var imageSizes ={
 
 var logo = React.createClass({
   render: function() {
-    return <ResponsiveImage style={styles.logo}
+    return <View style={styles.logoContainer}><ResponsiveImage style={styles.logo}
                             source={{uri: 'http://sof.tokyo/wp-content/uploads/2015/06/logo.png'}}
                             initHeight={imageSizes.height}
                             initWidth={imageSizes.width}
-            />;
+            /></View>;
   }
 });
 
@@ -81,16 +79,17 @@ class NavigatorService {
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.login,
-                        "headerStyle": styles.facebookHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     });
                 break;
-
 
                 case('register'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.register,
-                        "headerStyle": styles.facebookHeader
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
                     });
                 break;
 

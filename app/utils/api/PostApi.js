@@ -1,10 +1,7 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-var apiConsts  = require("../../constants/api").apiConsts;
-var PostStream = require("../../services/Streams").getStream("Post");
-var productsEndpoint = apiConsts.apiEndpoint + 'products/';
-var storage = require("../../services/Storage").getInstance();
+var apiConsts  = require("../../constants/api").apiConsts,
+    PostStream = require("../../services/Streams").getStream("Post"),
+    productsEndpoint = apiConsts.apiEndpoint + 'products/',
+    storage = require("../../services/Storage").getInstance();
 
 var api = {
     async RetrievePost(postId, userId) {
@@ -28,7 +25,7 @@ var api = {
                     productId: postId
                 })
             })
-            subject.onNext(JSON.parse(actionResult._bodyInit))
+            subject.onNext()
         } catch(error){
             console.warn(error);
         }
