@@ -102,11 +102,8 @@ var PostsList  = React.createClass({
                     this.setState({
                         infiniteScroll: true
                     })
-                } else {
-                    this.setSate({
-                        infiniteScroll:false
-                    })
                 }
+
                 if(response['posts']) {
                     this.setState({
                         dataSource: response['posts'],
