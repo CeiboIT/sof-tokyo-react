@@ -3,10 +3,12 @@
  */
 
 export const apiConsts = {
-    main: 'https://sof-tokyo-node-server.herokuapp.com/',
-    apiEndpoint: 'https://sof-tokyo-node-server.herokuapp.com/api/',
-    //imageCloudServer: 'https://api.cloudinary.com/v1_1/dervvwuw6/image/',
+    //main: 'https://sof-tokyo-node-server.herokuapp.com/',
+    //apiEndpoint: 'https://sof-tokyo-node-server.herokuapp.com/api/',
     imageCloudServer: 'http://192.168.0.10:9000/api/images/',
+    imageCloudServer: 'https://api.cloudinary.com/v1_1/dervvwuw6/image/',
+    main: 'http://192.168.0.10:9000',
+    apiEndpoint: 'http://192.168.0.10:9000/api/',
     ownerEmail: 'epotignano@gmail.com'
 };
 

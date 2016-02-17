@@ -7,6 +7,13 @@ var apiConsts  = require("../../constants/api").apiConsts;
 var CommunicationApi =  {
     async sendMail(params, stream) {
         try {
+
+            console.warn(JSON.stringify({
+                fromEmail : params.fromEmail,
+                fromName : params.fromName,
+                schools: params.schools
+            }));
+
            let result =  await fetch(apiConsts.apiEndpoint + 'email/new',{
                method: 'POST',
                headers: {
@@ -16,16 +23,15 @@ var CommunicationApi =  {
                body: JSON.stringify({
                    fromEmail : params.fromEmail,
                    fromName : params.fromName,
-                   to : apiConsts.ownerEmail,
-                   content: params.content,
-                   subject: params.subject
+                   schools: params.schools
                })
 
-           })
+           });
+
             stream.onNext({ data: result._bodyInit })
 
         }catch(error) {
-            console.warn(error);
+            JSON.stringify(console.warn(error));
         }
     }
 }

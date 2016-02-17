@@ -13,10 +13,10 @@ var Example = React.createClass({
     render() {
         return (
             <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
                 <GiftedSpinner />
             </View>
         );

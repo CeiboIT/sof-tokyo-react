@@ -14,6 +14,7 @@ var firstRoute = require("./app/services/NavigationManager").getFirstRoute();
 
 var Drawer = require('react-native-drawer');
 var Router = require('gb-native-router');
+var SplashScreen = require('@remobile/react-native-splashscreen');
 
 var {
     AppRegistry,
@@ -37,6 +38,10 @@ class sofTokyo extends React.Component{
     super(props);
   }
 
+  componentDidMount() {
+        SplashScreen.hide();
+  }
+
   subscribe() {
     var _closed = true;
     SidebarSubject.subscribe((type) => {
@@ -54,7 +59,7 @@ class sofTokyo extends React.Component{
   render() {
     this.subscribe();
     return (
-        <Drawer ref="drawer" content={<SitePanel/>}>
+        <Drawer ref="drawer" content={<SitePanel/>} side="right" acceptPan={ false }>
           <Router ref="router" firstRoute={firstRoute} headerStyle={styles.header}>
           </Router>
           <FooterNav/>

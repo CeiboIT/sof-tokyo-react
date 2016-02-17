@@ -2,40 +2,251 @@
  * Created by epotignano on 12/01/16.
  */
 
-var React = require('react-native');
+import Button from 'apsl-react-native-button'
+import Popup from 'react-native-popup';
+import PickerAndroid from 'react-native-picker-android';
+import Form from 'react-native-form';
 
+var React = require('react-native');
 var Dimensions= require('Dimensions');
 var windowsSize = Dimensions.get('window');
-
-import Button from 'apsl-react-native-button'
-
-var api =require("../utils/api/UserApi");
-
-
-
-var t = require('tcomb-form-native');
-
+var api = require("../utils/api/UserApi");
+var schoolApi = require('../utils/api/SchoolsApi');
 var I18nService = require('../i18n');
+var SchoolsStream = require('../services/Streams').getStream('Schools');
 
 I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
         'registerUsername': 'ユーザー名 (必須)',
         'registerMail': 'メールアドレス (必須)',
         'registerDisplayName': '表示ユーザー名	(必須)',
+        'registerOk': 'Register successful, please check your email to finish the process',
+        'ok': 'ok',
+        'register_error_000': 'Email already exists, please choose another',
+        'register_error_001': 'Username already exists, please choose another',
+        'country': '現在地',
+        'obog': 'OB・OG',
+        'school': '所属'
     }
 );
 
 var I18n = I18nService.getTranslations();
 
 var {
+    TextInput,
+    Platform,
+    PickerIOS,
     View,
+	ScrollView,
     Text,
     StyleSheet
     } = React;
 
-var Icon = require('react-native-vector-icons/FontAwesome');
+
+let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
+let PickerItem = Picker.Item;
+
+let Countries = [ {text: 'Japan', value: 'JAPAN'},
+    {text: 'US', value: 'US'},
+    {text: 'Euro', value: 'EURO'},
+    {text: 'Other', value: 'OTHER'}];
+
+let OB_OG = [{ text: 'OB', value: 'OB'}, { text: 'OG', value: 'OG' }];
+
+var Register  = React.createClass({
+
+    componentDidMount() {
+        schoolApi.LoadSchools();
+        SchoolsStream.subscribe((results) => {
+            console.warn('componentDidMount > schools', JSON.stringify(results));
+            this.setState({schools: results.schools});
+        });
+    },
+
+    getInitialState() {
+        return {
+            showCountry: false,
+            showObog: false,
+            showSchool: false,
+            swipeToClose: false,
+            schools: [],
+            country: 'JAPAN'
+        }
+    },
+
+
+    loginWithFacebook() {
+        FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
+            if (!error) {
+                console.info("Login data: ", data);
+            } else {
+                console.info("Error: ", data);
+            }
+        })
+    },
+
+    getRegisterValues() {
+        var registerValues = this.refs.form.getValues();
+        registerValues.country = this.state.country;
+        registerValues.obog = this.state.obog;
+        registerValues.school = this.state.school;
+        console.warn('registerValues > ', JSON.stringify(registerValues));
+        return registerValues;
+    },
+
+    register(values) {
+        var NavigationSubject = require("../services/NavigationManager").getStream();
+        console.warn('refs', JSON.stringify(this.refs.form.getValues()));
+        var _data = this.getRegisterValues();
+        if(_data) {
+            api.registerNewUser(_data)
+                .then(response => {
+                    console.warn('Register > data ', JSON.stringify(response));
+                    this.popup.tip({
+                        title: I18n.t('register'),
+                        content: I18n.t('registerOk'),
+                        btn: {
+                            text: I18n.t('ok'),
+                            callback: () => {
+                                NavigationSubject.onNext({ 'path': 'login' });
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.warn('Register > error ', JSON.stringify(error));
+                    this.popup.alert(I18n.t('register_error_' + error.code));
+                });
+        }
+    },
+
+    login() {
+        var NavigationSubject = require("../services/NavigationManager").getStream();
+        NavigationSubject.onNext({path: 'login'})
+    },
+
+    toggleCountry() {
+        this.setState({showCountry: !this.state.showCountry});
+    },
+
+    toggleObog() {
+        this.setState({showObog: !this.state.showObog});
+    },
+
+    toggleSchool() {
+        this.setState({showSchool: !this.state.showSchool});
+    },
+
+    showCountry() {
+        if (this.state.showCountry) {
+            return (<Picker
+                selectedValue={this.state.country}
+                onValueChange={(country) => this.setState({country: country})}>
+                {Countries.map((country) => (
+                    <PickerItem
+                        key={country}
+                        value={country.value}
+                        label={country.text}
+                    />
+                ))}
+            </Picker>);
+        }
+    },
+
+    showObog() {
+        if (this.state.showObog) {
+            return (<Picker
+            selectedValue={this.state.obog}
+            onValueChange={(obog) => this.setState({obog: obog})}>
+            {OB_OG.map((obog) => (
+                <PickerItem
+                    key={obog}
+                    value={obog.value}
+                    label={obog.text}
+                />
+            ))}
+        </Picker>
+        );
+        }
+    },
+
+    showSchool() {
+        if (this.state.showSchool) {
+            return (<Picker
+                    selectedValue={this.state.school}
+                    onValueChange={(school) => this.setState({school: school})}>
+                    {this.state.schools.map((school) => (
+                        <PickerItem
+                            key={school}
+                            value={school.value}
+                            label={school.value}
+                        />
+                    ))}
+                </Picker>
+            );
+        }
+    },
+
+    render() {
+        return(
+			<ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
+                <View style={styles.Search}>
+                    <Form ref="form">
+                        <TextInput style={{height: 60}} name="username" placeholder="Username"/>
+                        <TextInput style={{height: 60}} name="email" placeholder="Email"/>
+                        <TextInput style={{height: 60}} name="display_name" placeholder="Display name"/>
+                        <TextInput style={{height: 60}} name="years" placeholder="Age"/>
+                    </Form>
+                    <View style={{padding:10, marginBottom: 20}}>
+                        <Text style={{height: 40, color: "#333"}}
+                            onPress={this.toggleCountry}>
+                            Country: <Text style={{color: "gray"}}> {this.state.country} </Text>
+                        </Text>
+                        {this.showCountry()}
+
+                        <Text style={{height: 40, color: "#333"}}
+                            onPress={this.toggleObog}>
+                            Obog: <Text style={{color: "gray"}}> {this.state.obog} </Text>
+                        </Text>
+                            {this.showObog()}
+
+                        <Text style={{height: 40, color: "#333"}}
+                            onPress={this.toggleSchool}>
+                            School: <Text style={{color: "gray"}}> {this.state.school} </Text>
+                        </Text>
+                            {this.showSchool()}
+                    </View>
+                    <View style={styles.loginButtonContainer}>
+                        <Button style={styles.loginButton} textStyle={styles.loginText}
+                                onPress={this.register}>
+                            { I18n.t('register')}
+                        </Button>
+                    </View>
+                    <View style={styles.loginButtonContainer}>
+                        <Text>
+                            か
+                        </Text>
+                    </View>
+                    <View style={styles.loginButtonContainer}>
+                        <Button style={styles.registerButton} textStyle={styles.registerText}
+                                onPress={this.login}>
+                            { I18n.t('login')}
+                        </Button>
+                    </View>
+                    <Popup ref={(popup) => { this.popup = popup }}/>
+                </View>
+            </ScrollView>
+    );
+    }
+});
 
 var styles = {
+    btn: {
+        margin: 10,
+        backgroundColor: "#3B5998",
+        color: "white",
+        padding: 10
+    },
     Search: {
         flex: 1,
         padding: 30,
@@ -79,6 +290,10 @@ var styles = {
 };
 
 var styles = StyleSheet.create({
+    form: {
+        paddingTop: 5,
+        paddingBottom: 40
+    },
     buttonsContainer: {
         flex: 1,
         flexDirection: 'column',
@@ -93,7 +308,6 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
     facebookButton: {
         flex:1,
         borderColor: '#2A406B',
@@ -157,81 +371,31 @@ var styles = StyleSheet.create({
     }
 });
 
-var Form = t.form.Form;
-
-var UserCredentials = t.struct({
-    username: t.String,
-    email: t.String,
-    displayName: t.String
-});
-
-var options = {
-
-
-};
-
-var username = {
-
-};
-var Register  = React.createClass({
-    loginWithFacebook() {
-        FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
-            if (!error) {
-                console.info("Login data: ", data);
-            } else {
-                console.info("Error: ", data);
-            }
-        })
-    },
-
-    register(){
-        var _data = this.refs.form.getValue();
-        if(_data) {
-            api.registerNewUser(_data)
-                .then(data => {
-                    console.warn(data)
-                })
-        }
-    },
-
-    login() {
-        var NavigationSubject =require("../services/NavigationManager").getStream();
-        NavigationSubject.onNext({path: 'login'})
-    },
-
-    render() {
-        return(
-            <View style={styles.Search}>
-                <View style={styles.facebookContainer}>
-                    <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
-                        <Text>
-                            { I18n.t('registerWithFacebook') }
-                        </Text>
-                    </Button>
-                </View>
-                <Form ref="form" type={UserCredentials}/>
-
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.loginButton} textStyle={styles.loginText}
-                            onPress={this.register}>
-                        { I18n.t('register')}
-                    </Button>
-                </View>
-                <View style={styles.loginButtonContainer}>
-                    <Text>
-                        か
-                    </Text>
-                </View>
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.registerButton} textStyle={styles.registerText}
-                            onPress={this.login}>
-                        { I18n.t('login')}
-                    </Button>
-                </View>
-
-            </View>
-        );
-    }
-});
-
 module.exports = Register;
+
+/*
+ <Text>{I18n.t('obog')}</Text>
+ <Picker
+ selectedValue={this.state.obog}
+ onValueChange={(obog) => this.setState({obog})}>
+ {OB_OG.map((obog) => (
+ <PickerItem
+ key={obog}
+ value={obog.value}
+ label={obog.text}
+ />
+ ))}
+ </Picker>
+ <Text>{I18n.t('school')}</Text>
+ <Picker
+ selectedValue={this.state.school}
+ onValueChange={(school) => this.setState({school})}>
+ {this.state.schools.map((school) => (
+ <PickerItem
+ key={school}
+ value={school.value}
+ label={school.value}
+ />
+ ))}
+ </Picker>
+ */

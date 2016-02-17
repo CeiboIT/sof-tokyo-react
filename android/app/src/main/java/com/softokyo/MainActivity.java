@@ -18,6 +18,9 @@ import com.imagepicker.ImagePickerPackage;
 
 import com.onesignal.OneSignal;
 
+import com.remobile.splashscreen.*;
+
+
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
@@ -37,6 +40,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setBundleAssetName("index.android.bundle")
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
+                .addPackage(new RCTSplashScreenPackage(this))
                 .addPackage(mImagePicker)
                 .addPackage(new ReactNativeI18n())
                 .addPackage(new VectorIconsPackage())

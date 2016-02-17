@@ -2,7 +2,6 @@
  * Created by epotignano on 11/01/16.
  */
 
-
 var React = require('react-native');
 
 var {
@@ -23,6 +22,13 @@ var  {
     View
 } = React;
 
+var styles = StyleSheet.create({
+    text : {
+        color: '#444444',
+        fontSize: 14,
+        marginLeft: 5
+    }  
+})
 
 var BackButton  = React.createClass({
 
@@ -32,12 +38,10 @@ var BackButton  = React.createClass({
         NavigationSubject.onNext( {path: 'back', navigator: this.props.navigator })
     },
     render() {
-        console.warn(Object.keys(this.props));
-
         return (
-            <TouchableHighlight onPress={this.goBack} underlayColor="transparent" >
+            <TouchableHighlight onPress={this.goBack} underlayColor={'transparent'}>
                 <View>
-                    <Icon name="arrow-left"><Text>{I18n.t('back')}</Text></Icon>
+                    <Icon name="chevron-left" style={styles.text}> <Text>{I18n.t('back')}</Text></Icon>
                 </View>
             </TouchableHighlight>
         )

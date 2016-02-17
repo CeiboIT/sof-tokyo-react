@@ -1,29 +1,20 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
+var React = require('react-native'),
+    Dimensions= require('Dimensions'),
+    windowsSize = Dimensions.get('window'),
+    Button = require('apsl-react-native-button'),
+    api =require("../utils/api/UserApi"),
+    t = require('tcomb-form-native'),
+    I18nService = require('../i18n'),
+    Icon = require('react-native-vector-icons/FontAwesome'),
+    UserSubject = require("../services/Streams").getStream("User");
 
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
-var React = require('react-native');
-
-var Dimensions= require('Dimensions');
-var windowsSize = Dimensions.get('window');
-
-import Button from 'apsl-react-native-button'
-
-var api =require("../utils/api/UserApi");
-
-
-var t = require('tcomb-form-native');
-
-var I18nService = require('../i18n');
+import Popup from 'react-native-popup';
 
 I18nService.set('ja-JP', {
         'login' : 'ログイン',
         'loginWithFacebook': 'Facebookで始める',
-        'register': "登録 "
+        'register': '登録 ',
+        'error_login_100': 'Username or password invalid'
     }
 );
 
@@ -35,18 +26,7 @@ var {
     StyleSheet
     } = React;
 
-var Icon = require('react-native-vector-icons/FontAwesome');
-
-var UserSubject = require("../services/Streams").getStream("User");
-
 var styles = {
-    Search: {
-        flex: 1,
-        padding: 30,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        backgroundColor: '#FFFFFF'
-    },
     title: {
         marginBottom: 20,
         fontSize: 25,
@@ -83,29 +63,15 @@ var styles = {
 };
 
 var styles = StyleSheet.create({
+    container : {
+        flex: 1,
+        padding: 30,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        backgroundColor: '#FFFFFF'
+    },
     buttonsContainer: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    facebookContainer: {
-        backgroundColor: "#2A406B",
-        height: windowsSize.height * 0.2,
-        flex:1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    facebookButton: {
-        flex:1,
-        borderColor: '#2A406B',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.75,
-        marginLeft: windowsSize.width * 0.125,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
@@ -138,6 +104,7 @@ var styles = StyleSheet.create({
         borderRadius: 0,
         borderWidth: 3,
         width: windowsSize.width * 0.4,
+        marginTop: 5,
         marginLeft: windowsSize.width * 0.30,
         flexDirection: 'column',
         justifyContent: 'center',
@@ -145,19 +112,13 @@ var styles = StyleSheet.create({
     },
 
     loginText: {
-        color: "##444444",
+        color: "#444444",
         fontSize: 25
     },
 
     registerText: {
-        color: "##444444",
+        color: "#444444",
         fontSize: 20
-    },
-
-
-    facebookText: {
-        color:"#FFF",
-        fontSize: 25
     }
 });
 
@@ -169,7 +130,6 @@ var UserCredentials = t.struct({
 });
 
 var options = {
-
 
 };
 
@@ -195,24 +155,28 @@ var Login  = React.createClass({
         if(_credentials) {
             api.sendCredentials(_credentials);
             UserSubject.subscribe((response)=>{
-                if(!response.error) {
-                    storage.save({
-                        key: 'cookies',
-                        rawData : {
-                            cookieName: response.data['cookie_name'],
-                            cookie: response.data['cookie']
-                        }
-                    });
-                    storage.save({
-                        key: 'UserId',
-                        rawData : {
-                            data: response.data['user']['id']
-                        }
-                    });
-                    var NavigationSubject = require("../services/NavigationManager").getStream();
-                    NavigationSubject.onNext({path: 'profile', id : 'me'})
-                } else {
-                    this.state.error = error;
+                console.warn('Login > login ', JSON.stringify(response));
+                if (response.type === 'login') {
+                    if (!response.data.error) {
+                        storage.save({
+                            key: 'cookies',
+                            rawData : {
+                                cookieName: response.data['cookie_name'],
+                                cookie: response.data['cookie']
+                            }
+                        });
+                        storage.save({
+                            key: 'UserId',
+                            rawData : {
+                                data: response.data['user']['id']
+                            }
+                        });
+                        var NavigationSubject = require("../services/NavigationManager").getStream();
+                        NavigationSubject.onNext({path: 'profile', id : 'me'})
+                    } else {
+                        console.warn('Login > login error', JSON.stringify(response.data));
+                        this.popup.alert(I18n.t('error_login_' + response.data.code));
+                    }
                 }
             })
         }
@@ -226,13 +190,6 @@ var Login  = React.createClass({
     render() {
         return(
             <View style={styles.Search}>
-                <View style={styles.facebookContainer}>
-                    <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
-                        <Text>
-                            { I18n.t('loginWithFacebook') }
-                        </Text>
-                    </Button>
-                </View>
                 <Form ref="form" type={UserCredentials}/>
 
                 <View style={styles.loginButtonContainer}>
@@ -252,6 +209,7 @@ var Login  = React.createClass({
                         { I18n.t('register')}
                     </Button>
                 </View>
+                <Popup ref={(popup) => { this.popup = popup }}/>
             </View>
         );
     }
