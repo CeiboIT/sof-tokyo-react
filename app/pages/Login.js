@@ -117,7 +117,7 @@ var styles = StyleSheet.create({
     registerText: {
         color: "#444444",
         fontSize: 20
-    },
+    }
 });
 
 var Form = t.form.Form;
@@ -134,6 +134,7 @@ var options = {
 var username = {
 
 };
+
 var storage = require("../services/Storage").getInstance();
 
 var Login  = React.createClass({
