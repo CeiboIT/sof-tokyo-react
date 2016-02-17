@@ -43,9 +43,11 @@ var Comment = t.struct({
 var Form = t.form.Form;
 
 var styles = StyleSheet.create({
-    spinner: {
-        marginTop: 20,
-        width: 50
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7F7F7'
     },
     scrollView : {
         flex: 1,
@@ -306,7 +308,7 @@ var PostView = React.createClass({
         var _photo = (this.state.data && this.state.data.thumbnail ) ? this.state.data.thumbnail : "http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg";
         PostId = this.props.id;
 
-        if(this.state.isLoading) return (<GiftedSpinner/>) ;
+        if(this.state.isLoading) return (<View style={styles.loading}><GiftedSpinner/></View>) ;
         var _commentForm = (
             <View>
                 <Form type={Comment} ref="form"/>

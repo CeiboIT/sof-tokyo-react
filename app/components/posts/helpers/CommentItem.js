@@ -21,21 +21,25 @@ var HTMLView = require('react-native-htmlview');
 
 var styles = StyleSheet.create({
     commentContent: {
-        padding: 10,
         flex: 1,
+        padding: 10,
         flexDirection: "column",
-        alignItems: "flex-start"
+        alignItems: "flex-start",
+        flexWrap: 'wrap',
     },
     userName: {
         fontWeight: "bold"
     },
     commentBody: {
         flex: 1,
-        flexDirection: "column",
-        justifyContent: "center"
+        flexDirection: "row",
+        flexWrap: 'wrap',
+        alignItems: "flex-start"
     },
     commentText: {
-        flexWrap: 'wrap'
+        flex: 1,
+        flexDirection: "row",
+        flexWrap: 'wrap',
     },
     cellBorder: {
         backgroundColor: "rgba(0, 0, 0, 0.2)",
@@ -52,7 +56,7 @@ var CommentItem = React.createClass({
         }
     },    
     render () {
-        return(<View>
+        return(<View style={{flex:1,flexDirection: "column"}}>
             <TouchableHighlight underlayColor={'transparent'}>
                 <View>
                     <View style={styles.commentContent}>

@@ -1,19 +1,32 @@
-/**
- * Created by mmasuyama on 1/8/2016.
- */
-
-var React = require("react-native");
-var GridView = require("react-native-grid-view");
-var MetadataApi = require("../../utils/api/MetadataApi");
-var MetadataStream = require("../../services/Streams").getStream("Metadata");
-var CategoryElement = require("./CategoryElement");
-var GiftedSpinner = require("react-native-gifted-spinner");
+var React = require("react-native"),
+    GridView = require("react-native-grid-view"),
+    MetadataApi = require("../../utils/api/MetadataApi"),
+    MetadataStream = require("../../services/Streams").getStream("Metadata"),
+    CategoryElement = require("./CategoryElement"),
+    GiftedSpinner = require("react-native-gifted-spinner");
 
 var {
-        ScrollView,
-        View,
-        StyleSheet
+     ScrollView,
+     View,
+     StyleSheet
     } = React;
+    
+var styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#FFFFFF',
+        paddingVertical: 10,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
+    },
+    loading : {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7F7F7'
+    }
+})
+    
+    
 
 var CategoriesList = React.createClass({
 
@@ -36,25 +49,19 @@ var CategoriesList = React.createClass({
 
     render() {
         var _grid = (
-            <ScrollView>
-                <GridView
-                    items={ this.state.subcategories }
-                    itemsPerRow={ 2 }
-                    renderItem={(rowData) => <CategoryElement key={rowData.id} subcategory={ rowData } />}
-                    style={{
-                        backgroundColor: '#F7F7F7'
-                    }}
-                />
+            <ScrollView style={{backgroundColor: '#F7F7F7', padding: 10}}>
+                <View style={styles.container}>
+                    <GridView
+                        items={ this.state.subcategories }
+                        itemsPerRow={ 1 }
+                        renderItem={(rowData) => <CategoryElement key={rowData.id} subcategory={ rowData } />}
+                    />
+                </View>
             </ScrollView>
         )
 
         var _loading = (
-            <View style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#F7F7F7'
-              }}>
+            <View style={styles.loading}>
                 <GiftedSpinner/>
             </View>
         )
