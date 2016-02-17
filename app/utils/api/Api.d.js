@@ -5,5 +5,8 @@ export const api = {
     post : require("./PostApi"),
     posts : require("./PostsApi"),
     schools : require("./SchoolsApi"),
-    user : require("./UserApi")
+    banners : require("./BannersApi"),
+    news : require("./NewsApi"),
+    user : require("./UserApi"),
+    uploadImage: require("./ImageUploadApi")
 };

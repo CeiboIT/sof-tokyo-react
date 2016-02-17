@@ -1,24 +1,14 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
+var React = require('react-native'),
+    Dimensions= require('Dimensions'),
+    windowsSize = Dimensions.get('window'),
+    Button = require('apsl-react-native-button'),
+    api =require("../utils/api/UserApi"),
+    t = require('tcomb-form-native'),
+    I18nService = require('../i18n'),
+    Icon = require('react-native-vector-icons/FontAwesome'),
+    UserSubject = require("../services/Streams").getStream("User");
 
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
-import Button from 'apsl-react-native-button'
 import Popup from 'react-native-popup';
-
-var React = require('react-native');
-
-var Dimensions= require('Dimensions');
-var windowsSize = Dimensions.get('window');
-
-var api =require("../utils/api/UserApi");
-
-var t = require('tcomb-form-native');
-
-var I18nService = require('../i18n');
 
 I18nService.set('ja-JP', {
         'login' : 'ログイン',
@@ -36,18 +26,7 @@ var {
     StyleSheet
     } = React;
 
-var Icon = require('react-native-vector-icons/FontAwesome');
-
-var UserSubject = require("../services/Streams").getStream("User");
-
 var styles = {
-    Search: {
-        flex: 1,
-        padding: 30,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        backgroundColor: '#FFFFFF'
-    },
     title: {
         marginBottom: 20,
         fontSize: 25,
@@ -84,29 +63,15 @@ var styles = {
 };
 
 var styles = StyleSheet.create({
+    container : {
+        flex: 1,
+        padding: 30,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        backgroundColor: '#FFFFFF'
+    },
     buttonsContainer: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    facebookContainer: {
-        backgroundColor: "#2A406B",
-        height: windowsSize.height * 0.2,
-        flex:1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    facebookButton: {
-        flex:1,
-        borderColor: '#2A406B',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.75,
-        marginLeft: windowsSize.width * 0.125,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
@@ -139,6 +104,7 @@ var styles = StyleSheet.create({
         borderRadius: 0,
         borderWidth: 3,
         width: windowsSize.width * 0.4,
+        marginTop: 5,
         marginLeft: windowsSize.width * 0.30,
         flexDirection: 'column',
         justifyContent: 'center',
@@ -146,18 +112,13 @@ var styles = StyleSheet.create({
     },
 
     loginText: {
-        color: "##444444",
+        color: "#444444",
         fontSize: 25
     },
 
     registerText: {
-        color: "##444444",
+        color: "#444444",
         fontSize: 20
-    },
-
-    facebookText: {
-        color:"#FFF",
-        fontSize: 25
     }
 });
 
@@ -167,6 +128,14 @@ var UserCredentials = t.struct({
     username: t.String,
     password: t.String
 });
+
+var options = {
+
+};
+
+var username = {
+
+};
 
 var storage = require("../services/Storage").getInstance();
 
@@ -221,11 +190,6 @@ var Login  = React.createClass({
     render() {
         return(
             <View style={styles.Search}>
-                <View style={styles.facebookContainer}>
-                    <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
-                        { I18n.t('loginWithFacebook') }
-                    </Button>
-                </View>
                 <Form ref="form" type={UserCredentials}/>
 
                 <View style={styles.loginButtonContainer}>

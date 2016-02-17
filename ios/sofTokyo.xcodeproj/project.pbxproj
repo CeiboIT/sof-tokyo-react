@@ -36,6 +36,7 @@
 		967934031C74161800F9A25B /* libRCTSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 967933FB1C7415CD00F9A25B /* libRCTSplashScreen.a */; };
 		967934051C74185800F9A25B /* SplashScreenResource in Resources */ = {isa = PBXBuildFile; fileRef = 967934041C74185700F9A25B /* SplashScreenResource */; };
 		96A8DC621C566CA300E0FA78 /* libOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96A8DC611C566C9700E0FA78 /* libOneSignal.a */; };
+		96E770991C59413900BABF18 /* UIImagePickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E770981C59413900BABF18 /* UIImagePickerManager.m */; };
 		96E922BD1C5418A9000C9693 /* logo_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E922BC1C5418A9000C9693 /* logo_120.png */; };
 		9D6E4CB678C54FD3BB36836C /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE5FFD5CD58459A9D50006E /* Foundation.ttf */; };
 		A4B72C61E3204F27A608B6C6 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B62890AC35494A10A28C9884 /* Entypo.ttf */; };
@@ -234,6 +235,8 @@
 		967933ED1C7415CC00F9A25B /* RCTSplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSplashScreen.xcodeproj; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		967934041C74185700F9A25B /* SplashScreenResource */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SplashScreenResource; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource"; sourceTree = "<group>"; };
 		96A8DC5B1C566C9700E0FA78 /* OneSignal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OneSignal.xcodeproj; path = "../../OneSignal-iOS-SDK/iOS_SDK/OneSignal.xcodeproj"; sourceTree = "<group>"; };
+		96E770971C59413900BABF18 /* UIImagePickerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIImagePickerManager.h; path = "../node_modules/react-native-image-picker/ios/UIImagePickerManager.h"; sourceTree = "<group>"; };
+		96E770981C59413900BABF18 /* UIImagePickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIImagePickerManager.m; path = "../node_modules/react-native-image-picker/ios/UIImagePickerManager.m"; sourceTree = "<group>"; };
 		96E922BC1C5418A9000C9693 /* logo_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_120.png; sourceTree = "<group>"; };
 		A10B22A646FE4CA58BB2806A /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 0; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		A23A980A398244679DBDDCCA /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 0; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -381,6 +384,8 @@
 			isa = PBXGroup;
 			children = (
 				967933ED1C7415CC00F9A25B /* RCTSplashScreen.xcodeproj */,
+				96E770971C59413900BABF18 /* UIImagePickerManager.h */,
+				96E770981C59413900BABF18 /* UIImagePickerManager.m */,
 				964FB6351C567347003A7DD1 /* RCTPushNotification.xcodeproj */,
 				96A8DC5B1C566C9700E0FA78 /* OneSignal.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -840,6 +845,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				96E770991C59413900BABF18 /* UIImagePickerManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

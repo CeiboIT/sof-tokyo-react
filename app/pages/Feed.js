@@ -1,11 +1,15 @@
-/**
- * Created by epotignano on 10/01/16.
- */
-
 var React = require('react-native');
 var PostsList = require('../components/posts/PostsList');
-var Feed = React.createClass ({
+var Carousel = require('../components/banners/Carousel');
+var api = require('../utils/api/PostsApi');
 
+var {
+    ScrollView,
+    View
+} = React;
+
+
+var Feed = React.createClass ({
     //This is the main state, this should register the object for maintain the navigation state
     registerNavigatorManager(){
         var NavigationManager = require("../services/NavigationManager");
@@ -15,10 +19,12 @@ var Feed = React.createClass ({
     render(){
         this.registerNavigatorManager();
         return(
-            <PostsList/>
+            <ScrollView>
+                <Carousel/>
+                <PostsList elementsPerRow={2} loadPostsFn={api.LoadPosts}/>
+            </ScrollView>
         )
     }
 });
 
 module.exports = Feed;
-
