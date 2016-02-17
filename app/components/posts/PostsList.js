@@ -74,6 +74,9 @@ var styles = StyleSheet.create({
 // In the video there are a couple errors, fixed them so it would build.
 
 var _page = 1;
+var _oldContext;
+var _actualContext;
+var _posts;
 
 var PostsList  = React.createClass({
     getInitialState() {
@@ -96,36 +99,42 @@ var PostsList  = React.createClass({
         }
 
         PostsStream.subscribe((response) => {
-            if(_initial && _page == 1)  {
-                _initial = false;
-                if(response.pages != 1) {
-                    this.setState({
-                        infiniteScroll: true
-                    })
-                }
+            var _infiniteScroll;
+            if(!_oldContext) {
+                _oldContext = response.type
+            } else if(_oldContext != response.type) {
+                _oldContext = response.type;
+                this.setState({
+                    dataSource : []
+                });
+                _initial = true;
+                _page =1;
+            }
 
-                if(response['posts']) {
-                    this.setState({
-                        dataSource: response['posts'],
-                        isLoading: false
-                    });
+            if(_initial && _page == 1 && response.data['posts'].length)  {
+                _initial = false;
+                if(response.data.pages && response.data.pages != 1) {
+                    _infiniteScroll = true;
                 }
+                _posts = response.data['posts'];
             } else {
-                if(response['posts']) {
-                    var _posts = this.state.dataSource;
-                    response['posts'].forEach((post) => {
+                if(response.data['posts'].length && response.data['posts']) {
+                    _posts = this.state.dataSource;
+                    response.data['posts'].forEach((post) => {
                         _posts.push(post);
                     });
-
-                    this.setState({
-                        dataSource: _posts
-                    })
+                    _infiniteScroll = true;
+                } else {
+                    _infiniteScroll = false;
                 }
             }
 
+            this.setState({
+                dataSource: _posts,
+                isLoading: false,
+                infiniteScroll: _infiniteScroll
+            })
         });
-
-
     },
 
     loadMorePosts(){
