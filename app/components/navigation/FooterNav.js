@@ -161,18 +161,17 @@ class FooterNav extends React.Component {
                         user.isAuthorized()
                             .then((data) => {
                                 if(!data.valid) {
-                                    this.NavigationSubject.onNext({'path': 'login'})
+                                    this.NavigationSubject.onNext({path: 'login'})
                                 }else {
                                     storage.load({key: 'UserId'})
                                         .then((data) => {
-                                            this.NavigationSubject.onNext({'path': 'profile', params: {
+                                            this.NavigationSubject.onNext({path: 'profile', params: {
                                                 id: data.data,
                                                 owner:true} })
                                         })
                                 }
                             }).catch((error) => {
-                            console.warn(JSON.stringify(error));
-                            this.NavigationSubject.onNext({'path': 'login'})
+                            this.NavigationSubject.onNext({path: 'login'})
                         })
 
                     }

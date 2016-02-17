@@ -72,7 +72,7 @@ var NewsCarousel  = React.createClass({
             )
 
         var _loading = (
-            <View>
+            <View style={{flex:1}}>
                 <GiftedSpinner/>
             </View>
         )

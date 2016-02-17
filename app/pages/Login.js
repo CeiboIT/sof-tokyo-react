@@ -8,6 +8,8 @@ var React = require('react-native'),
     Icon = require('react-native-vector-icons/FontAwesome'),
     UserSubject = require("../services/Streams").getStream("User");
 
+import Popup from 'react-native-popup';
+
 I18nService.set('ja-JP', {
         'login' : 'ログイン',
         'loginWithFacebook': 'Facebookで始める',

@@ -110,7 +110,7 @@ var PostsList  = React.createClass({
                 _initial = true;
                 _page =1;
             }
-
+            
             if(_initial && _page == 1 && response.data['posts'].length)  {
                 _initial = false;
                 if(response.data.pages && response.data.pages != 1) {

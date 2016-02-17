@@ -138,9 +138,7 @@ var Register  = React.createClass({
     },
 
     showCountry() {
-        if (this
-
-                .state.showCountry) {
+        if (this.state.showCountry) {
             return (<Picker
                 selectedValue={this.state.country}
                 onValueChange={(country) => this.setState({country: country})}>
@@ -193,36 +191,31 @@ var Register  = React.createClass({
         return(
 			<ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
                 <View style={styles.Search}>
-                    <View style={styles.facebookContainer}>
-                        <Button style={styles.facebookButton} textStyle={styles.facebookText} onPress={this.loginWithFacebook}>
-                            { I18n.t('registerWithFacebook') }
-                        </Button>
-                    </View>
-
                     <Form ref="form">
                         <TextInput style={{height: 60}} name="username" placeholder="Username"/>
                         <TextInput style={{height: 60}} name="email" placeholder="Email"/>
                         <TextInput style={{height: 60}} name="display_name" placeholder="Display name"/>
                         <TextInput style={{height: 60}} name="years" placeholder="Age"/>
                     </Form>
-                    <Text style={{height: 60, textDecorationLine: 'underline'}}
-                          onPress={this.toggleCountry}>
-                        Country: <Text> {this.state.country} </Text>
-                    </Text>
-                    {this.showCountry()}
+                    <View style={{padding:10, marginBottom: 20}}>
+                        <Text style={{height: 40, color: "#333"}}
+                            onPress={this.toggleCountry}>
+                            Country: <Text style={{color: "gray"}}> {this.state.country} </Text>
+                        </Text>
+                        {this.showCountry()}
 
-                    <Text style={{height: 60}}
-                          onPress={this.toggleObog}>
-                        Obog: <Text> {this.state.obog} </Text>
-                    </Text>
-                    {this.showObog()}
+                        <Text style={{height: 40, color: "#333"}}
+                            onPress={this.toggleObog}>
+                            Obog: <Text style={{color: "gray"}}> {this.state.obog} </Text>
+                        </Text>
+                            {this.showObog()}
 
-                    <Text style={{height: 60}}
-                          onPress={this.toggleSchool}>
-                        School: <Text> {this.state.school} </Text>
-                    </Text>
-                    {this.showSchool()}
-
+                        <Text style={{height: 40, color: "#333"}}
+                            onPress={this.toggleSchool}>
+                            School: <Text style={{color: "gray"}}> {this.state.school} </Text>
+                        </Text>
+                            {this.showSchool()}
+                    </View>
                     <View style={styles.loginButtonContainer}>
                         <Button style={styles.loginButton} textStyle={styles.loginText}
                                 onPress={this.register}>
