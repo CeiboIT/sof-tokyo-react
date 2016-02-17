@@ -127,7 +127,6 @@ var UserCredentials = t.struct({
     password: t.String
 });
 
-<<<<<<< HEAD
 var options = {
 
 };
