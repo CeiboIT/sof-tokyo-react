@@ -69,14 +69,17 @@ var styles = StyleSheet.create({
     },
     loadMoreText : {
         color: "#8a52ad"
+    },
+    whiteText : {
+        color: 'white'
     }
 });
 // In the video there are a couple errors, fixed them so it would build.
 
-var _page = 1;
-var _oldContext;
-var _actualContext;
-var _posts;
+var _page = 1,
+    _oldContext,
+    _actualContext,
+    _posts;
 
 var PostsList  = React.createClass({
     getInitialState() {
@@ -147,11 +150,23 @@ var PostsList  = React.createClass({
             }
         }
     },
+    
+    togglePressIn(){
+        this.setState({
+            pressIn: !this.state.pressIn
+        });
+    },
+    
+    pressColor(){
+        if(this.state.pressIn) {
+            return styles.whiteText
+        }
+    },
     render(){
 
         var _loadMoreButton = (
-            <TouchableHighlight underlayColor={'transparent'} onPress={this.loadMorePosts} style={styles.loadMore}>
-                <Text style={styles.loadMoreText}> Load more posts </Text>
+            <TouchableHighlight underlayColor={'#8a52ad'} onPress={this.loadMorePosts} onPressIn={this.togglePressIn} onPressOut={this.togglePressIn} style={styles.loadMore}>
+                <Text style={[styles.loadMoreText, this.pressColor()]}> Load more posts </Text>
             </TouchableHighlight>
         );
 

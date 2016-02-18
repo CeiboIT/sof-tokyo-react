@@ -25,8 +25,9 @@ var newPosts = require('./NewPosts');
 var styles = require('./Styles');
 var byStyle = require('./byStyle');
 var bySex = require('./bySex');
-var categoriesPage = require('./CategoriesMenu');
 var createNewPost = require('./CreateNewPost');
+var contact = require('./Contact');
+var categoriesPage = require('./CategoriesMenu');
 
 module.exports = {
     feed,
@@ -48,6 +49,7 @@ module.exports = {
     styles,
     byStyle,
     bySex,
-    categoriesPage,
-    createNewPost
+    createNewPost,
+    contact,
+    categoriesPage
 };

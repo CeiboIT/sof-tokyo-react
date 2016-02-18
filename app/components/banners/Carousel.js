@@ -30,7 +30,7 @@ var NewsCarousel  = React.createClass({
 
     componentDidMount() {
         apiBanners.LoadBanners()
-        BannersStream.subscribe((response) => {
+        BannersStream.subscribe((response) => {            
             this.setState({
                 banners: response['banners']
             });
