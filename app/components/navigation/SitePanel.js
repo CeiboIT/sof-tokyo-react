@@ -120,8 +120,8 @@ var SitePanel = React.createClass ({
                 <View style={styles.buttonsContainer} collapse={ true } >
                     <TouchableHighlight onPress={ this.navigateToWomen } underlayColor={'transparent'} style={styles.button}><Text>WOMEN</Text></TouchableHighlight>
                     <TouchableHighlight onPress={ this.navigateToMen } underlayColor={'transparent'} style={styles.button}><Text>MEN</Text></TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>STYLE</Text></TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToCategories} style={styles.button}><Text>CATEGORY</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={ this.navigatoToStyle } underlayColor={'transparent'} style={styles.button}><Text>STYLE</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToCategories} underlayColor={'transparent'} style={styles.button}><Text>CATEGORY</Text></TouchableHighlight>
                     <TouchableHighlight onPress={this.navigateToSchools} underlayColor={'transparent'} style={styles.button}><Text>SCHOOL</Text></TouchableHighlight>
                     <TouchableHighlight underlayColor={'transparent'} style={styles.button}><Text>CONTACT</Text></TouchableHighlight>
                     <TouchableHighlight onPress={this.navigateToAbout} underlayColor={'transparent'} style={styles.button}><Text>ABOUT Sof</Text></TouchableHighlight>

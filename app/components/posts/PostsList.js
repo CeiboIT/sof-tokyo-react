@@ -95,6 +95,7 @@ var PostsList  = React.createClass({
         if(this.props.id) {
             this.props.loadPostsFn(this.props.id)
         } else {
+            console.warn('aca')
             this.props.loadPostsFn()
         }
 

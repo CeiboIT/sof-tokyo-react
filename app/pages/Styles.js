@@ -54,7 +54,7 @@ var Schools = React.createClass({
 
     navigateToStyle(selectedStyle) {
         var Nav = require("../services/NavigationManager").getStream();
-        Nav.onNext({ path: 'postsByStyle', params: { styleId : selectedStyle.id }})
+        Nav.onNext({ path: 'postsByStyle', params: { styleId : selectedStyle.name }})
     },
 
     componentDidMount() {
