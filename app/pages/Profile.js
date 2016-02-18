@@ -126,7 +126,7 @@ var Profile = React.createClass({
 
     createNewPost() {
         var NavigationSubject = require("../services/NavigationManager").getStream();
-        NavigationSubject._onNext({path: 'createNewPost'});
+        NavigationSubject.onNext({path: 'createNewPost'});
     },
 
     logout() {
@@ -216,8 +216,9 @@ var Profile = React.createClass({
 
             <View>
                 <Text onPress={this.logout}> logout </Text>
-                <Badge data={this.state.user} />
                 <Text onPress={this.createNewPost}> *****NewPost******</Text>
+                <Badge data={this.state.user} />
+
                 {_render}
             </View>
         );
