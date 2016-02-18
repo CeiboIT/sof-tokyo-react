@@ -8,6 +8,7 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFiles</key>
 	<array>
+		<string>logo_167.png</string>
 		<string>logo_120.png</string>
 		<string>logo_76.png</string>
 		<string>logo_152.png</string>

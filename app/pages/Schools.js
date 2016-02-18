@@ -32,21 +32,73 @@ var styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#e5e5e5'
     },
+    titleContainer : {
+        padding: 5,
+        borderWidth: 1,
+        borderColor: "#8a52ad",
+        margin : 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
     title : {
-        fontWeight : 'bold',
-        margin : 10
+        
     },
     items : {
         padding : 5
+    },
+    school : {
+        borderColor: "transparent",
+        borderWidth: 1,
+        padding: 5,
+        margin: 5,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    selectedSchool : {
+        borderColor: "#8a52ad",
+        backgroundColor: "#8a52ad",
+        borderWidth: 1,
+        padding: 5,
+        margin: 5,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    loadMoreText : {
+        color: "#8a52ad"
+    },
+    selectedLoadMoreText : {
+        color: "white"
     }
 });
 
 var SchoolElement = React.createClass({
+
+    getInitialState() {
+        return {
+            selected: false
+        }
+    },
+
+    elementSelected() {
+
+        var _selected = !this.state.selected;
+
+        this.setState({
+            selected : _selected
+        });
+        this.props.onSelect();
+    },
+
     render() {
+
+        var _style = (this.state.selected) ? styles.selectedSchool : styles.school,
+            _styleText = (this.state.selected) ? styles.selectedLoadMoreText : styles.loadMoreText;
+
         return(
             <View>
-                <TouchableHighlight onPress={this.props.onSelect}>
-                    <Text style={styles.items}>{this.props.school.value}</Text>
+                <TouchableHighlight underlayColor={'transparent'} onPress={this.elementSelected }
+                    style={ _style }>
+                    <Text style={ _styleText }>{this.props.school.value}</Text>
                 </TouchableHighlight>
             </View>
         )
@@ -71,7 +123,14 @@ var Schools = React.createClass({
     },
 
     selectSchool(school) {
-        this.state.selectedSchools.push(school);
+        if(school) {
+            var _index = this.state.selectedSchools.indexOf(school);
+            if(_index === -1) {
+                this.state.selectedSchools.push(school);
+            } else {
+                this.state.selectedSchools.splice(_index, 1);
+            }
+        }
     },
 
     componentDidMount() {
@@ -88,9 +147,9 @@ var Schools = React.createClass({
         return(
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                    <TouchableHighlight onPress={this.navigateToCheckout}>
+                    <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToCheckout} style={styles.titleContainer}>
                         <Text style={styles.title}>
-                            Request Books
+                            Request Books »
                         </Text>
                     </TouchableHighlight>
 

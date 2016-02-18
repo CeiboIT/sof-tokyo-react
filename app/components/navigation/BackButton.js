@@ -2,7 +2,6 @@
  * Created by epotignano on 11/01/16.
  */
 
-
 var React = require('react-native');
 
 var {
@@ -39,10 +38,8 @@ var BackButton  = React.createClass({
         NavigationSubject.onNext( {path: 'back', navigator: this.props.navigator })
     },
     render() {
-        //console.warn(Object.keys(this.props));
-
         return (
-            <TouchableHighlight onPress={this.goBack} underlayColor="transparent" >
+            <TouchableHighlight onPress={this.goBack} underlayColor={'transparent'}>
                 <View>
                     <Icon name="chevron-left" style={styles.text}> <Text>{I18n.t('back')}</Text></Icon>
                 </View>

@@ -12,6 +12,7 @@ var api = require("../utils/api/PostApi");
 var UserApi = require("../utils/api/UserApi");
 var GiftedSpinner = require('react-native-gifted-spinner');
 var GridView = require('react-native-grid-view');
+var Modal = require('react-native-modalbox');
 
 var t = require("tcomb-form-native");
 var Rx = require("rx");
@@ -31,7 +32,8 @@ var {
     Text,
     View,
     Dimensions,
-    TouchableHighlight
+    TouchableHighlight,
+    Image
     } = React;
 
 var Comment = t.struct({
@@ -41,9 +43,11 @@ var Comment = t.struct({
 var Form = t.form.Form;
 
 var styles = StyleSheet.create({
-    spinner: {
-        marginTop: 20,
-        width: 50
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7F7F7'
     },
     scrollView : {
         flex: 1,
@@ -61,7 +65,7 @@ var styles = StyleSheet.create({
         borderColor: '#e5e5e5'
     },
     author : {
-      margin: 10  
+      margin: 10
     },
     postImageContainer : {
         justifyContent: 'center',
@@ -166,11 +170,27 @@ var styles = StyleSheet.create({
     },
     buttonText : {
         color: "#8a52ad"
-        
+
     },
     grind : {
         alignSelf: 'flex-start'
-    }
+    },
+    
+  wrapper: {
+    flex: 1
+  },
+
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: windowSize.height * 0.7
+  },
+  
+  btnModalContainer : {
+    position: 'absolute',
+    top: 10,
+    right: 10
+  }
 });
 
 
@@ -182,12 +202,46 @@ var imageSizes ={
 var PostId;
 
 var PostView = React.createClass({
+    openModal: function(element) {
+        this.setState({
+            isOpen: true,
+            imageSel: element.image
+            });
+        this.refs.scrollView.scrollTo(0);
+    },
 
+    closeModal: function(element) {
+        this.setState({isOpen: false});
+    },
+
+    toggleDisable: function() {
+        this.setState({isDisabled: !this.state.isDisabled});
+    },
+
+    toggleSwipeToClose: function() {
+        this.setState({swipeToClose: !this.state.swipeToClose});
+    },
+
+    onClose: function() {
+        
+    },
+
+    onOpen: function() {
+        
+    },
+
+    onClosingState: function(state) {
+        
+    },
     getInitialState() {
         return {
             post: {},
             isLoading:true,
             isLoggedIn: false,
+            isOpen: false,
+            isDisabled: false,
+            swipeToClose: true,
+            imageSel: '',
             data: {},
             commentStream: new Rx.Subject()
         }
@@ -230,14 +284,35 @@ var PostView = React.createClass({
     },
 
     render() {
+        
+        var images = [],
+            _subImages;
+        if(this.state.data && this.state.data.custom_fields){
+            var _customFields = Object.keys(this.state.data.custom_fields),
+                subImage = 'sofbackend__sof_work_meta__subImage';
+            _customFields.map((key) => {
+                if(this.state.data.custom_fields[key] && this.state.data.custom_fields[key][0]){
+                    if(key == subImage+'1' || key == subImage+'2' || key == subImage+'3' || key == subImage+'4' || key == subImage+'5' || key == subImage+'6'){
+                        images.push({id: key, image: this.state.data.custom_fields[key][0]});
+                    }
+                }
+            });
+            
+            _subImages = <GridView
+                            items={images}
+                            renderItem={(rowData) => <View key={rowData.id}><TouchableHighlight underlayColor={'transparent'} onPress={()=>this.openModal(rowData)} key={rowData.id}><View><Image source={{uri: rowData.image}} style={{width: 86, height: 86}} key={rowData.id}/></View></TouchableHighlight></View>
+                            }
+                         />
+        }
+        
         var _photo = (this.state.data && this.state.data.thumbnail ) ? this.state.data.thumbnail : "http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg";
         PostId = this.props.id;
 
-        if(this.state.isLoading) return (<GiftedSpinner/>) ;
+        if(this.state.isLoading) return (<View style={styles.loading}><GiftedSpinner/></View>) ;
         var _commentForm = (
             <View>
                 <Form type={Comment} ref="form"/>
-                <TouchableHighlight onPress={this.addComment} style={styles.button}>
+                <TouchableHighlight onPress={this.addComment} underlayColor={'transparent'} style={styles.button}>
                     <Text style={styles.buttonText}>Add Comment</Text>
                 </TouchableHighlight>
             </View>
@@ -253,16 +328,21 @@ var PostView = React.createClass({
                 itemsPerRow={1}
                 renderItem={(rowData) => <CommentItem comment={rowData} key={rowData.id}/>
                         }
-            /> 
+            />
         }
+        
         var _postView = (
-            <ScrollView style={styles.scrollView}>
-                <View style={styles.container}>
+            <ScrollView style={styles.scrollView} ref="scrollView">
+                <View style={[styles.container, styles.wrapper]}>
                     <View style={styles.section}>
                         <View style={styles.postImageContainer}>
                             <ResponsiveImage source={{uri: _photo}}
                                         initWidth={imageSizes.width}
                                         initHeight={imageSizes.height}/>
+                                        
+                            <View>
+                                { _subImages }
+                            </View>
                         </View>
                     <PostContentDisplayer content={this.state.data.content}
                                           removeHTMLTags={true}
@@ -274,9 +354,13 @@ var PostView = React.createClass({
                     </View>
                     <View style={styles.section}>
                         { _renderComments }
-                        { _commentForm }
+                        { _renderForm }
                     </View>
                 </View>
+                <Modal isOpen={this.state.isOpen} onClosed={this.closeModal} style={styles.modal} position={"top"}>
+                    <TouchableHighlight onPress={this.closeModal} underlayColor={'transparent'} style={styles.btnModalContainer}><Text><Icon name="times" size={18} style={{color: 'gray'}}/></Text></TouchableHighlight>
+                    <ResponsiveImage source={{uri: this.state.imageSel}} initWidth={imageSizes.width} initHeight={imageSizes.height}/>
+                </Modal>
             </ScrollView>)
         return _postView;
     }
