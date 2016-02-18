@@ -24,7 +24,7 @@ var {
     TextInput,
     } = React;
 
-var NewPost = React.createClass({
+var CreateNewPost = React.createClass({
 
     getInitialState() {
         return {
@@ -49,22 +49,26 @@ var NewPost = React.createClass({
 
     render() {
         return (<View style={styles.Search}>
-                    <Form ref="from">
-                        <TextInput style={{height: 60}}
-                                   name='title'
-                                   placeholder={I18n.t('title')}/>
-                        <TextInput style={{height: 60}}
-                                   name="description"
-                                   placeholder={I18n.t('description')}/>
-                    </Form>
-                    <Button style={styles.button}
-                            textStyle={styles.loginText}
-                            onPress={this.openPicker}>
-                        {I18n.t('select_image')}
-                    </Button>
-
-                    <Image source={this.state.selectedImage} style={styles.base} />
-
+                    <View>
+                        <Form ref="from">
+                            <TextInput style={{height: 60}}
+                                       name='title'
+                                       placeholder={I18n.t('title')}/>
+                            <TextInput style={{height: 60}}
+                                       name="description"
+                                       placeholder={I18n.t('description')}/>
+                        </Form>
+                    </View>
+                    <View>
+                        <Button style={styles.button}
+                                textStyle={styles.loginText}
+                                onPress={this.openPicker}>
+                            {I18n.t('select_image')}
+                        </Button>
+                    </View>
+                    <View>
+                        <Image source={this.state.selectedImage} style={styles.base} />
+                    </View>
                     <View>
                         <Popup ref={(popup) => { this.popup = popup }}/>
                     </View>
@@ -86,29 +90,4 @@ var styles = StyleSheet.create({
     }
 });
 
-module.exports = NewPost;
-
-/*<Button style={styles.button} textStyle={styles.loginText}
- onPress={this.uploadImage}>
- Send to cloudinary
- </Button> */
-
-/*
- <Form ref="form">
- <TextInput style={{height: 60}}
- name="title"
- placeholder={I18n.t('title')}/>
- <TextInput style={{height: 60}}
- name="description"
- placeholder={I18n.t('description')}/>
- </Form>
-
- <Button style={styles.button} textStyle={styles.loginText}
- onPress={this.openPicker}>
- {I18n.t('select_image')}
- </Button>
-
- <Image source={this.state.selectedImage} style={styles.base} />
-
- <Popup ref={(popup) => { this.popup = popup }}/>
- */
+module.exports = CreateNewPost;
