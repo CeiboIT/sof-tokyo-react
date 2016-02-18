@@ -1,9 +1,6 @@
-/**
- * Created by epotignano on 17/01/16.
- */
-var React = require('react-native');
-var PostElement = require('../components/posts/PostElement');
-var GridView = require('react-native-grid-view');
+var React = require('react-native'),
+    PostElement = require('../components/posts/PostElement'),
+    GridView = require('react-native-grid-view');
 
 var {
     StyleSheet

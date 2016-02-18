@@ -1,16 +1,9 @@
-/**
- * Created by epotignano on 10/01/16.
- */
-
-var React = require('react-native');
-
-var GridView = require('react-native-grid-view');
-var metadataStream = require("../services/Streams").getStream("Metadata");
-
-
-var api = require("../utils/api/MetadataApi");
-var postApi = require("../utils/api/PostApi");
-var GiftedSpinner = require('react-native-gifted-spinner');
+var React = require('react-native'),
+    GridView = require('react-native-grid-view'),
+    metadataStream = require("../services/Streams").getStream("Metadata"),
+    api = require("../utils/api/MetadataApi"),
+    postApi = require("../utils/api/PostApi"),
+    GiftedSpinner = require('react-native-gifted-spinner');
 
 var {
     StyleSheet,

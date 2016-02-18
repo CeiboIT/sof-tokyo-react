@@ -1,15 +1,6 @@
-/**
- * Created by epotignano on 30/01/16.
- */
-
-
-/**
- * Created by epotignano on 10/01/16.
- */
-
-var React = require('react-native');
-var PostsList = require('../components/posts/PostsList');
-var api = require('../utils/api/PostsApi');
+var React = require('react-native'),
+    PostsList = require('../components/posts/PostsList'),
+    api = require('../utils/api/PostsApi');
 
 var Ranking = React.createClass ({
     render(){
@@ -20,4 +11,3 @@ var Ranking = React.createClass ({
 });
 
 module.exports = Ranking;
-

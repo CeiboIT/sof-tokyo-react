@@ -181,6 +181,16 @@ class NavigatorService {
                         titleComponent: logo
                     })
                 break;
+                case('contact'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.contact,
+                        rightCorner: toggle,
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
+                    })
+                break;
                 case('categoriesMenu'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,

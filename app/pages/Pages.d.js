@@ -1,31 +1,26 @@
-/**
- * Created by epotignano on 10/01/16.
- */
-
-// DECLARE PAGES HERE FOR INSERT IN ROUTES.
-
-var feed = require("./Feed");
-var categories = {
-    menu: require('./CategoriesMenu')
-};
-var login = require('./Login');
-var about = require('./About');
-var register= require('./Register');
-var post = require('./PostView');
-var schools = require('./Schools');
-var news = require('./News');
-var profile = require('./Profile');
-var search = require('./Search');
-var searchResults = require('./SearchResults');
-var uploadImage = require('./UploadImage');
-var schoolProfile = require('./SchoolProfile');
-var schoolBooksCheckout = require('./SchoolsBookCheckout');
-var ranking = require('./Ranking');
-var newPosts = require('./NewPosts');
-var styles = require('./Styles');
-var byStyle = require('./byStyle');
-var bySex = require('./bySex');
-var categoriesPage = require('./CategoriesMenu');
+var feed = require("./Feed"),
+    categories = {
+        menu: require('./CategoriesMenu')
+    },
+    login = require('./Login'),
+    about = require('./About'),
+    register= require('./Register'),
+    post = require('./PostView'),
+    schools = require('./Schools'),
+    news = require('./News'),
+    profile = require('./Profile'),
+    search = require('./Search'),
+    searchResults = require('./SearchResults'),
+    uploadImage = require('./UploadImage'),
+    schoolProfile = require('./SchoolProfile'),
+    schoolBooksCheckout = require('./SchoolsBookCheckout'),
+    ranking = require('./Ranking'),
+    newPosts = require('./NewPosts'),
+    styles = require('./Styles'),
+    byStyle = require('./byStyle'),
+    bySex = require('./bySex'),
+    contact = require('./Contact'),
+    categoriesPage = require('./CategoriesMenu');
 
 module.exports = {
     feed,
@@ -47,5 +42,6 @@ module.exports = {
     styles,
     byStyle,
     bySex,
+    contact,
     categoriesPage
 };
