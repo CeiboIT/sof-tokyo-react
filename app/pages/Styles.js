@@ -22,8 +22,24 @@ var {
 
 
 var styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#FFFFFF',
+        paddingVertical: 10,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
+    },
     styleElement : {
-        margin: 10
+        margin: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
+    },
+    loading : {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7F7F7'
     }
 })
 
@@ -31,9 +47,9 @@ var styles = StyleSheet.create({
 var StyleElement = React.createClass({
     render() {
         return(
-            <View style={styles.styleElement}>
-                <TouchableHighlight onPress={this.props.onSelect}>
-                    <Text >{this.props.style['trad']}</Text>
+            <View>
+                <TouchableHighlight onPress={this.props.onSelect} underlayColor={'transparent'} style={styles.styleElement}>
+                    <Text>{this.props.style['trad']}</Text>
                 </TouchableHighlight>
             </View>
         )
@@ -69,18 +85,20 @@ var Schools = React.createClass({
     },
 
     render(){
-        if(!this.state.styles.length) return (<GiftedSpinner/>)
+        if(!this.state.styles.length) return (<View style={styles.loading}><GiftedSpinner/></View>)
         return(
-            <ScrollView>
-                <GridView
-                    items={this.state.styles}
-                    itemsPerRow={2}
-                    renderItem={(rowData) => <StyleElement
-                        onSelect={() => this.navigateToStyle(rowData)}
-                        key={rowData.id}
-                        style={rowData} /> }
+            <ScrollView style={{backgroundColor: '#F7F7F7', padding: 10}}>
+                <View style={styles.container}>
+                    <GridView
+                        items={this.state.styles}
+                        itemsPerRow={2}
+                        renderItem={(rowData) => <StyleElement
+                            onSelect={() => this.navigateToStyle(rowData)}
+                            key={rowData.id}
+                            style={rowData} /> }
 
-                />
+                    />
+                </View>
             </ScrollView>
         )
     }
