@@ -1,11 +1,6 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
-var apiConsts  = require("../../constants/api").apiConsts;
-var PostsStream = require("../../services/Streams").getStream("Posts");
-
-var productsEndpoint = apiConsts.apiEndpoint + 'products/';
+var apiConsts  = require("../../constants/api").apiConsts,
+    PostsStream = require("../../services/Streams").getStream("Posts"),
+    productsEndpoint = apiConsts.apiEndpoint + 'products/';
 
 var api = {
     async LoadPosts(page){

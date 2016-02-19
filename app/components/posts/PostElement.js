@@ -1,17 +1,13 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
-var React = require('react-native');
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get("window");
-var PixelRatio = require("PixelRatio");
-
-var ResponsiveImage = require('react-native-responsive-image');
-var Icon = require('react-native-vector-icons/FontAwesome');
-var Avatar = require('../user/Avatar');
-var PostLike = require('./helpers/PostLike')
-var  PostContentDisplayer = require('./helpers/PostContentDisplayer')
+var React = require('react-native'),
+    Dimensions = require('Dimensions'),
+    windowSize = Dimensions.get("window"),
+    PixelRatio = require("PixelRatio"),
+    ResponsiveImage = require('react-native-responsive-image'),
+    Icon = require('react-native-vector-icons/FontAwesome'),
+    Avatar = require('../user/Avatar'),
+    PostLike = require('./helpers/PostLike'),
+    MetadataDisplay = require('./helpers/MetadataDisplay'),
+    PostContentDisplayer = require('./helpers/PostContentDisplayer');
 
 var {
     View,
@@ -27,7 +23,8 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         margin: 10,
-        width: windowSize.width * 0.55
+        width: windowSize.width * 0.55,
+        overflow: "hidden"
     },
     contentTitle : {
         borderLeftWidth: 2,
@@ -142,10 +139,25 @@ var PostElement = React.createClass({
         return '"' + this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage[0]+ '"';  
       }
     },
+    getMetadata () {
+        var arr = [];
+        
+        if(this.props.postData && this.props.postData.metadata){
+            var _metadata = this.props.postData.metadata,
+                field = 'sofbackend__sof_work_meta__';
+            _metadata.map((metadata) => {
+                if(metadata.field == field+'style') arr.push({type: 'style', name: metadata.trad, id: metadata.value});
+                if(metadata.field == field+'category_1') arr.push({type: 'category', name: metadata.trad, id: metadata.value});
+            });
+        }
+        
+        return arr
+    },
     render() {
+        
         return(
             <View style={styles.container}>
-                <View style={{overflow:'hidden'}}>
+                <View>
                     <TouchableHighlight underlayColor={'rgba(0,0,0,0.9)'} onPress={this.goToPost}>
                         <Image style={[this.imageSize()]} 
                             source={{uri:  this.getThumbnail() }} />
@@ -155,6 +167,13 @@ var PostElement = React.createClass({
                 <View style={styles.contentTitle}>
                     <Text style={styles.title}> { this.props.postData.title }</Text>
                 </View>
+                {
+                    this.getMetadata().map((data) => {
+                        return <View key={data.id}>
+                                    <MetadataDisplay metadata={data}/>
+                                </View>
+                        })
+                 }
                 <PostContentDisplayer content={this.props.postData.content}
                     removeHTMLTags={true} crop={30} style={styles.padding}
                 />

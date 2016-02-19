@@ -1,7 +1,7 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-var React = require('react-native');
+var React = require('react-native'),
+    Dimensions = require('Dimensions'),
+    windowSize = Dimensions.get("window");
+    
 var {
     Text,
     View,
@@ -28,7 +28,8 @@ var styles = StyleSheet.create({
     },
     avatarContainer: {
         flex: 1,
-        flexDirection: "row"
+        flexDirection: "row",
+        width: windowSize.width * 0.5,
     },
     avatarName: {
         marginVertical : 3,
@@ -53,9 +54,7 @@ var Avatar = React.createClass({
     render() {
 
         var parsePhotoUrl = function (photoUrl) {
-            if(photoUrl.indexOf("http") == -1) {
-                photoUrl = "http:" + photoUrl
-            }
+            if(photoUrl.indexOf("http") == -1) photoUrl = "http:" + photoUrl;
 
             return photoUrl;
         };
