@@ -14,25 +14,29 @@ var {
 var Icon = require('react-native-vector-icons/FontAwesome');
 
 var styles = StyleSheet.create({
+    container : {
+        flex: 1,
+        flexDirection: 'row',
+        overflow: 'hidden'
+    },
     image: {
         height: 20,
         width: 20,
         borderRadius: 50,
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-start'
     },
     imageLarge: {
         height: 40,
         width: 40,
         borderRadius: 50,
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-start'
     },
     avatarContainer: {
         flex: 1,
-        flexDirection: "row",
-        width: windowSize.width * 0.5,
+        flexDirection: "row"
     },
     avatarName: {
-        marginVertical : 3,
+        marginVertical : 0,
         marginLeft: 5,
         color: '#b3b3b3'
     },
@@ -61,7 +65,7 @@ var Avatar = React.createClass({
 
         var _photo = (this.props.author.avatar) ? parsePhotoUrl(this.props.author.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
         return (
-            <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToAuthor}>
+            <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToAuthor} style={styles.container}>
                 <View style={styles.avatarContainer}>
                     <Image style={(this.props.size === 'large') ? styles.imageLarge : styles.image} source={{uri: _photo }} />
                     <Text style={(this.props.size === 'large') ? styles.avatarNameLarge : styles.avatarName}>

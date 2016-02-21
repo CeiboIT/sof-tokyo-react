@@ -158,7 +158,7 @@ var PostElement = React.createClass({
                 field = 'sofbackend__sof_work_meta__';
             _metadata.map((metadata) => {
                 if(metadata.field == field+'style') arr.push({type: 'style', name: metadata.trad, id: metadata.value});
-                if(metadata.field == field+'category_1') arr.push({type: 'category', name: metadata.trad, id: metadata.value});
+                if(metadata.field == field+'category_1' && metadata.trad) arr.push({type: 'category', name: metadata.trad, id: metadata.value});
             });
         }
         
@@ -178,6 +178,9 @@ var PostElement = React.createClass({
                 <View style={styles.contentTitle}>
                     <Text style={styles.title}> { this.props.postData.title }</Text>
                 </View>
+                <View style={styles.authorDataDisplayContainer} >
+                    <Avatar author={this.props.postData.author}/>
+                </View>
                 <View style={styles.metadata}>
                     {
                         this.getMetadata().map((data) => {
@@ -190,9 +193,6 @@ var PostElement = React.createClass({
                 <PostContentDisplayer content={this.props.postData.content}
                     removeHTMLTags={true} crop={30} style={styles.padding}
                 />
-                <View style={styles.authorDataDisplayContainer} >
-                    <Avatar author={this.props.postData.author}/>
-                </View>
                 <ElementFooter data={this.props.postData}/>
             </View>
         )

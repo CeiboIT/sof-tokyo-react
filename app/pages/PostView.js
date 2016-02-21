@@ -52,10 +52,13 @@ var styles = StyleSheet.create({
         margin: 10,
     },
     section : {
+        flex: 1,
         backgroundColor: '#FFFFFF',
         padding: 10,
         borderWidth: 1,
-        borderColor: '#e5e5e5'
+        borderColor: '#e5e5e5',
+        flexWrap: 'wrap',
+        overflow: 'hidden'
     },
     author : {
       margin: 10
