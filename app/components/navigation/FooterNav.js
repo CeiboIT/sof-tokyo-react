@@ -11,6 +11,7 @@ I18nService.set('ja-JP', {
     "new": "NEW",
     "news": "お知らせ",
     "myPage": "マイページ",
+    "ranking" : "ランキング",
     "login": "ログイン",
     "search": "検索"}
 );
@@ -57,7 +58,7 @@ var styles = StyleSheet.create({
         color: 'red'
     },
     iconText : {
-        fontSize: 12
+        fontSize: 10
     },
     list: {
         flexDirection: 'row',
@@ -119,21 +120,21 @@ class FooterNav extends React.Component {
             options : [
                 {
                     itemLabel: <FaIcon name="home" size={25} style={[styles.icon]}></FaIcon>,
-                    itemName: 'home',
+                    itemName: I18n.t('home'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'feed'})
                     }
                 },
                 {
                     itemLabel: <FaIcon name="search" size={25} style={[styles.icon]}></FaIcon>,
-                    itemName: 'search',
+                    itemName: I18n.t('search'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
                 {
                     itemLabel: <FaIcon name="star-o" size={25} style={styles.icon}></FaIcon>,
-                    itemName: 'new',
+                    itemName: I18n.t('new'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'newPosts'})
                     }
@@ -141,14 +142,14 @@ class FooterNav extends React.Component {
 
                 {
                     itemLabel: <FaIcon name="bell-o" size={25} style={styles.icon}></FaIcon>,
-                    itemName: 'news',
+                    itemName: I18n.t('news'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'news'})
                     }
                 },
                 {
                     itemLabel: <FaIcon name="trophy" size={25} style={styles.icon}></FaIcon>,
-                    itemName: 'ranking',
+                    itemName: I18n.t('ranking'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'ranking'})
                     }
