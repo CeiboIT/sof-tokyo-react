@@ -49,7 +49,9 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent:'flex-start',
         width: windowSize.width * 0.55,
-        padding: 5
+        padding: 5,
+        overflow: 'hidden',
+        
     },
     textContainer : {
         flex:1,
@@ -67,6 +69,15 @@ var styles = StyleSheet.create({
     iconPlus : {
         color: '#aaaaaa',
         fontSize: 12
+    },
+    metadata: {
+        flex: 1, 
+        flexDirection: 'row', 
+        flexWrap: 'wrap', 
+        justifyContent: 'flex-start',
+        marginTop: 5, 
+        padding:5,
+        overflow: 'hidden'
     }
 
 });
@@ -167,13 +178,15 @@ var PostElement = React.createClass({
                 <View style={styles.contentTitle}>
                     <Text style={styles.title}> { this.props.postData.title }</Text>
                 </View>
-                {
-                    this.getMetadata().map((data) => {
-                        return <View key={data.id} style={{justifyContent: 'flex-end',alignItems: 'flex-end'}}>
-                                    <MetadataDisplay metadata={data}/>
-                                </View>
-                        })
-                 }
+                <View style={styles.metadata}>
+                    {
+                        this.getMetadata().map((data) => {
+                            return <View key={data.id}>
+                                        <MetadataDisplay metadata={data}/>
+                                    </View>
+                            })
+                    }
+                 </View>
                 <PostContentDisplayer content={this.props.postData.content}
                     removeHTMLTags={true} crop={30} style={styles.padding}
                 />

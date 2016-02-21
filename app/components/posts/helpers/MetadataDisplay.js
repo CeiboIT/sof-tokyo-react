@@ -16,6 +16,9 @@ var styles = StyleSheet.create({
         borderRadius: 4,
         paddingVertical: 1,
         paddingHorizontal: 8
+    },
+    itemsText : {
+        fontSize : 11
     }
 });
 
@@ -48,7 +51,7 @@ var MetadataDisplay = React.createClass({
         return (
             <TouchableHighlight underlayColor={'transparent'} onPress={ this.goToMetadata } style={styles.items}>
                 <View>
-                   <Text>{this.props.metadata.name}</Text>
+                   <Text style={styles.itemsText}>{this.props.metadata.name}</Text>
                 </View>
             </TouchableHighlight>
         )
