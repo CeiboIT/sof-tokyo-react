@@ -169,7 +169,7 @@ var PostElement = React.createClass({
                 </View>
                 {
                     this.getMetadata().map((data) => {
-                        return <View key={data.id}>
+                        return <View key={data.id} style={{justifyContent: 'flex-end',alignItems: 'flex-end'}}>
                                     <MetadataDisplay metadata={data}/>
                                 </View>
                         })

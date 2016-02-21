@@ -10,8 +10,6 @@ var {
     Dimensions
     } = React;
 
-var deviceWidth = Dimensions.get('window').width;
-
 var styles = StyleSheet.create({
     container : {
         flex: 1,
@@ -52,7 +50,7 @@ ChildCategory.propTypes = {
 var CategoryElement = React.createClass({
     navigateToCategory(rowData) {
         var Navigation = require("../../services/NavigationManager").getStream();
-        Navigation.onNext({path:'productsByCategory', params: rowData })
+        Navigation.onNext({path:'postsByCategory', params: {categoryId: rowData.name} })
     },
     render() {
         return (
@@ -64,7 +62,7 @@ var CategoryElement = React.createClass({
                     items={this.props.subcategory['childs']}
                     itemsPerRow={1}
                     renderItem={(rowData) =>
-                        <ChildCategory key={rowData.id} children={rowData} onSelect={this.navigateToCategory(rowData)} />
+                        <ChildCategory key={rowData.id} children={rowData} onSelect={() => this.navigateToCategory(rowData)} />
                     }
                 />
             </View>

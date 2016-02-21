@@ -6,6 +6,18 @@ var {
     StyleSheet,
     TouchableHighlight
     } = React;
+    
+var styles = StyleSheet.create({
+    items : {
+        marginRight: 2,
+        marginBottom: 2,
+        borderWidth: 1,
+        borderColor: "#e5e5e5",
+        borderRadius: 4,
+        paddingVertical: 1,
+        paddingHorizontal: 8
+    }
+});
 
 var MetadataDisplay = React.createClass({
 
@@ -25,7 +37,7 @@ var MetadataDisplay = React.createClass({
            subject.onNext({path:'postsByStyle', params: {styleId: this.props.metadata.id} }) 
         }
         if(this.props.metadata.type == 'category'){
-            
+            subject.onNext({path:'postsByCategory', params: {categoryId: this.props.metadata.id} })
         }
     },
     
@@ -34,7 +46,7 @@ var MetadataDisplay = React.createClass({
         var _categories = this.props.categories;
 
         return (
-            <TouchableHighlight underlayColor={'transparent'} onPress={ this.goToMetadata }>
+            <TouchableHighlight underlayColor={'transparent'} onPress={ this.goToMetadata } style={styles.items}>
                 <View>
                    <Text>{this.props.metadata.name}</Text>
                 </View>

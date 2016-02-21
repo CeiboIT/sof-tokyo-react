@@ -31,6 +31,15 @@ var api = {
         }
     },
 
+    async ByCategory(categoryId, page) {
+      try {
+          let response = await fetch(productsEndpoint + 'bysubcategory1/' + categoryId + '/' + (page || 1));
+          PostsStream.onNext({data: JSON.parse(response._bodyInit), type: 'byCategory'})
+      }catch(error) {
+          console.warn(error);
+      }
+    },
+
     async ByStyle(styleId, page) {
       try {
           let response = await fetch(productsEndpoint + 'bystyle/' + styleId + '/' + (page || 1));
