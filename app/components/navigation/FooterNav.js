@@ -11,6 +11,7 @@ I18nService.set('ja-JP', {
     "new": "NEW",
     "news": "お知らせ",
     "myPage": "マイページ",
+    "login": "ログイン",
     "search": "検索"}
 );
 
@@ -111,7 +112,6 @@ class FooterNav extends React.Component {
                     showMenu:true
                 })
             }
-
         });
 
         this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
@@ -156,31 +156,41 @@ class FooterNav extends React.Component {
 
 
                 {
-                    itemLabel : <FaIcon name="user" size={25} style={[styles.icon, styles.iconLast]}></FaIcon>,
-                    itemName: 'profile',
+                    itemLabel : <FaIcon name="user" size={25} style={[styles.icon, styles.iconLast]} />,
+                    itemName: I18n.t((this.state.logged) ? 'myPage':'login' ),
                     action: () => {
-                        user.isAuthorized()
-                            .then((data) => {
-                                if(!data.valid) {
-                                    this.NavigationSubject.onNext({path: 'login'})
-                                }else {
-                                    storage.load({key: 'UserId'})
-                                        .then((data) => {
-                                            this.NavigationSubject.onNext({path: 'profile', params: {
-                                                id: data.data,
-                                                owner:true} })
-                                        })
-                                }
-                            }).catch((error) => {
+                        if(this.state.logged) {
+                            storage.load({key: 'UserId'})
+                                .then((data) => {
+                                    this.NavigationSubject.onNext({path: 'profile', params: {
+                                        id: data.data,
+                                        owner:true} })
+                                })
+                        } else {
                             this.NavigationSubject.onNext({path: 'login'})
-                        })
-
+                        }
                     }
-
                 }
             ]
         };
         this.list = this.ds.cloneWithRows(this.props.options);
+    }
+
+    componentDidMount() {
+        user.isAuthorized()
+            .then((data) => {
+                if(!data.valid) {
+                    this.setState({
+                        logged: false
+                    })
+                }else {
+
+                    this.setState({
+                        logged: true
+                    });
+                }
+            }).catch((error) => {
+        });
     }
 
     render(){
