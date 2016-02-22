@@ -41,6 +41,8 @@ var ImageUploader = {
                     resolve({source: source});
                 }
             });
+        }).catch((error) => {
+            console.warn('ImageUploader > openPicker error ', JSON.stringify(error));
         });
     }
 };

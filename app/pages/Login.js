@@ -154,6 +154,7 @@ var Login  = React.createClass({
         var _credentials = this.refs.form.getValue();
         if(_credentials) {
             api.sendCredentials(_credentials);
+            console.warn('Login > login credentials sent');
             UserSubject.subscribe((response)=>{
                 console.warn('Login > login ', JSON.stringify(response));
                 if (response.type === 'login') {

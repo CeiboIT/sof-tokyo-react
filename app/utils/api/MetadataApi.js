@@ -17,12 +17,11 @@ var api = {
     },
 
     async Categories() {
-        try{
+        try {
             let response = await fetch(metadataEndpoint + 'subcategories/list')
             metadataStream.onNext({data: JSON.parse(response._bodyInit)['subcategories'], type:'subcategories'})
-
-        }catch(error) {
-
+        } catch(error) {
+            console.warn('MetadataApi > categories error ', JSON.stringify(error));
         }
     }
 };

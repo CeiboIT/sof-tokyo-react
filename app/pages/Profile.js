@@ -1,10 +1,12 @@
 /**
  * Created by epotignano on 12/01/16.
  */
+import TabNavigator from 'react-native-tab-navigator';
+import Button from 'apsl-react-native-button'
+
 var React = require('react-native');
 var UserStream = require("../services/Streams").getStream("User");
 var GridView = require('react-native-grid-view');
-import TabNavigator from 'react-native-tab-navigator';
 
 var Badge = require('../components/user/Badge');
 
@@ -216,7 +218,7 @@ var Profile = React.createClass({
 
             <View>
                 <Text onPress={this.logout}> logout </Text>
-                <Text onPress={this.createNewPost}> *****NewPost******</Text>
+                <Button onPress={this.createNewPost}> *****NewPost******</Button>
                 <Badge data={this.state.user} />
 
                 {_render}

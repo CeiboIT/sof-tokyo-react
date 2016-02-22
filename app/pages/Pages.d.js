@@ -25,7 +25,9 @@ var newPosts = require('./NewPosts');
 var styles = require('./Styles');
 var byStyle = require('./byStyle');
 var bySex = require('./bySex');
-var createNewPost = require('./CreateNewPost');
+var createNewPost = require('./createPost/CreateNewPost');
+var createNewPostCategory = require('./createPost/CreateNewPostCategory');
+var createNewPostStyle = require('./createPost/CreateNewPostStyle');
 var contact = require('./Contact');
 var categoriesPage = require('./CategoriesMenu');
 
@@ -50,6 +52,8 @@ module.exports = {
     byStyle,
     bySex,
     createNewPost,
+    createNewPostCategory,
+    createNewPostStyle,
     contact,
     categoriesPage
 };
