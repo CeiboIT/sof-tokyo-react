@@ -1,28 +1,21 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
 var React = require('react-native');
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get("window");
-var ResponsiveImage = require('react-native-responsive-image');
-var PostStream = require("../services/Streams").getStream("Post");
-var Storage = require("../services/Storage").getInstance();
-var api = require("../utils/api/PostApi");
-var UserApi = require("../utils/api/UserApi");
-var GiftedSpinner = require('react-native-gifted-spinner');
-var GridView = require('react-native-grid-view');
-var Modal = require('react-native-modalbox');
-
-var t = require("tcomb-form-native");
-var Rx = require("rx");
-
-var PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer");
-var Avatar = require("../components/user/Avatar");
-var CommentItem = require("../components/posts/helpers/CommentItem");
-var HTMLView = require('react-native-htmlview');
-
-var Icon = require("react-native-vector-icons/FontAwesome"),
+    Dimensions = require('Dimensions'),
+    windowSize = Dimensions.get("window"),
+    ResponsiveImage = require('react-native-responsive-image'),
+    PostStream = require("../services/Streams").getStream("Post"),
+    Storage = require("../services/Storage").getInstance(),
+    api = require("../utils/api/PostApi"),
+    UserApi = require("../utils/api/UserApi"),
+    GiftedSpinner = require('react-native-gifted-spinner'),
+    GridView = require('react-native-grid-view'),
+    Modal = require('react-native-modalbox'),
+    t = require("tcomb-form-native"),
+    Rx = require("rx"),
+    PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer"),
+    Avatar = require("../components/user/Avatar"),
+    CommentItem = require("../components/posts/helpers/CommentItem"),
+    HTMLView = require('react-native-htmlview'),
+    Icon = require("react-native-vector-icons/FontAwesome"),
     screen = Dimensions.get('window');
 
 var {
@@ -59,10 +52,13 @@ var styles = StyleSheet.create({
         margin: 10,
     },
     section : {
+        flex: 1,
         backgroundColor: '#FFFFFF',
         padding: 10,
         borderWidth: 1,
-        borderColor: '#e5e5e5'
+        borderColor: '#e5e5e5',
+        flexWrap: 'wrap',
+        overflow: 'hidden'
     },
     author : {
       margin: 10

@@ -1,7 +1,3 @@
-/**
- * Created by epotignano on 17/01/16.
- */
-
 var {
     View,
     Text,
@@ -9,9 +5,8 @@ var {
     TouchableHighlight
     } = React;
 
-var api = require("../../../utils/api/UserApi")
-
-var streamServ = require("../../../services/Streams")
+var api = require("../../../utils/api/UserApi"),
+    streamServ = require("../../../services/Streams");
 
 var AuthorDisplay = React.createClass({
 
@@ -21,7 +16,6 @@ var AuthorDisplay = React.createClass({
             authorData: {}
         }
     },
-
 
     componentDidMount() {
         var AuthorStream = streamServ.getStream("Author" + this.props.id)
@@ -33,8 +27,6 @@ var AuthorDisplay = React.createClass({
 
         api.getUser(this.props.id)
     }
-
-
 })
 
 

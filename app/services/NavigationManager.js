@@ -161,6 +161,16 @@ class NavigatorService {
                         titleComponent: logo
                     })
                 break;
+                case('postsByCategory'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        "component": Pages.byCategory,
+                        rightCorner: toggle,
+                        "passProps": route.params,
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
+                    })
+                break;
                 case('postsByStyle'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,

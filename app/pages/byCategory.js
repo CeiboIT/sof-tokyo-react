@@ -2,12 +2,13 @@ var React = require('react-native');
     PostsList = require('../components/posts/PostsList');
     api = require('../utils/api/PostsApi');
 
-var byStyle = React.createClass ({
+var byCategory = React.createClass ({
     render(){
         return(
-            <PostsList elementsPerRow={2} loadPostsFn={api.ByStyle} id={this.props.styleId}/>
+            <PostsList elementsPerRow={2} loadPostsFn={api.ByCategory} id={this.props.categoryId}/>
         )
     }
 });
 
-module.exports = byStyle;
+module.exports = byCategory;
+

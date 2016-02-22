@@ -1,11 +1,6 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
-var apiConsts  = require("../../constants/api").apiConsts;
-var PostsStream = require("../../services/Streams").getStream("Posts");
-
-var productsEndpoint = apiConsts.apiEndpoint + 'products/';
+var apiConsts  = require("../../constants/api").apiConsts,
+    PostsStream = require("../../services/Streams").getStream("Posts"),
+    productsEndpoint = apiConsts.apiEndpoint + 'products/';
 
 var api = {
     async LoadPosts(page){
@@ -34,6 +29,15 @@ var api = {
         } catch(error){
             console.warn(error);
         }
+    },
+
+    async ByCategory(categoryId, page) {
+      try {
+          let response = await fetch(productsEndpoint + 'bysubcategory1/' + categoryId + '/' + (page || 1));
+          PostsStream.onNext({data: JSON.parse(response._bodyInit), type: 'byCategory'})
+      }catch(error) {
+          console.warn(error);
+      }
     },
 
     async ByStyle(styleId, page) {
