@@ -4,7 +4,6 @@ var React = require('react-native');
     ResponsiveImage = require('react-native-responsive-image'),
     PostStream = require("../services/Streams").getStream("Post"),
     Storage = require("../services/Storage").getInstance(),
-    api = require("../utils/api/PostApi"),
     UserApi = require("../utils/api/UserApi"),
     GiftedSpinner = require('react-native-gifted-spinner'),
     GridView = require('react-native-grid-view'),
@@ -16,7 +15,8 @@ var React = require('react-native');
     CommentItem = require("../components/posts/helpers/CommentItem"),
     HTMLView = require('react-native-htmlview'),
     Icon = require("react-native-vector-icons/FontAwesome"),
-    screen = Dimensions.get('window');
+    screen = Dimensions.get('window'),
+    api = require("../utils/api/PostApi");
 
 var {
     PixelRatio,
@@ -248,14 +248,13 @@ var PostView = React.createClass({
             this.setState({
                 isLoggedIn: result['valid']
             })
-        });
+        })
 
         Storage.load({
             key:'UserId'
         }).then(ret => {
             api.RetrievePost(PostId, ret.data)
-        })
-        .catch(() => {
+        }).catch(() => {
             api.RetrievePost(PostId)
         })
 
@@ -361,8 +360,6 @@ var PostView = React.createClass({
         return _postView;
     }
 })
-
-
 
 PostView.PropTypes= {
     id: React.PropTypes.object
