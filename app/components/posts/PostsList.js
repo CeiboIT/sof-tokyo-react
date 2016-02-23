@@ -69,12 +69,13 @@ var styles = StyleSheet.create({
     },
 
     loadMoreDisabled : {
-        borderColor: "#A58AB6",
+        borderColor: "#8a52ad",
         borderWidth: 1,
         padding: 5,
         margin: 10,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        opacity: 0.5
     },
 
     loadMoreText : {
@@ -172,9 +173,11 @@ var PostsList  = React.createClass({
     },
     
     togglePressIn(){
-        this.setState({
-            pressIn: !this.state.pressIn
-        });
+        if(!this.state.isLoading){
+            this.setState({
+                pressIn: !this.state.pressIn
+            });
+        }
     },
     
     pressColor(){
@@ -183,11 +186,13 @@ var PostsList  = React.createClass({
         }
     },
     render(){
-        var _buttonStyle = (this.state.isLoading) ? styles.loadMoreDisabled : styles.loadMore;
+        var _buttonStyle = (this.state.isLoading) ? styles.loadMoreDisabled : styles.loadMore,
+            _label = (this.state.isLoading) ? 'loading posts...': 'Load more posts',
+            _underlayColor = (this.state.isLoading) ? 'transparent': '#8a52ad';
         var _loadMoreButton = (
-            <TouchableHighlight underlayColor={'#8a52ad'} onPress={this.loadMorePosts} onPressIn={this.togglePressIn} onPressOut={this.togglePressIn}
+            <TouchableHighlight underlayColor={_underlayColor} onPress={this.loadMorePosts} onPressIn={this.togglePressIn} onPressOut={this.togglePressIn}
                                 style={_buttonStyle}>
-                <Text style={[styles.loadMoreText, this.pressColor()]}> Load more posts </Text>
+                <Text style={[styles.loadMoreText, this.pressColor()]}> {_label} </Text>
             </TouchableHighlight>
         );
 
