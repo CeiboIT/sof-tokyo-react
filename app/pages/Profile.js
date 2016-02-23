@@ -17,7 +17,12 @@ var I18nService = require('../i18n');
 I18nService.set('ja-JP',{
     'startPosting': "あなたの作品を投稿しましょう！",
     'createPost': "作品投稿",
-    'logout': 'ログアウト'
+    'logout': 'ログアウト',
+    'name': '名',
+    'lastname': '苗字',
+    'nickname': 'ニックネーム',
+    'url': 'url',
+    'description': '説明'
 });
 
 var I18n = I18nService.getTranslations();
@@ -34,6 +39,10 @@ var {
     } = React;
 
 var styles = StyleSheet.create({
+    infoUser: {
+        marginTop: 20,
+        marginLeft: 20
+    },
     text: {
         color: '#444444',
         fontSize: 14,
@@ -177,7 +186,10 @@ var Profile = React.createClass({
                     renderIcon={() => <View><Icon name="user" size={20}/></View>}
                     renderSelectedIcon={() => <View><Icon name="user" color="#000000" size={20}/></View>}
                     onPress={() => this.setState({ selectedTab: 'profileData' })}>
-                    <Text>Hola</Text>
+                    <View style={styles.infoUser}>
+                        <Text>owner  : {JSON.stringify(this.state.user)}</Text>
+                        <Text>owner  : {JSON.stringify(this.props.owner)}</Text>
+                    </View>
                 </TabNavigator.Item>
             </TabNavigator>
         );
@@ -209,7 +221,13 @@ var Profile = React.createClass({
                         renderSelectedIcon={() => <View><Icon name="bell-o" color="#000000" size={20}/></View>}
                         onPress={this.selectedHome}
                         >
-                        <Text>Test</Text>
+                        <View style={styles.infoUser}>
+                            <Text style={styles.text}> {I18n.t('name')}: {this.state.user.name}</Text>
+                            <Text style={styles.text}> {I18n.t('lastname')}: {this.state.user.last_name}</Text>
+                            <Text style={styles.text}> {I18n.t('nickname')}: {this.state.user.nickname}</Text>
+                            <Text style={styles.text}> {I18n.t('url')}: {this.state.user.url}</Text>
+                            <Text style={styles.text}> {I18n.t('description')}: {this.state.user.description}</Text>
+                        </View>
                     </TabNavigator.Item>
                 </TabNavigator>
 
