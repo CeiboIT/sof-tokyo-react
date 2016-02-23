@@ -8,11 +8,15 @@ var I18n = I18nService.getTranslations();
 var React = require('react-native');
 var metadataStream = require('../../services/Streams').getStream('Metadata');
 var metadataApi = require('../../utils/api/MetadataApi');
-var CheckBox = require('react-native-checkbox');
+var CircleCheckBox = require('react-native-circle-checkbox');
+//var Switch = require('react-native-material-switch');
+
 I18nService.set('ja-JP', {});
 
 var {
     View,
+    Switch,
+    Text,
     StyleSheet,
     ListView
     } = React;
@@ -24,7 +28,8 @@ var CreateNewPostStyle = React.createClass({
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         return {
             dataSource: ds,
-            selectedPostStyles: {}
+            selectedPostStyles: {},
+            checked: false
         }
     },
 
@@ -42,14 +47,15 @@ var CreateNewPostStyle = React.createClass({
                 ds = ds.cloneWithRows(response['data']);
                 this.setState({
                     ds: ds,
-                    selectedPostStyles: {}
+                    selectedPostStyles: {},
+                    checked: false
                 });
             }
         });
     },
 
     togglePostStyle (postStyle) {
-        console.warn('tooglePostStyles ', JSON.stringify(this.state.selectedStyles));
+        console.warn('tooglePostStyles ', JSON.stringify(postStyle));
         //if (this.state.selectedStyles[postStyle.id]) {
             //delete this.state.selectedStyles[postStyle.id];
         //} else {
@@ -65,16 +71,26 @@ var CreateNewPostStyle = React.createClass({
         };
 
         return (
-        <CheckBox
-            style={{paddingTop: 10}}
-            label={postStyle.name}
-            checked={false}
-            onChange={(checked) => selectStyle()}
-        />);
-            //<Switch
-            //    onValueChange={(value) => this.tooglePostStyle(value)}
-            //    style={{marginBottom: 10}}
-            //    value={postStyle} />
+            <View>
+                <Text>{postStyle.name}</Text>
+                <View>
+                    <Switch
+                        onValueChange={(value) => this.setState({checked: !value})}
+                        onTintColor="#00ff00"
+                        style={{marginBottom: 10}}
+                        thumbTintColor="#0000ff"
+                        tintColor="#ff0000"
+                        value={this.state.checked} />
+                </View>
+            </View>);
+        //return (
+        //    <CircleCheckBox
+        //        label={postStyle.name}
+        //        checked={false}
+        //        onToggle={(checked) => selectStyle()}
+        //    />);
+        //<Switch onChangeState={(state) => {selectStyle()}}/>
+
     },
 
     _renderList() {
@@ -91,6 +107,12 @@ var CreateNewPostStyle = React.createClass({
     render() {
         return (
             <View style={{flex:1}}>
+                <CircleCheckBox
+                    label='hola'
+                    checked={false}
+                    innerColor="#00000"
+                    onToggle={(checked) => this.setState({checked: !checked})}
+                />
                 {this._renderList()}
             </View>)
     }
