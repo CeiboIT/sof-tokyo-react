@@ -91,6 +91,7 @@ var Search =  React.createClass({
         var params = this.refs.form.getValue();
         searchApi.products(params);
         searchStream.subscribe((results) =>{
+
             var NavigationManager = require('../services/NavigationManager').getStream();
             NavigationManager.onNext({path: 'searchResults', params: {data: results.data}})
         })
