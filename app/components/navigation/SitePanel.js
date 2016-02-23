@@ -76,11 +76,6 @@ var SitePanel = React.createClass ({
         SidebarSubject.onNext('close');
     },
 
-    navigateToUploadImage() {
-        NavigationSubject.onNext({path: 'uploadImage'})
-        SidebarSubject.onNext('close');
-    },
-
     navigateToSchools() {
         NavigationSubject.onNext({path: 'schools'});
         SidebarSubject.onNext('close');
@@ -129,7 +124,6 @@ var SitePanel = React.createClass ({
                     <TouchableHighlight onPress={this.navigateToSchools} underlayColor={'transparent'} style={styles.button}><Text>SCHOOL</Text></TouchableHighlight>
                     <TouchableHighlight  onPress={this.navigateToContact} underlayColor={'transparent'} style={styles.button}><Text>CONTACT</Text></TouchableHighlight>
                     <TouchableHighlight onPress={this.navigateToAbout} underlayColor={'transparent'} style={styles.button}><Text>ABOUT Sof</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateToUploadImage} underlayColor={'transparent'} style={styles.button}><Text>UploadImage</Text></TouchableHighlight>
                 </View>
             </View>
         )
