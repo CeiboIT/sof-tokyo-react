@@ -41,8 +41,10 @@ var styles = StyleSheet.create({
     },
     avatarNameLarge : {
         marginLeft: 5,
+        marginVertical : 8,
         color: '#b3b3b3',
-        fontWeight : 'bold'
+        fontWeight : 'bold',
+        fontSize: 15
     }
 
 });

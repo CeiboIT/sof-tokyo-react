@@ -166,7 +166,12 @@ var styles = StyleSheet.create({
 
     },
     grind : {
-        alignSelf: 'flex-start'
+        flex: 1,
+        flexDirection: 'column', 
+        flexWrap: 'wrap',
+        width: windowSize.width - 40,
+        alignSelf: 'flex-start',
+        overflow:'hidden'
     },
     wrapper: {
         flex: 1
@@ -180,6 +185,11 @@ var styles = StyleSheet.create({
         position: 'absolute',
         top: 10,
         right: 10
+    },
+    comments : {
+        flex: 1,
+        flexDirection: 'column', 
+        flexWrap: 'wrap'
     }
 });
 
@@ -272,7 +282,6 @@ var PostView = React.createClass({
         var _comment = this.refs.form.getValue();
         api.sendComment(_comment.comment, this.props.id, this.state.commentStream)
     },
-
     render() {
         
         var images = [],
@@ -342,7 +351,7 @@ var PostView = React.createClass({
                     <View style={styles.author}>
                         <Avatar author={this.state.data.author}/>
                     </View>
-                    <View style={styles.section}>
+                    <View style={[styles.section, styles.comments]}>
                         { _renderComments }
                         { _renderForm }
                     </View>
