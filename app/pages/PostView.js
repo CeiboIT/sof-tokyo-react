@@ -282,6 +282,55 @@ var PostView = React.createClass({
         var _comment = this.refs.form.getValue();
         api.sendComment(_comment.comment, this.props.id, this.state.commentStream)
     },
+    getStyles () {
+        var styles = [];
+        if(this.state.data && this.state.data.metadata){
+            var _styles = this.state.data.metadata,
+                field = 'sofbackend__sof_work_meta__style';
+                _styles.map((metadata) => {
+                    if(metadata.field == field) styles.push({name: metadata.trad, id: metadata.value});
+                })
+        }
+        return styles;
+    },
+    getCategories () {
+        var categories = [];
+        if(this.state.data && this.state.data.metadata){
+            var _categories = this.state.data.metadata,
+                field = 'sofbackend__sof_work_meta__';
+                _categories.map((metadata) => {
+                    if((metadata.field == field+'category_0' || metadata.field == field+'category_1') && metadata.trad) categories.push({type: 'カテゴリー', name: metadata.trad, id: metadata.value});
+                })
+        }
+        return categories;
+    },
+    getCost () {
+        var cost = [];
+        if(this.state.data && this.state.data.metadata){
+            var _metadata = this.state.data.metadata,
+                field = 'sofbackend__sof_work_meta__productionCost';
+                _metadata.map((metadata) => {
+                    if(metadata.field == field) cost.push({type: '制作費', name: metadata.value, id: metadata.value});
+                })
+        }
+        return cost;
+    },
+    getMetadata () {
+        var arr = [];
+        
+        if(this.state.data && this.state.data.metadata){
+            var _metadata = this.state.data.metadata,
+                field = 'sofbackend__sof_work_meta__';
+            _metadata.map((metadata) => {
+                if(metadata.field == field+'style') arr.push({type: 'STYLE', name: metadata.trad, id: metadata.value});
+                if((metadata.field == field+'category_0' || metadata.field == field+'category_1') && metadata.trad) arr.push({type: 'カテゴリー', name: metadata.trad, id: metadata.value});
+                if(metadata.field == field+'productionCost') arr.push({type: '制作費', name: metadata.value, id: metadata.value});
+                if(metadata.field == field+'sellNote') arr.push({type: '買い取り', name: metadata.value, id: metadata.value}); 
+            });
+        }
+        
+        return arr
+    },
     render() {
         
         var images = [],
@@ -347,6 +396,40 @@ var PostView = React.createClass({
                                           removeHTMLTags={true}
                                           views={true}
                     />
+                    
+                    <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                        <Text style={{fontWeight: 'bold'}}>カテゴリー</Text>
+                    </View>
+                    {
+                        this.getCategories().map((data) => {
+                            return <View key={data.id}>
+                                        <Text>{data.name}</Text>
+                                    </View>
+                            })
+                    }
+                    
+                    <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                        <Text style={{fontWeight: 'bold'}}>STYLES</Text>
+                    </View>
+                    {
+                        this.getStyles().map((data) => {
+                            return <View key={data.id}>
+                                        <Text>{data.name}</Text>
+                                    </View>
+                            })
+                    }
+                    
+                    <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                        <Text style={{fontWeight: 'bold'}}>制作費</Text>
+                    </View>
+                    {
+                        this.getCost().map((data) => {
+                            return <View key={data.id}>
+                                        <Text>{data.name} 円</Text>
+                                    </View>
+                            })
+                    }
+                    
                     </View>
                     <View style={styles.author}>
                         <Avatar author={this.state.data.author}/>
