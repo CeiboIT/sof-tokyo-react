@@ -16,8 +16,10 @@ var EvilIcon = require('react-native-vector-icons/EvilIcons');
 var I18nService = require('../i18n');
 I18nService.set('ja-JP',{
     'startPosting': "あなたの作品を投稿しましょう！",
-    'createPost': "作品投稿"
+    'createPost': "作品投稿",
+    'logout': 'ログアウト'
 });
+
 var I18n = I18nService.getTranslations();
 
 var Dimensions = require('Dimensions');
@@ -32,6 +34,12 @@ var {
     } = React;
 
 var styles = StyleSheet.create({
+    text: {
+        color: '#444444',
+        fontSize: 14,
+        marginLeft: 5,
+        paddingTop: 15
+    },
     container: {
         flex: 1,
         marginTop: 10,
@@ -211,7 +219,11 @@ var Profile = React.createClass({
         return(
 
             <View>
-                <Text onPress={this.logout}> logout </Text>
+                <TouchableHighlight style={{paddingTop: 20}} onPress={this.logout} underlayColor={'transparent'}>
+                    <View>
+                        <Icon name="sign-out" style={styles.text}> <Text>{I18n.t('logout')}</Text></Icon>
+                    </View>
+                </TouchableHighlight>
                 <Badge data={this.state.user} />
                 {_render}
             </View>
