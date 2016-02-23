@@ -67,7 +67,15 @@ var SearchForm= t.struct({
     text : t.maybe(t.String)
 })
 
-var Form = t.form.Form
+var SearchOptions = {
+    fields: {
+        text: {
+            label: 'Search'
+        }
+    }
+}
+
+var Form = t.form.Form;
 
 var Search =  React.createClass({
 
@@ -81,7 +89,7 @@ var Search =  React.createClass({
     handleSubmit(){
         // update our indicatorIOS spinner
         var params = this.refs.form.getValue();
-        searchApi.products(params)
+        searchApi.products(params);
         searchStream.subscribe((results) =>{
             var NavigationManager = require('../services/NavigationManager').getStream();
             NavigationManager.onNext({path: 'searchResults', params: {data: results.data}})
@@ -94,6 +102,7 @@ var Search =  React.createClass({
                 <Form
                     ref="form"
                     type={SearchForm}
+                    options={SearchOptions}
                 />
                 <Button style={styles.button} textStyle={styles.buttonText}
                         onPress={this.handleSubmit}>
