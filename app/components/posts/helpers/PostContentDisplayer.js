@@ -1,10 +1,5 @@
-/**
- * Created by epotignano on 19/01/16.
- */
-
-var React = require('react-native');
-var Icon = require('react-native-vector-icons/FontAwesome');
-var api = require('../../../utils/api/PostApi')
+var React = require('react-native'),
+    Icon = require('react-native-vector-icons/FontAwesome');
 
 var {
     View,
@@ -27,6 +22,7 @@ var styles = StyleSheet.create({
         
     }
 })
+
 var regex = /(<([^>]+)>)/ig,
     eyeIcon = <Icon name="signal" size={18}/>;
 

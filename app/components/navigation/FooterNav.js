@@ -1,12 +1,8 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
-var React = require('react-native');
-var Icon = require('react-native-vector-icons/EvilIcons');
-var FaIcon = require('react-native-vector-icons/FontAwesome');
-var storage = require("../../services/Storage").getInstance();
-var user = require("../../utils/api/UserApi");
+var React = require('react-native'),
+    Icon = require('react-native-vector-icons/EvilIcons'),
+    FaIcon = require('react-native-vector-icons/FontAwesome'),
+    storage = require("../../services/Storage").getInstance(),
+    user = require("../../utils/api/UserApi");
 
 var I18nService = require('../../i18n');
 
@@ -15,7 +11,9 @@ I18nService.set('ja-JP', {
     "new": "NEW",
     "news": "お知らせ",
     "myPage": "マイページ",
-    search: "検索"}
+    "ranking" : "ランキング",
+    "login": "ログイン",
+    "search": "検索"}
 );
 
 var I18n = I18nService.getTranslations();
@@ -35,20 +33,23 @@ var styles = StyleSheet.create({
         borderColor : "#e5e5e5",
         padding: 5
     },
-
-    buttonContentContainer : {
+    buttonContainer : {
         flex:1,
         flexDirection: 'column',
         flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems:'center',
+        marginRight: 20
+    },
+    iconContainer : {
+        flex:1,
+        flexWrap: 'wrap',
+        width:20,
+        alignItems:'center',
         justifyContent: 'center'
     },
-
     icon: {
-        alignItems:'center',
-        justifyContent: 'center',
-        flex:1,
-        color: '#b897cd',
-        marginRight: 20
+        marginRight: 0
     },
     iconLast : {
         margin: 0
@@ -56,8 +57,8 @@ var styles = StyleSheet.create({
     iconSel : {
         color: 'red'
     },
-    activeIcon : {
-        color: '#0000FF'
+    iconText : {
+        fontSize: 10
     },
     list: {
         flexDirection: 'row',
@@ -68,22 +69,19 @@ var styles = StyleSheet.create({
         margin: 10,
         width: 100,
         height: 100
-    },
-    buttonContentContainer : {
-        alignItems:'center',
-        justifyContent: 'center'
     }
 });
 
-
 class FooterButton extends React.Component {
-
     render(){
         return (
             <TouchableHighlight underlayColor={'transparent'} onPress={this.props.data.action}>
-                <View style={styles.buttonContentContainer}>
+                <View style={styles.buttonContainer}>
                     <Text style={styles.icon}>
                         { this.props.data.itemLabel }
+                    </Text>
+                    <Text style={styles.iconText}>
+                        { this.props.data.itemName }
                     </Text>
                 </View>
             </TouchableHighlight>
@@ -104,7 +102,6 @@ class FooterNav extends React.Component {
             showMenu: true
         };
 
-
         this.NavigationSubject = require("../../services/NavigationManager").getStream();
         this.NavigationSubject.subscribe((route) => {
             if(route.path ==  'login' || route.path == 'register'){
@@ -116,39 +113,43 @@ class FooterNav extends React.Component {
                     showMenu:true
                 })
             }
-
         });
 
         this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
         this.props = {
             options : [
                 {
-                    itemLabel: <FaIcon name="home" size={33} style={[styles.icon]}></FaIcon>,
+                    itemLabel: <FaIcon name="home" size={25} style={[styles.icon]}></FaIcon>,
+                    itemName: I18n.t('home'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'feed'})
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="search" size={30} style={[styles.icon]}></FaIcon>,
+                    itemLabel: <FaIcon name="search" size={25} style={[styles.icon]}></FaIcon>,
+                    itemName: I18n.t('search'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="star-o" size={30} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="star-o" size={25} style={styles.icon}></FaIcon>,
+                    itemName: I18n.t('new'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'newPosts'})
                     }
                 },
 
                 {
-                    itemLabel: <FaIcon name="bell-o" size={30} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="bell-o" size={25} style={styles.icon}></FaIcon>,
+                    itemName: I18n.t('news'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'news'})
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="trophy" size={30} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="trophy" size={25} style={styles.icon}></FaIcon>,
+                    itemName: I18n.t('ranking'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'ranking'})
                     }
@@ -156,30 +157,41 @@ class FooterNav extends React.Component {
 
 
                 {
-                    itemLabel : <FaIcon name="user" size={30} style={[styles.icon, styles.iconLast]}></FaIcon>,
+                    itemLabel : <FaIcon name="user" size={25} style={[styles.icon, styles.iconLast]} />,
+                    itemName: I18n.t((this.state.logged) ? 'myPage':'login' ),
                     action: () => {
-                        user.isAuthorized()
-                            .then((data) => {
-                                if(!data.valid) {
-                                    this.NavigationSubject.onNext({path: 'login'})
-                                }else {
-                                    storage.load({key: 'UserId'})
-                                        .then((data) => {
-                                            this.NavigationSubject.onNext({path: 'profile', params: {
-                                                id: data.data,
-                                                owner:true} })
-                                        })
-                                }
-                            }).catch((error) => {
+                        if(this.state.logged) {
+                            storage.load({key: 'UserId'})
+                                .then((data) => {
+                                    this.NavigationSubject.onNext({path: 'profile', params: {
+                                        id: data.data,
+                                        owner:true} })
+                                })
+                        } else {
                             this.NavigationSubject.onNext({path: 'login'})
-                        })
-
+                        }
                     }
-
                 }
             ]
         };
         this.list = this.ds.cloneWithRows(this.props.options);
+    }
+
+    componentDidMount() {
+        user.isAuthorized()
+            .then((data) => {
+                if(!data.valid) {
+                    this.setState({
+                        logged: false
+                    })
+                }else {
+
+                    this.setState({
+                        logged: true
+                    });
+                }
+            }).catch((error) => {
+        });
     }
 
     render(){
@@ -193,12 +205,11 @@ class FooterNav extends React.Component {
         
         return (
             <View style={styles.container}>
-            { _menu }
+                { _menu }
             </View>
         )
     }
 }
-
 
 
 module.exports = FooterNav;

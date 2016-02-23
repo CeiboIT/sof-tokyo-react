@@ -18,7 +18,8 @@ var styles = StyleSheet.create({
     likeText : {
         flex:1,
         flexDirection:'row',
-        justifyContent: 'flex-start'  
+        justifyContent: 'flex-start',
+        color: '#b3b3b3'
     }
 })
 
@@ -73,7 +74,7 @@ var PostLike = React.createClass({
               <TouchableHighlight underlayColor={'transparent'} onPress={this.LikePost}>
                   <View>
                     <Text style={styles.likeText}>
-                        <Icon name="heart-o" size={18} color="#bbbbbb"/> { this.state.like }
+                        <Icon name="heart-o" size={16} color="#bbbbbb"/> { this.state.like }
                     </Text>
                   </View>
               </TouchableHighlight>

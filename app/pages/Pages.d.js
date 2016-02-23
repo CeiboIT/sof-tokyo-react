@@ -25,6 +25,7 @@ var newPosts = require('./NewPosts');
 var styles = require('./Styles');
 var byStyle = require('./byStyle');
 var bySex = require('./bySex');
+var byCategory = require('./byCategory');
 var createNewPost = require('./createPost/CreateNewPost');
 var createNewPostCategory = require('./createPost/CreateNewPostCategory');
 var createNewPostStyle = require('./createPost/CreateNewPostStyle');
@@ -49,6 +50,7 @@ module.exports = {
     ranking,
     newPosts,
     styles,
+    byCategory,
     byStyle,
     bySex,
     createNewPost,
