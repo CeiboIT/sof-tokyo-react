@@ -1,6 +1,7 @@
 var React = require('react-native'),
     Dimensions = require('Dimensions'),
-    windowSize = Dimensions.get("window");
+    windowSize = Dimensions.get("window"),
+    Icon = require('react-native-vector-icons/FontAwesome');
     
 var {
     Text,
@@ -10,8 +11,6 @@ var {
     TouchableHighlight
 
     } = React;
-
-var Icon = require('react-native-vector-icons/FontAwesome');
 
 var styles = StyleSheet.create({
     container : {
@@ -42,8 +41,10 @@ var styles = StyleSheet.create({
     },
     avatarNameLarge : {
         marginLeft: 5,
+        marginVertical : 8,
         color: '#b3b3b3',
-        fontWeight : 'bold'
+        fontWeight : 'bold',
+        fontSize: 15
     }
 
 });
@@ -63,13 +64,16 @@ var Avatar = React.createClass({
             return photoUrl;
         };
 
-        var _photo = (this.props.author.avatar) ? parsePhotoUrl(this.props.author.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
+        var _photo = (this.props.author.avatar) ? parsePhotoUrl(this.props.author.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y",
+            commentCount = (this.props.commentCount >= 0) ? ', ' + this.props.commentCount : '',
+            icon = (this.props.commentCount >= 0) ? <Icon name="comments" size={12}/> : '';
+            
         return (
             <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToAuthor} style={styles.container}>
                 <View style={styles.avatarContainer}>
                     <Image style={(this.props.size === 'large') ? styles.imageLarge : styles.image} source={{uri: _photo }} />
                     <Text style={(this.props.size === 'large') ? styles.avatarNameLarge : styles.avatarName}>
-                        {this.props.author['name']}
+                        {this.props.author['name']}<Text>{commentCount} {icon}</Text>
                     </Text>
                 </View>
             </TouchableHighlight>
@@ -80,6 +84,8 @@ var Avatar = React.createClass({
 
 Avatar.propTypes = {
     author: React.PropTypes.object,
-    size: React.PropTypes.string
+    size: React.PropTypes.string,
+    commentCount: React.PropTypes.number
 };
+
 module.exports = Avatar;

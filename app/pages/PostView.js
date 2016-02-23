@@ -1,4 +1,4 @@
-var React = require('react-native');
+var React = require('react-native'),
     Dimensions = require('Dimensions'),
     windowSize = Dimensions.get("window"),
     ResponsiveImage = require('react-native-responsive-image'),
@@ -52,13 +52,10 @@ var styles = StyleSheet.create({
         margin: 10,
     },
     section : {
-        flex: 1,
         backgroundColor: '#FFFFFF',
         padding: 10,
         borderWidth: 1,
-        borderColor: '#e5e5e5',
-        flexWrap: 'wrap',
-        overflow: 'hidden'
+        borderColor: '#e5e5e5'
     },
     author : {
       margin: 10
@@ -169,24 +166,31 @@ var styles = StyleSheet.create({
 
     },
     grind : {
-        alignSelf: 'flex-start'
+        flex: 1,
+        flexDirection: 'column', 
+        flexWrap: 'wrap',
+        width: windowSize.width - 40,
+        alignSelf: 'flex-start',
+        overflow:'hidden'
     },
-    
-  wrapper: {
-    flex: 1
-  },
-
-  modal: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: windowSize.height * 0.7
-  },
-  
-  btnModalContainer : {
-    position: 'absolute',
-    top: 10,
-    right: 10
-  }
+    wrapper: {
+        flex: 1
+    },
+    modal: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: windowSize.height * 0.7
+    },
+    btnModalContainer : {
+        position: 'absolute',
+        top: 10,
+        right: 10
+    },
+    comments : {
+        flex: 1,
+        flexDirection: 'column', 
+        flexWrap: 'wrap'
+    }
 });
 
 
@@ -278,7 +282,6 @@ var PostView = React.createClass({
         var _comment = this.refs.form.getValue();
         api.sendComment(_comment.comment, this.props.id, this.state.commentStream)
     },
-
     render() {
         
         var images = [],
@@ -348,7 +351,7 @@ var PostView = React.createClass({
                     <View style={styles.author}>
                         <Avatar author={this.state.data.author}/>
                     </View>
-                    <View style={styles.section}>
+                    <View style={[styles.section, styles.comments]}>
                         { _renderComments }
                         { _renderForm }
                     </View>

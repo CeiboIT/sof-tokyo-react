@@ -67,6 +67,16 @@ var styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
+
+    loadMoreDisabled : {
+        borderColor: "#A58AB6",
+        borderWidth: 1,
+        padding: 5,
+        margin: 10,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+
     loadMoreText : {
         color: "#8a52ad"
     },
@@ -141,14 +151,24 @@ var PostsList  = React.createClass({
     },
 
     loadMorePosts(){
-        if( this.state.infiniteScroll ) {
+
+        if( this.state.infiniteScroll && !this.state.isLoading ) {
             _page = _page + 1;
+
+            this.setState({
+                isLoading: true
+            });
+
             if(this.props.id) {
                 this.props.loadPostsFn(this.props.id, _page);
             } else {
                 this.props.loadPostsFn(_page);
             }
         }
+    },
+
+    componentWillUnmount(){
+        console.warn('Going to die!');
     },
     
     togglePressIn(){
@@ -163,14 +183,16 @@ var PostsList  = React.createClass({
         }
     },
     render(){
-
+        var _buttonStyle = (this.state.isLoading) ? styles.loadMoreDisabled : styles.loadMore;
         var _loadMoreButton = (
-            <TouchableHighlight underlayColor={'#8a52ad'} onPress={this.loadMorePosts} onPressIn={this.togglePressIn} onPressOut={this.togglePressIn} style={styles.loadMore}>
+            <TouchableHighlight underlayColor={'#8a52ad'} onPress={this.loadMorePosts} onPressIn={this.togglePressIn} onPressOut={this.togglePressIn}
+                                style={_buttonStyle}>
                 <Text style={[styles.loadMoreText, this.pressColor()]}> Load more posts </Text>
             </TouchableHighlight>
         );
 
         var _renderLoadButton = (this.state.infiniteScroll) ? _loadMoreButton : null;
+
 
         var _grid = (
             <ScrollView>

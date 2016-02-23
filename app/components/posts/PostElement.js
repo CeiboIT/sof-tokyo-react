@@ -40,15 +40,12 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         padding: 5
-        //width: windowSize.width * 0.4,
-        //marginVertical:5
     },
     authorDataDisplayContainer : {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:'flex-start',
-        width: windowSize.width * 0.55,
         padding: 5,
         overflow: 'hidden',
         
@@ -64,7 +61,10 @@ var styles = StyleSheet.create({
     elementFooter : {
         flex: 1,
         flexDirection: 'row',
-        padding: 5
+        padding: 5,
+        marginTop: 5,
+        borderTopWidth: 1,
+        borderTopColor: 'rgba(0,0,0,.05)'
     },
     iconPlus : {
         color: '#aaaaaa',
@@ -101,13 +101,17 @@ NavigateToPost.propTypes= {
 };
 
 var ElementFooter = React.createClass({
+    goToPost () {
+        var subject= require("../../services/NavigationManager").getStream();
+        subject.onNext({path:'post', params: {id: this.props.data.id} })
+    },
     render() {
         return (
             <View style={styles.elementFooter}>
                 <PostLike data={this.props.data}></PostLike>
                 <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPost} style={styles.textContainer}>
-                    <Text>
-                        {this.props.data['comment_count']} <Icon name="comments-o" size={18} color="#bbbbbb"/>
+                    <Text style={{color:'#b3b3b3',fontSize:12}}>
+                        [ 続きを読む ]
                     </Text>
                 </TouchableHighlight>
             </View>
@@ -147,7 +151,11 @@ var PostElement = React.createClass({
       if(this.props.postData.thumbnail){
           return this.props.postData.thumbnail
       }else{
-        return '"' + this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage[0]+ '"';  
+          if(this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage){
+            return '"' + this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage[0]+ '"';
+        }else{
+            return ''
+        }
       }
     },
     getMetadata () {
@@ -164,8 +172,16 @@ var PostElement = React.createClass({
         
         return arr
     },
-    render() {
+    getCommentCount () {
+        var commentCount = 0;
+
+        if(this.props.postData['comment_count'] !== ''){
+            commentCount = this.props.postData['comment_count'];
+        }
         
+      return commentCount;
+    },
+    render() {
         return(
             <View style={styles.container}>
                 <View>
@@ -179,7 +195,7 @@ var PostElement = React.createClass({
                     <Text style={styles.title}> { this.props.postData.title }</Text>
                 </View>
                 <View style={styles.authorDataDisplayContainer} >
-                    <Avatar author={this.props.postData.author}/>
+                    <Avatar author={this.props.postData.author} commentCount={this.getCommentCount()}/>
                 </View>
                 <View style={styles.metadata}>
                     {

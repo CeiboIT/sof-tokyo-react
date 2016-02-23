@@ -1,7 +1,3 @@
-/**
- * Created by epotignano on 20/01/16.
- */
-
 var React = require("react-native");
 var {
     Image,
@@ -14,10 +10,9 @@ var {
     } = React;
 
 var Icon = require("react-native-vector-icons/FontAwesome"),
-    screen = Dimensions.get('window');
-
-var Avatar = require('../../user/Avatar');
-var HTMLView = require('react-native-htmlview');
+    screen = Dimensions.get('window'),
+    Avatar = require('../../user/Avatar'),
+    HTMLView = require('react-native-htmlview');
 
 var styles = StyleSheet.create({
     commentContent: {
@@ -27,19 +22,8 @@ var styles = StyleSheet.create({
         alignItems: "flex-start",
         flexWrap: 'wrap',
     },
-    userName: {
-        fontWeight: "bold"
-    },
-    commentBody: {
-        flex: 1,
-        flexDirection: "row",
-        flexWrap: 'wrap',
-        alignItems: "flex-start"
-    },
     commentText: {
-        flex: 1,
-        flexDirection: "row",
-        flexWrap: 'wrap',
+        marginLeft: 55
     },
     cellBorder: {
         backgroundColor: "rgba(0, 0, 0, 0.2)",
@@ -61,13 +45,11 @@ var CommentItem = React.createClass({
                 <View>
                     <View style={styles.commentContent}>
                         <Avatar author={this.props.comment.author} size={'large'}/>
-                        <View style={styles.commentBody}>
-                            <Text style={styles.commentText}>
-                                <HTMLView
-                                    value={this.props.comment.content}
-                                />
-                            </Text>
-                        </View>
+                    </View>
+                    <View style={styles.commentText}>
+                        <HTMLView
+                            value={this.props.comment.content}
+                        />
                     </View>
                 </View>
             </TouchableHighlight>
