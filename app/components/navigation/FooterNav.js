@@ -39,7 +39,8 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems:'center',
-        marginRight: 20
+        marginRight: 10,
+		marginLeft: 10
     },
     iconContainer : {
         flex:1,
@@ -58,7 +59,7 @@ var styles = StyleSheet.create({
         color: 'red'
     },
     iconText : {
-        fontSize: 10
+        fontSize: 9
     },
     list: {
         flexDirection: 'row',
@@ -119,21 +120,21 @@ class FooterNav extends React.Component {
         this.props = {
             options : [
                 {
-                    itemLabel: <FaIcon name="home" size={25} style={[styles.icon]}></FaIcon>,
+                    itemLabel: <FaIcon name="home" size={24} style={[styles.icon]}></FaIcon>,
                     itemName: I18n.t('home'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'feed'})
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="search" size={25} style={[styles.icon]}></FaIcon>,
+                    itemLabel: <FaIcon name="search" size={24} style={[styles.icon]}></FaIcon>,
                     itemName: I18n.t('search'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="star-o" size={25} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="star-o" size={24} style={styles.icon}></FaIcon>,
                     itemName: I18n.t('new'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'newPosts'})
@@ -141,14 +142,14 @@ class FooterNav extends React.Component {
                 },
 
                 {
-                    itemLabel: <FaIcon name="bell-o" size={25} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="bell-o" size={24} style={styles.icon}></FaIcon>,
                     itemName: I18n.t('news'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'news'})
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="trophy" size={25} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="trophy" size={24} style={styles.icon}></FaIcon>,
                     itemName: I18n.t('ranking'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'ranking'})
@@ -157,7 +158,7 @@ class FooterNav extends React.Component {
 
 
                 {
-                    itemLabel : <FaIcon name="user" size={25} style={[styles.icon, styles.iconLast]} />,
+                    itemLabel : <FaIcon name="user" size={24} style={[styles.icon, styles.iconLast]} />,
                     itemName: I18n.t((this.state.logged) ? 'myPage':'login' ),
                     action: () => {
                         if(this.state.logged) {
