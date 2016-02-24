@@ -111,7 +111,8 @@ var SitePanel = React.createClass ({
     },
 
     navigateToNew() {
-        this.NavigationSubject.onNext({path: 'newPosts'});
+
+        NavigationSubject.onNext({path: 'newPosts'});
         SidebarSubject.onNext('close');
     },
 
