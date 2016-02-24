@@ -107,87 +107,95 @@ var _FooterNav = React.createClass({
         }
     },
 
-    componentDidMount(){
-        user.isAuthorized().then((data)=> {
-            var _logged;
-            if(data.valid) {
-                _userLabel = I18n.t('myPage');
-                _logged = true;
-            } else {
-                _userLabel = I18n.t('login');
-                _logged = false;
-            }
+    renderList(loginStatus) {
+        var _logged;
+        if(loginStatus) {
+            _userLabel = I18n.t('myPage');
+            _logged = true;
+        } else {
+            _userLabel = I18n.t('login');
+            _logged = false;
+        }
 
-            this.props = {
-                options : [
-                    {
-                        itemLabel: <FaIcon name="home" size={25} style={[styles.icon]}></FaIcon>,
-                        itemName: I18n.t('home'),
-                        action: () => {
-                            this.NavigationSubject.onNext({path: 'feed'})
-                        }
-                    },
-                    {
-                        itemLabel: <FaIcon name="search" size={25} style={[styles.icon]}></FaIcon>,
-                        itemName: I18n.t('search'),
-                        action: () => {
-                            this.NavigationSubject.onNext({path: 'search'})
-                        }
-                    },
-                    {
-                        itemLabel: <FaIcon name="star-o" size={25} style={styles.icon}></FaIcon>,
-                        itemName: I18n.t('new'),
-                        action: () => {
-                            this.NavigationSubject.onNext({path: 'newPosts'})
-                        }
-                    },
+        this.props = {
+            options : [
+                {
+                    itemLabel: <FaIcon name="home" size={25} style={[styles.icon]}></FaIcon>,
+                    itemName: I18n.t('home'),
+                    action: () => {
+                        this.NavigationSubject.onNext({path: 'feed'})
+                    }
+                },
+                {
+                    itemLabel: <FaIcon name="search" size={25} style={[styles.icon]}></FaIcon>,
+                    itemName: I18n.t('search'),
+                    action: () => {
+                        this.NavigationSubject.onNext({path: 'search'})
+                    }
+                },
+                {
+                    itemLabel: <FaIcon name="star-o" size={25} style={styles.icon}></FaIcon>,
+                    itemName: I18n.t('new'),
+                    action: () => {
+                        this.NavigationSubject.onNext({path: 'newPosts'})
+                    }
+                },
 
-                    {
-                        itemLabel: <FaIcon name="bell-o" size={25} style={styles.icon}></FaIcon>,
-                        itemName: I18n.t('news'),
-                        action: () => {
-                            this.NavigationSubject.onNext({path: 'news'})
-                        }
-                    },
-                    {
-                        itemLabel: <FaIcon name="trophy" size={25} style={styles.icon}></FaIcon>,
-                        itemName: I18n.t('ranking'),
-                        action: () => {
-                            this.NavigationSubject.onNext({path: 'ranking'})
-                        }
-                    },
+                {
+                    itemLabel: <FaIcon name="bell-o" size={25} style={styles.icon}></FaIcon>,
+                    itemName: I18n.t('news'),
+                    action: () => {
+                        this.NavigationSubject.onNext({path: 'news'})
+                    }
+                },
+                {
+                    itemLabel: <FaIcon name="trophy" size={25} style={styles.icon}></FaIcon>,
+                    itemName: I18n.t('ranking'),
+                    action: () => {
+                        this.NavigationSubject.onNext({path: 'ranking'})
+                    }
+                },
 
 
-                    {
-                        itemLabel : <FaIcon name="user" size={25} style={[styles.icon, styles.iconLast]} />,
-                        itemName: _userLabel,
-                        action: () => {
-                            if(this.state.logged) {
-                                storage.load({key: 'UserId'})
-                                    .then((data) => {
-                                        this.NavigationSubject.onNext({path: 'profile', params: {
-                                            id: data.data,
-                                            owner:true} })
-                                    });
+                {
+                    itemLabel : <FaIcon name="user" size={25} style={[styles.icon, styles.iconLast]} />,
+                    itemName: _userLabel,
+                    action: () => {
+                        if(this.state.logged) {
+                            storage.load({key: 'UserId'})
+                                .then((data) => {
+                                    this.NavigationSubject.onNext({path: 'profile', params: {
+                                        id: data.data,
+                                        owner:true} })
+                                });
 
-                            } else {
-                                this.NavigationSubject.onNext({path: 'login'})
-                            }
+                        } else {
+                            this.NavigationSubject.onNext({path: 'login'})
                         }
                     }
-                ]
+                }
+            ]
 
 
-            };
+        };
 
-            this.state.list = this.state.list.cloneWithRows(this.props.options);
+        this.state.list = this.state.list.cloneWithRows(this.props.options);
 
-            this.setState({
-                logged: _logged,
-                showMenu:true
-            })
+        this.setState({
+            logged: _logged,
+            showMenu:true
+        })
 
-        });
+
+    },
+
+    componentDidMount(){
+        user.isAuthorized().then((data)=> {
+            this.renderList(data.valid)
+        }).catch(error => {
+            console.warn(error);
+            this.renderList(false)
+        })
 
         this.NavigationSubject = require("../../services/NavigationManager").getStream();
         this.NavigationSubject.subscribe((route) => {
