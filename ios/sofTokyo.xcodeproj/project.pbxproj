@@ -27,14 +27,13 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		96060E7A1C526E4D007DD501 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96060E791C526E4D007DD501 /* GameKit.framework */; };
 		96060E7C1C526E65007DD501 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96060E7B1C526E65007DD501 /* StoreKit.framework */; };
+		964364151C765A5A009B5380 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 964364141C765A5A009B5380 /* LaunchScreen.xib */; };
+		964364281C765A8C009B5380 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 964364271C765A8C009B5380 /* splash.png */; };
 		964FB64A1C56918F003A7DD1 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 964FB6411C567347003A7DD1 /* libRCTPushNotification.a */; };
 		9672B4AD1C6B713F00177646 /* logo_76.png in Resources */ = {isa = PBXBuildFile; fileRef = 9672B4AC1C6B713F00177646 /* logo_76.png */; };
 		9672B4AF1C6B77CD00177646 /* logo_152.png in Resources */ = {isa = PBXBuildFile; fileRef = 9672B4AE1C6B77CD00177646 /* logo_152.png */; };
-		967837F01C74AC4F00D78652 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967837EF1C74AC4F00D78652 /* LaunchScreen.xib */; };
-		967838031C74AC6300D78652 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 967838021C74AC6300D78652 /* splash.png */; };
 		967855161C74F29E003B7CB9 /* logo_167.png in Resources */ = {isa = PBXBuildFile; fileRef = 967855151C74F29E003B7CB9 /* logo_167.png */; };
 		967934031C74161800F9A25B /* libRCTSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 967933FB1C7415CD00F9A25B /* libRCTSplashScreen.a */; };
-		967934051C74185800F9A25B /* SplashScreenResource in Resources */ = {isa = PBXBuildFile; fileRef = 967934041C74185700F9A25B /* SplashScreenResource */; };
 		96A8DC621C566CA300E0FA78 /* libOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96A8DC611C566C9700E0FA78 /* libOneSignal.a */; };
 		96E770991C59413900BABF18 /* UIImagePickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E770981C59413900BABF18 /* UIImagePickerManager.m */; };
 		96E922BD1C5418A9000C9693 /* logo_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E922BC1C5418A9000C9693 /* logo_120.png */; };
@@ -226,14 +225,13 @@
 		935C8EB4FFBE4B6A80C977B6 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 0; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		96060E791C526E4D007DD501 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		96060E7B1C526E65007DD501 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		964364141C765A5A009B5380 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = "../../../Downloads/react-native-splashscreen-master/ios/RCTSplashScreen/SplashScreenResource/LaunchScreen.xib"; sourceTree = "<group>"; };
+		964364271C765A8C009B5380 /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash.png; path = ../assets/splash.png; sourceTree = "<group>"; };
 		964FB6351C567347003A7DD1 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		9672B4AC1C6B713F00177646 /* logo_76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_76.png; path = ../assets/logo_76.png; sourceTree = "<group>"; };
 		9672B4AE1C6B77CD00177646 /* logo_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_152.png; path = ../assets/logo_152.png; sourceTree = "<group>"; };
-		967837EF1C74AC4F00D78652 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource/LaunchScreen.xib"; sourceTree = "<group>"; };
-		967838021C74AC6300D78652 /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash.png; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource/splash.png"; sourceTree = "<group>"; };
 		967855151C74F29E003B7CB9 /* logo_167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_167.png; path = ../assets/logo_167.png; sourceTree = "<group>"; };
 		967933ED1C7415CC00F9A25B /* RCTSplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSplashScreen.xcodeproj; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen.xcodeproj"; sourceTree = "<group>"; };
-		967934041C74185700F9A25B /* SplashScreenResource */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SplashScreenResource; path = "../node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource"; sourceTree = "<group>"; };
 		96A8DC5B1C566C9700E0FA78 /* OneSignal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OneSignal.xcodeproj; path = "../../OneSignal-iOS-SDK/iOS_SDK/OneSignal.xcodeproj"; sourceTree = "<group>"; };
 		96E770971C59413900BABF18 /* UIImagePickerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIImagePickerManager.h; path = "../node_modules/react-native-image-picker/ios/UIImagePickerManager.h"; sourceTree = "<group>"; };
 		96E770981C59413900BABF18 /* UIImagePickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIImagePickerManager.m; path = "../node_modules/react-native-image-picker/ios/UIImagePickerManager.m"; sourceTree = "<group>"; };
@@ -352,8 +350,8 @@
 		13B07FAE1A68108700A75B9A /* sofTokyo */ = {
 			isa = PBXGroup;
 			children = (
-				967837EF1C74AC4F00D78652 /* LaunchScreen.xib */,
-				967838021C74AC6300D78652 /* splash.png */,
+				964364141C765A5A009B5380 /* LaunchScreen.xib */,
+				964364271C765A8C009B5380 /* splash.png */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -440,7 +438,6 @@
 				967855151C74F29E003B7CB9 /* logo_167.png */,
 				9672B4AE1C6B77CD00177646 /* logo_152.png */,
 				9672B4AC1C6B713F00177646 /* logo_76.png */,
-				967934041C74185700F9A25B /* SplashScreenResource */,
 				96E922BC1C5418A9000C9693 /* logo_120.png */,
 				B62890AC35494A10A28C9884 /* Entypo.ttf */,
 				A474CC70E49F4CE09DC95A60 /* EvilIcons.ttf */,
@@ -801,18 +798,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				967838031C74AC6300D78652 /* splash.png in Resources */,
 				A4B72C61E3204F27A608B6C6 /* Entypo.ttf in Resources */,
 				C5CE82A7ACCB445CB03DD178 /* EvilIcons.ttf in Resources */,
 				632CF828B05F40B080E43B16 /* FontAwesome.ttf in Resources */,
+				964364281C765A8C009B5380 /* splash.png in Resources */,
 				9672B4AD1C6B713F00177646 /* logo_76.png in Resources */,
 				9672B4AF1C6B77CD00177646 /* logo_152.png in Resources */,
-				967837F01C74AC4F00D78652 /* LaunchScreen.xib in Resources */,
 				9D6E4CB678C54FD3BB36836C /* Foundation.ttf in Resources */,
 				A73F101D68324B5E89EF7ED4 /* Ionicons.ttf in Resources */,
-				967934051C74185800F9A25B /* SplashScreenResource in Resources */,
 				E173C4409CBA49A3BBE47EBB /* MaterialIcons.ttf in Resources */,
 				17069E6FC3D94735A1542EC9 /* Octicons.ttf in Resources */,
+				964364151C765A5A009B5380 /* LaunchScreen.xib in Resources */,
 				967855161C74F29E003B7CB9 /* logo_167.png in Resources */,
 				96E922BD1C5418A9000C9693 /* logo_120.png in Resources */,
 				6382A62D72174DDCADD5206D /* Zocial.ttf in Resources */,

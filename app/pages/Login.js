@@ -172,7 +172,7 @@ var Login  = React.createClass({
                             }
                         });
                         var NavigationSubject = require("../services/NavigationManager").getStream();
-                        NavigationSubject.onNext({path: 'profile', id : 'me'})
+                        NavigationSubject.onNext({path: 'feed'})
                     } else {
                         console.warn('Login > login error', JSON.stringify(response.data));
                         this.popup.alert(I18n.t('error_login_' + response.data.code));
