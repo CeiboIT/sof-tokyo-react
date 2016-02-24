@@ -136,14 +136,16 @@ var PostElement = React.createClass({
     },
     imageSize () {
         var size = {
-            height: null,
+            height: windowSize.height * 0.6,
             width: windowSize.width * 0.55
         }
         if(windowSize.width <= 360){
             size.height = windowSize.height * 0.6;
-        }else{
+        }else if(windowSize.width <= 640 && windowSize.height <= 360){
             size.height = windowSize.height * 2;
-        }   
+        }else if((windowSize.width >= 640 && windowSize.width <= 1280) && (windowSize.height > 360 && windowSize.height < 800)){
+            size.height = windowSize.height * 1.5;
+        }
         
         return size  
     },
