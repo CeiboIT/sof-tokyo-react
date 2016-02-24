@@ -16,6 +16,8 @@ import com.facebook.soloader.SoLoader;
 import android.content.Intent;
 import com.imagepicker.ImagePickerPackage;
 
+import com.onesignal.OneSignal;
+
 import com.remobile.splashscreen.*;
 
 
@@ -50,7 +52,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
         setContentView(mReactRootView);
 
-
+        OneSignal.startInit(this).init();
 
     }
 

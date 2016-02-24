@@ -88,6 +88,7 @@ android {
 dependencies {
     // Added for OneSignalSDK
     compile "com.android.support:support-v4:18.0.+"
+    compile "com.onesignal:OneSignal:2.0.8"
 
     compile project(':react-native-i18n')
     compile project(':react-native-vector-icons')
