@@ -39,8 +39,7 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems:'center',
-        marginRight: 10,
-		marginLeft: 10
+        marginRight: 20
     },
     iconContainer : {
         flex:1,
@@ -59,7 +58,7 @@ var styles = StyleSheet.create({
         color: 'red'
     },
     iconText : {
-        fontSize: 9
+        fontSize: 10
     },
     list: {
         flexDirection: 'row',
@@ -95,13 +94,100 @@ FooterButton.propTypes = {
     navigator: React.PropTypes.object
 };
 
-class FooterNav extends React.Component {
-    constructor(props) {
-        super(props);
+var _userLabel;
 
-        this.state = {
-            showMenu: true
-        };
+var _ds;
+var _FooterNav = React.createClass({
+
+    getInitialState() {
+        _ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        return {
+            showMenu: true,
+            list : _ds.cloneWithRows([])
+        }
+    },
+
+    componentDidMount(){
+        user.isAuthorized().then((data)=> {
+            var _logged;
+            if(data.valid) {
+                _userLabel = I18n.t('myPage');
+                _logged = true;
+            } else {
+                _userLabel = I18n.t('login');
+                _logged = false;
+            }
+
+            this.props = {
+                options : [
+                    {
+                        itemLabel: <FaIcon name="home" size={25} style={[styles.icon]}></FaIcon>,
+                        itemName: I18n.t('home'),
+                        action: () => {
+                            this.NavigationSubject.onNext({path: 'feed'})
+                        }
+                    },
+                    {
+                        itemLabel: <FaIcon name="search" size={25} style={[styles.icon]}></FaIcon>,
+                        itemName: I18n.t('search'),
+                        action: () => {
+                            this.NavigationSubject.onNext({path: 'search'})
+                        }
+                    },
+                    {
+                        itemLabel: <FaIcon name="star-o" size={25} style={styles.icon}></FaIcon>,
+                        itemName: I18n.t('new'),
+                        action: () => {
+                            this.NavigationSubject.onNext({path: 'newPosts'})
+                        }
+                    },
+
+                    {
+                        itemLabel: <FaIcon name="bell-o" size={25} style={styles.icon}></FaIcon>,
+                        itemName: I18n.t('news'),
+                        action: () => {
+                            this.NavigationSubject.onNext({path: 'news'})
+                        }
+                    },
+                    {
+                        itemLabel: <FaIcon name="trophy" size={25} style={styles.icon}></FaIcon>,
+                        itemName: I18n.t('ranking'),
+                        action: () => {
+                            this.NavigationSubject.onNext({path: 'ranking'})
+                        }
+                    },
+
+
+                    {
+                        itemLabel : <FaIcon name="user" size={25} style={[styles.icon, styles.iconLast]} />,
+                        itemName: _userLabel,
+                        action: () => {
+                            if(this.state.logged) {
+                                storage.load({key: 'UserId'})
+                                    .then((data) => {
+                                        this.NavigationSubject.onNext({path: 'profile', params: {
+                                            id: data.data,
+                                            owner:true} })
+                                    });
+
+                            } else {
+                                this.NavigationSubject.onNext({path: 'login'})
+                            }
+                        }
+                    }
+                ]
+
+
+            };
+
+            this.state.list = this.state.list.cloneWithRows(this.props.options);
+
+            this.setState({
+                logged: _logged,
+                showMenu:true
+            })
+
+        });
 
         this.NavigationSubject = require("../../services/NavigationManager").getStream();
         this.NavigationSubject.subscribe((route) => {
@@ -115,92 +201,13 @@ class FooterNav extends React.Component {
                 })
             }
         });
+    },
 
-        this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-        this.props = {
-            options : [
-                {
-                    itemLabel: <FaIcon name="home" size={25} style={[styles.icon]}></FaIcon>,
-                    itemName: I18n.t('home'),
-                    action: () => {
-                        this.NavigationSubject.onNext({path: 'feed'})
-                    }
-                },
-                {
-                    itemLabel: <FaIcon name="search" size={25} style={[styles.icon]}></FaIcon>,
-                    itemName: I18n.t('search'),
-                    action: () => {
-                        this.NavigationSubject.onNext({path: 'search'})
-                    }
-                },
-                {
-                    itemLabel: <FaIcon name="star-o" size={25} style={styles.icon}></FaIcon>,
-                    itemName: I18n.t('new'),
-                    action: () => {
-                        this.NavigationSubject.onNext({path: 'newPosts'})
-                    }
-                },
-
-                {
-                    itemLabel: <FaIcon name="bell-o" size={25} style={styles.icon}></FaIcon>,
-                    itemName: I18n.t('news'),
-                    action: () => {
-                        this.NavigationSubject.onNext({path: 'news'})
-                    }
-                },
-                {
-                    itemLabel: <FaIcon name="trophy" size={25} style={styles.icon}></FaIcon>,
-                    itemName: I18n.t('ranking'),
-                    action: () => {
-                        this.NavigationSubject.onNext({path: 'ranking'})
-                    }
-                },
-
-
-                {
-                    itemLabel : <FaIcon name="user" size={25} style={[styles.icon, styles.iconLast]} />,
-                    itemName: I18n.t((this.state.logged) ? 'myPage':'login' ),
-                    action: () => {
-                        if(this.state.logged) {
-                            storage.load({key: 'UserId'})
-                                .then((data) => {
-                                    this.NavigationSubject.onNext({path: 'profile', params: {
-                                        id: data.data,
-                                        owner:true} })
-                                })
-                        } else {
-                            this.NavigationSubject.onNext({path: 'login'})
-                        }
-                    }
-                }
-            ]
-        };
-        this.list = this.ds.cloneWithRows(this.props.options);
-    }
-
-    componentDidMount() {
-        user.isAuthorized()
-            .then((data) => {
-                if(!data.valid) {
-                    this.setState({
-                        logged: false
-                    })
-                }else {
-
-                    this.setState({
-                        logged: true
-                    });
-                }
-            }).catch((error) => {
-        });
-    }
-
-    render(){
+    render() {
 
         var _menu = (this.state.showMenu) ? (
             <ListView contentContainerStyle={styles.list}
-					  scrollEnabled={false}
-                      dataSource={this.list}
+                      dataSource={this.state.list}
                       renderRow={ (data) => <FooterButton data={data} navigator={this.props.navigator}/>}
             >
             </ListView>): null;
@@ -214,4 +221,8 @@ class FooterNav extends React.Component {
     }
 
 
-module.exports = FooterNav;
+});
+
+
+
+module.exports = _FooterNav;
