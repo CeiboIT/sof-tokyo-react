@@ -105,6 +105,9 @@ class FooterNav extends React.Component {
 
         this.NavigationSubject = require("../../services/NavigationManager").getStream();
         this.NavigationSubject.subscribe((route) => {
+			if(route.path == 'login' && route.error) {
+				this.setState({isLoged: true});
+			}
             if(route.path ==  'login' || route.path == 'register'){
                 this.setState({
                     showMenu: false
@@ -199,6 +202,7 @@ class FooterNav extends React.Component {
 
         var _menu = (this.state.showMenu) ? (
             <ListView contentContainerStyle={styles.list}
+					  scrollEnabled={false}
                       dataSource={this.list}
                       renderRow={ (data) => <FooterButton data={data} navigator={this.props.navigator}/>}
             >

@@ -22,8 +22,9 @@ var styles = StyleSheet.create({
     },
 
     headerSection : {
-        height: windowSize.height * 0.2,
-        width : windowSize.width
+        height: windowSize.height * 0.27,
+        width : windowSize.width,
+        backgroundColor: "#3f3f3f"
     },
     name: {
         alignSelf: 'center',
@@ -63,20 +64,24 @@ class Badge extends React.Component {
         }
 
         var _photo = (this.props.data && this.props.data.avatar) ? parsePhotoUrl(this.props.data.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
-        return (
-        <ParallaxView styles={styles.headerSection}
-            backgroundSource={{uri:null} }
-            windowHeight={windowSize.height * 0.2}
-            blur="dark"
-            header={(<Image style={styles.badge} source={{uri: _photo }}/>)}>
-            <View style={styles.container}>
-                <Text style={styles.name}> { this.props.data.displayname } </Text>
-            </View>
-        </ParallaxView>
+ 		return (
+			<View style={styles.headerSection}>
+			<Image style={styles.badge} source={{uri: _photo }}/>
+			</View>
         )
     }
 }
-
+/* 
+<ParallaxView styles={styles.headerSection}
+        backgroundSource={{}}
+        windowHeight={windowSize.height * 0.2}
+        blur="dark"
+        header={(<Image style={styles.badge} source={{uri: _photo }}/>)} >
+        <View style={styles.container}>
+            <Text style={styles.name}> { this.props.data.displayname } </Text>
+        </View>
+    </ParallaxView>
+{{uri:null}} */
 Badge.stateProps = {
     data: React.PropTypes.object
 };
