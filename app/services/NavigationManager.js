@@ -60,7 +60,6 @@ class NavigatorService {
         // Routes definition here
 
         this.startRoute = {
-            leftCorner: navigation.back,
             component : Pages.feed,
             rightCorner: toggle,
             "headerStyle": styles.generalHeader,
@@ -96,7 +95,6 @@ class NavigatorService {
 
                 case('feed') :
                     this.manager.toRoute({
-                        leftCorner: navigation.back,
                         component : Pages.feed,
                         rightCorner: toggle,
                         "headerStyle": styles.generalHeader,
