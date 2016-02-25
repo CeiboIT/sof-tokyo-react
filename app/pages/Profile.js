@@ -3,6 +3,8 @@
  */
 var React = require('react-native');
 var UserStream = require("../services/Streams").getStream("User");
+var MemberStream = require("../services/Streams").getStream("Member");
+
 var GridView = require('react-native-grid-view');
 import TabNavigator from 'react-native-tab-navigator';
 
@@ -116,18 +118,27 @@ var Profile = React.createClass({
     },
 
     componentDidMount() {
-        api.getMember(this.props.id);
-        UserStream.subscribe((data) => {
-            console.warn('profile > didmount ', JSON.stringify(data));
-            if (data.type != 'logout') {
+		
+        MemberStream.subscribe((response) => {
+            console.warn('Profile > didmount subcribed MemberTeam', JSON.stringify(response.data.posts));
+            // TODO Cuando se consulta por el id, y ese id es el owner, los datos vuelven en data.author, PERO cuando se consulta por usuario y ese usuario no es el owner(logeado), los datos vuelven en data.data.author
+			let data = {};
+			if (response.data) {
+				data = response.data; // si hay un nivel de anidamiento, volarlo.
+			}
+			
+			if (data.author) {	
                 this.setState({
-                    user:data.data.author,
-                    posts:data.data.posts || [],
+                    user: data.author,
+                    posts: data.posts || [],
                     isLoading: false,
                     selectedTab: 'posts'
-                })
+                });
             }
-        })
+        });
+		// console.warn('Profile > didmount > gettingMember ...', this.props.id);
+        api.getMember(this.props.id, MemberStream);
+
     },
 
     selectedPosts() {
@@ -160,7 +171,6 @@ var Profile = React.createClass({
     },
 
     render() {
-
 
         var _grid = <GridView
                 style={{height: _dynamicHeight}}
@@ -200,15 +210,16 @@ var Profile = React.createClass({
                     onPress={() => this.setState({ selectedTab: 'profileData' })}>
                     <View style={styles.infoUser}>
                         <Text style={styles.text}> {I18n.t('name')}: {this.state.user.name}</Text>
-                        <Text style={styles.text}> {I18n.t('lastname')}: {this.state.user.last_name}</Text>
-                        <Text style={styles.text}> {I18n.t('nickname')}: {this.state.user.nickname}</Text>
-                     	<Text style={styles.text}> {I18n.t('url')}: {this.state.user.url}</Text>
-					    <Text style={styles.text}> {I18n.t('description')}: {this.state.user.description}</Text> 
-                        <TouchableHighlight style={{paddingTop: 20}} onPress={this.logout} underlayColor={'transparent'}>
-                          <View>
-                              <Icon name="sign-out" style={styles.text}> <Text>{I18n.t('logout')}</Text></Icon>
-                          </View>
-                        </TouchableHighlight>
+						<Text style={styles.text}> {I18n.t('lastname')}: {this.state.user.last_name}</Text>
+						<Text style={styles.text}> {I18n.t('nickname')}: {this.state.user.nickname}</Text>
+						<Text style={styles.text}> {I18n.t('url')}: {this.state.user.url}</Text>
+						<Text style={styles.text}> {I18n.t('description')}: {this.state.user.description}</Text> 
+						<TouchableHighlight style={{paddingTop: 20}} onPress={this.logout} underlayColor={'transparent'}>
+						  <View>
+						      <Icon name="sign-out" style={styles.text}> <Text>{I18n.t('logout')}</Text></Icon>
+						  </View>
+						</TouchableHighlight>
+						
                     </View>
                 </TabNavigator.Item>
 
@@ -216,6 +227,7 @@ var Profile = React.createClass({
         );
 
         var _dynamicHeight = 0;
+
 
         if(this.state.posts && this.state.posts.length) {
             _dynamicHeight = postElement.height * Math.abs( this.state.posts.length / 2)
@@ -253,7 +265,7 @@ var Profile = React.createClass({
                 </TabNavigator>
 
         );
-
+        console.warn('Profile > owner ', this.props.owner);
         var _render = (this.props.owner) ? _ownerTab : _visitorTab;
         return(
 

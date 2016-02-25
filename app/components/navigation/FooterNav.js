@@ -40,7 +40,8 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems:'center',
-        marginRight: 20
+        marginRight: 12,
+		marginLeft: 8
     },
     iconContainer : {
         flex:1,
@@ -64,7 +65,7 @@ var styles = StyleSheet.create({
         color: 'red'
     },
     iconText : {
-        fontSize: 10
+        fontSize: 8
     },
     list: {
         flexDirection: 'row',
@@ -173,6 +174,7 @@ var _FooterNav = React.createClass({
                     itemName: _userLabel,
                     action: () => {
                         if(this.state.logged) {
+							//console.warn('FooterNav > user logged', this.state.logged);
                             storage.load({key: 'UserId'})
                                 .then((data) => {
                                     this.NavigationSubject.onNext({path: 'profile', params: {
@@ -181,6 +183,7 @@ var _FooterNav = React.createClass({
                                 });
 
                         } else {
+							//console.warn('FooterNav > user NOT logged ', JSON.stringify(this.state.logged));
                             this.NavigationSubject.onNext({path: 'login'})
                         }
                     }
