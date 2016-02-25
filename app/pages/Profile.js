@@ -41,7 +41,8 @@ var {
 var styles = StyleSheet.create({
     infoUser: {
         marginTop: 20,
-        marginLeft: 20
+        marginLeft: 20,
+        height: windowSize.height
     },
     text: {
         color: '#444444',
@@ -117,13 +118,15 @@ var Profile = React.createClass({
     componentDidMount() {
         api.getMember(this.props.id);
         UserStream.subscribe((data) => {
-			console.warn('profile> didmount ', JSON.stringify(data));
-            this.setState({
-                user:data.data.author,
-                posts:data.data.posts || [],
-                isLoading: false,
-                selectedTab: 'posts'
-            })
+            console.warn('profile > didmount ', JSON.stringify(data));
+            if (data.type != 'logout') {
+                this.setState({
+                    user:data.data.author,
+                    posts:data.data.posts || [],
+                    isLoading: false,
+                    selectedTab: 'posts'
+                })
+            }
         })
     },
 
@@ -143,11 +146,17 @@ var Profile = React.createClass({
     createNewPost() {
 
     },
+
     logout() {
         var NavigationSubject = require("../services/NavigationManager").getStream();
         api.logout()
-            .then(() =>
-                NavigationSubject.onNext({path: 'feed'}));
+            .then(() => {
+                console.warn('Profile > logout');
+                NavigationSubject.onNext({path: 'feed'})
+            })
+            .catch((error) => {
+                console.warn('Profile > logout error');
+            });
     },
 
     render() {
@@ -165,7 +174,9 @@ var Profile = React.createClass({
         var _firstPost = (!this.state.posts.length) ? <Text> {I18n.t('startPosting') }</Text>: null;
 
         var _ownerTab = (
-           <TabNavigator>
+           <TabNavigator 
+                sceneStyle={{ height: postElement.height - 50 }}
+            >
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'posts'}
                     renderIcon={() => <View><Icon name="files-o" size={20}/></View>}
@@ -188,18 +199,16 @@ var Profile = React.createClass({
                     renderSelectedIcon={() => <View><Icon name="user" color="#000000" size={20}/></View>}
                     onPress={() => this.setState({ selectedTab: 'profileData' })}>
                     <View style={styles.infoUser}>
-                        <View style={styles.infoUser}>
-                            <Text style={styles.text}> {I18n.t('name')}: {this.state.user.name}</Text>
-                            <Text style={styles.text}> {I18n.t('lastname')}: {this.state.user.last_name}</Text>
-                            <Text style={styles.text}> {I18n.t('nickname')}: {this.state.user.nickname}</Text>
-                         	<Text style={styles.text}> {I18n.t('url')}: {this.state.user.url}</Text>
-						    <Text style={styles.text}> {I18n.t('description')}: {this.state.user.description}</Text> 
-                        </View>
-						<TouchableHighlight style={{paddingTop: 20}} onPress={this.logout} underlayColor={'transparent'}>
-						      <View>
-						          <Icon name="sign-out" style={styles.text}> <Text>{I18n.t('logout')}</Text></Icon>
-						      </View>
-						  </TouchableHighlight>
+                        <Text style={styles.text}> {I18n.t('name')}: {this.state.user.name}</Text>
+                        <Text style={styles.text}> {I18n.t('lastname')}: {this.state.user.last_name}</Text>
+                        <Text style={styles.text}> {I18n.t('nickname')}: {this.state.user.nickname}</Text>
+                     	<Text style={styles.text}> {I18n.t('url')}: {this.state.user.url}</Text>
+					    <Text style={styles.text}> {I18n.t('description')}: {this.state.user.description}</Text> 
+                        <TouchableHighlight style={{paddingTop: 20}} onPress={this.logout} underlayColor={'transparent'}>
+                          <View>
+                              <Icon name="sign-out" style={styles.text}> <Text>{I18n.t('logout')}</Text></Icon>
+                          </View>
+                        </TouchableHighlight>
                     </View>
                 </TabNavigator.Item>
 
@@ -255,14 +264,6 @@ var Profile = React.createClass({
         );
     }
 });
-
-/*
-<TouchableHighlight style={{paddingTop: 20}} onPress={this.logout} underlayColor={'transparent'}>
-      <View>
-          <Icon name="sign-out" style={styles.text}> <Text>{I18n.t('logout')}</Text></Icon>
-      </View>
-  </TouchableHighlight>
-*/
 
 Profile.propTypes = {
   id : React.PropTypes.any

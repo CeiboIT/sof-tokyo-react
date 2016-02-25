@@ -285,9 +285,9 @@ var PostView = React.createClass({
     getStyles () {
         var styles = [];
         if(this.state.data && this.state.data.metadata){
-            var _styles = this.state.data.metadata,
+            var _metadata = this.state.data.metadata,
                 field = 'sofbackend__sof_work_meta__style';
-                _styles.map((metadata) => {
+                _metadata.map((metadata) => {
                     if(metadata.field == field) styles.push({name: metadata.trad, id: metadata.value});
                 })
         }
@@ -296,10 +296,10 @@ var PostView = React.createClass({
     getCategories () {
         var categories = [];
         if(this.state.data && this.state.data.metadata){
-            var _categories = this.state.data.metadata,
+            var _metadata = this.state.data.metadata,
                 field = 'sofbackend__sof_work_meta__';
-                _categories.map((metadata) => {
-                    if((metadata.field == field+'category_0' || metadata.field == field+'category_1') && metadata.trad) categories.push({type: 'カテゴリー', name: metadata.trad, id: metadata.value});
+                _metadata.map((metadata, i) => {
+                    if((metadata.field == field+'category_0' || metadata.field == field+'category_1') && metadata.trad) categories.push({type: 'カテゴリー', name: metadata.trad, id: i});
                 })
         }
         return categories;
@@ -315,21 +315,16 @@ var PostView = React.createClass({
         }
         return cost;
     },
-    getMetadata () {
-        var arr = [];
-        
+    getNote() {
+        var note = [];
         if(this.state.data && this.state.data.metadata){
             var _metadata = this.state.data.metadata,
-                field = 'sofbackend__sof_work_meta__';
+                field = 'sofbackend__sof_work_meta__sellNote';
             _metadata.map((metadata) => {
-                if(metadata.field == field+'style') arr.push({type: 'STYLE', name: metadata.trad, id: metadata.value});
-                if((metadata.field == field+'category_0' || metadata.field == field+'category_1') && metadata.trad) arr.push({type: 'カテゴリー', name: metadata.trad, id: metadata.value});
-                if(metadata.field == field+'productionCost') arr.push({type: '制作費', name: metadata.value, id: metadata.value});
-                if(metadata.field == field+'sellNote') arr.push({type: '買い取り', name: metadata.value, id: metadata.value}); 
-            });
+                if(metadata.field == field) note.push({type: '制作費', name: metadata.value, id: metadata.value});
+            })
         }
-        
-        return arr
+        return note;
     },
     render() {
         
@@ -392,45 +387,59 @@ var PostView = React.createClass({
                                 { _subImages }
                             </View>
                         </View>
-                    <PostContentDisplayer content={this.state.data.content}
-                                          removeHTMLTags={true}
-                                          views={true}
-                    />
-                    
-                    <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                        <Text style={{fontWeight: 'bold'}}>カテゴリー</Text>
-                    </View>
-                    {
-                        this.getCategories().map((data) => {
-                            return <View key={data.id}>
-                                        <Text>{data.name}</Text>
-                                    </View>
+                        <PostContentDisplayer content={this.state.data.content}
+                                              removeHTMLTags={true}
+                                              views={true}
+                        />
+
+                        <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                            <Text style={{fontWeight: 'bold'}}>カテゴリー</Text>
+                        </View>
+                        {
+                            this.getCategories().map((data) => {
+                                return <View key={data.id}>
+                                            <Text>{data.name}</Text>
+                                        </View>
+                                })
+                        }
+
+                        <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                            <Text style={{fontWeight: 'bold'}}>STYLES</Text>
+                        </View>
+                        {
+                            this.getStyles().map((data) => {
+                                return <View key={data.id}>
+                                            <Text>{data.name}</Text>
+                                        </View>
+                                })
+                        }
+
+                        <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                            <Text style={{fontWeight: 'bold'}}>制作費</Text>
+                        </View>
+                        {
+                            this.getCost().map((data) => {
+                                return <View key={data.id}>
+                                            <Text>{data.name} 円</Text>
+                                        </View>
+                                })
+                        }
+
+                        <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                            <Text style={{fontWeight: 'bold'}}>買い取り</Text>
+                        </View>
+                        {
+                            this.getNote().map((data) => {
+                                return <View key={data.id}>
+                                    <Text>{data.name}</Text>
+                                </View>
                             })
-                    }
-                    
-                    <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                        <Text style={{fontWeight: 'bold'}}>STYLES</Text>
+                        }
+
                     </View>
-                    {
-                        this.getStyles().map((data) => {
-                            return <View key={data.id}>
-                                        <Text>{data.name}</Text>
-                                    </View>
-                            })
-                    }
-                    
-                    <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                        <Text style={{fontWeight: 'bold'}}>制作費</Text>
-                    </View>
-                    {
-                        this.getCost().map((data) => {
-                            return <View key={data.id}>
-                                        <Text>{data.name} 円</Text>
-                                    </View>
-                            })
-                    }
-                    
-                    </View>
+
+
+
                     <View style={styles.author}>
                         <Avatar author={this.state.data.author}/>
                     </View>
@@ -443,7 +452,7 @@ var PostView = React.createClass({
                     <TouchableHighlight onPress={this.closeModal} underlayColor={'transparent'} style={styles.btnModalContainer}><Text><Icon name="times" size={18} style={{color: 'gray'}}/></Text></TouchableHighlight>
                     <ResponsiveImage source={{uri: this.state.imageSel}} initWidth={imageSizes.width} initHeight={imageSizes.height}/>
                 </Modal>
-            </ScrollView>)
+            </ScrollView>);
         return _postView;
     }
 })

@@ -25,7 +25,12 @@ var styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'column'
+    },
+    buttonText: {
+
+        fontSize: 35
+
     },
     close : {
         margin: 10
@@ -105,6 +110,11 @@ var SitePanel = React.createClass ({
         SidebarSubject.onNext('close');
     },
 
+    navigateToNew() {
+
+        NavigationSubject.onNext({path: 'newPosts'});
+        SidebarSubject.onNext('close');
+    },
 
     render(){
 
@@ -117,13 +127,14 @@ var SitePanel = React.createClass ({
                 </View>
                 
                 <View style={styles.buttonsContainer} collapse={ true } >
-                    <TouchableHighlight onPress={ this.navigateToWomen } underlayColor={'transparent'} style={styles.button}><Text>WOMEN</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={ this.navigateToMen } underlayColor={'transparent'} style={styles.button}><Text>MEN</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={ this.navigatoToStyle } underlayColor={'transparent'} style={styles.button}><Text>STYLE</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateToCategories} underlayColor={'transparent'} style={styles.button}><Text>CATEGORY</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateToSchools} underlayColor={'transparent'} style={styles.button}><Text>SCHOOL</Text></TouchableHighlight>
-                    <TouchableHighlight  onPress={this.navigateToContact} underlayColor={'transparent'} style={styles.button}><Text>CONTACT</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={this.navigateToAbout} underlayColor={'transparent'} style={styles.button}><Text>ABOUT Sof</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={ this.navigateToNew } underlayColor={'transparent'} style={styles.button}><Text style={styles.buttonText}>NEW</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={ this.navigateToWomen } underlayColor={'transparent'} style={styles.button}><Text style={styles.buttonText}>WOMEN</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={ this.navigateToMen } underlayColor={'transparent'} style={styles.button}><Text style={styles.buttonText}>MEN</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={ this.navigatoToStyle } underlayColor={'transparent'} style={styles.button}><Text style={styles.buttonText}>STYLE</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToCategories} underlayColor={'transparent'} style={styles.button}><Text style={styles.buttonText}>CATEGORY</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToSchools} underlayColor={'transparent'} style={styles.button}><Text style={styles.buttonText}>SCHOOL</Text></TouchableHighlight>
+                    <TouchableHighlight  onPress={this.navigateToContact} underlayColor={'transparent'} style={styles.button}><Text style={styles.buttonText}>CONTACT</Text></TouchableHighlight>
+                    <TouchableHighlight onPress={this.navigateToAbout} underlayColor={'transparent'} style={styles.button}><Text style={styles.buttonText}>ABOUT Sof</Text></TouchableHighlight>
                 </View>
             </View>
         )

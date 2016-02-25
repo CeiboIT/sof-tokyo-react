@@ -10,7 +10,7 @@ var {
     TouchableHighlight,
     Text,
     ScrollView
-} = React;
+    } = React;
 
 var styles = StyleSheet.create({
     container: {
@@ -124,7 +124,7 @@ var PostsList  = React.createClass({
                 _initial = true;
                 _page =1;
             }
-            
+
             if(_initial && _page == 1 && response.data['posts'].length)  {
                 _initial = false;
                 if(response.data.pages && response.data.pages != 1) {
@@ -171,7 +171,7 @@ var PostsList  = React.createClass({
     componentWillUnmount(){
         console.warn('Going to die!');
     },
-    
+
     togglePressIn(){
         if(!this.state.isLoading){
             this.setState({
@@ -179,7 +179,7 @@ var PostsList  = React.createClass({
             });
         }
     },
-    
+
     pressColor(){
         if(this.state.pressIn) {
             return styles.whiteText
@@ -211,7 +211,7 @@ var PostsList  = React.createClass({
                 />
                 { _renderLoadButton }
             </ScrollView>
-         )
+        )
 
         var _loading = (
             <View style={{
