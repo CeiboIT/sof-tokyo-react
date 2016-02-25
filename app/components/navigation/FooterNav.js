@@ -191,6 +191,7 @@ var _FooterNav = React.createClass({
 
     componentDidMount(){
         user.isAuthorized().then((data)=> {
+            console.warn('_FooterNav componentDidMount isAuthorized ', JSON.stringify(data));
             this.renderList(data.valid)
         }).catch(error => {
             console.warn(error);
@@ -209,6 +210,16 @@ var _FooterNav = React.createClass({
                 })
             }
         });
+        var UserSubject = require("../../services/Streams").getStream("User");
+        UserSubject.subscribe((data) => {
+            console.warn('Footernav > componentDidMount > subscribe user  ', JSON.stringify(data));
+            if (data.type === 'logout') {
+                this.setState({
+                    logged: false
+                });
+            }
+        }) 
+
     },
 
     render() {
