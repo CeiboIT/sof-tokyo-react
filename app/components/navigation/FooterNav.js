@@ -2,7 +2,8 @@ var React = require('react-native'),
     Icon = require('react-native-vector-icons/EvilIcons'),
     FaIcon = require('react-native-vector-icons/FontAwesome'),
     storage = require("../../services/Storage").getInstance(),
-    user = require("../../utils/api/UserApi");
+    user = require("../../utils/api/UserApi"),
+    AuthSubject= require("../../services/Streams").getStream("Auth");
 
 var I18nService = require('../../i18n');
 
@@ -68,8 +69,8 @@ var styles = StyleSheet.create({
     list: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginLeft: 10,
-        marginRight: 10
+        alignItems:'center',
+        justifyContent: 'center'
     },
     item: {
         margin: 10,
@@ -219,6 +220,14 @@ var _FooterNav = React.createClass({
                 })
             }
         });
+
+
+        AuthSubject.subscribe((result) => {
+            if(result.type == 'login' && result.success) {
+                this.renderList(result.success);
+            }
+        })
+
     },
 
     render() {
