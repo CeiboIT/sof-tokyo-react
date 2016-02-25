@@ -51,8 +51,13 @@ var styles = StyleSheet.create({
     icon: {
         marginRight: 0
     },
+
+    iconFirst: {
+
+    },
+
     iconLast : {
-        margin: 0
+        margin: 200
     },
     iconSel : {
         color: 'red'
@@ -63,7 +68,8 @@ var styles = StyleSheet.create({
     list: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center'
+        marginLeft: 10,
+        marginRight: 10
     },
     item: {
         margin: 10,
@@ -109,12 +115,16 @@ var _FooterNav = React.createClass({
 
     renderList(loginStatus) {
         var _logged;
+        var _iconName;
+
         if(loginStatus) {
             _userLabel = I18n.t('myPage');
+            _iconName= 'user';
             _logged = true;
         } else {
             _userLabel = I18n.t('login');
             _logged = false;
+            _iconName = 'lock'
         }
 
         this.props = {
@@ -158,7 +168,7 @@ var _FooterNav = React.createClass({
 
 
                 {
-                    itemLabel : <FaIcon name="user" size={25} style={[styles.icon, styles.iconLast]} />,
+                    itemLabel : <FaIcon name={_iconName} size={25} style={[styles.icon, styles.iconLast]} />,
                     itemName: _userLabel,
                     action: () => {
                         if(this.state.logged) {
@@ -196,7 +206,7 @@ var _FooterNav = React.createClass({
         }).catch(error => {
             console.warn(error);
             this.renderList(false)
-        })
+        });
 
         this.NavigationSubject = require("../../services/NavigationManager").getStream();
         this.NavigationSubject.subscribe((route) => {
