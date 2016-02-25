@@ -7,6 +7,7 @@ var React = require('react-native'),
     I18nService = require('../i18n'),
     Icon = require('react-native-vector-icons/FontAwesome'),
     UserSubject = require("../services/Streams").getStream("User");
+    AuthSubject= require("../services/Streams").getStream("Auth");
 
 import Popup from 'react-native-popup';
 
@@ -158,6 +159,7 @@ var Login  = React.createClass({
                 console.warn('Login > login ', JSON.stringify(response));
                 if (response.type === 'login') {
                     if (!response.data.error) {
+                        AuthSubject.onNext({type: 'login', success : true});
                         storage.save({
                             key: 'cookies',
                             rawData : {
@@ -171,8 +173,10 @@ var Login  = React.createClass({
                                 data: response.data['user']['id']
                             }
                         });
+
                         var NavigationSubject = require("../services/NavigationManager").getStream();
                         NavigationSubject.onNext({path: 'feed'})
+
                     } else {
                         console.warn('Login > login error', JSON.stringify(response.data));
                         this.popup.alert(I18n.t('error_login_' + response.data.code));
