@@ -115,6 +115,7 @@ var api = {
 
     logout () {
         console.warn('logout');
+        UserSubject.onNext({type: 'logout'});
         return storage.remove({key: 'cookies'});
     },
 
@@ -123,7 +124,7 @@ var api = {
             var cookies;
             storage.load({key: 'cookies'})
                 .then(ret => {
-                    cookie = ret.cookie
+                    cookie = ret.cookie;
                     fetch(apiConsts.apiEndpoint + 'auth/is_authorized',{
                         method: 'POST',
                         headers: {
