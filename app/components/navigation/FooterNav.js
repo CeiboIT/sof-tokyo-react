@@ -220,6 +220,16 @@ var _FooterNav = React.createClass({
                 })
             }
         });
+        var UserSubject = require("../../services/Streams").getStream("User");
+        UserSubject.subscribe((data) => {
+            console.warn('Footernav > componentDidMount > subscribe user  ', JSON.stringify(data));
+            if (data.type === 'logout') {
+                this.setState({
+                    logged: false
+                });
+            }
+        })
+
 
 
         AuthSubject.subscribe((result) => {
