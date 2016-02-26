@@ -15,7 +15,7 @@ I18nService.set('ja-JP', {
         'login' : 'ログイン',
         'loginWithFacebook': 'Facebookで始める',
         'register': '登録 ',
-        'error_login_100': 'Username or password invalid'
+        'error_login_100': 'ユーザー名かパスワードが無効です'
     }
 );
 

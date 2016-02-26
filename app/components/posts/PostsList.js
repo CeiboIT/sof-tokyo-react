@@ -187,7 +187,7 @@ var PostsList  = React.createClass({
     },
     render(){
         var _buttonStyle = (this.state.isLoading) ? styles.loadMoreDisabled : styles.loadMore,
-            _label = (this.state.isLoading) ? '続く': '続く',
+            _label = (this.state.isLoading) ? 'MORE': 'MORE',
             _underlayColor = (this.state.isLoading) ? 'transparent': '#8a52ad';
         var _loadMoreButton = (
             <TouchableHighlight underlayColor={_underlayColor} onPress={this.loadMorePosts} onPressIn={this.togglePressIn} onPressOut={this.togglePressIn}
