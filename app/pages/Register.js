@@ -20,10 +20,10 @@ I18nService.set('ja-JP', {
         'registerUsername': 'ユーザー名 (必須)',
         'registerMail': 'メールアドレス (必須)',
         'registerDisplayName': '表示ユーザー名	(必須)',
-        'registerOk': 'Register successful, please check your email to finish the process',
-        'ok': 'ok',
-        'register_error_000': 'Email already exists, please choose another',
-        'register_error_001': 'Username already exists, please choose another',
+        'registerOk': '登録は官僚しました。メールアドレスの確認して下さい',
+        'ok': 'OK',
+        'register_error_000': 'このメールアドレスは他のユーザーが使っています',
+        'register_error_001': 'このユーザー名は他のユーザーが使っています',
         'country': '現在地',
         'obog': 'OB・OG',
         'school': '所属'
@@ -192,10 +192,10 @@ var Register  = React.createClass({
 			<ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
                 <View style={styles.Search}>
                     <Form ref="form">
-                        <TextInput style={{height: 60}} name="username" placeholder="Username"/>
-                        <TextInput style={{height: 60}} name="email" placeholder="Email"/>
-                        <TextInput style={{height: 60}} name="display_name" placeholder="Display name"/>
-                        <TextInput style={{height: 60}} name="years" placeholder="Age"/>
+                        <TextInput style={{height: 60}} name="username" placeholder="ユーサー名"/>
+                        <TextInput style={{height: 60}} name="email" placeholder="メールアドレス"/>
+                        <TextInput style={{height: 60}} name="display_name" placeholder="表示ユーザー名"/>
+                        <TextInput style={{height: 60}} name="years" placeholder="年齢"/>
                     </Form>
                     <View style={{padding:10, marginBottom: 20}}>
                         <Text style={{height: 40, color: "#333"}}
