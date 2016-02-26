@@ -47,7 +47,7 @@ var styles = StyleSheet.create({
         padding : 5
     },
     school : {
-        borderColor: "transparent",
+        borderColor: "#e5e5e5",
         borderWidth: 1,
         padding: 5,
         margin: 5,
@@ -55,8 +55,8 @@ var styles = StyleSheet.create({
         justifyContent: "center"
     },
     selectedSchool : {
-        borderColor: "#8a52ad",
-        backgroundColor: "#8a52ad",
+        borderColor: "#e5e5e5",
+        backgroundColor: "#e5e5f0",
         borderWidth: 1,
         padding: 5,
         margin: 5,
@@ -64,10 +64,10 @@ var styles = StyleSheet.create({
         justifyContent: "center"
     },
     loadMoreText : {
-        color: "#8a52ad"
+        color: "#428bca"
     },
     selectedLoadMoreText : {
-        color: "white"
+        color: "#00b9f7"
     }
 });
 
@@ -147,8 +147,13 @@ var Schools = React.createClass({
         return(
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
-                    <TouchableHighlight underlayColor={'transparent'} onPress={this.navigateToCheckout} style={styles.titleContainer}>
-                        <Text style={styles.title}>
+                    <Text>
+
+                    </Text>
+
+
+                    <TouchableHighlight underlayColor={'transparent'} style={styles.school} onPress={this.navigateToCheckout}>
+                        <Text style={styles.loadMoreText}>
                             Request Books »
                         </Text>
                     </TouchableHighlight>
@@ -167,6 +172,7 @@ var Schools = React.createClass({
         )
     }
 });
+
 
 module.exports = Schools;
 
