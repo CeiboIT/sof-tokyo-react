@@ -40,8 +40,8 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems:'center',
-        marginRight: 12,
-		marginLeft: 8
+        marginRight: 10,
+		marginLeft: 12
     },
     iconContainer : {
         flex:1,
