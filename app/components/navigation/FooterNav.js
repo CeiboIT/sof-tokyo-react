@@ -66,7 +66,7 @@ var styles = StyleSheet.create({
     },
     iconText : {
         fontSize: 8,
-        color:"#20c2f0"
+        color:"#777777"
     },
     list: {
         flexDirection: 'row',
@@ -133,21 +133,21 @@ var _FooterNav = React.createClass({
         this.props = {
             options : [
                 {
-                    itemLabel: <FaIcon name="home" color="#20c2f0" size={25} style={[styles.icon]}></FaIcon>,
+                    itemLabel: <FaIcon name="home" color="#777777" size={25} style={[styles.icon]}></FaIcon>,
                     itemName: I18n.t('home'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'feed'})
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="search" color="#20c2f0" size={25} style={[styles.icon]}></FaIcon>,
+                    itemLabel: <FaIcon name="search" color="#777777" size={25} style={[styles.icon]}></FaIcon>,
                     itemName: I18n.t('search'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="star-o" color="#20c2f0" size={25} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="star-o" color="#777777" size={25} style={styles.icon}></FaIcon>,
                     itemName: I18n.t('new'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'newPosts'})
@@ -155,14 +155,14 @@ var _FooterNav = React.createClass({
                 },
 
                 {
-                    itemLabel: <FaIcon name="bell-o" color="#20c2f0" size={25} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="bell-o" color="#777777" size={25} style={styles.icon}></FaIcon>,
                     itemName: I18n.t('news'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'news'})
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="trophy" color="#20c2f0" size={25} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="trophy" color="#777777" size={25} style={styles.icon}></FaIcon>,
                     itemName: I18n.t('ranking'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'ranking'})
@@ -171,7 +171,7 @@ var _FooterNav = React.createClass({
 
 
                 {
-                    itemLabel : <FaIcon name={_iconName} color="#20c2f0" size={25} style={[styles.icon, styles.iconLast]} />,
+                    itemLabel : <FaIcon name={_iconName} color="#777777" size={25} style={[styles.icon, styles.iconLast]} />,
                     itemName: _userLabel,
                     action: () => {
                         if(this.state.logged) {
