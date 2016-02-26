@@ -146,13 +146,6 @@ var _FooterNav = React.createClass({
                         this.NavigationSubject.onNext({path: 'search'})
                     }
                 },
-                {
-                    itemLabel: <FaIcon name="star-o" color="#777777" size={25} style={styles.icon}></FaIcon>,
-                    itemName: I18n.t('new'),
-                    action: () => {
-                        this.NavigationSubject.onNext({path: 'newPosts'})
-                    }
-                },
 
                 {
                     itemLabel: <FaIcon name="bell-o" color="#777777" size={25} style={styles.icon}></FaIcon>,
