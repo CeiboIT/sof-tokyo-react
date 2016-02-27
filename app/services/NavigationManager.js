@@ -15,7 +15,8 @@ var {
     View,
     StyleSheet,
     Text,
-    Image
+    Image,
+    Navigator
 } = React;
 
 import { api } from "../utils/api/Api.d";
@@ -96,6 +97,7 @@ class NavigatorService {
                 case('feed') :
                     this.manager.toRoute({
                         component : Pages.feed,
+                        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
                         rightCorner: toggle,
                         "headerStyle": styles.generalHeader,
                         titleComponent: logo
@@ -105,6 +107,7 @@ class NavigatorService {
                     this.manager.toRoute({
                         leftCorner: navigation.back,
                         "component": Pages.search,
+                        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
                         rightCorner: toggle,
                         "headerStyle": styles.generalHeader,
                         titleComponent: logo
@@ -135,6 +138,7 @@ class NavigatorService {
                     this.manager.toRoute({
                         "leftCorner": navigation.back,
                         "component" : Pages.profile,
+
                         "rightCorner": toggle,
                         "passProps": route.params,
                         "headerStyle": styles.generalHeader,
@@ -210,12 +214,13 @@ class NavigatorService {
                 break;
                 case('ranking'):
                     this.manager.toRoute({
+                        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
                         leftCorner: navigation.back,
                         "component": Pages.ranking,
                         rightCorner: toggle,
                         "headerStyle": styles.generalHeader,
                         titleComponent: logo
-                    })
+                    });
                 break;
 
                 case('newPosts'):
@@ -225,7 +230,7 @@ class NavigatorService {
                         rightCorner: toggle,
                         "headerStyle": styles.generalHeader,
                         titleComponent: logo
-                    })
+                    });
                 break;
 
                 case('schoolProfile'):
@@ -245,7 +250,8 @@ class NavigatorService {
                         "component": Pages.news,
                         rightCorner: toggle,
                         "headerStyle": styles.generalHeader,
-                        titleComponent: logo
+                        titleComponent: logo,
+                        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
                     })
                 break;
 
@@ -266,7 +272,7 @@ class NavigatorService {
                         "passProps": route.params,
                         "headerStyle": styles.generalHeader,
                         titleComponent: logo
-                    })
+                    });
                 break;
             }
         });
