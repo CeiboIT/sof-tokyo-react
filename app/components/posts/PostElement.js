@@ -148,8 +148,8 @@ var PostElement = React.createClass({
         }
 
         size = {
-            width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 2),
-            height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 2)
+            width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 2.4),
+            height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 2.6)
         };
         
         return size  
