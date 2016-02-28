@@ -146,12 +146,17 @@ var PostElement = React.createClass({
         }else if((windowSize.width >= 640 && windowSize.width <= 1280) && (windowSize.height > 360 && windowSize.height < 800)){
             size.height = windowSize.height * 1.5;
         }
+
+        size = {
+            width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 2),
+            height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 2)
+        };
         
         return size  
     },
     getThumbnail () {
-      if(this.props.postData.thumbnail){
-          return this.props.postData.thumbnail
+      if(this.props.postData.thumbnail_images['post-thumbnail'].url){
+          return this.props.postData.thumbnail_images['post-thumbnail'].url
       }else{
           if(this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage){
             return '"' + this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage[0]+ '"';
@@ -189,7 +194,7 @@ var PostElement = React.createClass({
                 <View>
                     <TouchableHighlight underlayColor={'rgba(0,0,0,0.9)'} onPress={this.goToPost}>
                         <Image style={[this.imageSize()]} 
-                            source={{uri:  this.getThumbnail() }} />
+                            source={{uri:  this.getThumbnail() }} resizeMode="stretch" />
                     </TouchableHighlight>
                 </View>
                 <NavigateToPost id={this.props.postData.id}/>
