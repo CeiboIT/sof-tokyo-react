@@ -25,17 +25,18 @@ var styles = StyleSheet.create({
         padding: 5,
         margin: 5,
         borderWidth: 1,
-        borderColor: '#e5e5e5'
+        borderColor: '#e5e5e5',
+        borderRadius: 4
     },
     childCategory : {
-        
+        color: "#367bb7"
     }
 });
 
 var ChildCategory = React.createClass({
    render(){
        return(
-            <TouchableHighlight onPress={this.props.onSelect} underlayColor={'transparent'} style={styles.childCategoryContainer}>
+            <TouchableHighlight onPress={this.props.onSelect} underlayColor={'#e5e5f0'} style={styles.childCategoryContainer}>
                 <Text style={styles.childCategory}>{this.props.children['trad']}</Text>
             </TouchableHighlight>
        )
