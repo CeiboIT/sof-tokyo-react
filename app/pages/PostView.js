@@ -16,7 +16,9 @@ var React = require('react-native'),
     CommentItem = require("../components/posts/helpers/CommentItem"),
     HTMLView = require('react-native-htmlview'),
     Icon = require("react-native-vector-icons/FontAwesome"),
+    PhotoDisplay = require("../components/posts/helpers/PhotoDisplay");
     screen = Dimensions.get('window');
+
 
 var {
     PixelRatio,
@@ -379,10 +381,7 @@ var PostView = React.createClass({
                 <View style={[styles.container, styles.wrapper]}>
                     <View style={styles.section}>
                         <View style={styles.postImageContainer}>
-                            <ResponsiveImage source={{uri: _photo}}
-                                        initWidth={imageSizes.width}
-                                        initHeight={imageSizes.height}/>
-                                        
+                            <PhotoDisplay post={Object.assign({}, this.state.data)}/>
                             <View>
                                 { _subImages }
                             </View>

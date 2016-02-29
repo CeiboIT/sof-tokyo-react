@@ -8,6 +8,7 @@ var React = require('react-native'),
     PostLike = require('./helpers/PostLike'),
     MetadataDisplay = require('./helpers/MetadataDisplay'),
     PostContentDisplayer = require('./helpers/PostContentDisplayer');
+    PhotoDisplay = require('./helpers/PhotoDisplay');
 
 var {
     View,
@@ -26,11 +27,7 @@ var styles = StyleSheet.create({
         width: windowSize.width * 0.55,
         overflow: "hidden"
     },
-    thumbnail : {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+
     contentTitle : {
         borderLeftWidth: 2,
         borderColor: '#8a52ad',
@@ -87,6 +84,9 @@ var styles = StyleSheet.create({
 
 });
 
+
+
+
 var NavigateToPost  = React.createClass({
     goToPost () {
         var subject= require("../../services/NavigationManager").getStream();
@@ -113,7 +113,7 @@ var ElementFooter = React.createClass({
     render() {
         return (
             <View style={styles.elementFooter}>
-                <PostLike data={this.props.data}></PostLike>
+                <PostLike data={this.props.data}/>
                 <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPost} style={styles.textContainer}>
                     <Text style={{color:'#b3b3b3',fontSize:12}}>
                         [ 続きを読む ]
@@ -139,51 +139,7 @@ var PostElement = React.createClass({
         var subject= require("../../services/NavigationManager").getStream();
         subject.onNext({path:'post', params: {id: this.props.postData.id} })
     },
-    imageSize () {
-        var size = {
-            height: windowSize.height * 0.6,
-            width: windowSize.width * 0.55
-        }
-        if(windowSize.width <= 360){
-            size.height = windowSize.height * 0.6;
-        }else if(windowSize.width <= 640 && windowSize.height <= 360){
-            size.height = windowSize.height * 2;
-        }else if((windowSize.width >= 640 && windowSize.width <= 1280) && (windowSize.height > 360 && windowSize.height < 800)){
-            size.height = windowSize.height * 1.5;
-        }
 
-        if( this.props.postData.thumbnail_images.hasOwnProperty('post-thumbnail') ) {
-            if(windowSize.scale == 3){
-                size = {
-                    width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 1.25),
-                    height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 1.25)
-                };
-            }else{
-                size = {
-                    width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 2),
-                    height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 2)
-                };
-            }
-        }
-        
-        if(windowSize.width * 0.5 > size.width){
-            var diff = windowSize.width * 0.5 - size.width;
-            size.height += diff;
-            size.width += diff;
-        }
-        return size  
-    },
-    getThumbnail () {
-      if(this.props.postData.thumbnail_images['post-thumbnail']){
-          return this.props.postData.thumbnail_images['post-thumbnail'].url
-      }else{
-          if(this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage){
-            return '"' + this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage[0]+ '"';
-        }else{
-            return ''
-        }
-      }
-    },
     getMetadata () {
         var arr = [];
         
@@ -211,10 +167,7 @@ var PostElement = React.createClass({
         return(
             <View style={styles.container}>
                 <View>
-                    <TouchableHighlight underlayColor={'rgba(0,0,0,0.9)'} onPress={this.goToPost} style={styles.thumbnail}>
-                        <Image style={[this.imageSize()]} 
-                            source={{uri:  this.getThumbnail() }} resizeMode="stretch" />
-                    </TouchableHighlight>
+                    <PhotoDisplay post={this.props.postData} onClick={this.goToPost}/>
                 </View>
                 <NavigateToPost id={this.props.postData.id}/>
                 <View style={styles.contentTitle}>
