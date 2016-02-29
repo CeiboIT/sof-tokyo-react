@@ -69,7 +69,7 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         alignItems:'center',
         justifyContent: 'space-around',
-        marginHorizontal: 40
+        marginHorizontal: 20
     },
     item: {
         margin: 10,
@@ -151,7 +151,7 @@ var _FooterNav = React.createClass({
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="trophy" color="#777777" size={26} style={[styles.icon]}></FaIcon>,
+                    itemLabel: <FaIcon name="trophy" color="#777777" size={25} style={[styles.icon]}></FaIcon>,
                     itemName: I18n.t('ranking'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'ranking'})
