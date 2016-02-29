@@ -22,9 +22,14 @@ var styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
-        margin: 10,
+        margin: 5,
         width: windowSize.width * 0.55,
         overflow: "hidden"
+    },
+    thumbnail : {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     contentTitle : {
         borderLeftWidth: 2,
@@ -148,10 +153,23 @@ var PostElement = React.createClass({
         }
 
         if( this.props.postData.thumbnail_images.hasOwnProperty('post-thumbnail') ) {
-            size = {
-                width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 2),
-                height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 2)
-            };
+            if(windowSize.scale == 3){
+                size = {
+                    width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 1.25),
+                    height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 1.25)
+                };
+            }else{
+                size = {
+                    width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 2),
+                    height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 2)
+                };
+            }
+        }
+        
+        if(windowSize.width * 0.5 > size.width){
+            var diff = windowSize.width * 0.5 - size.width;
+            size.height += diff;
+            size.width += diff;
         }
         return size  
     },
@@ -193,7 +211,7 @@ var PostElement = React.createClass({
         return(
             <View style={styles.container}>
                 <View>
-                    <TouchableHighlight underlayColor={'rgba(0,0,0,0.9)'} onPress={this.goToPost}>
+                    <TouchableHighlight underlayColor={'rgba(0,0,0,0.9)'} onPress={this.goToPost} style={styles.thumbnail}>
                         <Image style={[this.imageSize()]} 
                             source={{uri:  this.getThumbnail() }} resizeMode="stretch" />
                     </TouchableHighlight>

@@ -17,7 +17,8 @@ var styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems:'center',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        margin: 10
     },
     list: {
         flexDirection: 'row',
@@ -85,9 +86,8 @@ var styles = StyleSheet.create({
     loadMoreTextSelected : {
         color: "#428bca"
     },
-
     whiteText : {
-        color: 'white'
+        
     }
 });
 // In the video there are a couple errors, fixed them so it would build.
@@ -193,7 +193,7 @@ var PostsList  = React.createClass({
     render(){
         var _buttonStyle = (this.state.isLoading) ? styles.loadMoreDisabled : styles.loadMore,
             _label = (this.state.isLoading) ? 'MORE': 'MORE',
-            _underlayColor = (this.state.isLoading) ? 'transparent': '#8a52ad';
+            _underlayColor = (this.state.isLoading) ? 'transparent': '#e5e5f0';
         var _loadMoreButton = (
             <TouchableHighlight underlayColor={_underlayColor} onPress={this.loadMorePosts} onPressIn={this.togglePressIn} onPressOut={this.togglePressIn}
                                 style={_buttonStyle}>
@@ -211,7 +211,8 @@ var PostsList  = React.createClass({
                     itemsPerRow={this.props.elementsPerRow}
                     renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
                     style={{
-                        backgroundColor: '#F7F7F7'
+                        backgroundColor: '#F7F7F7',
+                        padding: 5
                     }}
                 />
                 { _renderLoadButton }
