@@ -26,7 +26,11 @@ var styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderWidth: 1,
-        borderColor: '#e5e5e5'
+        borderColor: '#e5e5e5',
+        borderRadius: 4
+    },
+    styleElementText : {
+        color: "#367bb7"
     },
     loading : {
         flex: 1,
@@ -41,8 +45,8 @@ var StyleElement = React.createClass({
     render() {
         return(
             <View>
-                <TouchableHighlight onPress={this.props.onSelect} underlayColor={'transparent'} style={styles.styleElement}>
-                    <Text>{this.props.style['trad']}</Text>
+                <TouchableHighlight onPress={this.props.onSelect} underlayColor={'#e5e5f0'} style={styles.styleElement}>
+                    <Text style={styles.styleElementText}>{this.props.style['trad']}</Text>
                 </TouchableHighlight>
             </View>
         )

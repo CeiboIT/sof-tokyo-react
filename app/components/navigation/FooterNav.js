@@ -40,29 +40,25 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems:'center',
-        marginRight: 10,
-		marginLeft: 12
+        width: 50
     },
     iconContainer : {
         flex:1,
         flexWrap: 'wrap',
-        width:20,
         alignItems:'center',
         justifyContent: 'center'
     },
     icon: {
-        marginRight: 0
+        
     },
-
     iconFirst: {
 
     },
-
     iconLast : {
-        margin: 200
+        
     },
     iconSel : {
-        color: 'red'
+        
     },
     iconText : {
         fontSize: 8,
@@ -72,7 +68,8 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems:'center',
-        justifyContent: 'center'
+        justifyContent: 'space-around',
+        marginHorizontal: 40
     },
     item: {
         margin: 10,
@@ -117,8 +114,8 @@ var _FooterNav = React.createClass({
     },
 
     renderList(loginStatus) {
-        var _logged;
-        var _iconName;
+        var _logged,
+            _iconName;
 
         if(loginStatus) {
             _userLabel = I18n.t('myPage');
@@ -140,14 +137,6 @@ var _FooterNav = React.createClass({
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="search" color="#777777" size={25} style={[styles.icon]}></FaIcon>,
-                    itemName: I18n.t('search'),
-                    action: () => {
-                        this.NavigationSubject.onNext({path: 'search'})
-                    }
-                },
-
-                {
                     itemLabel: <FaIcon name="bell-o" color="#777777" size={25} style={styles.icon}></FaIcon>,
                     itemName: I18n.t('news'),
                     action: () => {
@@ -155,20 +144,24 @@ var _FooterNav = React.createClass({
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="trophy" color="#777777" size={25} style={styles.icon}></FaIcon>,
+                    itemLabel: <FaIcon name="search" color="#777777" size={25} style={[styles.icon]}></FaIcon>,
+                    itemName: I18n.t('search'),
+                    action: () => {
+                        this.NavigationSubject.onNext({path: 'search'})
+                    }
+                },
+                {
+                    itemLabel: <FaIcon name="trophy" color="#777777" size={26} style={[styles.icon]}></FaIcon>,
                     itemName: I18n.t('ranking'),
                     action: () => {
                         this.NavigationSubject.onNext({path: 'ranking'})
                     }
                 },
-
-
                 {
                     itemLabel : <FaIcon name={_iconName} color="#777777" size={25} style={[styles.icon, styles.iconLast]} />,
                     itemName: _userLabel,
                     action: () => {
                         if(this.state.logged) {
-							//console.warn('FooterNav > user logged', this.state.logged);
                             storage.load({key: 'UserId'})
                                 .then((data) => {
                                     this.NavigationSubject.onNext({path: 'profile', params: {
@@ -177,7 +170,6 @@ var _FooterNav = React.createClass({
                                 });
 
                         } else {
-							//console.warn('FooterNav > user NOT logged ', JSON.stringify(this.state.logged));
                             this.NavigationSubject.onNext({path: 'login'})
                         }
                     }

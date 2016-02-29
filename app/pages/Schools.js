@@ -143,7 +143,7 @@ var Schools = React.createClass({
     },
 
     render(){
-        if(!this.state.schools.length) return (<GiftedSpinner/>)
+        if(!this.state.schools.length) return (<GiftedSpinner/>);
         return(
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
