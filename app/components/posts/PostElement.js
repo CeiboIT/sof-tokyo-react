@@ -147,15 +147,16 @@ var PostElement = React.createClass({
             size.height = windowSize.height * 1.5;
         }
 
-        size = {
-            width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 2),
-            height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 2)
-        };
-        
+        if( this.props.postData.thumbnail_images.hasOwnProperty('post-thumbnail') ) {
+            size = {
+                width: this.props.postData.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 2),
+                height: this.props.postData.thumbnail_images['post-thumbnail'].height / (windowSize.scale * 2)
+            };
+        }
         return size  
     },
     getThumbnail () {
-      if(this.props.postData.thumbnail_images['post-thumbnail'].url){
+      if(this.props.postData.thumbnail_images['post-thumbnail']){
           return this.props.postData.thumbnail_images['post-thumbnail'].url
       }else{
           if(this.props.postData.custom_fields.sofbackend__sof_work_meta__postImage){

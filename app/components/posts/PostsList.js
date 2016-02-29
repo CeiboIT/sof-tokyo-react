@@ -60,27 +60,32 @@ var styles = StyleSheet.create({
         flexDirection: 'row'
     },
     loadMore : {
-        borderColor: "#8a52ad",
+        borderColor: "#e5e5e5",
         borderWidth: 1,
         padding: 5,
-        margin: 10,
+        margin: 5,
         alignItems: "center",
         justifyContent: "center"
     },
 
     loadMoreDisabled : {
-        borderColor: "#8a52ad",
+        borderColor: "#e5e5e5",
+        backgroundColor: "#e5e5f0",
         borderWidth: 1,
         padding: 5,
-        margin: 10,
+        margin: 5,
         alignItems: "center",
-        justifyContent: "center",
-        opacity: 0.5
+        justifyContent: "center"
     },
 
     loadMoreText : {
-        color: "#8a52ad"
+        color: "#428bca"
     },
+
+    loadMoreTextSelected : {
+        color: "#428bca"
+    },
+
     whiteText : {
         color: 'white'
     }
