@@ -69,7 +69,7 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         alignItems:'center',
         justifyContent: 'space-around',
-        marginHorizontal: 20
+        marginHorizontal: 15
     },
     item: {
         margin: 10,

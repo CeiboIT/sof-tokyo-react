@@ -44,19 +44,17 @@ var PostContentDisplayer = React.createClass({
             _content= ""
         }
         
-        if(this.props.views){
-            var _numOfViews = ' Post Views: ' + _content.substr(_content.indexOf("Post Views:") + 12);
-            _content = _content.split('Post Views')[0] + '\n\n';
-        }
+        // if(this.props.views){
+        //     var _numOfViews = ' Post Views: ' + _content.substr(_content.indexOf("Post Views:") + 12);
+        //     _content = _content.split('Post Views')[0] + '\n\n';
+        // }
+        
+         _content = _content.split('Post Views')[0] + '\n';
 
         return (
             <View style={styles.content}>
                 <Text style={styles.text}>
                     {_content}
-                    <Text style={styles.views}>
-                        {this.props.views ? eyeIcon : ''}
-                        {this.props.views ? _numOfViews : ''}
-                    </Text>
                 </Text>
             </View>
         )

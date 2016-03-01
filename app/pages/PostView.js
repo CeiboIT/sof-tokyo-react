@@ -8,7 +8,6 @@ var React = require('react-native'),
     UserApi = require("../utils/api/UserApi"),
     GiftedSpinner = require('react-native-gifted-spinner'),
     GridView = require('react-native-grid-view'),
-    Modal = require('react-native-modalbox'),
     t = require("tcomb-form-native"),
     Rx = require("rx"),
     PostContentDisplayer = require("../components/posts/helpers/PostContentDisplayer"),
@@ -16,7 +15,6 @@ var React = require('react-native'),
     CommentItem = require("../components/posts/helpers/CommentItem"),
     HTMLView = require('react-native-htmlview'),
     Icon = require("react-native-vector-icons/FontAwesome"),
-    PhotoDisplay = require("../components/posts/helpers/PhotoDisplay");
     screen = Dimensions.get('window');
 
 
@@ -54,10 +52,14 @@ var styles = StyleSheet.create({
         margin: 10,
     },
     section : {
-        backgroundColor: '#FFFFFF',
         padding: 10,
-        borderWidth: 1,
-        borderColor: '#e5e5e5'
+        
+    },
+    title : {
+        fontSize: 15,
+        color: '#444444',
+        marginHorizontal: 15,
+        marginTop: 10
     },
     author : {
       margin: 10
@@ -178,15 +180,18 @@ var styles = StyleSheet.create({
     wrapper: {
         flex: 1
     },
-    modal: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: windowSize.height * 0.7
+    views : {
+      marginTop: 20
     },
-    btnModalContainer : {
-        position: 'absolute',
-        top: 10,
-        right: 10
+    date : {
+        marginBottom: 5,
+        marginLeft: 20
+    },
+    dateText : {
+      fontWeight: 'bold',  
+    },
+    commentCount : {
+        marginLeft: 20
     },
     comments : {
         flex: 1,
@@ -204,48 +209,15 @@ var imageSizes ={
 var PostId;
 
 var PostView = React.createClass({
-    openModal: function(element) {
-        this.setState({
-            isOpen: true,
-            imageSel: element.image
-            });
-        this.refs.scrollView.scrollTo(0);
-    },
-
-    closeModal: function(element) {
-        this.setState({isOpen: false});
-    },
-
-    toggleDisable: function() {
-        this.setState({isDisabled: !this.state.isDisabled});
-    },
-
-    toggleSwipeToClose: function() {
-        this.setState({swipeToClose: !this.state.swipeToClose});
-    },
-
-    onClose: function() {
-        
-    },
-
-    onOpen: function() {
-        
-    },
-
-    onClosingState: function(state) {
-        
-    },
     getInitialState() {
         return {
             post: {},
             isLoading:true,
             isLoggedIn: false,
-            isOpen: false,
             isDisabled: false,
-            swipeToClose: true,
-            imageSel: '',
             data: {},
-            commentStream: new Rx.Subject()
+            commentStream: new Rx.Subject(),
+            mainImage: 'http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg'
         }
     },
 
@@ -269,6 +241,9 @@ var PostView = React.createClass({
             this.setState({
                 isLoading: false,
                 data: data['post']
+            })
+            this.setState({
+                mainImage: (this.state.data && this.state.data.thumbnail ) ? this.state.data.thumbnail : "http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg"
             })
         }))
 
@@ -312,7 +287,10 @@ var PostView = React.createClass({
             var _metadata = this.state.data.metadata,
                 field = 'sofbackend__sof_work_meta__productionCost';
                 _metadata.map((metadata) => {
-                    if(metadata.field == field) cost.push({type: '制作費', name: metadata.value, id: metadata.value});
+                    if(metadata.field == field) {
+                        var _value = metadata.value | '0';
+                        cost.push({type: '制作費', name: _value, id: _value});
+                    }
                 })
         }
         return cost;
@@ -327,6 +305,15 @@ var PostView = React.createClass({
             })
         }
         return note;
+    },
+     getDate() {
+        return this.state.data.date.split(' ')[0];
+    },
+    
+    setMainImage(rowData) {
+        this.setState({
+            mainImage: rowData.image
+        })
     },
     render() {
         
@@ -345,12 +332,11 @@ var PostView = React.createClass({
             
             _subImages = <GridView
                             items={images}
-                            renderItem={(rowData) => <View key={rowData.id}><TouchableHighlight underlayColor={'transparent'} onPress={()=>this.openModal(rowData)} key={rowData.id}><View><Image source={{uri: rowData.image}} style={{width: 86, height: 86}} key={rowData.id}/></View></TouchableHighlight></View>
+                            renderItem={(rowData) => <View key={rowData.id}><TouchableHighlight underlayColor={'transparent'} onPress={()=>this.setMainImage(rowData)} key={rowData.id}><View><Image source={{uri: rowData.image}} style={{width: 86, height: 86}} key={rowData.id}/></View></TouchableHighlight></View>
                             }
                          />
         }
         
-        var _photo = (this.state.data && this.state.data.thumbnail ) ? this.state.data.thumbnail : "http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg";
         PostId = this.props.id;
 
         if(this.state.isLoading) return (<View style={styles.loading}><GiftedSpinner/></View>) ;
@@ -378,17 +364,17 @@ var PostView = React.createClass({
         
         var _postView = (
             <ScrollView style={styles.scrollView} ref="scrollView">
+                <Text style={styles.title}>{this.state.data.title}</Text>
                 <View style={[styles.container, styles.wrapper]}>
                     <View style={styles.section}>
                         <View style={styles.postImageContainer}>
-                            <PhotoDisplay post={Object.assign({}, this.state.data)}/>
-                            <View>
-                                { _subImages }
-                            </View>
+                            <ResponsiveImage initWidth={imageSizes.width} initHeight={imageSizes.height}
+                                    source={{uri:  this.state.mainImage }} resizeMode="stretch" />
+                            { _subImages }
                         </View>
                         <PostContentDisplayer content={this.state.data.content}
                                               removeHTMLTags={true}
-                                              views={true}
+                                              views={false}
                         />
 
                         <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
@@ -397,7 +383,7 @@ var PostView = React.createClass({
                         {
                             this.getCategories().map((data) => {
                                 return <View key={data.id}>
-                                            <Text>{data.name}</Text>
+                                            <Text style={{color: '#367bb7'}}>{data.name}</Text>
                                         </View>
                                 })
                         }
@@ -408,7 +394,7 @@ var PostView = React.createClass({
                         {
                             this.getStyles().map((data) => {
                                 return <View key={data.id}>
-                                            <Text>{data.name}</Text>
+                                            <Text style={{color: '#367bb7'}}>{data.name}</Text>
                                         </View>
                                 })
                         }
@@ -434,23 +420,30 @@ var PostView = React.createClass({
                                 </View>
                             })
                         }
-
+                        
+                        <View style={styles.views}>
+                            <Text><Icon name="signal" size={18}/> Post Views: {this.state.data.visits}</Text>
+                        </View>
                     </View>
 
 
-
-                    <View style={styles.author}>
-                        <Avatar author={this.state.data.author}/>
+                    <View style={[styles.section, {marginVertical:10, borderWidth: 1,borderColor: '#e5e5e5', backgroundColor: 'white'}]}>
+                        <View style={styles.author}>
+                            <Avatar author={this.state.data.author} size={'large'}/>
+                        </View>
+                        <View style={styles.date}>
+                            <Text style={styles.dateText}>{this.getDate()}</Text>
+                        </View>
+                        <View style={styles.commentCount}>
+                            <Text>{this.state.data.comment_count} <Icon name="comments" size={18}/></Text>
+                        </View>
                     </View>
+                    
                     <View style={[styles.section, styles.comments]}>
                         { _renderComments }
                         { _renderForm }
                     </View>
                 </View>
-                <Modal isOpen={this.state.isOpen} onClosed={this.closeModal} style={styles.modal} position={"top"}>
-                    <TouchableHighlight onPress={this.closeModal} underlayColor={'transparent'} style={styles.btnModalContainer}><Text><Icon name="times" size={18} style={{color: 'gray'}}/></Text></TouchableHighlight>
-                    <ResponsiveImage source={{uri: this.state.imageSel}} initWidth={imageSizes.width} initHeight={imageSizes.height}/>
-                </Modal>
             </ScrollView>);
         return _postView;
     }
