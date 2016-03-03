@@ -54,7 +54,12 @@ var styles = StyleSheet.create({
     },
     section : {
         padding: 10,
-        
+    },
+    linksContainer : {
+        flex:1, 
+        flexDirection: 'row', 
+        backgroundColor:'rgba(0,0,0,0.6)', 
+        padding: 10
     },
     previousPost: {
         flex:1,
@@ -72,7 +77,7 @@ var styles = StyleSheet.create({
         fontSize: 15,
         color: '#444444',
         marginHorizontal: 15,
-        marginTop: 10
+        marginBottom: 5
     },
     author : {
       margin: 10
@@ -398,15 +403,15 @@ var PostView = React.createClass({
         
         var _postView = (
                 <ScrollView style={styles.scrollView}>
-                        <View style={{flex:1, flexDirection: 'row', backgroundColor:'rgba(0,0,0,0.6)', padding: 10}}>
-                            <View style={styles.previousPost}>
-                                <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPrevious} style={{alignSelf: 'flex-start'}}><Text style={styles.textWhite}>« 日本美</Text></TouchableHighlight>
-                            </View>
-                            <View style={styles.nextPost}>
-                                <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNext} style={{alignSelf: 'flex-end'}}><Text style={styles.textWhite}>シャツ＆スカート »</Text></TouchableHighlight>
-                            </View>
+                    <View style={styles.linksContainer}>
+                        <View style={styles.previousPost}>
+                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPrevious} style={{alignSelf: 'flex-start'}}><Text style={styles.textWhite}>« 日本美</Text></TouchableHighlight>
                         </View>
-                    <View style={[styles.container, styles.wrapper]}>
+                        <View style={styles.nextPost}>
+                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNext} style={{alignSelf: 'flex-end'}}><Text style={styles.textWhite}>シャツ＆スカート »</Text></TouchableHighlight>
+                        </View>
+                    </View>
+                    <View style={styles.container}>
                         <Text style={styles.title}>{this.state.data.title}</Text>
                         <View style={styles.section}>
                             <View style={styles.postImageContainer}>
