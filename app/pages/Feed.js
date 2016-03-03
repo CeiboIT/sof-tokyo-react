@@ -1,7 +1,7 @@
-var React = require('react-native');
-var PostsList = require('../components/posts/PostsList');
-var Carousel = require('../components/banners/Carousel');
-var api = require('../utils/api/PostsApi');
+var React = require('react-native'),
+    PostsList = require('../components/posts/PostsList'),
+    Carousel = require('../components/banners/Carousel'),
+    api = require('../utils/api/PostsApi');
 
 var {
     ScrollView,

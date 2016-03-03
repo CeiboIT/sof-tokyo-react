@@ -15,7 +15,8 @@ var React = require('react-native'),
     CommentItem = require("../components/posts/helpers/CommentItem"),
     HTMLView = require('react-native-htmlview'),
     Icon = require("react-native-vector-icons/FontAwesome"),
-    screen = Dimensions.get('window');
+    screen = Dimensions.get('window'),
+    Swipeout = require('react-native-swipeout');
 
 
 var {
@@ -54,6 +55,18 @@ var styles = StyleSheet.create({
     section : {
         padding: 10,
         
+    },
+    previousPost: {
+        flex:1,
+        paddingLeft: 10
+    },
+    nextPost: {
+        flex:1,
+        paddingRight: 10
+    },
+    textWhite : {
+      color: 'white',
+      fontSize: 11
     },
     title : {
         fontSize: 15,
@@ -331,7 +344,6 @@ var PostView = React.createClass({
      getDate() {
         return this.state.data.date.split(' ')[0];
     },
-    
     setMainImage(rowData) {
         this.setState({
             mainImage: rowData.image
@@ -346,7 +358,7 @@ var PostView = React.createClass({
                 subImage = 'sofbackend__sof_work_meta__subImage';
             _customFields.map((key) => {
                 if(this.state.data.custom_fields[key] && this.state.data.custom_fields[key][0]){
-                    if(key == subImage+'1' || key == subImage+'2' || key == subImage+'3' || key == subImage+'4' || key == subImage+'5' || key == subImage+'6'){
+                    if(key == subImage+'1' || key == subImage+'2' || key == subImage+'3' || key == subImage+'4' || key == subImage+'5' || key == subImage+'6' || key == subImage+'7' || key == subImage+'8' || key == subImage+'9'){
                         images.push({id: key, image: this.state.data.custom_fields[key][0]});
                     }
                 }
@@ -385,96 +397,97 @@ var PostView = React.createClass({
         }
         
         var _postView = (
-            <ScrollView style={styles.scrollView} ref="scrollView">
-                <View style={[styles.container, styles.wrapper]}>
-                    <View style={{flex:1, flexDirection: 'row'}}>
-                        <View style={{flex:1, alignSelf: 'flex-start'}}>
-                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPrevious}><Text>« Previous</Text></TouchableHighlight>
+                <ScrollView style={styles.scrollView}>
+                        <View style={{flex:1, flexDirection: 'row', backgroundColor:'rgba(0,0,0,0.6)', padding: 10}}>
+                            <View style={styles.previousPost}>
+                                <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPrevious} style={{alignSelf: 'flex-start'}}><Text style={styles.textWhite}>« 日本美</Text></TouchableHighlight>
+                            </View>
+                            <View style={styles.nextPost}>
+                                <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNext} style={{alignSelf: 'flex-end'}}><Text style={styles.textWhite}>シャツ＆スカート »</Text></TouchableHighlight>
+                            </View>
                         </View>
-                        <View style={{flex:1, alignSelf: 'flex-end'}}>
-                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNext} style={{alignSelf: 'flex-end'}}><Text>Next »</Text></TouchableHighlight>
-                        </View>
-                    </View>
-                    <Text style={styles.title}>{this.state.data.title}</Text>
-                    <View style={styles.section}>
-                        <View style={styles.postImageContainer}>
-                            <ResponsiveImage initWidth={imageSizes.width} initHeight={imageSizes.height}
-                                    source={{uri:  this.state.mainImage }} resizeMode="stretch" />
-                            { _subImages }
-                        </View>
-                        <PostContentDisplayer content={this.state.data.content}
-                                              removeHTMLTags={true}
-                                              views={false}
-                        />
+                    <View style={[styles.container, styles.wrapper]}>
+                        <Text style={styles.title}>{this.state.data.title}</Text>
+                        <View style={styles.section}>
+                            <View style={styles.postImageContainer}>
+                                <ResponsiveImage initWidth={imageSizes.width} initHeight={imageSizes.height}
+                                        source={{uri:  this.state.mainImage }} resizeMode="stretch" />
+                                { _subImages }
+                            </View>
+                            <PostContentDisplayer content={this.state.data.content}
+                                                removeHTMLTags={true}
+                                                views={false}
+                            />
 
-                        <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                            <Text style={{fontWeight: 'bold'}}>カテゴリー</Text>
-                        </View>
-                        {
-                            this.getCategories().map((data) => {
-                                return <View key={data.id}>
-                                            <Text style={{color: '#367bb7'}}>{data.name}</Text>
-                                        </View>
+                            <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                                <Text style={{fontWeight: 'bold'}}>カテゴリー</Text>
+                            </View>
+                            {
+                                this.getCategories().map((data) => {
+                                    return <View key={data.id}>
+                                                <Text style={{color: '#367bb7'}}>{data.name}</Text>
+                                            </View>
+                                    })
+                            }
+
+                            <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                                <Text style={{fontWeight: 'bold'}}>STYLES</Text>
+                            </View>
+                            {
+                                this.getStyles().map((data) => {
+                                    return <View key={data.id}>
+                                                <Text style={{color: '#367bb7'}}>{data.name}</Text>
+                                            </View>
+                                    })
+                            }
+
+                            <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                                <Text style={{fontWeight: 'bold'}}>制作費</Text>
+                            </View>
+                            {
+                                this.getCost().map((data) => {
+                                    return <View key={data.id}>
+                                                <Text>{data.name} 円</Text>
+                                            </View>
+                                    })
+                            }
+
+                            <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
+                                <Text style={{fontWeight: 'bold'}}>買い取り</Text>
+                            </View>
+                            {
+                                this.getNote().map((data) => {
+                                    return <View key={data.id}>
+                                        <Text>{data.name}</Text>
+                                    </View>
                                 })
-                        }
-
-                        <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                            <Text style={{fontWeight: 'bold'}}>STYLES</Text>
+                            }
+                            
+                            <View style={styles.views}>
+                                <Text><Icon name="signal" size={18}/> Post Views: {this.state.data.visits}</Text>
+                            </View>
                         </View>
-                        {
-                            this.getStyles().map((data) => {
-                                return <View key={data.id}>
-                                            <Text style={{color: '#367bb7'}}>{data.name}</Text>
-                                        </View>
-                                })
-                        }
 
-                        <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                            <Text style={{fontWeight: 'bold'}}>制作費</Text>
-                        </View>
-                        {
-                            this.getCost().map((data) => {
-                                return <View key={data.id}>
-                                            <Text>{data.name} 円</Text>
-                                        </View>
-                                })
-                        }
 
-                        <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                            <Text style={{fontWeight: 'bold'}}>買い取り</Text>
+                        <View style={[styles.section, {marginVertical:10, borderWidth: 1,borderColor: '#e5e5e5', backgroundColor: 'white'}]}>
+                            <View style={styles.author}>
+                                <Avatar author={this.state.data.author} size={'large'}/>
+                            </View>
+                            <View style={styles.date}>
+                                <Text style={styles.dateText}>{this.getDate()}</Text>
+                            </View>
+                            <View style={styles.commentCount}>
+                                <Text>{this.state.data.comment_count} <Icon name="comments" size={18}/></Text>
+                            </View>
                         </View>
-                        {
-                            this.getNote().map((data) => {
-                                return <View key={data.id}>
-                                    <Text>{data.name}</Text>
-                                </View>
-                            })
-                        }
                         
-                        <View style={styles.views}>
-                            <Text><Icon name="signal" size={18}/> Post Views: {this.state.data.visits}</Text>
+                        <View style={[styles.section, styles.comments]}>
+                            { _renderComments }
+                            { _renderForm }
                         </View>
                     </View>
-
-
-                    <View style={[styles.section, {marginVertical:10, borderWidth: 1,borderColor: '#e5e5e5', backgroundColor: 'white'}]}>
-                        <View style={styles.author}>
-                            <Avatar author={this.state.data.author} size={'large'}/>
-                        </View>
-                        <View style={styles.date}>
-                            <Text style={styles.dateText}>{this.getDate()}</Text>
-                        </View>
-                        <View style={styles.commentCount}>
-                            <Text>{this.state.data.comment_count} <Icon name="comments" size={18}/></Text>
-                        </View>
-                    </View>
-                    
-                    <View style={[styles.section, styles.comments]}>
-                        { _renderComments }
-                        { _renderForm }
-                    </View>
-                </View>
-            </ScrollView>);
+                </ScrollView>
+            );
         return _postView;
     }
 })
