@@ -1,15 +1,11 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
-var React = require('react-native');
-var Dimensions = require('Dimensions');
-var screen = Dimensions.get('window');
-var ResponsiveImage = require('react-native-responsive-image');
+var React = require('react-native'),
+    Dimensions = require('Dimensions'),
+    screen = Dimensions.get('window');
 
 var {
     View,
     Text,
+    Image,
     StyleSheet,
     TouchableHighlight
     } = React;
@@ -46,9 +42,9 @@ var BannerElement = React.createClass({
     render() {
         return(
             <TouchableHighlight underlayColor={'transparent'} onPress={ this.goToNew }>
-                <View>
-                   <ResponsiveImage source={{uri: this.getImage()}}
-                                    initWidth={screen.width} initHeight={[this.imgageSize()]} />
+                <View style={{paddingHorizontal:10}}>
+                   <Image style={{width:screen.width, height: this.imgageSize()}}
+                       source={{uri:  this.getImage() }} resizeMode="stretch" />
                 </View>
             </TouchableHighlight>
         )
