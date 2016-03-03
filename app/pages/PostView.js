@@ -14,9 +14,9 @@ var React = require('react-native'),
     Avatar = require("../components/user/Avatar"),
     CommentItem = require("../components/posts/helpers/CommentItem"),
     HTMLView = require('react-native-htmlview'),
+    PhotoDisplay= require('../components/posts/helpers/PhotoDisplay'),
     Icon = require("react-native-vector-icons/FontAwesome"),
-    screen = Dimensions.get('window'),
-    Swipeout = require('react-native-swipeout');
+    screen = Dimensions.get('window');
 
 
 var {
@@ -56,9 +56,9 @@ var styles = StyleSheet.create({
         padding: 10,
     },
     linksContainer : {
-        flex:1, 
-        flexDirection: 'row', 
-        backgroundColor:'rgba(0,0,0,0.6)', 
+        flex:1,
+        flexDirection: 'row',
+        backgroundColor:'rgba(0,0,0,0.6)',
         padding: 10
     },
     previousPost: {
@@ -349,6 +349,7 @@ var PostView = React.createClass({
      getDate() {
         return this.state.data.date.split(' ')[0];
     },
+    
     setMainImage(rowData) {
         this.setState({
             mainImage: rowData.image
@@ -467,7 +468,7 @@ var PostView = React.createClass({
                                     </View>
                                 })
                             }
-                            
+
                             <View style={styles.views}>
                                 <Text><Icon name="signal" size={18}/> Post Views: {this.state.data.visits}</Text>
                             </View>
@@ -485,7 +486,7 @@ var PostView = React.createClass({
                                 <Text>{this.state.data.comment_count} <Icon name="comments" size={18}/></Text>
                             </View>
                         </View>
-                        
+
                         <View style={[styles.section, styles.comments]}>
                             { _renderComments }
                             { _renderForm }
