@@ -216,6 +216,8 @@ var PostView = React.createClass({
             isLoggedIn: false,
             isDisabled: false,
             data: {},
+            nextUrl: '',
+            previousUrl: '',
             commentStream: new Rx.Subject(),
             mainImage: 'http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg'
         }
@@ -239,8 +241,10 @@ var PostView = React.createClass({
 
         PostStream.subscribe((data => {
             this.setState({
-                isLoading: false,
-                data: data['post']
+                data: data['post'],
+                nextUrl: data['next_url'],
+                previousUrl: data['previous_url'],
+                isLoading: false
             })
             this.setState({
                 mainImage: (this.state.data && this.state.data.thumbnail ) ? this.state.data.thumbnail : "http://res.cloudinary.com/ceiboit/image/upload/v1452990023/imgpsh_fullsize_m24pha.jpg"
@@ -258,6 +262,24 @@ var PostView = React.createClass({
     addComment() {
         var _comment = this.refs.form.getValue();
         api.sendComment(_comment.comment, this.props.id, this.state.commentStream)
+    },
+    goToNext() {
+        var url = this.state.nextUrl;
+        if(url){
+            this.setState({
+               isLoading: true
+            })
+            api.goToPost(url)
+        }
+    },
+    goToPrevious() {
+        var url = this.state.previousUrl;
+        if(url){
+            this.setState({
+               isLoading: true
+            })
+            api.goToPost(url)
+        }
     },
     getStyles () {
         var styles = [];
@@ -364,8 +386,16 @@ var PostView = React.createClass({
         
         var _postView = (
             <ScrollView style={styles.scrollView} ref="scrollView">
-                <Text style={styles.title}>{this.state.data.title}</Text>
                 <View style={[styles.container, styles.wrapper]}>
+                    <View style={{flex:1, flexDirection: 'row'}}>
+                        <View style={{flex:1, alignSelf: 'flex-start'}}>
+                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPrevious}><Text>« Previous</Text></TouchableHighlight>
+                        </View>
+                        <View style={{flex:1, alignSelf: 'flex-end'}}>
+                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNext} style={{alignSelf: 'flex-end'}}><Text>Next »</Text></TouchableHighlight>
+                        </View>
+                    </View>
+                    <Text style={styles.title}>{this.state.data.title}</Text>
                     <View style={styles.section}>
                         <View style={styles.postImageContainer}>
                             <ResponsiveImage initWidth={imageSizes.width} initHeight={imageSizes.height}

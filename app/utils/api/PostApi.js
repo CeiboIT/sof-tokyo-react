@@ -12,7 +12,20 @@ var api = {
             console.warn(error);
         }
     },
+    
+    async goToPost(url) {
+        try {
+            if(url){
+                let response = await fetch(url + '?json=1');
+                var data = JSON.parse(response._bodyInit);
+                api.RetrievePost(JSON.parse(data.post.id));
+            }
+        } catch(error){
+            console.warn(error);
+        }
+    },
 
+    
     async LikePost(postId, subject) {
         try{
             let actionResult = fetch(apiConsts.apiEndpoint + 'metadata/likes/product', {
