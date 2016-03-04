@@ -15,8 +15,7 @@ var React = require('react-native'),
     CommentItem = require("../components/posts/helpers/CommentItem"),
     HTMLView = require('react-native-htmlview'),
     Icon = require("react-native-vector-icons/FontAwesome"),
-    screen = Dimensions.get('window'),
-    Swipeout = require('react-native-swipeout');
+    screen = Dimensions.get('window');
 
 
 var {
@@ -58,15 +57,16 @@ var styles = StyleSheet.create({
     linksContainer : {
         flex:1, 
         flexDirection: 'row', 
-        backgroundColor:'rgba(0,0,0,0.6)', 
-        padding: 10
+        backgroundColor:'rgba(0,0,0,0.6)'
     },
     previousPost: {
         flex:1,
+        margin: 10,
         paddingLeft: 10
     },
     nextPost: {
         flex:1,
+        margin: 10,
         paddingRight: 10
     },
     textWhite : {
@@ -354,24 +354,42 @@ var PostView = React.createClass({
             mainImage: rowData.image
         })
     },
+    appendToFilename(filename, str){
+        var dotIndex = filename.lastIndexOf(".");
+        if (dotIndex == -1) { 
+            return filename + str; 
+        }else{ 
+            return filename.substring(0, dotIndex) + str + (filename.substring(dotIndex)).toLowerCase();
+        }
+    },
     render() {
         
         var images = [],
+            data = this.state.data,
             _subImages;
-        if(this.state.data && this.state.data.custom_fields){
-            var _customFields = Object.keys(this.state.data.custom_fields),
+        if(data && data.custom_fields){
+            var _customFields = Object.keys(data.custom_fields),
                 subImage = 'sofbackend__sof_work_meta__subImage';
             _customFields.map((key) => {
-                if(this.state.data.custom_fields[key] && this.state.data.custom_fields[key][0]){
-                    if(key == subImage+'1' || key == subImage+'2' || key == subImage+'3' || key == subImage+'4' || key == subImage+'5' || key == subImage+'6' || key == subImage+'7' || key == subImage+'8' || key == subImage+'9'){
-                        images.push({id: key, image: this.state.data.custom_fields[key][0]});
+                if(data.custom_fields[key] && data.custom_fields[key][0]){
+                    if(key == 'sofbackend__sof_work_meta__postImage' || key == subImage+'1' || key == subImage+'2' || key == subImage+'3' || key == subImage+'4' || key == subImage+'5' || key == subImage+'6' || key == subImage+'7' || key == subImage+'8' || key == subImage+'9'){
+                        var small = this.appendToFilename(data.custom_fields[key][0], '-150x150'),
+                            //large = this.appendToFilename(data.custom_fields[key][0], '-'+data.thumbnail_images['post-thumbnail'].width+'x'+data.thumbnail_images['post-thumbnail'].height);
+                            large = this.appendToFilename(data.custom_fields[key][0], '-768x1024');
+                        images.push({id: key, image: data.custom_fields[key][0], small: small});
                     }
                 }
             });
             
             _subImages = <GridView
+                            style={{width:screen.width}}
                             items={images}
-                            renderItem={(rowData) => <View key={rowData.id}><TouchableHighlight underlayColor={'transparent'} onPress={()=>this.setMainImage(rowData)} key={rowData.id}><View><Image source={{uri: rowData.image}} style={{width: 86, height: 86}} key={rowData.id}/></View></TouchableHighlight></View>
+                            itemsPerRow={4}
+                            renderItem={(rowData) => <View key={rowData.id}>
+                                                        <TouchableHighlight underlayColor={'transparent'} onPress={()=>this.setMainImage(rowData)} key={rowData.id}>
+                                                            <Image source={{uri: rowData.small }} style={{width: 80, height: 80}} key={rowData.id} resizeMode="cover"/>
+                                                        </TouchableHighlight>
+                                                     </View>
                             }
                          />
         }
@@ -405,10 +423,10 @@ var PostView = React.createClass({
                 <ScrollView style={styles.scrollView}>
                     <View style={styles.linksContainer}>
                         <View style={styles.previousPost}>
-                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPrevious} style={{alignSelf: 'flex-start'}}><Text style={styles.textWhite}>« 日本美</Text></TouchableHighlight>
+                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPrevious} style={{alignSelf: 'flex-start'}}><Text style={styles.textWhite}>« previous post</Text></TouchableHighlight>
                         </View>
                         <View style={styles.nextPost}>
-                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNext} style={{alignSelf: 'flex-end'}}><Text style={styles.textWhite}>シャツ＆スカート »</Text></TouchableHighlight>
+                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNext} style={{alignSelf: 'flex-end'}}><Text style={styles.textWhite}>next post »</Text></TouchableHighlight>
                         </View>
                     </View>
                     <View style={styles.container}>

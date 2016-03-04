@@ -1,13 +1,10 @@
-/**
- * Created by epotignano on 22/01/16.
- */
-
-var t = require('tcomb-form-native');
-var I18nService = require('../../../i18n');
-var I18n = I18nService.getTranslations();
-var React= require("react-native");
+var t = require('tcomb-form-native'),
+    I18nService = require('../../../i18n'),
+    I18n = I18nService.getTranslations(),
+    React= require("react-native"),
+    api = require("../../../utils/api/PostApi");
+    
 import Button from 'apsl-react-native-button'
-var api = require("../../../utils/api/PostApi")
 
 I18nService.set('ja-JP', {
         'commentSubmit' : 'コメントを投稿'
