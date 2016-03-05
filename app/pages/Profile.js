@@ -118,6 +118,7 @@ var Profile = React.createClass({
     },
 
     componentDidMount() {
+
 		
         MemberStream.subscribe((response) => {
             console.warn('Profile > didmount subcribed MemberTeam', JSON.stringify(response.data.posts));
@@ -155,7 +156,8 @@ var Profile = React.createClass({
 
 
     createNewPost() {
-
+        var subject= require("../services/NavigationManager").getStream();
+        subject.onNext({path:'createNewPost'})
     },
 
     logout() {

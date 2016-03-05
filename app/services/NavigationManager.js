@@ -244,6 +244,16 @@ class NavigatorService {
                     })
                 break;
 
+                case('createNewPost'):
+                    this.manager.toRoute({
+                        "leftCorner": navigation.back,
+                        "component": Pages.creation,
+                        "rightCorner": toggle,
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
+                    })
+                    break;
+
                 case('news'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,

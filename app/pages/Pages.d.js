@@ -20,6 +20,7 @@ var feed = require("./Feed"),
     byStyle = require('./byStyle'),
     bySex = require('./bySex'),
     contact = require('./Contact'),
+    creation = require('./createPost/CreateNewPost'),
     categoriesPage = require('./CategoriesMenu');
 
 module.exports = {
@@ -31,6 +32,7 @@ module.exports = {
     news,
     profile,
     register,
+    creation,
     search,
     searchResults,
     about,
