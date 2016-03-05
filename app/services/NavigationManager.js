@@ -254,6 +254,25 @@ class NavigatorService {
                     })
                     break;
 
+                case('createNewPostCategory'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        component: Pages.createNewPostCategory,
+                        headerStyle: styles.generalHeader,
+                        titleComponent: logo,
+                        passProps: route.params
+                    });
+                break;
+
+                case('createNewPostStyle'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        component: Pages.createNewPostStyle,
+                        headerStyle: styles.generalHeader,
+                        titleComponent: logo
+                    });
+                break;
+
                 case('news'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,

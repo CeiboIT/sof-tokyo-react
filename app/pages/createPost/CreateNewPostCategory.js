@@ -8,7 +8,7 @@ var I18n = I18nService.getTranslations();
 var React = require('react-native');
 var metadataStream = require('../../services/Streams').getStream('Metadata');
 var categoryApi = require('../../utils/api/MetadataApi');
-var Accordion = require('react-native-accordion');
+var Accordion = require('react-native-collapsible/Accordion');
 
 I18nService.set('ja-JP', {});
 
@@ -64,14 +64,14 @@ var CreateNewPostCategory = React.createClass({
             selectCategory(category);
         };
 
-        var renderHeader =
+        var _renderHeader =
             (
                 <View style={styles.accordionParent}>
                     <Text>Parent: {category.trad}</Text>
                 </View>
             );
 
-        var renderContent = [];
+        var _renderContent = [];
         category.childs
             .forEach(function (child) {
                 return renderContent.push(
@@ -83,11 +83,18 @@ var CreateNewPostCategory = React.createClass({
                     </View>);
             });
 
+        var _childrenForTest = (<View style={{ backgroundColor: '#f9f9f9' }}>
+            <Text style={styles.accordionChild}
+                  onPress={selectCat}>
+                Carlos gringo
+            </Text>
+        </View>);
+
         return (<Accordion
-                header={renderHeader}
-                content={renderContent}
-                easing="easeOutCubic">
-            </Accordion>);
+            sections={['Section 1', 'Section 2', 'Section 3']}
+            renderHeader={_renderHeader}
+            renderContent={_renderContent}>
+        </Accordion>);
     },
     _renderList() {
         if (this.state.ds) {
