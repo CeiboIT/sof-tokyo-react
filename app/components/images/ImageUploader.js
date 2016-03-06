@@ -8,10 +8,10 @@ var options = {
     cameraType: 'back', // 'front' or 'back'
     mediaType: 'photo', // 'photo' or 'video'
     videoQuality: 'high', // 'low', 'medium', or 'high'
-    maxWidth: 100, // photos o
+    maxWidth: 500, // photos o
     // nly
-    maxHeight: 100, // photos only
-    quality: 0.2, // photos only
+    maxHeight: 500, // photos only
+    quality: 0.9, // photos only
     angle: 0, // photos only
     allowsEditing: false, // Built in functionality to resize/reposition the image
     noData: false, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)
