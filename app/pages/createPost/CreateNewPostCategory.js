@@ -19,8 +19,7 @@ var {
     StyleSheet,
     ListView,
     ScrollView,
-    Text,
-
+    Text
     } = React;
 
 
@@ -47,15 +46,24 @@ var SECTIONS = [
 ];
 
 Header.propTypes = {
-    category: React.PropTypes.object
+    category: React.PropTypes.object,
 };
 
 var CategoryElement = React.createClass({
+
+    selectCategory(category) {
+        var Nav = require("../../services/NavigationManager").getStream();
+        //this.props.newPost.category = category;
+        Nav.onNext({path: 'createNewPostStyle', params: {newPost: {}} });
+    },
+
     render() {
         const { child } = this.props;
 
         return(
-            <Button>
+            <Button onPress={() => {
+                this.selectCategory(child);
+            }}>
                 { child.trad }
             </Button>
         )
@@ -64,6 +72,10 @@ var CategoryElement = React.createClass({
 
 CategoryElement.propTypes = {
     child: React.PropTypes.object
+};
+
+var selectCategory = function(category) {
+
 };
 
 var CreateNewPostCategory = React.createClass({
@@ -97,12 +109,6 @@ var CreateNewPostCategory = React.createClass({
         });
     },
 
-    selectCategory(category) {
-        var Nav = require("../../services/NavigationManager").getStream();
-        this.props.newPost.category = category;
-        Nav.onNext({path: 'createNewPostStyle', params: {newPost: this.props.newPost} });
-    },
-
 
 
     _renderAccordionItem(category, i) {
@@ -120,14 +126,6 @@ var CreateNewPostCategory = React.createClass({
             );
         };
 
-        var _generateChild = function(subCategory) {
-            return (
-                <Button>
-                    { subCategory.trad }
-                </Button>
-            )
-        };
-
         var _renderContent = function (section) {
             return (
                 <View style={styles.content}>
@@ -139,8 +137,6 @@ var CreateNewPostCategory = React.createClass({
                 </View>
             );
         };
-
-        var selectCategory = this.selectCategory;
 
         var selectCat = function () {
             console.warn('CreateNewPostCategory > selectCat ', JSON.stringify(category));
