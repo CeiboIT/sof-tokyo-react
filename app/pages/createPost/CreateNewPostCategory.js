@@ -18,6 +18,7 @@ var {
     View,
     StyleSheet,
     ListView,
+    ScrollView,
     Text,
 
     } = React;
@@ -119,14 +120,22 @@ var CreateNewPostCategory = React.createClass({
             );
         };
 
+        var _generateChild = function(subCategory) {
+            return (
+                <Button>
+                    { subCategory.trad }
+                </Button>
+            )
+        };
+
         var _renderContent = function (section) {
             return (
                 <View style={styles.content}>
-
-                section.childs.map((element, i) => {
-
-                })
-
+                    {
+                        section['childs'].map((element, i) => {
+                            return <CategoryElement child={element} key={i}/>
+                        })
+                    }
                 </View>
             );
         };
@@ -138,13 +147,6 @@ var CreateNewPostCategory = React.createClass({
             selectCategory(category);
         };
 
-        var _childrenForTest = (<View style={{ backgroundColor: '#f9f9f9' }}>
-            <Text style={styles.accordionChild}
-                  onPress={selectCat}>
-                Carlos gringo
-            </Text>
-        </View>);
-
         return (
             <View key={i}>
                 <Accordion
@@ -154,7 +156,7 @@ var CreateNewPostCategory = React.createClass({
                 />
             </View>);
     },
-    _renderList() {
+    _renderView() {
         if (this.state.ds) {
             return (
                 this.state.categories.map((element, i) => {
@@ -167,10 +169,12 @@ var CreateNewPostCategory = React.createClass({
     },
 
     render() {
+        const { params } = this.props;
+
         return (
-            <View style={{flex:1}}>
-                {this._renderList()}
-            </View>)
+            <ScrollView style={{flex:1}}>
+                {this._renderView()}
+            </ScrollView>)
     }
 });
 
