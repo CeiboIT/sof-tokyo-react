@@ -187,13 +187,14 @@ var styles = StyleSheet.create({
         height: 90
     },
     accordionParent: {
-        paddingTop: 15,
-        paddingRight: 15,
-        paddingLeft: 15,
-        paddingBottom: 15,
+        marginHorizontal: 10,
+        marginVertical: 5,
+        padding: 10,
         borderBottomWidth: 1,
-        borderBottomColor: '#a9a9a9',
-        backgroundColor: '#7c7c7c'
+        borderColor: '#d3d3d3',
+        borderWidth: 1,
+        borderRadius: 4,
+        backgroundColor: '#f7f7f7'
     },
     accordionChild: {
         fontSize: 15,

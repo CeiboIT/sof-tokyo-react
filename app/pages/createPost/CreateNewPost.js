@@ -9,6 +9,7 @@ var t = require('tcomb-form-native'),
     I18nService = require('../../i18n'),
     I18n = I18nService.getTranslations(),
     React = require('react-native'),
+    Icon = require('react-native-vector-icons/FontAwesome'),
     ImageUploader = require('../../components/images/ImageUploader'),
     api = require('../../utils/api/ImageUploadApi');
 
@@ -18,7 +19,8 @@ I18nService.set('ja-JP', {
     'main_photo': 'メイン画像',
     'sub_photos': 'サブ画像',
     'newPost_error_000': 'Error uploading image',
-    'set_category': 'Set category'
+    'set_category': 'Set category',
+    'select_image' : 'select image'
 });
 
 var {
@@ -45,13 +47,12 @@ var styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        height: 120,
-        width: 120,
+        height: 200,
+        width: 200,
         borderWidth: 1,
         borderRadius: 5,
         borderColor: 'grey',
         borderStyle: 'dashed',
-        textAlign: 'center',
         marginVertical: 15
     },
     mainPhotoText : {
@@ -73,7 +74,7 @@ var CreateNewPost = React.createClass({
                 authorId: 0,
                 title: '',
                 content: '',
-                img: '',
+                img: 'https://placeholdit.imgix.net/~text?txtsize=34&txt=add+image&w=200&h=200',
                 subcategory0: '',
                 subcategory1: '',
                 styles: [],
@@ -120,7 +121,7 @@ var CreateNewPost = React.createClass({
             if (response.source) {
                 this.setState({ [object] :
                     {
-                     [key] : response.source
+                     [key] : response.source.uri
                     }
                 });
             }
@@ -144,10 +145,11 @@ var CreateNewPost = React.createClass({
                                placeholder={I18n.t('description')}/>
                 </Form>
 
-                <View>
+                <View style={{paddingHorizontal: 10}}>
                     <View style={styles.mainPhotoContainer}>
                         <TouchableHighlight onPress={() => { this.openPicker('post', 'img') }} underlayColor={'transparent'} style={styles.mainPhoto}>
-                            <Text style={styles.mainPhotoText}>Main photo</Text>
+                            <Image style={{width:200, height: 200}}
+                                source={{uri: this.state.post.img}} resizeMode="stretch" />
                         </TouchableHighlight>
                     </View>
                     <Button onPress={() => { this.openPicker('post', 'subImg1') }}>
@@ -159,21 +161,16 @@ var CreateNewPost = React.createClass({
                     <Button onPress={() => { this.openPicker('post', 'subImg3') }}>
                         <Text>{I18n.t('select_image')}</Text>
                     </Button>
-                </View>
 
-                <View>
-
-                </View>
-
-                <Button onPress={this.setCategory}>
-                    {I18n.t('set_category')}
-                </Button>
-                <View>
-                    <Button>
-                        Next
+                    <Button onPress={this.setCategory}>
+                        {I18n.t('set_category')}
                     </Button>
+                    <View>
+                        <Button>
+                            Next <Icon name="angle-double-right" style={styles.iconPlus}/>
+                        </Button>
+                    </View>
                 </View>
-
                 <View>
                     <Popup ref={(popup) => { this.popup = popup }}/>
                 </View>
