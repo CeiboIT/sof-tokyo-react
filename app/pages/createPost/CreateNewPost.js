@@ -23,6 +23,7 @@ I18nService.set('ja-JP', {
 
 var {
     View,
+    ScrollView,
     Image,
     StyleSheet,
     TextInput,
@@ -132,7 +133,7 @@ var CreateNewPost = React.createClass({
 
     render() {
         return (
-            <View style={{flex:1}}>
+            <ScrollView style={{flex:1}}>
 
                 <Form ref="form">
                     <TextInput style={{height: 60}}
@@ -176,7 +177,7 @@ var CreateNewPost = React.createClass({
                 <View>
                     <Popup ref={(popup) => { this.popup = popup }}/>
                 </View>
-            </View>)
+            </ScrollView>)
     }
 });
 

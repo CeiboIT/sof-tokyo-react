@@ -9,6 +9,8 @@ var React = require('react-native');
 var metadataStream = require('../../services/Streams').getStream('Metadata');
 var categoryApi = require('../../utils/api/MetadataApi');
 var Accordion = require('react-native-collapsible/Accordion');
+var Collapsible = require('react-native-collapsible');
+
 
 I18nService.set('ja-JP', {});
 
@@ -17,7 +19,51 @@ var {
     StyleSheet,
     ListView,
     Text,
+
     } = React;
+
+
+var Header = React.createClass({
+    render() {
+        return(
+            <View style={styles.accordionParent} key={this.props.category.id}>
+                <Text>{category.trad}</Text>
+            </View>
+        )
+    }
+});
+
+
+var SECTIONS = [
+    {
+        title: 'First',
+        content: (<Text>Text</Text>)
+    },
+    {
+        title: 'Second',
+        content: 'Lorem ipsum...'
+    }
+];
+
+Header.propTypes = {
+    category: React.PropTypes.object
+};
+
+var CategoryElement = React.createClass({
+    render() {
+        const { child } = this.props;
+
+        return(
+            <Button>
+                { child.trad }
+            </Button>
+        )
+    }
+});
+
+CategoryElement.propTypes = {
+    child: React.PropTypes.object
+};
 
 var CreateNewPostCategory = React.createClass({
 
@@ -56,32 +102,41 @@ var CreateNewPostCategory = React.createClass({
         Nav.onNext({path: 'createNewPostStyle', params: {newPost: this.props.newPost} });
     },
 
-    _renderAccordionItem(category) {
+
+
+    _renderAccordionItem(category, i) {
+
+        var _SECTIONS = [{
+            title: category.trad,
+            childs: category.childs
+        }];
+
+        var _renderHeader = function(section) {
+            return (
+                <View style={styles.accordionParent}>
+                    <Text>{section.title}</Text>
+                </View>
+            );
+        };
+
+        var _renderContent = function (section) {
+            return (
+                <View style={styles.content}>
+
+                section.childs.map((element, i) => {
+
+                })
+
+                </View>
+            );
+        };
+
         var selectCategory = this.selectCategory;
 
         var selectCat = function () {
             console.warn('CreateNewPostCategory > selectCat ', JSON.stringify(category));
             selectCategory(category);
         };
-
-        var _renderHeader =
-            (
-                <View style={styles.accordionParent}>
-                    <Text>Parent: {category.trad}</Text>
-                </View>
-            );
-
-        var _renderContent = [];
-        category.childs
-            .forEach(function (child) {
-                return renderContent.push(
-                    <View style={{ backgroundColor: '#f9f9f9' }}>
-                        <Text style={styles.accordionChild}
-                                onPress={selectCat}>
-                            {child.name}
-                        </Text>
-                    </View>);
-            });
 
         var _childrenForTest = (<View style={{ backgroundColor: '#f9f9f9' }}>
             <Text style={styles.accordionChild}
@@ -90,18 +145,22 @@ var CreateNewPostCategory = React.createClass({
             </Text>
         </View>);
 
-        return (<Accordion
-            sections={['Section 1', 'Section 2', 'Section 3']}
-            renderHeader={_renderHeader}
-            renderContent={_renderContent}>
-        </Accordion>);
+        return (
+            <View key={i}>
+                <Accordion
+                    sections={_SECTIONS}
+                    renderHeader={_renderHeader}
+                    renderContent={_renderContent}
+                />
+            </View>);
     },
     _renderList() {
         if (this.state.ds) {
-            return (<ListView
-                dataSource={this.state.ds}
-                renderRow={this._renderAccordionItem}
-                />);
+            return (
+                this.state.categories.map((element, i) => {
+                    return this._renderAccordionItem(element, i);
+                })
+            );
         } else {
             console.warn('renderList > return empty');
         }
