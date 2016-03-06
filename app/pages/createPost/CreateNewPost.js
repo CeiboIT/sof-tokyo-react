@@ -5,12 +5,12 @@ import Popup from 'react-native-popup';
 import Button from 'apsl-react-native-button'
 import Form from 'react-native-form';
 
-var t = require('tcomb-form-native');
-var I18nService = require('../../i18n');
-var I18n = I18nService.getTranslations();
-var React = require('react-native');
-var ImageUploader = require('../../components/images/ImageUploader');
-var api = require('../../utils/api/ImageUploadApi');
+var t = require('tcomb-form-native'),
+    I18nService = require('../../i18n'),
+    I18n = I18nService.getTranslations(),
+    React = require('react-native'),
+    ImageUploader = require('../../components/images/ImageUploader'),
+    api = require('../../utils/api/ImageUploadApi');
 
 I18nService.set('ja-JP', {
     'title': '作品のタイトル',
@@ -26,8 +26,38 @@ var {
     Image,
     StyleSheet,
     TextInput,
-    Text
+    Text,
+    TouchableHighlight
     } = React;
+
+var styles = StyleSheet.create({
+    base: {
+        width: 90,
+        height: 90
+    },
+    mainPhotoContainer : {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    mainPhoto : {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 120,
+        width: 120,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: 'grey',
+        borderStyle: 'dashed',
+        textAlign: 'center',
+        marginVertical: 15
+    },
+    mainPhotoText : {
+        color: 'grey',
+        fontSize: 15  
+    }
+});
 
 var NewPostForm = t.struct({
     title: t.String,
@@ -114,9 +144,11 @@ var CreateNewPost = React.createClass({
                 </Form>
 
                 <View>
-                    <Button onPress={() => { this.openPicker('post', 'img') }}>
-                        <Text>Main photo</Text>
-                    </Button>
+                    <View style={styles.mainPhotoContainer}>
+                        <TouchableHighlight onPress={() => { this.openPicker('post', 'img') }} underlayColor={'transparent'} style={styles.mainPhoto}>
+                            <Text style={styles.mainPhotoText}>Main photo</Text>
+                        </TouchableHighlight>
+                    </View>
                     <Button onPress={() => { this.openPicker('post', 'subImg1') }}>
                         <Text>{I18n.t('select_image')}</Text>
                     </Button>
@@ -145,13 +177,6 @@ var CreateNewPost = React.createClass({
                     <Popup ref={(popup) => { this.popup = popup }}/>
                 </View>
             </View>)
-    }
-});
-
-var styles = StyleSheet.create({
-    base: {
-        width: 90,
-        height: 90
     }
 });
 
