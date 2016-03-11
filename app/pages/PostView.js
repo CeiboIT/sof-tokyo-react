@@ -403,10 +403,10 @@ var PostView = React.createClass({
                 <ScrollView style={styles.scrollView}>
                     <View style={styles.linksContainer}>
                         <View style={styles.previousPost}>
-                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPrevious} style={{alignSelf: 'flex-start'}}><Text style={styles.textWhite}>« 日本美</Text></TouchableHighlight>
+                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToPrevious} style={{alignSelf: 'flex-start'}}><Text style={styles.textWhite}>« 前へ</Text></TouchableHighlight>
                         </View>
                         <View style={styles.nextPost}>
-                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNext} style={{alignSelf: 'flex-end'}}><Text style={styles.textWhite}>シャツ＆スカート »</Text></TouchableHighlight>
+                            <TouchableHighlight underlayColor={'transparent'} onPress={this.goToNext} style={{alignSelf: 'flex-end'}}><Text style={styles.textWhite}>次へ »</Text></TouchableHighlight>
                         </View>
                     </View>
                     <View style={styles.container}>

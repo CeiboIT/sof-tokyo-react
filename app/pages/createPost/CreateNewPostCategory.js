@@ -11,7 +11,6 @@ var categoryApi = require('../../utils/api/MetadataApi');
 var Accordion = require('react-native-collapsible/Accordion');
 var Collapsible = require('react-native-collapsible');
 
-
 I18nService.set('ja-JP', {});
 
 var {
@@ -33,20 +32,8 @@ var Header = React.createClass({
     }
 });
 
-
-var SECTIONS = [
-    {
-        title: 'First',
-        content: (<Text>Text</Text>)
-    },
-    {
-        title: 'Second',
-        content: 'Lorem ipsum...'
-    }
-];
-
 Header.propTypes = {
-    category: React.PropTypes.object,
+    category: React.PropTypes.object
 };
 
 var CategoryElement = React.createClass({
