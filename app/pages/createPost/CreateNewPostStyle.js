@@ -7,11 +7,15 @@ var I18nService = require('../../i18n');
 var I18n = I18nService.getTranslations();
 var React = require('react-native');
 var t = require('tcomb-form-native');
+
 var metadataStream = require('../../services/Streams').getStream('Metadata');
 var metadataApi = require('../../utils/api/MetadataApi');
-var CircleCheckBox = require('react-native-circle-checkbox');
 var GiftedSpinner = require('react-native-gifted-spinner');
-//var Switch = require('react-native-material-switch');
+
+import { GiftedForm, GiftedFormManager } from 'react-native-gifted-form'
+import GridView  from 'react-native-grid-view'
+import CeiboSelectable from '../../components/forms/select/CeiboSelectable';
+
 
 I18nService.set('ja-JP', {});
 
@@ -56,7 +60,6 @@ var styles = StyleSheet.create({
         backgroundColor: '#7c7c7c'
     },
     accordionChild: {
-        fontSize: 15,
         paddingTop: 15,
         paddingRight: 15,
         paddingBottom: 15,
@@ -64,6 +67,7 @@ var styles = StyleSheet.create({
         color: '#7c7c7c'
     }
 });
+
 
 var CreateNewPostStyle = React.createClass({
 
@@ -92,33 +96,6 @@ var CreateNewPostStyle = React.createClass({
         });
     },
 
-    togglePostStyle (postStyle) {
-        console.warn('tooglePostStyles ', JSON.stringify(postStyle));
-    },
-
-    _renderStyle (postStyle) {
-        var toogle = this.togglePostStyle;
-
-        var selectStyle = function () {
-            toogle(postStyle);
-        };
-
-        return (
-            <View>
-                <Text>{postStyle.name}</Text>
-                <View>
-                    <Switch
-                        onValueChange={(value) => this.setState({checked: !value})}
-                        onTintColor="#00ff00"
-                        style={{marginBottom: 10}}
-                        thumbTintColor="#0000ff"
-                        tintColor="#ff0000"
-                        value={this.state.checked} />
-                </View>
-            </View>);
-
-    },
-
     _renderList() {
         if (this.state.ds) {
             return (<ListView
@@ -130,26 +107,8 @@ var CreateNewPostStyle = React.createClass({
         }
     },
 
-    generateForm() {
-        this.state.styles.map((element) => {
-            console.log(element);
-        });
-
-        var _formStruct = t.struct({
-            rememberMe: t.Boolean
-        });
-
-        return (<Form
-            ref="form"
-            type={_formStruct}
-        />)
-    },
-
-
     render() {
-
-        var _render = (this.state.styles && this.state.styles.length) ?  this.generateForm() : (<View style={styles.loading}><GiftedSpinner/></View>);
-
+        var _render = (this.state.styles && this.state.styles.length) ?  <CeiboSelectable list={ this.state.styles } valueKey="id" labelKey="trad"  /> : (<View style={styles.loading}><GiftedSpinner/></View>);
         return (
             <View style={{flex:1}}>
                 { _render }
@@ -159,6 +118,10 @@ var CreateNewPostStyle = React.createClass({
 
 CreateNewPostStyle.propTypes = {
     newPost: React.PropTypes.any
+}
+
+CreateNewPostStyle.contextTypes = {
+    navigator: React.PropTypes.any
 }
 
 module.exports = CreateNewPostStyle;

@@ -184,7 +184,6 @@ var styles = StyleSheet.create({
         backgroundColor: '#f7f7f7'
     },
     accordionChild: {
-        fontSize: 15,
         paddingTop: 15,
         paddingRight: 15,
         paddingBottom: 15,

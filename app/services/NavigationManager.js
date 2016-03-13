@@ -273,6 +273,19 @@ class NavigatorService {
                     });
                 break;
 
+                case('modalForm'):
+
+                    //transformRoute
+                    var _route = route.params;
+                    let _transformedRoute = {
+                        leftCorner : _route.renderLeftButton,
+                        rightCorner: _route.renderRightButton,
+                        titleComponent: _route.getTitle,
+                        component: Pages.createNewPostStyle
+                    }
+                    this.manager.toRoute(_transformedRoute);
+
+                break;
                 case('news'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
