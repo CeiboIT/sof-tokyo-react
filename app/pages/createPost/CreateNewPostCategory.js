@@ -10,6 +10,7 @@ var metadataStream = require('../../services/Streams').getStream('Metadata');
 var categoryApi = require('../../utils/api/MetadataApi');
 var Accordion = require('react-native-collapsible/Accordion');
 var Collapsible = require('react-native-collapsible');
+import CeiboSelectable from '../../components/forms/select/CeiboSelectable';
 
 I18nService.set('ja-JP', {});
 
@@ -116,11 +117,7 @@ var CreateNewPostCategory = React.createClass({
         var _renderContent = function (section) {
             return (
                 <View style={styles.content}>
-                    {
-                        section['childs'].map((element, i) => {
-                            return <CategoryElement child={element} key={i}/>
-                        })
-                    }
+                    <CeiboSelectable list={ section['childs'] } iconName='check' iconColor='green' iconSize={15} valueKey="id" labelKey="trad"  />
                 </View>
             );
         };

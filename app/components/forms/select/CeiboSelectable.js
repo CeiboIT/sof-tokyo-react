@@ -23,12 +23,12 @@ var styles = StyleSheet.create({
     textElement : {
         alignItems: 'flex-end',
         justifyContent: "flex-end",
-        flex:5
+        flex:6
     },
 
     icon : {
         alignItems: 'flex-start',
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-start'
     },
 
     iconContainer: {
@@ -67,7 +67,7 @@ class CeiboSelectElement extends Component {
 
     render() {
 
-        const { element, valueKey, labelKey, selectedElements} = this.props;
+        const { element, valueKey, labelKey, iconName, iconSize, iconColor, selectedElements} = this.props;
         let { selected } = this.state;
 
         return (
@@ -75,7 +75,7 @@ class CeiboSelectElement extends Component {
                 <View style={styles.selectableContainer}>
                     <View style={styles.iconContainer}>
                         {
-                            this.state.selected && <Icon style={styles.icon} name='check' color="green" size={15} />
+                            this.state.selected && iconName && <Icon style={styles.icon} name={ iconName } color={ iconColor || 'black' } size={ iconSize || 10} />
                         }
                     </View>
 
@@ -93,7 +93,10 @@ class CeiboSelectElement extends Component {
 CeiboSelectElement.propTypes = {
     element: PropTypes.any.isRequired,
     valueKey: PropTypes.string,
-    labelKey: PropTypes.string
+    labelKey: PropTypes.string,
+    iconName: PropTypes.string,
+    iconSize: PropTypes.number,
+    iconColor: PropTypes.string
 };
 
 CeiboSelectElement.stateTypes = {
@@ -111,7 +114,7 @@ class CeiboSelect extends Component {
     }
 
     render()  {
-        const { valueKey, labelKey } = this.props;
+        const { valueKey, labelKey, iconName, iconSize, iconColor } = this.props;
         return (
             <ListView
                 dataSource = { this.state.list }
@@ -120,6 +123,7 @@ class CeiboSelect extends Component {
                      element={rowData}
                      selectedElementsCollection = { this.state.selectedElements }
                      valueKey={valueKey}
+                     iconName={iconName} iconSize={iconSize} iconColor={iconColor}
                      labelKey={labelKey}
                      />
                 }}
@@ -133,7 +137,10 @@ class CeiboSelect extends Component {
 CeiboSelect.propTypes = {
     list: PropTypes.any.isRequired,
     valueKey: PropTypes.any,
-    labelKey: PropTypes.any
+    labelKey: PropTypes.any,
+    iconName: PropTypes.string,
+    iconSize: PropTypes.number,
+    iconColor: PropTypes.string
 };
 
 export default CeiboSelect;

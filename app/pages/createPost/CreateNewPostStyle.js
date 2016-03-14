@@ -108,7 +108,7 @@ var CreateNewPostStyle = React.createClass({
     },
 
     render() {
-        var _render = (this.state.styles && this.state.styles.length) ?  <CeiboSelectable list={ this.state.styles } valueKey="id" labelKey="trad"  /> : (<View style={styles.loading}><GiftedSpinner/></View>);
+        var _render = (this.state.styles && this.state.styles.length) ?  <CeiboSelectable list={ this.state.styles } iconName='check' iconSize={15} valueKey="id" labelKey="trad"  /> : (<View style={styles.loading}><GiftedSpinner/></View>);
         return (
             <View style={{flex:1}}>
                 { _render }
