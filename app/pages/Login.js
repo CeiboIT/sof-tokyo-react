@@ -6,8 +6,10 @@ var React = require('react-native'),
     t = require('tcomb-form-native'),
     I18nService = require('../i18n'),
     Icon = require('react-native-vector-icons/FontAwesome'),
-    UserSubject = require("../services/Streams").getStream("User");
-    AuthSubject= require("../services/Streams").getStream("Auth");
+    UserSubject = require("../services/Streams").getStream("User"),
+    AuthSubject= require("../services/Streams").getStream("Auth"),
+    {GiftedForm, GiftedFormManager} = require('react-native-gifted-form'),
+    moment = require('moment');
 
 import Popup from 'react-native-popup';
 
@@ -15,7 +17,8 @@ I18nService.set('ja-JP', {
         'login' : 'ログイン',
         'loginWithFacebook': 'Facebookで始める',
         'register': '登録 ',
-        'error_login_100': 'ユーザー名かパスワードが無効です'
+        'error_login_100': 'ユーザー名かパスワードが無効です',
+        'or' : 'か'
     }
 );
 
@@ -27,99 +30,27 @@ var {
     StyleSheet
     } = React;
 
-var styles = {
-    title: {
-        marginBottom: 20,
-        fontSize: 25,
-        textAlign: 'center',
-        color: '#0000'
-    },
-    searchInput: {
-        height: 50,
-        padding: 4,
-        marginRight: 5,
-        fontSize: 23,
-        borderWidth: 1,
-        borderColor: 'white',
-        borderRadius: 8,
-        color: 'white'
-    },
-    buttonText: {
-        fontSize: 18,
-        color: '#111',
-        alignSelf: 'center'
-    },
-    button: {
-        height: 45,
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        borderColor: 'white',
-        borderWidth: 1,
-        borderRadius: 8,
-        marginBottom: 10,
-        marginTop: 10,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
-    }
-};
-
 var styles = StyleSheet.create({
     container : {
         flex: 1,
-        padding: 30,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        backgroundColor: '#FFFFFF'
+        flexDirection: 'column'
     },
-    buttonsContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    loginButtonContainer: {
-        flex:1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    loginButton: {
-        flex:1,
-        borderColor: '#EEEEEE',
-        backgroundColor: 'transparent',
+    button : {
+        margin: 10,
+        backgroundColor: '#00b9f7',
+        borderWidth: 0,
         borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.5,
-        marginLeft: windowsSize.width * 0.25,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
+        height: 40
     },
-
-    registerButton : {
+    textButton : {
+        color: 'white',
+        fontSize: 15,
+    },
+    or : {
         flex:1,
-        borderColor: '#00b9f7',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.4,
-        marginTop: 5,
-        marginLeft: windowsSize.width * 0.30,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
-    },
-
-    loginText: {
-        color: "#444444",
-        fontSize: 25
-    },
-
-    registerText: {
-        color: "#444444",
-        fontSize: 20
     }
 });
 
@@ -151,8 +82,8 @@ var Login  = React.createClass({
         })
     },
 
-    login(){
-        var _credentials = this.refs.form.getValue();
+    login(credentials){
+        var _credentials = credentials;
         if(_credentials) {
             api.sendCredentials(_credentials);
             UserSubject.subscribe((response)=>{
@@ -193,30 +124,123 @@ var Login  = React.createClass({
 
     render() {
         return(
-            <View style={styles.Search}>
-                <Form ref="form" type={UserCredentials}/>
+            <GiftedForm
+                formName='loginForm' // GiftedForm instances that use the same name will also share the same states
 
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.loginButton} textStyle={styles.loginText}
-                            onPress={this.login}>
-                        { I18n.t('login')}
-                    </Button>
-                </View>
-                <View style={styles.loginButtonContainer}>
-                    <Text>
-                        か
-                    </Text>
-                </View>
-                <View style={styles.loginButtonContainer}>
-                    <Button style={styles.registerButton} textStyle={styles.registerText}
-                            onPress={this.register}>
-                        { I18n.t('register')}
-                    </Button>
-                </View>
-                <Popup ref={(popup) => { this.popup = popup }}/>
+                clearOnClose={false} // delete the values of the form when unmounted
+
+                defaults={{
+
+                }}
+
+                validators={{
+                username: {
+                    title: 'Username',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [3, 24],
+                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    },{
+                    validator: 'matches',
+                    arguments: /^[a-zA-Z0-9]*$/,
+                    message: '{TITLE} can contains only alphanumeric characters'
+                    }]
+                },
+                password: {
+                    title: 'Password',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [6, 16],
+                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    }]
+                },
+                }}
+          >
+          
+          <GiftedForm.TextInputWidget
+              name='username'
+              title='Username'
+              image={require('../../assets/icons/color/contact_card.png')}
+
+              placeholder='MarcoPolo'
+              clearButtonMode='while-editing'
+            />
+
+            <GiftedForm.TextInputWidget
+              name='password' // mandatory
+              title='Password'
+
+              placeholder='******'
+
+
+              clearButtonMode='while-editing'
+              secureTextEntry={true}
+              image={require('../../assets/icons/color/lock.png')}
+            />
+
+            <GiftedForm.SeparatorWidget />
+
+            <GiftedForm.SubmitWidget
+              title={ I18n.t('login')}
+              widgetStyles={{
+                submitButton: {
+                  backgroundColor: '#34767F',
+                }
+              }}
+              onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
+                if (isValid === true) {
+                  // prepare object
+
+                  /* Implement the request to your server using values variable
+                  ** then you can do:
+                  ** postSubmit(['An error occurred, please try again']); // disable the loader and display an error message
+                  ** postSubmit(['Username already taken', 'Email already taken']); // disable the loader and display an error message
+                  ** GiftedFormManager.reset('signupForm'); // clear the states of the form manually. 'signupForm' is the formName used
+                  */
+                  this.login(values);
+                  postSubmit();
+                }
+              }}
+
+            />
+            
+            <View style={styles.or}>
+                <Text>{ I18n.t('or')}</Text>
             </View>
+            
+            <View>
+                <Button style={styles.button} textStyle={styles.textButton} onPress={this.register}>
+                        { I18n.t('register')}
+                </Button>
+            </View>            
+
+          </GiftedForm>
+            
         );
     }
 });
 
 module.exports = Login;
+
+// <View style={styles.Search}>
+//                 <Form ref="form" type={UserCredentials}/>
+
+//                 <View style={styles.loginButtonContainer}>
+//                     <Button style={styles.loginButton} textStyle={styles.loginText}
+//                             onPress={this.login}>
+//                         { I18n.t('login')}
+//                     </Button>
+//                 </View>
+//                 <View style={styles.loginButtonContainer}>
+//                     <Text>
+//                         か
+//                     </Text>
+//                 </View>
+//                 <View style={styles.loginButtonContainer}>
+//                     <Button style={styles.registerButton} textStyle={styles.registerText}
+//                             onPress={this.register}>
+//                         { I18n.t('register')}
+//                     </Button>
+//                 </View>
+//                 <Popup ref={(popup) => { this.popup = popup }}/>
+//             </View>
