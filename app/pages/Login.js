@@ -3,7 +3,6 @@ var React = require('react-native'),
     windowsSize = Dimensions.get('window'),
     Button = require('apsl-react-native-button'),
     api =require("../utils/api/UserApi"),
-    t = require('tcomb-form-native'),
     I18nService = require('../i18n'),
     Icon = require('react-native-vector-icons/FontAwesome'),
     UserSubject = require("../services/Streams").getStream("User"),
@@ -53,21 +52,6 @@ var styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
-
-var Form = t.form.Form;
-
-var UserCredentials = t.struct({
-    username: t.String,
-    password: t.String
-});
-
-var options = {
-
-};
-
-var username = {
-
-};
 
 var storage = require("../services/Storage").getInstance();
 
@@ -189,14 +173,6 @@ var Login  = React.createClass({
               }}
               onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
                 if (isValid === true) {
-                  // prepare object
-
-                  /* Implement the request to your server using values variable
-                  ** then you can do:
-                  ** postSubmit(['An error occurred, please try again']); // disable the loader and display an error message
-                  ** postSubmit(['Username already taken', 'Email already taken']); // disable the loader and display an error message
-                  ** GiftedFormManager.reset('signupForm'); // clear the states of the form manually. 'signupForm' is the formName used
-                  */
                   this.login(values);
                   postSubmit();
                 }
@@ -221,26 +197,3 @@ var Login  = React.createClass({
 });
 
 module.exports = Login;
-
-// <View style={styles.Search}>
-//                 <Form ref="form" type={UserCredentials}/>
-
-//                 <View style={styles.loginButtonContainer}>
-//                     <Button style={styles.loginButton} textStyle={styles.loginText}
-//                             onPress={this.login}>
-//                         { I18n.t('login')}
-//                     </Button>
-//                 </View>
-//                 <View style={styles.loginButtonContainer}>
-//                     <Text>
-//                         か
-//                     </Text>
-//                 </View>
-//                 <View style={styles.loginButtonContainer}>
-//                     <Button style={styles.registerButton} textStyle={styles.registerText}
-//                             onPress={this.register}>
-//                         { I18n.t('register')}
-//                     </Button>
-//                 </View>
-//                 <Popup ref={(popup) => { this.popup = popup }}/>
-//             </View>
