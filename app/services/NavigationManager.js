@@ -45,7 +45,7 @@ var imageSizes ={
 var logo = React.createClass({
   render: function() {
     return <View style={styles.logoContainer}><ResponsiveImage
-                            source={{uri: 'http://sof.tokyo/wp-content/uploads/2015/06/logo.png'}}
+                            source={require('../../assets/imgpsh_fullsize.jpg')}
                             initHeight={imageSizes.height}
                             initWidth={imageSizes.width}
             /></View>;
@@ -103,6 +103,7 @@ class NavigatorService {
                         titleComponent: logo
                     })
                 break;
+                
                 case('search'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,

@@ -7,8 +7,7 @@ var React = require('react-native'),
     Icon = require('react-native-vector-icons/FontAwesome'),
     UserSubject = require("../services/Streams").getStream("User"),
     AuthSubject= require("../services/Streams").getStream("Auth"),
-    {GiftedForm, GiftedFormManager} = require('react-native-gifted-form'),
-    moment = require('moment');
+    {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
 
 import Popup from 'react-native-popup';
 
@@ -140,7 +139,7 @@ var Login  = React.createClass({
                 },
                 }}
           >
-          
+          <GiftedForm.SeparatorWidget />
           <GiftedForm.TextInputWidget
               name='username'
               title='Username'

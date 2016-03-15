@@ -1,19 +1,17 @@
-/**
- * Created by epotignano on 12/01/16.
- */
-
 import Button from 'apsl-react-native-button'
 import Popup from 'react-native-popup';
 import PickerAndroid from 'react-native-picker-android';
 import Form from 'react-native-form';
 
-var React = require('react-native');
-var Dimensions= require('Dimensions');
-var windowsSize = Dimensions.get('window');
-var api = require("../utils/api/UserApi");
-var schoolApi = require('../utils/api/SchoolsApi');
-var I18nService = require('../i18n');
-var SchoolsStream = require('../services/Streams').getStream('Schools');
+var React = require('react-native'),
+    Dimensions= require('Dimensions'),
+    windowsSize = Dimensions.get('window'),
+    api = require("../utils/api/UserApi"),
+    schoolApi = require('../utils/api/SchoolsApi'),
+    I18nService = require('../i18n'),
+    SchoolsStream = require('../services/Streams').getStream('Schools'),
+    {GiftedForm, GiftedFormManager} = require('react-native-gifted-form'),
+    moment = require('moment');
 
 I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
@@ -42,6 +40,19 @@ var {
     StyleSheet
     } = React;
 
+var styles = StyleSheet.create({
+     button : {
+        margin: 10,
+        backgroundColor: '#00b9f7',
+        borderWidth: 0,
+        borderRadius: 0,
+        height: 40
+    },
+    textButton : {
+        color: 'white',
+        fontSize: 15,
+    }
+});
 
 let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
 let PickerItem = Picker.Item;
@@ -186,216 +197,316 @@ var Register  = React.createClass({
             );
         }
     },
+renderScene: function (route, navigator) {
+//...
+     if (route.giftedForm == true) {
+          return route.renderScene();
+     }
+//...
+},
 
+configureScene: function (route) {
+        //...
+        if (route.giftedForm) {
+            return route.configureScene();
+        }
+       //...
+    },
     render() {
         return(
-			<ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
-                <View style={styles.Search}>
-                    <Form ref="form">
-                        <TextInput style={{height: 60}} name="username" placeholder="ユーサー名"/>
-                        <TextInput style={{height: 60}} name="email" placeholder="メールアドレス"/>
-                        <TextInput style={{height: 60}} name="display_name" placeholder="表示ユーザー名"/>
-                        <TextInput style={{height: 60}} name="years" placeholder="年齢"/>
-                    </Form>
-                    <View style={{padding:10, marginBottom: 20}}>
-                        <Text style={{height: 40, color: "#333"}}
-                            onPress={this.toggleCountry}>
-                            Country: <Text style={{color: "gray"}}> {this.state.country} </Text>
-                        </Text>
-                        {this.showCountry()}
+            <View>
+            <Navigator
+            ref="navigator"
+            initialRoute={Routes.getInitialRoute()}
+            renderScene={this.renderScene}
+            configureScene={this.configureScene}
+            navigationBar={this.setNavigationBar()}
+        />
+            <GiftedForm
+                formName='signupForm' // GiftedForm instances that use the same name will also share the same states
 
-                        <Text style={{height: 40, color: "#333"}}
-                            onPress={this.toggleObog}>
-                            Obog: <Text style={{color: "gray"}}> {this.state.obog} </Text>
-                        </Text>
-                            {this.showObog()}
+                openModal={ (route) => {
+                    route.giftedForm = true;
+                    this.props.navigator.push(route); 
+                }}
 
-                        <Text style={{height: 40, color: "#333"}}
-                            onPress={this.toggleSchool}>
-                            School: <Text style={{color: "gray"}}> {this.state.school} </Text>
-                        </Text>
-                            {this.showSchool()}
-                    </View>
-                    <View style={styles.loginButtonContainer}>
-                        <Button style={styles.loginButton} textStyle={styles.loginText}
-                                onPress={this.register}>
-                            { I18n.t('register')}
-                        </Button>
-                    </View>
-                    <View style={styles.loginButtonContainer}>
-                        <Text>
-                            か
-                        </Text>
-                    </View>
-                    <View style={styles.loginButtonContainer}>
-                        <Button style={styles.registerButton} textStyle={styles.registerText}
-                                onPress={this.login}>
-                            { I18n.t('login')}
-                        </Button>
-                    </View>
-                    <Popup ref={(popup) => { this.popup = popup }}/>
-                </View>
-            </ScrollView>
-    );
-    }
-});
+                clearOnClose={false} // delete the values of the form when unmounted
 
-var styles = {
-    btn: {
-        margin: 10,
-        backgroundColor: "#3B5998",
-        color: "white",
-        padding: 10
-    },
-    Search: {
-        flex: 1,
-        padding: 30,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        backgroundColor: '#FFFFFF'
-    },
-    title: {
-        marginBottom: 20,
-        fontSize: 25,
-        textAlign: 'center',
-        color: '#0000'
-    },
-    searchInput: {
-        height: 50,
-        padding: 4,
-        marginRight: 5,
-        fontSize: 23,
-        borderWidth: 1,
-        borderColor: 'white',
-        borderRadius: 8,
-        color: 'white'
-    },
-    buttonText: {
-        fontSize: 18,
-        color: '#111',
-        alignSelf: 'center'
-    },
-    button: {
-        height: 45,
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        borderColor: 'white',
-        borderWidth: 1,
-        borderRadius: 8,
-        marginBottom: 10,
-        marginTop: 10,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
-    }
-};
+                defaults={{
+                /*
+                username: 'Farid',
+                'gender{M}': true,
+                password: 'abcdefg',
+                country: 'FR',
+                birthday: new Date(((new Date()).getFullYear() - 18)+''),
+                */
+                }}
 
-var styles = StyleSheet.create({
-    form: {
-        paddingTop: 5,
-        paddingBottom: 40
-    },
-    buttonsContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    facebookContainer: {
-        backgroundColor: "#2A406B",
-        height: windowsSize.height * 0.2,
-        flex:1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    facebookButton: {
-        flex:1,
-        borderColor: '#2A406B',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.75,
-        marginLeft: windowsSize.width * 0.125,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+                validators={{
+                username: {
+                    title: 'Username',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [3, 16],
+                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    },{
+                    validator: 'matches',
+                    arguments: /^[a-zA-Z0-9]*$/,
+                    message: '{TITLE} can contains only alphanumeric characters'
+                    }]
+                },
+                email: {
+                    title: 'Email address',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [6, 255],
+                    },{
+                    validator: 'isEmail',
+                    }]
+                },
+                display_name: {
+                    title: 'Display name',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [1, 23],
+                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    }]
+                },
+                password: {
+                    title: 'Password',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [6, 16],
+                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    }]
+                },
+                bio: {
+                    title: 'Biography',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [0, 512],
+                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    }]
+                },
+                gender: {
+                    title: 'Gender',
+                    validate: [{
+                    validator: (...args) => {
+                        if (args[0] === undefined) {
+                        return false;
+                        }
+                        return true;
+                    },
+                    message: '{TITLE} is required',
+                    }]
+                },
+                birthday: {
+                    title: 'Birthday',
+                    validate: [{
+                    validator: 'isBefore',
+                    arguments: [moment().utc().subtract(18, 'years').format('YYYY-MM-DD')],
+                    message: 'You must be at least 18 years old'
+                    }, {
+                    validator: 'isAfter',
+                    arguments: [moment().utc().subtract(100, 'years').format('YYYY-MM-DD')],
+                    message: '{TITLE} is not valid'
+                    }]
+                },
+                country: {
+                    title: 'Country',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [2],
+                    message: '{TITLE} is required'
+                    }]
+                },
+                }}
+            >
 
-    loginButtonContainer: {
-        flex:1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+                <GiftedForm.SeparatorWidget />
+                <GiftedForm.TextInputWidget
+                    name='username'
+                    title='Username'
+                    image={require('../../assets/icons/color/contact_card.png')}
 
-    loginButton: {
-        flex:1,
-        borderColor: '#EEEEEE',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.5,
-        marginLeft: windowsSize.width * 0.25,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+                    placeholder='MarcoPolo'
+                    clearButtonMode='while-editing'
+                />
 
-    registerButton : {
-        flex:1,
-        borderColor: '#00b9f7',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.4,
-        marginLeft: windowsSize.width * 0.30,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+                <GiftedForm.TextInputWidget
+                    name='email' // mandatory
+                    title='Email address'
+                    placeholder='example@nomads.ly'
+                    keyboardType='email-address'
+                    clearButtonMode='while-editing'
+                    image={require('../../assets/icons/color/email.png')}
+                />
+                
+                <GiftedForm.TextInputWidget
+                    name='display_name' // mandatory
+                    title='Display name'
+                    image={require('../../assets/icons/color/user.png')}
+                    placeholder='Marco Polo'
+                    clearButtonMode='while-editing'
+                />
+                
+                <GiftedForm.TextInputWidget
+                    name='password' // mandatory
+                    title='Password'
+                    placeholder='******'
+                    clearButtonMode='while-editing'
+                    secureTextEntry={true}
+                    image={require('../../assets/icons/color/lock.png')}
+                />
 
-    loginText: {
-        color: "##444444",
-        fontSize: 25
-    },
+                <GiftedForm.SeparatorWidget />
 
-    registerText: {
-        color: "##444444",
-        fontSize: 20
-    },
+                <GiftedForm.ModalWidget
+                title='Gender'
+                displayValue='gender'
+                image={require('../../assets/icons/color/gender.png')}
+                >
+                <GiftedForm.SeparatorWidget />
+
+                <GiftedForm.SelectWidget name='gender' title='Gender' multiple={false}>
+                    <GiftedForm.OptionWidget image={require('../../assets/icons/color/female.png')} title='Female' value='F'/>
+                    <GiftedForm.OptionWidget image={require('../../assets/icons/color/male.png')} title='Male' value='M'/>
+                </GiftedForm.SelectWidget>
+                </GiftedForm.ModalWidget>
+
+                <GiftedForm.ModalWidget
+                    title='Birthday'
+                    displayValue='birthday'
+                    image={require('../../assets/icons/color/birthday.png')}
+
+                scrollEnabled={false}
+                >
+                <GiftedForm.SeparatorWidget/>
+                <GiftedForm.DatePickerIOSWidget
+                    name='birthday'
+                    mode='date'
+
+                    getDefaultDate={() => {
+                    return new Date(((new Date()).getFullYear() - 18)+'');
+                    }}
+                />
+                </GiftedForm.ModalWidget>
+                <GiftedForm.ModalWidget
+                title='Country'
+                displayValue='country'
+                image={require('../../assets/icons/color/passport.png')}
+                scrollEnabled={false}
+
+                >
+                <GiftedForm.SelectCountryWidget 
+                    code='alpha2' 
+                    name='country' 
+                    title='Country' 
+                    autoFocus={true}
+                />
+                </GiftedForm.ModalWidget>
 
 
-    facebookText: {
-        color:"#FFF",
-        fontSize: 25
+                <GiftedForm.ModalWidget
+                title='Biography'
+                displayValue='bio'
+
+                image={require('../../assets/icons/color/book.png')}
+
+                scrollEnabled={true} // true by default
+                >
+                <GiftedForm.SeparatorWidget/>
+                <GiftedForm.TextAreaWidget
+                    name='bio'
+
+                    autoFocus={true}
+
+                    placeholder='Something interesting about yourself'
+                />
+                </GiftedForm.ModalWidget>
+
+
+
+                <GiftedForm.SubmitWidget
+                title='Sign up'
+                widgetStyles={{
+                    submitButton: {
+                    backgroundColor: '#34767F',
+                    }
+                }}
+                onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
+                    if (isValid === true) {
+                    // prepare object
+                    values.gender = values.gender[0];
+                    values.birthday = moment(values.birthday).format('YYYY-MM-DD');
+
+                    /* Implement the request to your server using values variable
+                    ** then you can do:
+                    ** postSubmit(); // disable the loader
+                    ** postSubmit(['An error occurred, please try again']); // disable the loader and display an error message
+                    ** postSubmit(['Username already taken', 'Email already taken']); // disable the loader and display an error message
+                    ** GiftedFormManager.reset('signupForm'); // clear the states of the form manually. 'signupForm' is the formName used
+                    */
+                    }
+                }}
+
+                />
+
+                <GiftedForm.NoticeWidget 
+                    title='By signing up, you agree to the Terms of Service and Privacy Policity.'
+                />
+
+            </GiftedForm>
+        );
     }
 });
 
 module.exports = Register;
 
-/*
- <Text>{I18n.t('obog')}</Text>
- <Picker
- selectedValue={this.state.obog}
- onValueChange={(obog) => this.setState({obog})}>
- {OB_OG.map((obog) => (
- <PickerItem
- key={obog}
- value={obog.value}
- label={obog.text}
- />
- ))}
- </Picker>
- <Text>{I18n.t('school')}</Text>
- <Picker
- selectedValue={this.state.school}
- onValueChange={(school) => this.setState({school})}>
- {this.state.schools.map((school) => (
- <PickerItem
- key={school}
- value={school.value}
- label={school.value}
- />
- ))}
- </Picker>
- */
+// <ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
+//                 <View style={styles.Search}>
+//                     <Form ref="form">
+//                         <TextInput style={{height: 60}} name="username" placeholder="ユーサー名"/>
+//                         <TextInput style={{height: 60}} name="email" placeholder="メールアドレス"/>
+//                         <TextInput style={{height: 60}} name="display_name" placeholder="表示ユーザー名"/>
+//                         <TextInput style={{height: 60}} name="years" placeholder="年齢"/>
+//                     </Form>
+//                     <View style={{padding:10, marginBottom: 20}}>
+//                         <Text style={{height: 40, color: "#333"}}
+//                             onPress={this.toggleCountry}>
+//                             Country: <Text style={{color: "gray"}}> {this.state.country} </Text>
+//                         </Text>
+//                         {this.showCountry()}
+
+//                         <Text style={{height: 40, color: "#333"}}
+//                             onPress={this.toggleObog}>
+//                             Obog: <Text style={{color: "gray"}}> {this.state.obog} </Text>
+//                         </Text>
+//                             {this.showObog()}
+
+//                         <Text style={{height: 40, color: "#333"}}
+//                             onPress={this.toggleSchool}>
+//                             School: <Text style={{color: "gray"}}> {this.state.school} </Text>
+//                         </Text>
+//                             {this.showSchool()}
+//                     </View>
+//                     <View style={styles.loginButtonContainer}>
+//                         <Button style={styles.loginButton} textStyle={styles.loginText}
+//                                 onPress={this.register}>
+//                             { I18n.t('register')}
+//                         </Button>
+//                     </View>
+//                     <View style={styles.loginButtonContainer}>
+//                         <Text>
+//                             か
+//                         </Text>
+//                     </View>
+//                     <View style={styles.loginButtonContainer}>
+//                         <Button style={styles.registerButton} textStyle={styles.registerText}
+//                                 onPress={this.login}>
+//                             { I18n.t('login')}
+//                         </Button>
+//                     </View>
+//                     <Popup ref={(popup) => { this.popup = popup }}/>
+//                 </View>
+//             </ScrollView>
