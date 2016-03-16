@@ -142,7 +142,7 @@ var Login  = React.createClass({
           <GiftedForm.SeparatorWidget />
           <GiftedForm.TextInputWidget
               name='username'
-              title='Username'
+              title='ユーザー名'
               image={require('../../assets/icons/color/contact_card.png')}
 
               placeholder='MarcoPolo'
@@ -151,7 +151,7 @@ var Login  = React.createClass({
 
             <GiftedForm.TextInputWidget
               name='password' // mandatory
-              title='Password'
+              title='パスワード'
 
               placeholder='******'
 

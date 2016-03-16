@@ -1,10 +1,8 @@
-import Button from 'apsl-react-native-button'
+import Button from 'apsl-react-native-button';
 import Popup from 'react-native-popup';
-import PickerAndroid from 'react-native-picker-android';
-import Form from 'react-native-form';
 
 var React = require('react-native'),
-    Dimensions= require('Dimensions'),
+    Dimensions = require('Dimensions'),
     windowsSize = Dimensions.get('window'),
     api = require("../utils/api/UserApi"),
     schoolApi = require('../utils/api/SchoolsApi'),
@@ -15,16 +13,20 @@ var React = require('react-native'),
 
 I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
-        'registerUsername': 'ユーザー名 (必須)',
-        'registerMail': 'メールアドレス (必須)',
-        'registerDisplayName': '表示ユーザー名	(必須)',
+        'registerUsername': 'ユーザー名',
+        'registerMail': 'メールアドレス',
+        'registerDisplayName': '表示ユーザー名',
         'registerOk': '登録は官僚しました。メールアドレスの確認して下さい',
         'ok': 'OK',
         'register_error_000': 'このメールアドレスは他のユーザーが使っています',
         'register_error_001': 'このユーザー名は他のユーザーが使っています',
+        'years': '年齢',
         'country': '現在地',
+        'school': '所属',
         'obog': 'OB・OG',
-        'school': '所属'
+        'or' : 'か',
+        'login' : 'ログイン',
+        'register': '登録 '
     }
 );
 
@@ -51,18 +53,14 @@ var styles = StyleSheet.create({
     textButton : {
         color: 'white',
         fontSize: 15,
+    },
+    or : {
+        flex:1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
-
-let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
-let PickerItem = Picker.Item;
-
-let Countries = [ {text: 'Japan', value: 'JAPAN'},
-    {text: 'US', value: 'US'},
-    {text: 'Euro', value: 'EURO'},
-    {text: 'Other', value: 'OTHER'}];
-
-let OB_OG = [{ text: 'OB', value: 'OB'}, { text: 'OG', value: 'OG' }];
 
 var Register  = React.createClass({
 
@@ -77,6 +75,7 @@ var Register  = React.createClass({
     getInitialState() {
         return {
             showCountry: false,
+            showGender: false,
             showObog: false,
             showSchool: false,
             swipeToClose: false,
@@ -96,19 +95,9 @@ var Register  = React.createClass({
         })
     },
 
-    getRegisterValues() {
-        var registerValues = this.refs.form.getValues();
-        registerValues.country = this.state.country;
-        registerValues.obog = this.state.obog;
-        registerValues.school = this.state.school;
-        console.warn('registerValues > ', JSON.stringify(registerValues));
-        return registerValues;
-    },
-
     register(values) {
         var NavigationSubject = require("../services/NavigationManager").getStream();
-        console.warn('refs', JSON.stringify(this.refs.form.getValues()));
-        var _data = this.getRegisterValues();
+        var _data = values;
         if(_data) {
             api.registerNewUser(_data)
                 .then(response => {
@@ -135,7 +124,11 @@ var Register  = React.createClass({
         var NavigationSubject = require("../services/NavigationManager").getStream();
         NavigationSubject.onNext({path: 'login'})
     },
-
+    
+    toggleGender() {
+        this.setState({showGender: !this.state.showGender});
+    },
+    
     toggleCountry() {
         this.setState({showCountry: !this.state.showCountry});
     },
@@ -150,96 +143,74 @@ var Register  = React.createClass({
 
     showCountry() {
         if (this.state.showCountry) {
-            return (<Picker
-                selectedValue={this.state.country}
-                onValueChange={(country) => this.setState({country: country})}>
-                {Countries.map((country) => (
-                    <PickerItem
-                        key={country}
-                        value={country.value}
-                        label={country.text}
-                    />
-                ))}
-            </Picker>);
+            return (
+                    <GiftedForm.SelectWidget name='country' title='Country' multiple={false}>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/flags/jp.png')} title='Japan' value='JAPAN' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/flags/us.png')} title='US' value='US' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/passport.png')} title='Euro' value='EURO' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/passport.png')} title='Other' value='OTHER' style={{paddingLeft:15}}/>
+                        <GiftedForm.SeparatorWidget />
+                    </GiftedForm.SelectWidget>
+            );
         }
     },
 
     showObog() {
         if (this.state.showObog) {
-            return (<Picker
-            selectedValue={this.state.obog}
-            onValueChange={(obog) => this.setState({obog: obog})}>
-            {OB_OG.map((obog) => (
-                <PickerItem
-                    key={obog}
-                    value={obog.value}
-                    label={obog.text}
-                />
-            ))}
-        </Picker>
-        );
+            return (
+                    <GiftedForm.SelectWidget name='obog' title='Obog' multiple={false}>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/book.png')} title='OB' value='OB' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/book.png')} title='OG' value='OG' style={{paddingLeft:15}}/>
+                        <GiftedForm.SeparatorWidget />
+                    </GiftedForm.SelectWidget>
+            );
+        }
+    },
+    showGender() {
+        if (this.state.showGender) {
+            return (
+                    <GiftedForm.SelectWidget name='gender' title='Gender' multiple={false}>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/female.png')} title='Female' value='female' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/male.png')} title='Male' value='male' style={{paddingLeft:15}}/>
+                        <GiftedForm.SeparatorWidget />
+                    </GiftedForm.SelectWidget>
+            );
         }
     },
 
     showSchool() {
         if (this.state.showSchool) {
-            return (<Picker
-                    selectedValue={this.state.school}
-                    onValueChange={(school) => this.setState({school: school})}>
-                    {this.state.schools.map((school) => (
-                        <PickerItem
-                            key={school}
-                            value={school.value}
-                            label={school.value}
-                        />
-                    ))}
-                </Picker>
+            return (
+                    <GiftedForm.SelectWidget name='school' title='School' multiple={false}>
+                    {
+                        this.state.schools.map((school) => (
+                            <GiftedForm.OptionWidget key={school.value} image={require('../../assets/icons/color/book.png')} title={school.value} value={school.value} style={{paddingLeft:15}}/>
+                        ))
+                    }
+                        <GiftedForm.SeparatorWidget />
+                    </GiftedForm.SelectWidget>
             );
         }
     },
-renderScene: function (route, navigator) {
-//...
-     if (route.giftedForm == true) {
-          return route.renderScene();
-     }
-//...
-},
-
-configureScene: function (route) {
-        //...
-        if (route.giftedForm) {
-            return route.configureScene();
-        }
-       //...
-    },
     render() {
         return(
-            <View>
-            <Navigator
-            ref="navigator"
-            initialRoute={Routes.getInitialRoute()}
-            renderScene={this.renderScene}
-            configureScene={this.configureScene}
-            navigationBar={this.setNavigationBar()}
-        />
             <GiftedForm
                 formName='signupForm' // GiftedForm instances that use the same name will also share the same states
 
                 openModal={ (route) => {
-                    route.giftedForm = true;
-                    this.props.navigator.push(route); 
+                    
                 }}
 
                 clearOnClose={false} // delete the values of the form when unmounted
 
                 defaults={{
-                /*
-                username: 'Farid',
-                'gender{M}': true,
-                password: 'abcdefg',
-                country: 'FR',
-                birthday: new Date(((new Date()).getFullYear() - 18)+''),
-                */
+                    /*
+                    username: 'Farid',
+                    'gender{M}': true,
+                    password: 'abcdefg',
+                    country: 'FR',
+                    birthday: new Date(((new Date()).getFullYear() - 18)+''),
+                    */
                 }}
 
                 validators={{
@@ -280,16 +251,18 @@ configureScene: function (route) {
                     message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
                     }]
                 },
-                bio: {
-                    title: 'Biography',
+                years : {
+                    title: 'Years',
                     validate: [{
-                    validator: 'isLength',
-                    arguments: [0, 512],
-                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                        validator: 'isInt',
+                    },{
+                        validator: 'isLength',
+                        arguments: [1, 2],
+                        message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
                     }]
                 },
-                gender: {
-                    title: 'Gender',
+                country: {
+                    title: 'Country',
                     validate: [{
                     validator: (...args) => {
                         if (args[0] === undefined) {
@@ -300,24 +273,28 @@ configureScene: function (route) {
                     message: '{TITLE} is required',
                     }]
                 },
-                birthday: {
-                    title: 'Birthday',
+                school: {
+                    title: 'School',
                     validate: [{
-                    validator: 'isBefore',
-                    arguments: [moment().utc().subtract(18, 'years').format('YYYY-MM-DD')],
-                    message: 'You must be at least 18 years old'
-                    }, {
-                    validator: 'isAfter',
-                    arguments: [moment().utc().subtract(100, 'years').format('YYYY-MM-DD')],
-                    message: '{TITLE} is not valid'
+                    validator: (...args) => {
+                        if (args[0] === undefined) {
+                        return false;
+                        }
+                        return true;
+                    },
+                    message: '{TITLE} is required',
                     }]
                 },
-                country: {
-                    title: 'Country',
+                obog: {
+                    title: 'Obog',
                     validate: [{
-                    validator: 'isLength',
-                    arguments: [2],
-                    message: '{TITLE} is required'
+                    validator: (...args) => {
+                        if (args[0] === undefined) {
+                        return false;
+                        }
+                        return true;
+                    },
+                    message: '{TITLE} is required',
                     }]
                 },
                 }}
@@ -326,7 +303,7 @@ configureScene: function (route) {
                 <GiftedForm.SeparatorWidget />
                 <GiftedForm.TextInputWidget
                     name='username'
-                    title='Username'
+                    title={ I18n.t('registerUsername')}
                     image={require('../../assets/icons/color/contact_card.png')}
 
                     placeholder='MarcoPolo'
@@ -335,7 +312,7 @@ configureScene: function (route) {
 
                 <GiftedForm.TextInputWidget
                     name='email' // mandatory
-                    title='Email address'
+                    title={ I18n.t('registerMail')}
                     placeholder='example@nomads.ly'
                     keyboardType='email-address'
                     clearButtonMode='while-editing'
@@ -344,7 +321,7 @@ configureScene: function (route) {
                 
                 <GiftedForm.TextInputWidget
                     name='display_name' // mandatory
-                    title='Display name'
+                    title={ I18n.t('registerDisplayName')}
                     image={require('../../assets/icons/color/user.png')}
                     placeholder='Marco Polo'
                     clearButtonMode='while-editing'
@@ -352,7 +329,7 @@ configureScene: function (route) {
                 
                 <GiftedForm.TextInputWidget
                     name='password' // mandatory
-                    title='Password'
+                    title='パスワードを選択'
                     placeholder='******'
                     clearButtonMode='while-editing'
                     secureTextEntry={true}
@@ -360,98 +337,68 @@ configureScene: function (route) {
                 />
 
                 <GiftedForm.SeparatorWidget />
-
-                <GiftedForm.ModalWidget
-                title='Gender'
-                displayValue='gender'
-                image={require('../../assets/icons/color/gender.png')}
-                >
-                <GiftedForm.SeparatorWidget />
-
-                <GiftedForm.SelectWidget name='gender' title='Gender' multiple={false}>
-                    <GiftedForm.OptionWidget image={require('../../assets/icons/color/female.png')} title='Female' value='F'/>
-                    <GiftedForm.OptionWidget image={require('../../assets/icons/color/male.png')} title='Male' value='M'/>
-                </GiftedForm.SelectWidget>
-                </GiftedForm.ModalWidget>
-
-                <GiftedForm.ModalWidget
-                    title='Birthday'
-                    displayValue='birthday'
+                
+                <GiftedForm.TextInputWidget
+                    name='years' // mandatory
+                    title={ I18n.t('years')}
+                    placeholder='+18'
+                    clearButtonMode='while-editing'
                     image={require('../../assets/icons/color/birthday.png')}
-
-                scrollEnabled={false}
-                >
-                <GiftedForm.SeparatorWidget/>
-                <GiftedForm.DatePickerIOSWidget
-                    name='birthday'
-                    mode='date'
-
-                    getDefaultDate={() => {
-                    return new Date(((new Date()).getFullYear() - 18)+'');
-                    }}
                 />
-                </GiftedForm.ModalWidget>
+                
                 <GiftedForm.ModalWidget
-                title='Country'
-                displayValue='country'
-                image={require('../../assets/icons/color/passport.png')}
-                scrollEnabled={false}
-
+                    title={ I18n.t('country')}
+                    displayValue='country'
+                    image={require('../../assets/icons/color/passport.png')}
+                    onPress={this.toggleCountry}
                 >
-                <GiftedForm.SelectCountryWidget 
-                    code='alpha2' 
-                    name='country' 
-                    title='Country' 
-                    autoFocus={true}
-                />
                 </GiftedForm.ModalWidget>
-
-
+                
+                {this.showCountry()}
+                
                 <GiftedForm.ModalWidget
-                title='Biography'
-                displayValue='bio'
-
-                image={require('../../assets/icons/color/book.png')}
-
-                scrollEnabled={true} // true by default
+                    title={ I18n.t('school')}
+                    displayValue='school'
+                    image={require('../../assets/icons/color/book.png')}
+                    onPress={this.toggleSchool}
                 >
-                <GiftedForm.SeparatorWidget/>
-                <GiftedForm.TextAreaWidget
-                    name='bio'
-
-                    autoFocus={true}
-
-                    placeholder='Something interesting about yourself'
-                />
-                </GiftedForm.ModalWidget>
-
-
+                </GiftedForm.ModalWidget>               
+                {this.showSchool()}
+                
+                <GiftedForm.ModalWidget
+                    title={ I18n.t('obog')}
+                    displayValue='obog'
+                    onPress={this.toggleObog}
+                    image={require('../../assets/icons/color/book.png')}
+                >
+                </GiftedForm.ModalWidget>               
+                {this.showObog()}
 
                 <GiftedForm.SubmitWidget
-                title='Sign up'
-                widgetStyles={{
-                    submitButton: {
-                    backgroundColor: '#34767F',
-                    }
-                }}
-                onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
-                    if (isValid === true) {
-                    // prepare object
-                    values.gender = values.gender[0];
-                    values.birthday = moment(values.birthday).format('YYYY-MM-DD');
-
-                    /* Implement the request to your server using values variable
-                    ** then you can do:
-                    ** postSubmit(); // disable the loader
-                    ** postSubmit(['An error occurred, please try again']); // disable the loader and display an error message
-                    ** postSubmit(['Username already taken', 'Email already taken']); // disable the loader and display an error message
-                    ** GiftedFormManager.reset('signupForm'); // clear the states of the form manually. 'signupForm' is the formName used
-                    */
-                    }
-                }}
-
+                    title={ I18n.t('register')}
+                    widgetStyles={{
+                        submitButton: {
+                        backgroundColor: '#34767F',
+                        }
+                    }}
+                    onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
+                        if (isValid === true) {
+                            this.register(values);
+                            postSubmit();
+                        }
+                    }}
                 />
-
+                
+                <View style={styles.or}>
+                    <Text>{ I18n.t('or')}</Text>
+                </View>
+                
+                <View>
+                    <Button style={styles.button} textStyle={styles.textButton} onPress={this.login}>
+                            { I18n.t('login')}
+                    </Button>
+                </View>  
+            
                 <GiftedForm.NoticeWidget 
                     title='By signing up, you agree to the Terms of Service and Privacy Policity.'
                 />
@@ -462,51 +409,3 @@ configureScene: function (route) {
 });
 
 module.exports = Register;
-
-// <ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
-//                 <View style={styles.Search}>
-//                     <Form ref="form">
-//                         <TextInput style={{height: 60}} name="username" placeholder="ユーサー名"/>
-//                         <TextInput style={{height: 60}} name="email" placeholder="メールアドレス"/>
-//                         <TextInput style={{height: 60}} name="display_name" placeholder="表示ユーザー名"/>
-//                         <TextInput style={{height: 60}} name="years" placeholder="年齢"/>
-//                     </Form>
-//                     <View style={{padding:10, marginBottom: 20}}>
-//                         <Text style={{height: 40, color: "#333"}}
-//                             onPress={this.toggleCountry}>
-//                             Country: <Text style={{color: "gray"}}> {this.state.country} </Text>
-//                         </Text>
-//                         {this.showCountry()}
-
-//                         <Text style={{height: 40, color: "#333"}}
-//                             onPress={this.toggleObog}>
-//                             Obog: <Text style={{color: "gray"}}> {this.state.obog} </Text>
-//                         </Text>
-//                             {this.showObog()}
-
-//                         <Text style={{height: 40, color: "#333"}}
-//                             onPress={this.toggleSchool}>
-//                             School: <Text style={{color: "gray"}}> {this.state.school} </Text>
-//                         </Text>
-//                             {this.showSchool()}
-//                     </View>
-//                     <View style={styles.loginButtonContainer}>
-//                         <Button style={styles.loginButton} textStyle={styles.loginText}
-//                                 onPress={this.register}>
-//                             { I18n.t('register')}
-//                         </Button>
-//                     </View>
-//                     <View style={styles.loginButtonContainer}>
-//                         <Text>
-//                             か
-//                         </Text>
-//                     </View>
-//                     <View style={styles.loginButtonContainer}>
-//                         <Button style={styles.registerButton} textStyle={styles.registerText}
-//                                 onPress={this.login}>
-//                             { I18n.t('login')}
-//                         </Button>
-//                     </View>
-//                     <Popup ref={(popup) => { this.popup = popup }}/>
-//                 </View>
-//             </ScrollView>
