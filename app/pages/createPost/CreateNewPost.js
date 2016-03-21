@@ -1,17 +1,14 @@
-/**
- * Created by seba on 17/02/16.
- */
-import Popup from 'react-native-popup';
-import Button from 'apsl-react-native-button'
-import Form from 'react-native-form';
-
-var t = require('tcomb-form-native'),
+var React = require('react-native'), 
+    t = require('tcomb-form-native'),
     I18nService = require('../../i18n'),
     I18n = I18nService.getTranslations(),
-    React = require('react-native'),
     Icon = require('react-native-vector-icons/FontAwesome'),
     ImageUploader = require('../../components/images/ImageUploader'),
     api = require('../../utils/api/ImageUploadApi');
+
+import Popup from 'react-native-popup';
+import Button from 'apsl-react-native-button';
+import Form from 'react-native-form';
 
 I18nService.set('ja-JP', {
     'title': '作品のタイトル',
@@ -109,9 +106,8 @@ var CreateNewPost = React.createClass({
     },
 
     setCategory() {
-        console.warn('setCategory');
         var Nav = require("../../services/NavigationManager").getStream();
-        Nav.onNext({path: 'createNewPostCategory', params: {newPost: {hola: 'chau'} }});
+        Nav.onNext({path: 'createNewPostCategory', params: {newPost: this.getValues() }});
     },
 
     openPicker(object, key) {
@@ -178,12 +174,4 @@ var CreateNewPost = React.createClass({
     }
 });
 
-/*
- <TextInput style={{height: 60}}
- name='title'
- placeholder={I18n.t('title')}/>
- <TextInput style={{height: 60}}
- name="description"
- placeholder={I18n.t('description')}/>
- */
 module.exports = CreateNewPost;

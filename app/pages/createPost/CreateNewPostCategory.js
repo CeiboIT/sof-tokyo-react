@@ -1,15 +1,13 @@
-/**
- * Created by seba on 17/02/16.
- */
-import Button from 'apsl-react-native-button'
-
-var I18nService = require('../../i18n');
-var I18n = I18nService.getTranslations();
 var React = require('react-native');
-var metadataStream = require('../../services/Streams').getStream('Metadata');
-var categoryApi = require('../../utils/api/MetadataApi');
-var Accordion = require('react-native-collapsible/Accordion');
-var Collapsible = require('react-native-collapsible');
+    I18nService = require('../../i18n'),
+    I18n = I18nService.getTranslations(),
+    metadataStream = require('../../services/Streams').getStream('Metadata'),
+    categoryApi = require('../../utils/api/MetadataApi'),
+    Accordion = require('react-native-collapsible/Accordion'),
+    Collapsible = require('react-native-collapsible'),
+    {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
+    
+import Button from 'apsl-react-native-button';
 import CeiboSelectable from '../../components/forms/select/CeiboSelectable';
 
 I18nService.set('ja-JP', {});
@@ -97,8 +95,6 @@ var CreateNewPostCategory = React.createClass({
         });
     },
 
-
-
     _renderAccordionItem(category, i) {
 
         var _SECTIONS = [{
@@ -113,11 +109,24 @@ var CreateNewPostCategory = React.createClass({
                 </View>
             );
         };
+        
+        var goToStyle = function(subCat) {
+            // this.props.newPost.subcategory1 = subCat.id;
+            // this.props.newPost.subcategory0 = subCat.parent;
+            var Nav = require("../../services/NavigationManager").getStream();
+            Nav.onNext({path: 'createNewPostStyle', params: {newPost: {}} });
+        };
 
         var _renderContent = function (section) {
             return (
                 <View style={styles.content}>
-                    <CeiboSelectable list={ section['childs'] } iconName='check' iconColor='green' iconSize={15} valueKey="id" labelKey="trad"  />
+                    <GiftedForm.SelectWidget multiple={false}>
+                        {
+                            section['childs'].map((subCat) => (
+                                <GiftedForm.OptionWidget key={subCat.trad} title={subCat.trad} value={subCat.id} style={{paddingLeft:25}} onPress={() => goToStyle(subCat)}/>
+                            ))
+                        }
+                    </GiftedForm.SelectWidget>
                 </View>
             );
         };

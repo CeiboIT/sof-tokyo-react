@@ -270,7 +270,8 @@ class NavigatorService {
                         leftCorner: navigation.back,
                         component: Pages.createNewPostStyle,
                         headerStyle: styles.generalHeader,
-                        titleComponent: logo
+                        titleComponent: logo,
+                        passProps: route.params
                     });
                 break;
 

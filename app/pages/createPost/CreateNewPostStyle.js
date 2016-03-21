@@ -1,27 +1,19 @@
-/**
- * Created by seba on 17/02/16.
- */
-import Button from 'apsl-react-native-button'
+var React = require('react-native'),
+    I18nService = require('../../i18n'),
+    I18n = I18nService.getTranslations(),
+    t = require('tcomb-form-native'),
+    metadataStream = require('../../services/Streams').getStream('Metadata'),
+    metadataApi = require('../../utils/api/MetadataApi'),
+    GiftedSpinner = require('react-native-gifted-spinner');
 
-var I18nService = require('../../i18n');
-var I18n = I18nService.getTranslations();
-var React = require('react-native');
-var t = require('tcomb-form-native');
-
-var metadataStream = require('../../services/Streams').getStream('Metadata');
-var metadataApi = require('../../utils/api/MetadataApi');
-var GiftedSpinner = require('react-native-gifted-spinner');
-
-import { GiftedForm, GiftedFormManager } from 'react-native-gifted-form'
-import GridView  from 'react-native-grid-view'
+import Button from 'apsl-react-native-button';
+import { GiftedForm, GiftedFormManager } from 'react-native-gifted-form';
+import GridView  from 'react-native-grid-view';
 import CeiboSelectable from '../../components/forms/select/CeiboSelectable';
-
 
 I18nService.set('ja-JP', {});
 
-
 var Form = t.form.Form;
-
 
 var {
     View,
@@ -30,7 +22,6 @@ var {
     StyleSheet,
     ListView
     } = React;
-
 
 var styles = StyleSheet.create({
     Search: {

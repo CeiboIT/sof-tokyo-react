@@ -1,12 +1,11 @@
-var React = require('react-native');
-var apiBanners = require('../../utils/api/BannersApi');
-
-var BannerElement = require('./BannerElement');
-var BannersStream = require("../../services/Streams").getStream("Banners");
-var Carousel = require('react-native-carousel');
-var GiftedSpinner = require('react-native-gifted-spinner');
-var Dimensions = require('Dimensions');
-var screen = Dimensions.get('window');
+var React = require('react-native'),
+    apiBanners = require('../../utils/api/BannersApi'),
+    BannerElement = require('./BannerElement'),
+    BannersStream = require("../../services/Streams").getStream("Banners"),
+    Carousel = require('react-native-carousel'),
+    GiftedSpinner = require('react-native-gifted-spinner'),
+    Dimensions = require('Dimensions'),
+    screen = Dimensions.get('window');
 
 var {
     StyleSheet,
@@ -30,7 +29,7 @@ var NewsCarousel  = React.createClass({
 
     componentDidMount() {
         apiBanners.LoadBanners()
-        BannersStream.subscribe((response) => {            
+        BannersStream.subscribe((response) => {     
             this.setState({
                 banners: response['banners']
             });

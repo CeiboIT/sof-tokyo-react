@@ -1,8 +1,8 @@
 var React = require('react-native');
-var PostElement = require('./PostElement');
-var GridView = require('react-native-grid-view');
-var PostsStream = require("../../services/Streams").getStream("Posts");
-var GiftedSpinner = require('react-native-gifted-spinner');
+    PostElement = require('./PostElement'),
+    GridView = require('react-native-grid-view'),
+    PostsStream = require("../../services/Streams").getStream("Posts"),
+    GiftedSpinner = require('react-native-gifted-spinner');
 
 var {
     StyleSheet,
@@ -25,11 +25,6 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center'
     },
-
-    item: {
-
-    },
-
     title: {
         fontSize: 25
     },
@@ -54,7 +49,6 @@ var styles = StyleSheet.create({
     rowContainer: {
         padding: 10
     },
-
     footerContainer: {
         backgroundColor: '#E3E3E3',
         alignItems: 'center',
@@ -68,7 +62,6 @@ var styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-
     loadMoreDisabled : {
         borderColor: "#e5e5e5",
         backgroundColor: "#e5e5f0",
@@ -127,7 +120,7 @@ var PostsList  = React.createClass({
                     dataSource : []
                 });
                 _initial = true;
-                _page =1;
+                _page = 1;
             }
 
             if(_initial && _page == 1 && response.data['posts'].length)  {
