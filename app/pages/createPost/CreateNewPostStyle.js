@@ -66,6 +66,7 @@ var styles = StyleSheet.create({
 var CreateNewPostStyle = React.createClass({
 
     getInitialState() {
+        this.props.newPost.styles = []
         return {
             styles: [],
             selectedPostStyles: {},
@@ -82,7 +83,7 @@ var CreateNewPostStyle = React.createClass({
         metadataApi.StylesList();
         metadataStream.subscribe((response)=> {
             if (response.type === 'styles') {
-                console.warn('CreateNewPostStyle > componentDidMount ', JSON.stringify(response['data']));
+                // console.warn('CreateNewPostStyle > componentDidMount ', JSON.stringify(response['data']));
                 this.setState({
                     newPost: this.props.newPost,
                     styles: response['data']
@@ -101,26 +102,55 @@ var CreateNewPostStyle = React.createClass({
             console.warn('renderList > return empty');
         }
     },
-    goToPreview(style) {
-        var newPost = this.state.newPost;
-        console.warn(JSON.stringify(newPost))
+    selectStyle(style) {
+        // var newPost = this.state.newPost;
         
-        api.createNewPost(newPost);
+        if(this.state.newPost.styles.indexOf(style.trad) == -1){
+            this.state.newPost.styles.push(style.trad)
+        }
+        
+        // var found = this.state.newPost.styles.some(function (el) {
+        //     return el.id === style.id;
+        // });
+        // if (!found) { this.state.newPost.styles.push({ id: style.id }); }
+    },
+    goToPreview(){
+        console.warn(JSON.stringify(this.state.newPost));
+        api.createNewPost(this.state.newPost);
         // var Nav = require("../../services/NavigationManager").getStream();
         // Nav.onNext({path: 'createNewPostPreview', params: {newPost: {newPost}} });
+        
     },
     render() {
         // var _render = (this.state.styles && this.state.styles.length) ?  <CeiboSelectable list={ this.state.styles } iconName='check' iconSize={15} valueKey="id" labelKey="trad"  /> : (<View style={styles.loading}><GiftedSpinner/></View>);
         return (
-            <ScrollView style={{flex:1}}>
-                    <GiftedForm.SelectWidget multiple={false}>
+            
+            <GiftedForm formName='stylesForm'>
+                    <GiftedForm.SelectWidget name='styles' title='Styles' multiple={true}>
                         {
                             this.state.styles.map((style) => (
-                                <GiftedForm.OptionWidget key={style.trad} title={style.trad} value={style.id} style={{paddingLeft:25}} onPress={() => this.goToPreview(style)}/>
+                                <GiftedForm.OptionWidget key={style.trad} title={style.trad} value={style.trad} style={{paddingLeft:25}} onPress={() => this.selectStyle(style)}/>
                             ))
                         }
                     </GiftedForm.SelectWidget>
-          </ScrollView>
+                    
+                    <GiftedForm.SubmitWidget
+                    title="Preview"
+                    widgetStyles={{
+                        submitButton: {
+                        backgroundColor: '#34767F',
+                        }
+                    }}
+                    onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
+                        this.goToPreview()
+                        if (isValid === true) {
+                            postSubmit();
+                        }
+                    }}
+                />
+                    
+                    </GiftedForm>
+         
                 )
     }
 });

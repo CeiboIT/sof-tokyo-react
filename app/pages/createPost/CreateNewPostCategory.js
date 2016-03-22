@@ -111,7 +111,8 @@ var CreateNewPostCategory = React.createClass({
             this.state.newPost.subcategory1 = subCat.id;
             var newPost = this.state.newPost,
                 Nav = require("../../services/NavigationManager").getStream();
-            Nav.onNext({path: 'createNewPostStyle', params: {newPost: {newPost}} });
+                console.warn('ACAAAA ', JSON.stringify(newPost))
+            Nav.onNext({path: 'createNewPostStyle', params: {newPost: newPost} });
         };
 
         var _renderContent = function (section) {
