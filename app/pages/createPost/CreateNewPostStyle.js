@@ -4,12 +4,14 @@ var React = require('react-native'),
     t = require('tcomb-form-native'),
     metadataStream = require('../../services/Streams').getStream('Metadata'),
     metadataApi = require('../../utils/api/MetadataApi'),
-    GiftedSpinner = require('react-native-gifted-spinner');
+    GiftedSpinner = require('react-native-gifted-spinner'),
+    {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
+
+var api = require("../../utils/api/PostApi");
+var NewPostStream = require('../../services/Streams').getStream('NewPost');
 
 import Button from 'apsl-react-native-button';
-import { GiftedForm, GiftedFormManager } from 'react-native-gifted-form';
 import GridView  from 'react-native-grid-view';
-import CeiboSelectable from '../../components/forms/select/CeiboSelectable';
 
 I18nService.set('ja-JP', {});
 
@@ -20,7 +22,8 @@ var {
     Switch,
     Text,
     StyleSheet,
-    ListView
+    ListView,
+    ScrollView
     } = React;
 
 var styles = StyleSheet.create({
@@ -81,6 +84,7 @@ var CreateNewPostStyle = React.createClass({
             if (response.type === 'styles') {
                 console.warn('CreateNewPostStyle > componentDidMount ', JSON.stringify(response['data']));
                 this.setState({
+                    newPost: this.props.newPost,
                     styles: response['data']
                 });
             }
@@ -97,13 +101,27 @@ var CreateNewPostStyle = React.createClass({
             console.warn('renderList > return empty');
         }
     },
-
+    goToPreview(style) {
+        var newPost = this.state.newPost;
+        console.warn(JSON.stringify(newPost))
+        
+        api.createNewPost(newPost);
+        // var Nav = require("../../services/NavigationManager").getStream();
+        // Nav.onNext({path: 'createNewPostPreview', params: {newPost: {newPost}} });
+    },
     render() {
-        var _render = (this.state.styles && this.state.styles.length) ?  <CeiboSelectable list={ this.state.styles } iconName='check' iconSize={15} valueKey="id" labelKey="trad"  /> : (<View style={styles.loading}><GiftedSpinner/></View>);
+        // var _render = (this.state.styles && this.state.styles.length) ?  <CeiboSelectable list={ this.state.styles } iconName='check' iconSize={15} valueKey="id" labelKey="trad"  /> : (<View style={styles.loading}><GiftedSpinner/></View>);
         return (
-            <View style={{flex:1}}>
-                { _render }
-            </View>)
+            <ScrollView style={{flex:1}}>
+                    <GiftedForm.SelectWidget multiple={false}>
+                        {
+                            this.state.styles.map((style) => (
+                                <GiftedForm.OptionWidget key={style.trad} title={style.trad} value={style.id} style={{paddingLeft:25}} onPress={() => this.goToPreview(style)}/>
+                            ))
+                        }
+                    </GiftedForm.SelectWidget>
+          </ScrollView>
+                )
     }
 });
 

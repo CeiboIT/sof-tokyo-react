@@ -68,7 +68,7 @@ var CreateNewPost = React.createClass({
     getInitialState() {
         return {
             post: {
-                authorId: 0,
+                authorId: 1,
                 title: '',
                 content: '',
                 img: 'https://placeholdit.imgix.net/~text?txtsize=34&txt=add+image&w=200&h=200',
@@ -98,11 +98,13 @@ var CreateNewPost = React.createClass({
     },
 
     getValues() {
-        var newPost = this.refs.form.getValues();
-        // validate all fields are filled
-        newPost.image = this.state.selectedImage;
-        console.warn('CreateNewPost > getValues ', JSON.stringify(newPost));
-        return newPost;
+        var formValues = this.refs.form.getValues();
+        
+        this.state.post.title = formValues.title;
+        this.state.post.content = formValues.description;
+
+        console.warn('CreateNewPost > getValues ', JSON.stringify(this.state));
+        return this.state.post;
     },
 
     setCategory() {
@@ -159,13 +161,8 @@ var CreateNewPost = React.createClass({
                     </Button>
 
                     <Button onPress={this.setCategory}>
-                        {I18n.t('set_category')}
+                        {I18n.t('set_category')} <Icon name="angle-double-right" style={styles.iconPlus}/>
                     </Button>
-                    <View>
-                        <Button>
-                            Next <Icon name="angle-double-right" style={styles.iconPlus}/>
-                        </Button>
-                    </View>
                 </View>
                 <View>
                     <Popup ref={(popup) => { this.popup = popup }}/>

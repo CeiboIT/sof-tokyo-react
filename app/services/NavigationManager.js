@@ -1,16 +1,12 @@
-/**
- * Created by epotignano on 10/01/16.
- */
-
-var Rx = require('rx');
-var React = require('react-native');
-var Pages = require('../pages/Pages.d');
-var Login = require('../pages/Login');
-var ResponsiveImage = require('react-native-responsive-image');
-var storage = require('./Storage').getInstance();
-
-var toggle = require('../components/actions/ToggleMenu');
-var navigation = require('../components/navigation/Navigation.d');
+var Rx = require('rx'),
+    React = require('react-native'),
+    Pages = require('../pages/Pages.d'),
+    Login = require('../pages/Login'),
+    ResponsiveImage = require('react-native-responsive-image'),
+    storage = require('./Storage').getInstance(),
+    toggle = require('../components/actions/ToggleMenu'),
+    navigation = require('../components/navigation/Navigation.d');
+    
 var {
     View,
     StyleSheet,

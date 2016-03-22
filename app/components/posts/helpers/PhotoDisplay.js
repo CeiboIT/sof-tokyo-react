@@ -1,10 +1,6 @@
-/**
- * Created by epotignano on 29/02/16.
- */
-
 var React = require('react-native'),
     Dimensions = require('Dimensions'),
-    windowSize = Dimensions.get("window")
+    windowSize = Dimensions.get("window");
 
 var {Image, StyleSheet, TouchableHighlight} = React;
 

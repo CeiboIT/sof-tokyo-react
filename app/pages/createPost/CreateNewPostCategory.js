@@ -39,7 +39,6 @@ var CategoryElement = React.createClass({
 
     selectCategory(category) {
         var Nav = require("../../services/NavigationManager").getStream();
-        //this.props.newPost.category = category;
         Nav.onNext({path: 'createNewPostStyle', params: {newPost: {}} });
     },
 
@@ -65,7 +64,6 @@ var selectCategory = function(category) {
 };
 
 var CreateNewPostCategory = React.createClass({
-
     getInitialState() {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         return {
@@ -75,7 +73,6 @@ var CreateNewPostCategory = React.createClass({
     },
 
     getValues() {
-        console.warn('CreateNewPostCategory selectCategory props.newPost', JSON.stringify(this.props));
         return this.props;
     },
 
@@ -85,7 +82,6 @@ var CreateNewPostCategory = React.createClass({
             if (response.type === 'subcategories') {
                 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                 ds = ds.cloneWithRows(response['data']);
-                //console.warn('componentIdMount > newPost', JSON.stringify(this));
                 this.setState({
                     newPost: this.props.newPost,
                     ds: ds,
@@ -110,11 +106,12 @@ var CreateNewPostCategory = React.createClass({
             );
         };
         
-        var goToStyle = function(subCat) {
-            // this.props.newPost.subcategory1 = subCat.id;
-            // this.props.newPost.subcategory0 = subCat.parent;
-            var Nav = require("../../services/NavigationManager").getStream();
-            Nav.onNext({path: 'createNewPostStyle', params: {newPost: {}} });
+        var goToStyle = (subCat) => {
+            this.state.newPost.subcategory0 = subCat.parent;
+            this.state.newPost.subcategory1 = subCat.id;
+            var newPost = this.state.newPost,
+                Nav = require("../../services/NavigationManager").getStream();
+            Nav.onNext({path: 'createNewPostStyle', params: {newPost: {newPost}} });
         };
 
         var _renderContent = function (section) {
