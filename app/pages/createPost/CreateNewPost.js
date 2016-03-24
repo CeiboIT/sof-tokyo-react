@@ -4,8 +4,9 @@ var React = require('react-native'),
     I18n = I18nService.getTranslations(),
     Icon = require('react-native-vector-icons/FontAwesome'),
     ImageUploader = require('../../components/images/ImageUploader'),
-    api = require('../../utils/api/ImageUploadApi');
-
+    api = require('../../utils/api/ImageUploadApi'),
+    {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
+    
 import Popup from 'react-native-popup';
 import Button from 'apsl-react-native-button';
 import Form from 'react-native-form';
@@ -97,19 +98,14 @@ var CreateNewPost = React.createClass({
         }
     },
 
-    getValues() {
-        var formValues = this.refs.form.getValues();
+    setCategory(values) {
+        var post = this.state.post,
+            Nav = require("../../services/NavigationManager").getStream();
+            
+        post.title = values.title;
+        post.content = values.description;
         
-        this.state.post.title = formValues.title;
-        this.state.post.content = formValues.description;
-
-        console.warn('CreateNewPost > getValues ', JSON.stringify(this.state));
-        return this.state.post;
-    },
-
-    setCategory() {
-        var Nav = require("../../services/NavigationManager").getStream();
-        Nav.onNext({path: 'createNewPostCategory', params: {newPost: this.getValues() }});
+        Nav.onNext({path: 'createNewPostCategory', params: {newPost: post }});
     },
 
     openPicker(object, key) {
@@ -132,24 +128,57 @@ var CreateNewPost = React.createClass({
 
     render() {
         return (
-            <ScrollView style={{flex:1}}>
-
-                <Form ref="form">
-                    <TextInput style={{height: 60}}
-                               name='title'
-                               placeholder={I18n.t('title')}/>
-                    <TextInput style={{height: 60}}
-                               name="description"
-                               placeholder={I18n.t('description')}/>
-                </Form>
-
-                <View style={{paddingHorizontal: 10}}>
-                    <View style={styles.mainPhotoContainer}>
-                        <TouchableHighlight onPress={() => { this.openPicker('post', 'img') }} underlayColor={'transparent'} style={styles.mainPhoto}>
-                            <Image style={{width:200, height: 200}}
-                                source={{uri: this.state.post.img}} resizeMode="stretch" />
-                        </TouchableHighlight>
-                    </View>
+                <GiftedForm
+                    formName='createForm'
+                    clearOnClose={false}
+                    defaults={{
+                    
+                    }}
+                    validators={{
+                        title: {
+                            title: 'Title',
+                            validate: [{
+                                validator: 'isLength',
+                                arguments: [3, 50],
+                                message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                            }]
+                        },
+                        description: {
+                            title: 'Description',
+                                validate: [{
+                                validator: 'isLength',
+                                arguments: [2, 512],
+                                message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                            }]
+                        }
+                    }}
+                >
+                <GiftedForm.SeparatorWidget />
+                
+                <GiftedForm.TextInputWidget
+                    name='title'
+                    title={I18n.t('title')}
+                    image={require('../../../assets/icons/color/contact_card.png')}
+                    placeholder={I18n.t('title')}
+                    clearButtonMode='while-editing'
+                />
+                
+                <GiftedForm.TextAreaWidget
+                    name='description'
+                    title={I18n.t('description')}
+                    placeholder={I18n.t('description')}
+                    clearButtonMode='while-editing'
+                />
+            
+                <GiftedForm.SeparatorWidget />       
+                
+                <View style={styles.mainPhotoContainer}>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'img') }} underlayColor={'transparent'} style={styles.mainPhoto}>
+                        <Image style={{width:200, height: 200}}
+                               source={{uri: this.state.post.img}} resizeMode="stretch" />
+                    </TouchableHighlight>
+                </View>
+                <View style={{paddingHorizontal:10}}>
                     <Button onPress={() => { this.openPicker('post', 'subImg1') }}>
                         <Text>{I18n.t('select_image')}</Text>
                     </Button>
@@ -159,15 +188,28 @@ var CreateNewPost = React.createClass({
                     <Button onPress={() => { this.openPicker('post', 'subImg3') }}>
                         <Text>{I18n.t('select_image')}</Text>
                     </Button>
-
-                    <Button onPress={this.setCategory}>
-                        {I18n.t('set_category')} <Icon name="angle-double-right" style={styles.iconPlus}/>
-                    </Button>
                 </View>
+                    
+                    <GiftedForm.SubmitWidget
+                        title={I18n.t('set_category')}
+                        widgetStyles={{
+                            submitButton: {
+                            backgroundColor: '#34767F',
+                            }
+                        }}
+                        onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
+                            if (isValid === true) {
+                                this.setCategory(values);
+                                postSubmit();
+                            }
+                        }}
+                    />
+                
                 <View>
                     <Popup ref={(popup) => { this.popup = popup }}/>
                 </View>
-            </ScrollView>)
+                </GiftedForm>
+            )
     }
 });
 
