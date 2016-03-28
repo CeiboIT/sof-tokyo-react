@@ -136,7 +136,7 @@ var CreateNewPost = React.createClass({
                     }}
                     validators={{
                         title: {
-                            title: 'Title',
+                            title: '作品のタイトル',
                             validate: [{
                                 validator: 'isLength',
                                 arguments: [3, 50],
@@ -144,7 +144,7 @@ var CreateNewPost = React.createClass({
                             }]
                         },
                         description: {
-                            title: 'Description',
+                            title: '作品の説明',
                                 validate: [{
                                 validator: 'isLength',
                                 arguments: [2, 512],
@@ -158,7 +158,6 @@ var CreateNewPost = React.createClass({
                 <GiftedForm.TextInputWidget
                     name='title'
                     title={I18n.t('title')}
-                    image={require('../../../assets/icons/color/contact_card.png')}
                     placeholder={I18n.t('title')}
                     clearButtonMode='while-editing'
                 />

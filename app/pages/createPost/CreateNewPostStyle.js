@@ -103,7 +103,6 @@ var CreateNewPostStyle = React.createClass({
         }
     },
     selectStyle(style) {
-        // var newPost = this.state.newPost;
         
         if(this.state.newPost.styles.indexOf(style.trad) == -1){
             this.state.newPost.styles.push(style.trad)
@@ -119,10 +118,8 @@ var CreateNewPostStyle = React.createClass({
         api.createNewPost(this.state.newPost);
         // var Nav = require("../../services/NavigationManager").getStream();
         // Nav.onNext({path: 'createNewPostPreview', params: {newPost: {newPost}} });
-        
     },
     render() {
-        // var _render = (this.state.styles && this.state.styles.length) ?  <CeiboSelectable list={ this.state.styles } iconName='check' iconSize={15} valueKey="id" labelKey="trad"  /> : (<View style={styles.loading}><GiftedSpinner/></View>);
         return (
             
             <GiftedForm formName='stylesForm'>
@@ -135,7 +132,7 @@ var CreateNewPostStyle = React.createClass({
                     </GiftedForm.SelectWidget>
                     
                     <GiftedForm.SubmitWidget
-                    title="Preview"
+                    title="Post"
                     widgetStyles={{
                         submitButton: {
                         backgroundColor: '#34767F',
