@@ -2,7 +2,9 @@ var React = require('react-native');
     PostElement = require('./PostElement'),
     GridView = require('react-native-grid-view'),
     PostsStream = require("../../services/Streams").getStream("Posts"),
-    GiftedSpinner = require('react-native-gifted-spinner');
+    GiftedSpinner = require('react-native-gifted-spinner'),
+    Dimensions = require('Dimensions'),
+    windowSize = Dimensions.get("window");
 
 var {
     StyleSheet,
@@ -11,8 +13,16 @@ var {
     Text,
     ScrollView
     } = React;
+    
+var sectionHeight = (windowSize.width <= 360) ? windowSize.height*0.6 : windowSize.height*0.75;
 
 var styles = StyleSheet.create({
+    loading: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7F7F7',
+        height: sectionHeight - 30
+    },
     container: {
         flex: 1,
         flexDirection: 'column',
@@ -213,12 +223,7 @@ var PostsList  = React.createClass({
         )
 
         var _loading = (
-            <View style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#F7F7F7'
-              }}>
+            <View style={styles.loading}>
                 <GiftedSpinner/>
             </View>
         )

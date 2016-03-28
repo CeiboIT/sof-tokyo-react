@@ -26,6 +26,15 @@ I18nService.set('ja-JP',{
 
 var I18n = I18nService.getTranslations();
 
+var postImage = {
+    width: windowSize.width * 0.2,
+    height: windowSize.height * 0.35
+};
+
+var postElement = {
+    height: windowSize.height * 0.8
+}
+
 var {
     View,
     Text,
@@ -36,10 +45,10 @@ var {
 
 var styles = StyleSheet.create({
     loading: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F7F7F7'
+        backgroundColor: '#F7F7F7',
+        height: postElement.height - 180,
     },
     infoUser: {
         marginTop: 10,
@@ -120,15 +129,6 @@ var styles = StyleSheet.create({
         fontSize: 14
     }
 });
-
-var postImage = {
-    width: windowSize.width * 0.2,
-    height: windowSize.height * 0.35
-};
-
-var postElement = {
-    height: windowSize.height * 0.8
-}
 
 var goToPost = function (rowData) {
     var subject= require("../services/NavigationManager").getStream();
@@ -215,14 +215,14 @@ var Profile = React.createClass({
 
             _ownerTab = (
            <TabNavigator 
-                sceneStyle={{ height: postElement.height - 50 }}
+                sceneStyle={{ height: postElement.height - 130 }}
             >
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'posts'}
                     renderIcon={() => <View><Icon name="files-o" size={20}/></View>}
                     renderSelectedIcon={() => <View><Icon name="files-o" color="#000000" size={20}/></View>}
                     onPress={() => this.setState({ selectedTab: 'posts' })}>
-                    <ScrollView>
+                    <ScrollView style={{flex:1}}>
                         {_firstPost}
                         <View>
                             <TouchableHighlight onPress={this.createNewPost} style={styles.createPost} underlayColor={'rgba(0,185,247, 0.7)'}>
@@ -244,7 +244,7 @@ var Profile = React.createClass({
 						<Text style={styles.text}> {I18n.t('nickname')}: {this.state.user.nickname}</Text>
 						<Text style={styles.text}> {I18n.t('url')}: {this.state.user.url}</Text>
 						<Text style={styles.text}> {I18n.t('description')}: {this.state.user.description}</Text> 
-						<TouchableHighlight style={{paddingTop: 20}} onPress={this.logout} underlayColor={'#d2322d'} style={styles.logOut}>
+						<TouchableHighlight onPress={this.logout} underlayColor={'#d2322d'} style={styles.logOut}>
 						      <View><Icon name="sign-out" style={styles.logOutText}><Text>{I18n.t('logout')}</Text></Icon></View>
 						</TouchableHighlight>
                     </View>
@@ -262,7 +262,7 @@ var Profile = React.createClass({
 
         var _visitorTab = (
                 <TabNavigator
-                    sceneStyle={{ height: postElement.height - 50 }}
+                    sceneStyle={{ height: postElement.height - 130 }}
                 >
                     <TabNavigator.Item
                         selected={ this.state.selectedTab === 'posts' }
@@ -270,7 +270,7 @@ var Profile = React.createClass({
                         renderSelectedIcon={() => <View><Icon name="files-o" color="#000000" size={20}/></View>}
                         onPress={this.selectedPosts}
                     >
-                        <ScrollView style={{height: 500}}>
+                        <ScrollView style={{flex: 1}}>
                             { _visitorGrid }
                         </ScrollView>
                     </TabNavigator.Item>
@@ -295,7 +295,9 @@ var Profile = React.createClass({
         //console.warn('Profile > owner ', this.props.owner);
         // if(this.state.isLoading) return (<View style={styles.loading}><GiftedSpinner/></View>);
         
-        var _render = (this.props.owner) ? _ownerTab : _visitorTab;
+        // var _render = (this.props.owner) ? _ownerTab : _visitorTab;
+        var _tab = (this.props.owner) ? _ownerTab : _visitorTab,
+            _render = (this.state.isLoading) ? <View style={styles.loading}><GiftedSpinner/></View> : _tab;
         return(
             <View>
 				<Badge data={this.state.user} />

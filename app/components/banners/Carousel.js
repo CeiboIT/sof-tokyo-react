@@ -15,8 +15,15 @@ var {
     ScrollView
 } = React;
 
+var sectionHeight = (screen.width <= 360) ? screen.height*0.25 : screen.height*0.4;
+
 var styles = StyleSheet.create({
-    
+    loading: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        height: sectionHeight,
+    }
 });
 
 var NewsCarousel  = React.createClass({
@@ -44,11 +51,8 @@ var NewsCarousel  = React.createClass({
             alignItems: 'center',
             backgroundColor: 'transparent',
         }
-        if(screen.width <= 360){
-            style.height = screen.height*0.25;
-        }else{
-            style.height = screen.height*0.4;
-        }   
+        
+        (screen.width <= 360) ? style.height = screen.height*0.25 : style.height = screen.height*0.4;
 
         return style  
     },
@@ -71,7 +75,7 @@ var NewsCarousel  = React.createClass({
             )
 
         var _loading = (
-            <View style={{flex:1}}>
+            <View style={styles.loading}>
                 <GiftedSpinner/>
             </View>
         )
