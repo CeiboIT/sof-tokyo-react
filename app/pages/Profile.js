@@ -245,7 +245,7 @@ var Profile = React.createClass({
 						<Text style={styles.text}> {I18n.t('url')}: {this.state.user.url}</Text>
 						<Text style={styles.text}> {I18n.t('description')}: {this.state.user.description}</Text> 
 						<TouchableHighlight onPress={this.logout} underlayColor={'#d2322d'} style={styles.logOut}>
-						      <View><Icon name="sign-out" style={styles.logOutText}><Text>{I18n.t('logout')}</Text></Icon></View>
+						      <View><Icon name="sign-out" style={styles.logOutText}><Text style={styles.logOutText}>{I18n.t('logout')}</Text></Icon></View>
 						</TouchableHighlight>
                     </View>
                 </TabNavigator.Item>
@@ -293,9 +293,7 @@ var Profile = React.createClass({
 
         );
         //console.warn('Profile > owner ', this.props.owner);
-        // if(this.state.isLoading) return (<View style={styles.loading}><GiftedSpinner/></View>);
         
-        // var _render = (this.props.owner) ? _ownerTab : _visitorTab;
         var _tab = (this.props.owner) ? _ownerTab : _visitorTab,
             _render = (this.state.isLoading) ? <View style={styles.loading}><GiftedSpinner/></View> : _tab;
         return(

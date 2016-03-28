@@ -23,6 +23,13 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
         height: sectionHeight,
+    },
+    carouselSize : {
+        width: screen.width,
+        height: sectionHeight,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent'
     }
 });
 
@@ -42,20 +49,6 @@ var NewsCarousel  = React.createClass({
             });
         });
     },
-    carouselSize () {
-        var style = {
-            width: screen.width,
-            height: null,
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'transparent',
-        }
-        
-        (screen.width <= 360) ? style.height = screen.height*0.25 : style.height = screen.height*0.4;
-
-        return style  
-    },
     render(){
 
         var _grid = (
@@ -64,7 +57,7 @@ var NewsCarousel  = React.createClass({
                     <Carousel width={screen.width} delay={5000}>
                         {
                             this.state.banners.map((banner) => {
-                                return <View style={[this.carouselSize()]} key={banner.ID}>
+                                return <View style={styles.carouselSize} key={banner.ID}>
                                                 <BannerElement bannerData={banner} bannerId={banner.ID}/>
                                         </View>
                                 })

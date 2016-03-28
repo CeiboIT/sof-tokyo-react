@@ -147,11 +147,13 @@ var PostElement = React.createClass({
             var _metadata = this.props.postData.metadata,
                 field = 'sofbackend__sof_work_meta__';
             _metadata.map((metadata) => {
-                if(metadata.field == field+'style') arr.push({type: 'style', name: metadata.trad, id: metadata.value});
+                if(metadata.field == field+'style'){
+                    var name = (!metadata.trad && metadata.value === 'basic') ? 'ベーシック' : metadata.trad;
+                    arr.push({type: 'style', name: name, id: metadata.value})
+                }
                 if(metadata.field == field+'category_1' && metadata.trad) arr.push({type: 'category', name: metadata.trad, id: metadata.value});
             });
         }
-        
         return arr
     },
     getCommentCount () {

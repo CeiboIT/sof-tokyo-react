@@ -14,11 +14,6 @@ var styles = StyleSheet.create({
 
 });
 
-var imageSizes ={
-    width: screen.width,
-    height: screen.height*0.25,
-};
-
 var BannerElement = React.createClass({
     getImage () {
         var imgRegex = /<img[^>]+src="(http:\/\/[^">]+)"/g,

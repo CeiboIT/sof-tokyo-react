@@ -369,6 +369,7 @@ var PostView = React.createClass({
             
             _subImages = <GridView
                             items={images}
+                            itemsPerRow={4}
                             renderItem={(rowData) => <View key={rowData.id}><TouchableHighlight underlayColor={'transparent'} onPress={()=>this.setMainImage(rowData)} key={rowData.id}><View><Image source={{uri: rowData.image}} style={{width: 86, height: 86}} key={rowData.id}/></View></TouchableHighlight></View>
                             }
                          />
