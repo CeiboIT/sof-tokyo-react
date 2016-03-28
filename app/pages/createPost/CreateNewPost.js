@@ -5,6 +5,8 @@ var React = require('react-native'),
     Icon = require('react-native-vector-icons/FontAwesome'),
     ImageUploader = require('../../components/images/ImageUploader'),
     api = require('../../utils/api/ImageUploadApi'),
+    Dimensions = require('Dimensions'),
+    windowSize = Dimensions.get("window"),
     {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
     
 import Popup from 'react-native-popup';
@@ -20,6 +22,11 @@ I18nService.set('ja-JP', {
     'set_category': 'Set category',
     'select_image' : 'select image'
 });
+
+var subPhotoSize = {
+    height: windowSize.width * 0.3,
+    width: windowSize.width * 0.45,
+}
 
 var {
     View,
@@ -45,17 +52,42 @@ var styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        height: 200,
-        width: 200,
+        height: windowSize.width * 0.5,
+        width: windowSize.width * 0.5,
         borderWidth: 1,
         borderRadius: 5,
+        backgroundColor: '#F7F7F7',
         borderColor: 'grey',
         borderStyle: 'dashed',
         marginVertical: 15
     },
     mainPhotoText : {
-        color: 'grey',
-        fontSize: 15  
+        color: '#969696',
+        fontSize: 25,
+        fontWeight: 'bold'
+    },
+    subPhotos : {
+        flex: 1, 
+        flexDirection: 'row', 
+        flexWrap: 'wrap', 
+        justifyContent: 'space-around',
+        paddingHorizontal:10
+    },
+    subPhoto : {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: subPhotoSize.height,
+        width: subPhotoSize.width,
+        backgroundColor: '#F7F7F7',
+        borderColor: 'grey',
+        marginVertical:5
+    },
+    subPhotoImage : {
+        height: subPhotoSize.height,
+        width: subPhotoSize.height,
+    },
+    subPhotoText : {
+        color: '#969696'
     }
 });
 
@@ -72,7 +104,7 @@ var CreateNewPost = React.createClass({
                 authorId: 1,
                 title: '',
                 content: '',
-                img: 'https://placeholdit.imgix.net/~text?txtsize=34&txt=add+image&w=200&h=200',
+                img: '',
                 subcategory0: '',
                 subcategory1: '',
                 styles: [],
@@ -111,8 +143,9 @@ var CreateNewPost = React.createClass({
     openPicker(object, key) {
         ImageUploader.openPicker()
         .then((response) => {
-            console.warn('CreanteNewPost > openPicker ' , JSON.stringify(response));
+            //console.warn('CreanteNewPost > openPicker ' , JSON.stringify(response));
             if (response.source) {
+                this.state[object][key] = response.source.uri;
                 this.setState({ [object] :
                     {
                      [key] : response.source.uri
@@ -125,7 +158,13 @@ var CreateNewPost = React.createClass({
             this.popup.alert(I18n.t('newPost_error_' + error.code));
         });
     },
-
+    hola() {
+        var _label = <Text style={styles.mainPhotoText}>ADD IMAGE</Text>
+            
+            _render = (this.state.post.img) ? '' : _label;
+            
+      return _render 
+    },
     render() {
         return (
                 <GiftedForm
@@ -134,6 +173,7 @@ var CreateNewPost = React.createClass({
                     defaults={{
                     
                     }}
+                    style={{backgroundColor:'#FFFFFF'}}
                     validators={{
                         title: {
                             title: '作品のタイトル',
@@ -173,20 +213,67 @@ var CreateNewPost = React.createClass({
                 
                 <View style={styles.mainPhotoContainer}>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'img') }} underlayColor={'transparent'} style={styles.mainPhoto}>
-                        <Image style={{width:200, height: 200}}
-                               source={{uri: this.state.post.img}} resizeMode="stretch" />
+                        <View>
+                            {this.hola()}
+                            <Image style={{width:200, height: 200}} source={{uri: this.state.post.img}} resizeMode="stretch" />                          
+                        </View>                                    
                     </TouchableHighlight>
                 </View>
-                <View style={{paddingHorizontal:10}}>
-                    <Button onPress={() => { this.openPicker('post', 'subImg1') }}>
-                        <Text>{I18n.t('select_image')}</Text>
-                    </Button>
-                    <Button onPress={() => { this.openPicker('post', 'subImg2') }}>
-                        <Text>{I18n.t('select_image')}</Text>
-                    </Button>
-                    <Button onPress={() => { this.openPicker('post', 'subImg3') }}>
-                        <Text>{I18n.t('select_image')}</Text>
-                    </Button>
+                <View style={styles.subPhotos}>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg1') }} underlayColor={'transparent'} style={styles.subPhoto}>
+                        <View>
+                            <Text style={styles.subPhotoText}>サブ画像１</Text>
+                            <Image style={{width:subPhotoSize.width, height: subPhotoSize.height}} source={{uri: this.state.post.subImg1}} resizeMode="stretch" />                          
+                        </View>                                    
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg2') }} underlayColor={'transparent'} style={styles.subPhoto}>
+                        <View>
+                            <Text style={styles.subPhotoText}>サブ画像２</Text>
+                            <Image source={{uri: this.state.post.subImg2}} resizeMode="stretch" />                          
+                        </View>                                    
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg3') }} underlayColor={'transparent'} style={styles.subPhoto}>
+                        <View>
+                            <Text style={styles.subPhotoText}>サブ画像３</Text>
+                            <Image source={{uri: this.state.post.subImg3}} resizeMode="stretch" />                          
+                        </View>                                    
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg4') }} underlayColor={'transparent'} style={styles.subPhoto}>
+                        <View>
+                            <Text style={styles.subPhotoText}>サブ画像４</Text>
+                            <Image source={{uri: this.state.post.subImg4}} resizeMode="stretch" />                          
+                        </View>                                    
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg5') }} underlayColor={'transparent'} style={styles.subPhoto}>
+                        <View>
+                            <Text style={styles.subPhotoText}>サブ画像５</Text>
+                            <Image source={{uri: this.state.post.subImg5}} resizeMode="stretch" />                          
+                        </View>                                    
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg6') }} underlayColor={'transparent'} style={styles.subPhoto}>
+                        <View>
+                            <Text style={styles.subPhotoText}>サブ画像６</Text>
+                            <Image source={{uri: this.state.post.subImg6}} resizeMode="stretch" />                          
+                        </View>                                    
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg7') }} underlayColor={'transparent'} style={styles.subPhoto}>
+                        <View>
+                            <Text style={styles.subPhotoText}>サブ画像７</Text>
+                            <Image source={{uri: this.state.post.subImg7}} resizeMode="stretch" />                          
+                        </View>                                    
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg8') }} underlayColor={'transparent'} style={styles.subPhoto}>
+                        <View>
+                            <Text style={styles.subPhotoText}>サブ画像８</Text>
+                            <Image source={{uri: this.state.post.subImg8}} resizeMode="stretch" />                          
+                        </View>                                    
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg9') }} underlayColor={'transparent'} style={styles.subPhoto}>
+                        <View>
+                            <Text style={styles.subPhotoText}>サブ画像９</Text>
+                            <Image source={{uri: this.state.post.subImg9}} resizeMode="stretch" />                          
+                        </View>                                    
+                    </TouchableHighlight>
                 </View>
                     
                     <GiftedForm.SubmitWidget
@@ -213,3 +300,13 @@ var CreateNewPost = React.createClass({
 });
 
 module.exports = CreateNewPost;
+
+// <Button onPress={() => { this.openPicker('post', 'subImg1') }}>
+//                         <Text>{I18n.t('select_image')}</Text>
+//                     </Button>
+//                     <Button onPress={() => { this.openPicker('post', 'subImg2') }}>
+//                         <Text>{I18n.t('select_image')}</Text>
+//                     </Button>
+//                     <Button onPress={() => { this.openPicker('post', 'subImg3') }}>
+//                         <Text>{I18n.t('select_image')}</Text>
+//                     </Button>

@@ -177,7 +177,7 @@ var PostsList  = React.createClass({
     },
 
     componentWillUnmount(){
-        console.warn('Going to die!');
+        //console.warn('Going to die!');
     },
 
     togglePressIn(){

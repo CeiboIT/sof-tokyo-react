@@ -304,8 +304,6 @@ var Register  = React.createClass({
                 <GiftedForm.TextInputWidget
                     name='username'
                     title={ I18n.t('registerUsername')}
-                    image={require('../../assets/icons/color/contact_card.png')}
-
                     placeholder='MarcoPolo'
                     clearButtonMode='while-editing'
                 />
@@ -316,13 +314,11 @@ var Register  = React.createClass({
                     placeholder='example@nomads.ly'
                     keyboardType='email-address'
                     clearButtonMode='while-editing'
-                    image={require('../../assets/icons/color/email.png')}
                 />
                 
                 <GiftedForm.TextInputWidget
                     name='display_name' // mandatory
                     title={ I18n.t('registerDisplayName')}
-                    image={require('../../assets/icons/color/user.png')}
                     placeholder='Marco Polo'
                     clearButtonMode='while-editing'
                 />
@@ -333,7 +329,6 @@ var Register  = React.createClass({
                     placeholder='******'
                     clearButtonMode='while-editing'
                     secureTextEntry={true}
-                    image={require('../../assets/icons/color/lock.png')}
                 />
 
                 <GiftedForm.SeparatorWidget />
@@ -343,13 +338,11 @@ var Register  = React.createClass({
                     title={ I18n.t('years')}
                     placeholder='+18'
                     clearButtonMode='while-editing'
-                    image={require('../../assets/icons/color/birthday.png')}
                 />
                 
                 <GiftedForm.ModalWidget
                     title={ I18n.t('country')}
                     displayValue='country'
-                    image={require('../../assets/icons/color/passport.png')}
                     onPress={this.toggleCountry}
                 >
                 </GiftedForm.ModalWidget>
@@ -359,7 +352,6 @@ var Register  = React.createClass({
                 <GiftedForm.ModalWidget
                     title={ I18n.t('school')}
                     displayValue='school'
-                    image={require('../../assets/icons/color/book.png')}
                     onPress={this.toggleSchool}
                 >
                 </GiftedForm.ModalWidget>               
@@ -369,7 +361,6 @@ var Register  = React.createClass({
                     title={ I18n.t('obog')}
                     displayValue='obog'
                     onPress={this.toggleObog}
-                    image={require('../../assets/icons/color/book.png')}
                 >
                 </GiftedForm.ModalWidget>               
                 {this.showObog()}
