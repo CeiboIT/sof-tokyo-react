@@ -42,8 +42,8 @@ var styles = StyleSheet.create({
         backgroundColor: '#F7F7F7'
     },
     infoUser: {
-        marginTop: 20,
-        marginLeft: 20,
+        marginTop: 10,
+        marginLeft: 5,
         height: windowSize.height
     },
     text: {
@@ -293,7 +293,7 @@ var Profile = React.createClass({
 
         );
         //console.warn('Profile > owner ', this.props.owner);
-        if(this.state.isLoading) return (<View style={styles.loading}><GiftedSpinner/></View>);
+        // if(this.state.isLoading) return (<View style={styles.loading}><GiftedSpinner/></View>);
         
         var _render = (this.props.owner) ? _ownerTab : _visitorTab;
         return(
