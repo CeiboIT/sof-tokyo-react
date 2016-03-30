@@ -107,11 +107,10 @@ var CreateNewPostCategory = React.createClass({
         };
         
         var goToStyle = (subCat) => {
-            this.state.newPost.subcategory0 = subCat.parent;
-            this.state.newPost.subcategory1 = subCat.id;
+            this.state.newPost.subcategory0 =  this.state.categories[subCat.parent - 1].name;
+            this.state.newPost.subcategory1 = subCat.name;
             var newPost = this.state.newPost,
                 Nav = require("../../services/NavigationManager").getStream();
-                console.warn(JSON.stringify(newPost))
             Nav.onNext({path: 'createNewPostStyle', params: {newPost: newPost} });
         };
 

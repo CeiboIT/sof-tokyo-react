@@ -73,6 +73,7 @@ var api = {
     },
     
     async createNewPost(postData) {
+        console.warn('createNewPost',JSON.stringify(postData))
        try{
             let actionResult = fetch(productsEndpoint + 'create', {
                 method: 'POST',
@@ -80,7 +81,8 @@ var api = {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({                    
+                body: JSON.stringify({    
+                    authorId: postData.authorId,                 
                     title: postData.title,
                     content:postData.content,
                     img:postData.img,
@@ -94,6 +96,9 @@ var api = {
                     subImg4:postData.subImg4,
                     subImg5:postData.subImg5,
                     subImg6:postData.subImg6,
+                    subImg7:postData.subImg7,
+                    subImg8:postData.subImg8,
+                    subImg9:postData.subImg9,
                     productionCost:postData.productionCost,
                     sell:postData.sell,
                     sellPrice:postData.sellPrice,

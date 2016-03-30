@@ -1,13 +1,7 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-//var conf = require('../constants/api');
-
-
-var apiConsts  = require("../../constants/api").apiConsts;
-var storage = require("../../services/Storage").getInstance();
-var ErrorSubject = require("../../services/Streams").getStream("Errors");
-var UserSubject = require("../../services/Streams").getStream("User");
+var apiConsts  = require("../../constants/api").apiConsts,
+    storage = require("../../services/Storage").getInstance(),
+    ErrorSubject = require("../../services/Streams").getStream("Errors"),
+    UserSubject = require("../../services/Streams").getStream("User");
 
 var api = {
 

@@ -7,6 +7,7 @@ var React = require('react-native'),
     api = require('../../utils/api/ImageUploadApi'),
     Dimensions = require('Dimensions'),
     windowSize = Dimensions.get("window"),
+    storage = require("../../services/Storage").getInstance(),
     {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
     
 import Popup from 'react-native-popup';
@@ -101,7 +102,7 @@ var CreateNewPost = React.createClass({
     getInitialState() {
         return {
             post: {
-                authorId: 1,
+                authorId: 0,
                 title: '',
                 content: '',
                 img: '',
@@ -137,7 +138,11 @@ var CreateNewPost = React.createClass({
         post.title = values.title;
         post.content = values.description;
         
-        Nav.onNext({path: 'createNewPostCategory', params: {newPost: post }});
+        storage.load({key: 'UserId'})
+            .then((data) => {
+                post.authorId = data.data;
+                Nav.onNext({path: 'createNewPostCategory', params: {newPost: post }});
+            });
     },
 
     openPicker(object, key) {
@@ -300,13 +305,3 @@ var CreateNewPost = React.createClass({
 });
 
 module.exports = CreateNewPost;
-
-// <Button onPress={() => { this.openPicker('post', 'subImg1') }}>
-//                         <Text>{I18n.t('select_image')}</Text>
-//                     </Button>
-//                     <Button onPress={() => { this.openPicker('post', 'subImg2') }}>
-//                         <Text>{I18n.t('select_image')}</Text>
-//                     </Button>
-//                     <Button onPress={() => { this.openPicker('post', 'subImg3') }}>
-//                         <Text>{I18n.t('select_image')}</Text>
-//                     </Button>

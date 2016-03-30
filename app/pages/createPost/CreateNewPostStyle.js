@@ -103,19 +103,15 @@ var CreateNewPostStyle = React.createClass({
         }
     },
     selectStyle(style) {
+        if(style.name === 'simple') style.name = 'basic';
         
-        if(this.state.newPost.styles.indexOf(style.trad) == -1){
-            this.state.newPost.styles.push(style.trad)
+        if(this.state.newPost.styles.indexOf(style.name) == -1){
+            this.state.newPost.styles.push(style.name)
         }
-        
-        // var found = this.state.newPost.styles.some(function (el) {
-        //     return el.id === style.id;
-        // });
-        // if (!found) { this.state.newPost.styles.push({ id: style.id }); }
     },
     goToPreview(){
-        console.warn(JSON.stringify(this.state.newPost));
-        api.createNewPost(this.state.newPost);
+        var newPost = this.state.newPost;
+        api.createNewPost(newPost);
         // var Nav = require("../../services/NavigationManager").getStream();
         // Nav.onNext({path: 'createNewPostPreview', params: {newPost: {newPost}} });
     },
@@ -125,7 +121,7 @@ var CreateNewPostStyle = React.createClass({
             <GiftedForm formName='stylesForm'>
                     <GiftedForm.SelectWidget name='styles' title='Styles' multiple={true}>
                         {
-                            this.state.styles.map((style) => (
+                            this.state.styles.map((style) => ( 
                                 <GiftedForm.OptionWidget key={style.trad} title={style.trad} value={style.trad} style={{paddingLeft:25}} onPress={() => this.selectStyle(style)}/>
                             ))
                         }
