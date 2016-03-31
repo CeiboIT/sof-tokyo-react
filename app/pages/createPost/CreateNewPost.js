@@ -127,6 +127,16 @@ var CreateNewPost = React.createClass({
                 rentalPrice: 0,
                 rentalNote: ''
             },
+            img: '',
+            subImg1: '',
+            subImg2: '',
+            subImg3: '',
+            subImg4: '',
+            subImg5: '',
+            subImg6: '',
+            subImg7: '',
+            subImg8: '',
+            subImg9: '',
             uploadImageResponse: 'not yet'
         }
     },
@@ -144,18 +154,14 @@ var CreateNewPost = React.createClass({
                 Nav.onNext({path: 'createNewPostCategory', params: {newPost: post }});
             });
     },
-
     openPicker(object, key) {
         ImageUploader.openPicker()
         .then((response) => {
-            //console.warn('CreanteNewPost > openPicker ' , JSON.stringify(response));
             if (response.source) {
                 this.state[object][key] = response.source.uri;
-                this.setState({ [object] :
-                    {
-                     [key] : response.source.uri
-                    }
-                });
+                this.setState({
+                      [key] : response.source.uri
+                })
             }
             // else: user cancel picker dialog.
         })
@@ -163,10 +169,15 @@ var CreateNewPost = React.createClass({
             this.popup.alert(I18n.t('newPost_error_' + error.code));
         });
     },
-    hola() {
+    showImg() {
         var _label = <Text style={styles.mainPhotoText}>ADD IMAGE</Text>
+            _render = (this.state.img) ? <Image style={{width:200, height: 200}} source={{uri: this.state.post.img}} resizeMode="stretch" /> : _label;
             
-            _render = (this.state.post.img) ? '' : _label;
+      return _render 
+    },
+    showSubImg(label, key) {
+        var _label = <Text style={styles.subPhotoText}>{label}</Text>
+            _render = (this.state[key]) ? <Image style={{width:subPhotoSize.height, height: subPhotoSize.height}} source={{uri: this.state[key]}} resizeMode="stretch" /> : _label;
             
       return _render 
     },
@@ -212,71 +223,59 @@ var CreateNewPost = React.createClass({
                     title={I18n.t('description')}
                     placeholder={I18n.t('description')}
                     clearButtonMode='while-editing'
-                />
-            
-                <GiftedForm.SeparatorWidget />       
+                />   
                 
                 <View style={styles.mainPhotoContainer}>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'img') }} underlayColor={'transparent'} style={styles.mainPhoto}>
                         <View>
-                            {this.hola()}
-                            <Image style={{width:200, height: 200}} source={{uri: this.state.post.img}} resizeMode="stretch" />                          
+                            {this.showImg()}                
                         </View>                                    
                     </TouchableHighlight>
                 </View>
                 <View style={styles.subPhotos}>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg1') }} underlayColor={'transparent'} style={styles.subPhoto}>
                         <View>
-                            <Text style={styles.subPhotoText}>サブ画像１</Text>
-                            <Image style={{width:subPhotoSize.width, height: subPhotoSize.height}} source={{uri: this.state.post.subImg1}} resizeMode="stretch" />                          
+                            {this.showSubImg('サブ画像１', 'subImg1')}                          
                         </View>                                    
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg2') }} underlayColor={'transparent'} style={styles.subPhoto}>
                         <View>
-                            <Text style={styles.subPhotoText}>サブ画像２</Text>
-                            <Image source={{uri: this.state.post.subImg2}} resizeMode="stretch" />                          
+                            {this.showSubImg('サブ画像２', 'subImg2')}                   
                         </View>                                    
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg3') }} underlayColor={'transparent'} style={styles.subPhoto}>
                         <View>
-                            <Text style={styles.subPhotoText}>サブ画像３</Text>
-                            <Image source={{uri: this.state.post.subImg3}} resizeMode="stretch" />                          
+                            {this.showSubImg('サブ画像３', 'subImg3')}                          
                         </View>                                    
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg4') }} underlayColor={'transparent'} style={styles.subPhoto}>
                         <View>
-                            <Text style={styles.subPhotoText}>サブ画像４</Text>
-                            <Image source={{uri: this.state.post.subImg4}} resizeMode="stretch" />                          
+                            {this.showSubImg('サブ画像４', 'subImg4')}                          
                         </View>                                    
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg5') }} underlayColor={'transparent'} style={styles.subPhoto}>
                         <View>
-                            <Text style={styles.subPhotoText}>サブ画像５</Text>
-                            <Image source={{uri: this.state.post.subImg5}} resizeMode="stretch" />                          
+                            {this.showSubImg('サブ画像５', 'subImg5')}                          
                         </View>                                    
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg6') }} underlayColor={'transparent'} style={styles.subPhoto}>
                         <View>
-                            <Text style={styles.subPhotoText}>サブ画像６</Text>
-                            <Image source={{uri: this.state.post.subImg6}} resizeMode="stretch" />                          
+                            {this.showSubImg('サブ画像６', 'subImg6')}                          
                         </View>                                    
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg7') }} underlayColor={'transparent'} style={styles.subPhoto}>
                         <View>
-                            <Text style={styles.subPhotoText}>サブ画像７</Text>
-                            <Image source={{uri: this.state.post.subImg7}} resizeMode="stretch" />                          
+                            {this.showSubImg('サブ画像７', 'subImg7')}                        
                         </View>                                    
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg8') }} underlayColor={'transparent'} style={styles.subPhoto}>
                         <View>
-                            <Text style={styles.subPhotoText}>サブ画像８</Text>
-                            <Image source={{uri: this.state.post.subImg8}} resizeMode="stretch" />                          
+                            {this.showSubImg('サブ画像８', 'subImg8')}                          
                         </View>                                    
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => { this.openPicker('post', 'subImg9') }} underlayColor={'transparent'} style={styles.subPhoto}>
                         <View>
-                            <Text style={styles.subPhotoText}>サブ画像９</Text>
-                            <Image source={{uri: this.state.post.subImg9}} resizeMode="stretch" />                          
+                            {this.showSubImg('サブ画像９', 'subImg9')}                          
                         </View>                                    
                     </TouchableHighlight>
                 </View>
