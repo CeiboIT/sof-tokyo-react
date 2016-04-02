@@ -73,7 +73,6 @@ var api = {
     },
     
     async createNewPost(postData) {
-        console.warn('createNewPost',JSON.stringify(postData))
        try{
             let actionResult = fetch(productsEndpoint + 'create', {
                 method: 'POST',

@@ -129,7 +129,7 @@ var CreateNewPostCategory = React.createClass({
         };
 
         var selectCat = function () {
-            console.warn('CreateNewPostCategory > selectCat ', JSON.stringify(category));
+            //console.warn('CreateNewPostCategory > selectCat ', JSON.stringify(category));
             selectCategory(category);
         };
 
