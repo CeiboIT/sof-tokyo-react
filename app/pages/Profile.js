@@ -149,7 +149,7 @@ var Profile = React.createClass({
 
 		
         MemberStream.subscribe((response) => {
-            console.warn('Profile > didmount subcribed MemberTeam', JSON.stringify(response.data.posts));
+            //console.warn('Profile > didmount subcribed MemberTeam', JSON.stringify(response.data.posts));
             // TODO Cuando se consulta por el id, y ese id es el owner, los datos vuelven en data.author, PERO cuando se consulta por usuario y ese usuario no es el owner(logeado), los datos vuelven en data.data.author
 			let data = {};
 			if (response.data) {
@@ -192,7 +192,7 @@ var Profile = React.createClass({
         var NavigationSubject = require("../services/NavigationManager").getStream();
         api.logout()
             .then(() => {
-                console.warn('Profile > logout');
+                //console.warn('Profile > logout');
                 NavigationSubject.onNext({path: 'feed'})
             })
             .catch((error) => {

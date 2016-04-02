@@ -151,7 +151,7 @@ var CreateNewPostCategory = React.createClass({
                 })
             );
         } else {
-            console.warn('renderList > return empty');
+            //console.warn('renderList > return empty');
         }
     },
 

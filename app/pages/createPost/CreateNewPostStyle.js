@@ -1,9 +1,11 @@
 var React = require('react-native'),
+    Rx = require("rx"),
     I18nService = require('../../i18n'),
     I18n = I18nService.getTranslations(),
     t = require('tcomb-form-native'),
     metadataStream = require('../../services/Streams').getStream('Metadata'),
     metadataApi = require('../../utils/api/MetadataApi'),
+    storage = require("../../services/Storage").getInstance(),
     GiftedSpinner = require('react-native-gifted-spinner'),
     {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
 
@@ -70,15 +72,10 @@ var CreateNewPostStyle = React.createClass({
         return {
             styles: [],
             selectedPostStyles: {},
-            checked: false
+            checked: false,
+            createStream: new Rx.Subject()
         }
     },
-
-    selectStyle(postStyles) {
-        var Nav = require("../../services/NavigationManager").getStream();
-        Nav.onNext({path: 'createNewPostCategory', params: {newPost: this.getValues()} });
-    },
-
     componentDidMount() {
         metadataApi.StylesList();
         metadataStream.subscribe((response)=> {
@@ -89,7 +86,17 @@ var CreateNewPostStyle = React.createClass({
                     styles: response['data']
                 });
             }
-        });
+        })
+        
+        this.state.createStream.subscribe((result)  => {
+            storage.load({key: 'UserId'})
+                .then((data) => {
+                    var Nav = require("../../services/NavigationManager").getStream();
+                    Nav.onNext({path: 'profile', params: {
+                        id: data.data,
+                        owner:true} })
+                });
+        })
     },
 
     _renderList() {
@@ -99,7 +106,7 @@ var CreateNewPostStyle = React.createClass({
                 renderRow={this._renderStyle}
             />);
         } else {
-            console.warn('renderList > return empty');
+            //console.warn('renderList > return empty');
         }
     },
     selectStyle(style) {
@@ -111,9 +118,7 @@ var CreateNewPostStyle = React.createClass({
     },
     goToPreview(){
         var newPost = this.state.newPost;
-        api.createNewPost(newPost);
-        // var Nav = require("../../services/NavigationManager").getStream();
-        // Nav.onNext({path: 'createNewPostPreview', params: {newPost: {newPost}} });
+        api.createNewPost(newPost, this.state.createStream);
     },
     render() {
         return (
@@ -137,7 +142,7 @@ var CreateNewPostStyle = React.createClass({
                     onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
                         this.goToPreview()
                         if (isValid === true) {
-                            postSubmit();
+                            
                         }
                     }}
                 />
