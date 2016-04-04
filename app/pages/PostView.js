@@ -218,8 +218,8 @@ var styles = StyleSheet.create({
 
 
 var imageSizes ={
-    width: windowSize.width * 0.55,
-    height: windowSize.height * 0.7
+    width: windowSize.width * 0.95,
+    height: windowSize.height * 0.1
 };
 
 var PostId;
