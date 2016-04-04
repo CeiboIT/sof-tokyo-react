@@ -14,7 +14,7 @@ var styles = StyleSheet.create({
 
 var PhotoDisplay = React.createClass({
     imageSize () {
-        if( this.props.post && this.props.post.thumbnail_images) {
+        if( this.props.post && this.props.post.thumbnail_images && this.props.post.thumbnail_images['post-thumbnail']) {
             if(windowSize.scale == 3){
                 size = {
                     width: this.props.post.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 1.25),
