@@ -1,8 +1,10 @@
 var React = require('react-native');
-var PostElement = require('./PostElement');
-var GridView = require('react-native-grid-view');
-var PostsStream = require("../../services/Streams").getStream("Posts");
-var GiftedSpinner = require('react-native-gifted-spinner');
+    PostElement = require('./PostElement'),
+    GridView = require('react-native-grid-view'),
+    PostsStream = require("../../services/Streams").getStream("Posts"),
+    GiftedSpinner = require('react-native-gifted-spinner'),
+    Dimensions = require('Dimensions'),
+    windowSize = Dimensions.get("window");
 
 var {
     StyleSheet,
@@ -11,8 +13,16 @@ var {
     Text,
     ScrollView
     } = React;
+    
+var sectionHeight = (windowSize.width <= 360) ? windowSize.height*0.6 : windowSize.height*0.75;
 
 var styles = StyleSheet.create({
+    loading: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7F7F7',
+        height: sectionHeight - 30
+    },
     container: {
         flex: 1,
         flexDirection: 'column',
@@ -25,11 +35,6 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center'
     },
-
-    item: {
-
-    },
-
     title: {
         fontSize: 25
     },
@@ -54,7 +59,6 @@ var styles = StyleSheet.create({
     rowContainer: {
         padding: 10
     },
-
     footerContainer: {
         backgroundColor: '#E3E3E3',
         alignItems: 'center',
@@ -68,7 +72,6 @@ var styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-
     loadMoreDisabled : {
         borderColor: "#e5e5e5",
         backgroundColor: "#e5e5f0",
@@ -127,7 +130,7 @@ var PostsList  = React.createClass({
                     dataSource : []
                 });
                 _initial = true;
-                _page =1;
+                _page = 1;
             }
 
             if(_initial && _page == 1 && response.data['posts'].length)  {
@@ -174,7 +177,7 @@ var PostsList  = React.createClass({
     },
 
     componentWillUnmount(){
-        console.warn('Going to die!');
+        //console.warn('Going to die!');
     },
 
     togglePressIn(){
@@ -193,8 +196,8 @@ var PostsList  = React.createClass({
     render(){
         var _buttonStyle = (this.state.isLoading) ? styles.loadMoreDisabled : styles.loadMore,
             _label = (this.state.isLoading) ? 'MORE': 'MORE',
-            _underlayColor = (this.state.isLoading) ? 'transparent': '#e5e5f0';
-        var _loadMoreButton = (
+            _underlayColor = (this.state.isLoading) ? 'transparent': '#e5e5f0',
+            _loadMoreButton = (
             <TouchableHighlight underlayColor={_underlayColor} onPress={this.loadMorePosts} onPressIn={this.togglePressIn} onPressOut={this.togglePressIn}
                                 style={_buttonStyle}>
                 <Text style={[styles.loadMoreText, this.pressColor()]}> {_label} </Text>
@@ -220,12 +223,7 @@ var PostsList  = React.createClass({
         )
 
         var _loading = (
-            <View style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#F7F7F7'
-              }}>
+            <View style={styles.loading}>
                 <GiftedSpinner/>
             </View>
         )

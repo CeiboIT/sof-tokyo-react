@@ -1,16 +1,12 @@
-/**
- * Created by epotignano on 10/01/16.
- */
-
-var Rx = require('rx');
-var React = require('react-native');
-var Pages = require('../pages/Pages.d');
-var Login = require('../pages/Login');
-var ResponsiveImage = require('react-native-responsive-image');
-var storage = require('./Storage').getInstance();
-
-var toggle = require('../components/actions/ToggleMenu');
-var navigation = require('../components/navigation/Navigation.d');
+var Rx = require('rx'),
+    React = require('react-native'),
+    Pages = require('../pages/Pages.d'),
+    Login = require('../pages/Login'),
+    ResponsiveImage = require('react-native-responsive-image'),
+    storage = require('./Storage').getInstance(),
+    toggle = require('../components/actions/ToggleMenu'),
+    navigation = require('../components/navigation/Navigation.d');
+    
 var {
     View,
     StyleSheet,
@@ -45,7 +41,7 @@ var imageSizes ={
 var logo = React.createClass({
   render: function() {
     return <View style={styles.logoContainer}><ResponsiveImage
-                            source={{uri: 'http://sof.tokyo/wp-content/uploads/2015/06/logo.png'}}
+                            source={require('../../assets/imgpsh_fullsize.jpg')}
                             initHeight={imageSizes.height}
                             initWidth={imageSizes.width}
             /></View>;
@@ -103,6 +99,7 @@ class NavigatorService {
                         titleComponent: logo
                     })
                 break;
+                
                 case('search'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,
@@ -244,6 +241,49 @@ class NavigatorService {
                     })
                 break;
 
+                case('createNewPost'):
+                    this.manager.toRoute({
+                        "leftCorner": navigation.back,
+                        "component": Pages.creation,
+                        "rightCorner": toggle,
+                        "headerStyle": styles.generalHeader,
+                        titleComponent: logo
+                    })
+                    break;
+
+                case('createNewPostCategory'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        component: Pages.createNewPostCategory,
+                        headerStyle: styles.generalHeader,
+                        titleComponent: logo,
+                        passProps: route.params
+                    });
+                break;
+
+                case('createNewPostStyle'):
+                    this.manager.toRoute({
+                        leftCorner: navigation.back,
+                        component: Pages.createNewPostStyle,
+                        headerStyle: styles.generalHeader,
+                        titleComponent: logo,
+                        passProps: route.params
+                    });
+                break;
+
+                case('modalForm'):
+
+                    //transformRoute
+                    var _route = route.params;
+                    let _transformedRoute = {
+                        leftCorner : _route.renderLeftButton,
+                        rightCorner: _route.renderRightButton,
+                        titleComponent: _route.getTitle,
+                        component: Pages.createNewPostStyle
+                    }
+                    this.manager.toRoute(_transformedRoute);
+
+                break;
                 case('news'):
                     this.manager.toRoute({
                         leftCorner: navigation.back,

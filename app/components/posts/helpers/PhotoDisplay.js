@@ -1,10 +1,6 @@
-/**
- * Created by epotignano on 29/02/16.
- */
-
 var React = require('react-native'),
     Dimensions = require('Dimensions'),
-    windowSize = Dimensions.get("window")
+    windowSize = Dimensions.get("window");
 
 var {Image, StyleSheet, TouchableHighlight} = React;
 
@@ -18,8 +14,7 @@ var styles = StyleSheet.create({
 
 var PhotoDisplay = React.createClass({
     imageSize () {
-
-        if( this.props.post && this.props.post.thumbnail_images.hasOwnProperty('post-thumbnail') ) {
+        if( this.props.post && this.props.post.thumbnail_images && this.props.post.thumbnail_images['post-thumbnail']) {
             if(windowSize.scale == 3){
                 size = {
                     width: this.props.post.thumbnail_images['post-thumbnail'].width / (windowSize.scale * 1.25),
@@ -32,17 +27,18 @@ var PhotoDisplay = React.createClass({
                 };
             }
         }
-
+        
         if(windowSize.width * 0.5 > size.width){
             var diff = windowSize.width * 0.5 - size.width;
             size.height += diff;
             size.width += diff;
         }
+        
         return size
     },
     getThumbnail () {
-        if(this.props.post ) {
-            if( this.props.post.thumbnail_images['post-thumbnail']){
+        if(this.props.post) {
+            if( this.props.post.thumbnail_images && this.props.post.thumbnail_images['post-thumbnail']){
                 return this.props.post.thumbnail_images['post-thumbnail'].url
             }else{
                 if(this.props.post.custom_fields.sofbackend__sof_work_meta__postImage){

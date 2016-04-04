@@ -1,21 +1,18 @@
-/**
- * Created by epotignano on 12/01/16.
- */
-var React = require('react-native');
-var UserStream = require("../services/Streams").getStream("User");
-var MemberStream = require("../services/Streams").getStream("Member");
+var React = require('react-native'),
+    UserStream = require("../services/Streams").getStream("User"),
+    MemberStream = require("../services/Streams").getStream("Member"),
+    GridView = require('react-native-grid-view'),
+    Badge = require('../components/user/Badge'),
+    api = require('../utils/api/UserApi'),
+    PostElement = require('../components/posts/PostElement'),
+    Icon = require('react-native-vector-icons/FontAwesome'),
+    EvilIcon = require('react-native-vector-icons/EvilIcons'),
+    Dimensions = require('Dimensions'),
+    windowSize = Dimensions.get("window"),
+    I18nService = require('../i18n');
 
-var GridView = require('react-native-grid-view');
 import TabNavigator from 'react-native-tab-navigator';
 
-var Badge = require('../components/user/Badge');
-
-var api = require('../utils/api/UserApi');
-var PostElement = require('../components/posts/PostElement');
-var Icon = require('react-native-vector-icons/FontAwesome');
-var EvilIcon = require('react-native-vector-icons/EvilIcons');
-
-var I18nService = require('../i18n');
 I18nService.set('ja-JP',{
     'startPosting': "あなたの作品を投稿しましょう！",
     'createPost': "作品投稿",
@@ -29,8 +26,14 @@ I18nService.set('ja-JP',{
 
 var I18n = I18nService.getTranslations();
 
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get("window");
+var postImage = {
+    width: windowSize.width * 0.2,
+    height: windowSize.height * 0.35
+};
+
+var postElement = {
+    height: windowSize.height * 0.8
+}
 
 var {
     View,
@@ -41,9 +44,15 @@ var {
     } = React;
 
 var styles = StyleSheet.create({
+    loading: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7F7F7',
+        height: postElement.height - 180,
+    },
     infoUser: {
-        marginTop: 20,
-        marginLeft: 20,
+        marginTop: 10,
+        marginLeft: 5,
         height: windowSize.height
     },
     text: {
@@ -74,15 +83,12 @@ var styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 3,
     },
-
     tabViewContainer : {
         flex:1,
         flexDirection: 'column',
         alignItems: 'stretch',
         height: windowSize.height
     },
-
-
     postContainer: {
         flex: 1,
         flexDirection: 'row',
@@ -90,17 +96,39 @@ var styles = StyleSheet.create({
         margin: 10,
         width: windowSize.width * 0.4
     },
-
-
+    createPost : {
+        backgroundColor: '#00b9f7', 
+        borderColor: "#e5e5e5",
+        borderWidth: 1,
+        padding: 5,
+        margin: 10,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    createPostText : {
+        color: '#FFFFFF',
+        fontSize: 14
+    },
+    startPosting : {
+        margin: 10
+    },
+    startPostingText : {
+        color: '#777777'
+    },
+    logOut : {
+        backgroundColor: '#d9534f', 
+        borderColor: "#d43f3a",
+        borderWidth: 1,
+        padding: 5,
+        margin: 10,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    logOutText : {
+        color: '#FFFFFF',
+        fontSize: 14
+    }
 });
-var postImage = {
-    width: windowSize.width * 0.2,
-    height: windowSize.height * 0.35
-};
-
-var postElement = {
-    height: windowSize.height * 0.8
-}
 
 var goToPost = function (rowData) {
     var subject= require("../services/NavigationManager").getStream();
@@ -118,9 +146,10 @@ var Profile = React.createClass({
     },
 
     componentDidMount() {
+
 		
         MemberStream.subscribe((response) => {
-            console.warn('Profile > didmount subcribed MemberTeam', JSON.stringify(response.data.posts));
+            //console.warn('Profile > didmount subcribed MemberTeam', JSON.stringify(response.data.posts));
             // TODO Cuando se consulta por el id, y ese id es el owner, los datos vuelven en data.author, PERO cuando se consulta por usuario y ese usuario no es el owner(logeado), los datos vuelven en data.data.author
 			let data = {};
 			if (response.data) {
@@ -155,14 +184,15 @@ var Profile = React.createClass({
 
 
     createNewPost() {
-
+        var subject= require("../services/NavigationManager").getStream();
+        subject.onNext({path:'createNewPost'})
     },
 
     logout() {
         var NavigationSubject = require("../services/NavigationManager").getStream();
         api.logout()
             .then(() => {
-                console.warn('Profile > logout');
+                //console.warn('Profile > logout');
                 NavigationSubject.onNext({path: 'feed'})
             })
             .catch((error) => {
@@ -179,24 +209,24 @@ var Profile = React.createClass({
                 renderItem={(rowData) => <PostElement key={rowData.id} postData={ rowData } />}
             />
 
-        var _ownerGrid = (!!this.state.posts.length) ? _grid : null;
-        var _visitorGrid = (!!this.state.posts.length) ? _grid : null;
-        var _firstPost = (!this.state.posts.length) ? <Text> {I18n.t('startPosting') }</Text>: null;
+        var _ownerGrid = (!!this.state.posts.length) ? _grid : null,
+            _visitorGrid = (!!this.state.posts.length) ? _grid : null,
+            _firstPost = (!this.state.posts.length) ? <View style={styles.startPosting}><Text style={styles.startPostingText}> {I18n.t('startPosting') }</Text></View>: null,
 
-        var _ownerTab = (
+            _ownerTab = (
            <TabNavigator 
-                sceneStyle={{ height: postElement.height - 50 }}
+                sceneStyle={{ height: postElement.height - 130 }}
             >
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'posts'}
                     renderIcon={() => <View><Icon name="files-o" size={20}/></View>}
                     renderSelectedIcon={() => <View><Icon name="files-o" color="#000000" size={20}/></View>}
-                    onPress={() => this.setState({ selectedTab: 'profileData' })}>
-                    <ScrollView style={{height: 500}}>
+                    onPress={() => this.setState({ selectedTab: 'posts' })}>
+                    <ScrollView style={{flex:1}}>
                         {_firstPost}
                         <View>
-                            <TouchableHighlight onPress={this.createNewPost}>
-                                <Text> { I18n.t("createPost") } </Text>
+                            <TouchableHighlight onPress={this.createNewPost} style={styles.createPost} underlayColor={'rgba(0,185,247, 0.7)'}>
+                                <Text style={styles.createPostText}> { I18n.t("createPost") } » </Text>
                             </TouchableHighlight>
                         </View>
                         { _ownerGrid }
@@ -214,12 +244,9 @@ var Profile = React.createClass({
 						<Text style={styles.text}> {I18n.t('nickname')}: {this.state.user.nickname}</Text>
 						<Text style={styles.text}> {I18n.t('url')}: {this.state.user.url}</Text>
 						<Text style={styles.text}> {I18n.t('description')}: {this.state.user.description}</Text> 
-						<TouchableHighlight style={{paddingTop: 20}} onPress={this.logout} underlayColor={'transparent'}>
-						  <View>
-						      <Icon name="sign-out" style={styles.text}> <Text>{I18n.t('logout')}</Text></Icon>
-						  </View>
+						<TouchableHighlight onPress={this.logout} underlayColor={'#d2322d'} style={styles.logOut}>
+						      <View><Icon name="sign-out" style={styles.logOutText}><Text style={styles.logOutText}>{I18n.t('logout')}</Text></Icon></View>
 						</TouchableHighlight>
-						
                     </View>
                 </TabNavigator.Item>
 
@@ -235,7 +262,7 @@ var Profile = React.createClass({
 
         var _visitorTab = (
                 <TabNavigator
-                    sceneStyle={{ height: postElement.height - 50 }}
+                    sceneStyle={{ height: postElement.height - 130 }}
                 >
                     <TabNavigator.Item
                         selected={ this.state.selectedTab === 'posts' }
@@ -243,7 +270,7 @@ var Profile = React.createClass({
                         renderSelectedIcon={() => <View><Icon name="files-o" color="#000000" size={20}/></View>}
                         onPress={this.selectedPosts}
                     >
-                        <ScrollView style={{height: 500}}>
+                        <ScrollView style={{flex: 1}}>
                             { _visitorGrid }
                         </ScrollView>
                     </TabNavigator.Item>
@@ -265,10 +292,11 @@ var Profile = React.createClass({
                 </TabNavigator>
 
         );
-        console.warn('Profile > owner ', this.props.owner);
-        var _render = (this.props.owner) ? _ownerTab : _visitorTab;
+        //console.warn('Profile > owner ', this.props.owner);
+        
+        var _tab = (this.props.owner) ? _ownerTab : _visitorTab,
+            _render = (this.state.isLoading) ? <View style={styles.loading}><GiftedSpinner/></View> : _tab;
         return(
-
             <View>
 				<Badge data={this.state.user} />
                 {_render}

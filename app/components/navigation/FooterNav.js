@@ -31,8 +31,7 @@ var styles = StyleSheet.create({
     container: {
         backgroundColor: "#FFFFFF",
         borderTopWidth: 1,
-        borderColor : "#e5e5e5",
-        padding: 5
+        borderColor : "#e5e5e5"        
     },
     buttonContainer : {
         flex:1,
@@ -41,24 +40,6 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems:'center',
         width: 50
-    },
-    iconContainer : {
-        flex:1,
-        flexWrap: 'wrap',
-        alignItems:'center',
-        justifyContent: 'center'
-    },
-    icon: {
-        
-    },
-    iconFirst: {
-
-    },
-    iconLast : {
-        
-    },
-    iconSel : {
-        
     },
     iconText : {
         fontSize: 8,
@@ -69,12 +50,8 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         alignItems:'center',
         justifyContent: 'space-around',
-        marginHorizontal: 15
-    },
-    item: {
-        margin: 10,
-        width: 100,
-        height: 100
+        marginHorizontal: 15,
+        paddingVertical: 5
     }
 });
 

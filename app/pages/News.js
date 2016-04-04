@@ -1,9 +1,8 @@
-var React = require('react-native');
-
-var GridView = require('react-native-grid-view');
-var NewsStream = require("../services/Streams").getStream("News");
-var Carousel = require("../components/banners/Carousel");
-var GiftedSpinner = require('react-native-gifted-spinner');
+var React = require('react-native'),
+    GridView = require('react-native-grid-view'),
+    NewsStream = require("../services/Streams").getStream("News"),
+    Carousel = require("../components/banners/Carousel"),
+    GiftedSpinner = require('react-native-gifted-spinner');
 
 var {
     StyleSheet,

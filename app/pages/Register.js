@@ -1,32 +1,32 @@
-/**
- * Created by epotignano on 12/01/16.
- */
-
-import Button from 'apsl-react-native-button'
+import Button from 'apsl-react-native-button';
 import Popup from 'react-native-popup';
-import PickerAndroid from 'react-native-picker-android';
-import Form from 'react-native-form';
 
-var React = require('react-native');
-var Dimensions= require('Dimensions');
-var windowsSize = Dimensions.get('window');
-var api = require("../utils/api/UserApi");
-var schoolApi = require('../utils/api/SchoolsApi');
-var I18nService = require('../i18n');
-var SchoolsStream = require('../services/Streams').getStream('Schools');
+var React = require('react-native'),
+    Dimensions = require('Dimensions'),
+    windowsSize = Dimensions.get('window'),
+    api = require("../utils/api/UserApi"),
+    schoolApi = require('../utils/api/SchoolsApi'),
+    I18nService = require('../i18n'),
+    SchoolsStream = require('../services/Streams').getStream('Schools'),
+    {GiftedForm, GiftedFormManager} = require('react-native-gifted-form'),
+    moment = require('moment');
 
 I18nService.set('ja-JP', {
         'registerWithFacebook': 'Facebookで始める',
-        'registerUsername': 'ユーザー名 (必須)',
-        'registerMail': 'メールアドレス (必須)',
-        'registerDisplayName': '表示ユーザー名	(必須)',
+        'registerUsername': 'ユーザー名',
+        'registerMail': 'メールアドレス',
+        'registerDisplayName': '表示ユーザー名',
         'registerOk': '登録は官僚しました。メールアドレスの確認して下さい',
         'ok': 'OK',
         'register_error_000': 'このメールアドレスは他のユーザーが使っています',
         'register_error_001': 'このユーザー名は他のユーザーが使っています',
+        'years': '年齢',
         'country': '現在地',
+        'school': '所属',
         'obog': 'OB・OG',
-        'school': '所属'
+        'or' : 'か',
+        'login' : 'ログイン',
+        'register': '登録 '
     }
 );
 
@@ -42,16 +42,25 @@ var {
     StyleSheet
     } = React;
 
-
-let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
-let PickerItem = Picker.Item;
-
-let Countries = [ {text: 'Japan', value: 'JAPAN'},
-    {text: 'US', value: 'US'},
-    {text: 'Euro', value: 'EURO'},
-    {text: 'Other', value: 'OTHER'}];
-
-let OB_OG = [{ text: 'OB', value: 'OB'}, { text: 'OG', value: 'OG' }];
+var styles = StyleSheet.create({
+     button : {
+        margin: 10,
+        backgroundColor: '#00b9f7',
+        borderWidth: 0,
+        borderRadius: 0,
+        height: 40
+    },
+    textButton : {
+        color: 'white',
+        fontSize: 15,
+    },
+    or : {
+        flex:1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+});
 
 var Register  = React.createClass({
 
@@ -66,6 +75,7 @@ var Register  = React.createClass({
     getInitialState() {
         return {
             showCountry: false,
+            showGender: false,
             showObog: false,
             showSchool: false,
             swipeToClose: false,
@@ -85,19 +95,9 @@ var Register  = React.createClass({
         })
     },
 
-    getRegisterValues() {
-        var registerValues = this.refs.form.getValues();
-        registerValues.country = this.state.country;
-        registerValues.obog = this.state.obog;
-        registerValues.school = this.state.school;
-        console.warn('registerValues > ', JSON.stringify(registerValues));
-        return registerValues;
-    },
-
     register(values) {
         var NavigationSubject = require("../services/NavigationManager").getStream();
-        console.warn('refs', JSON.stringify(this.refs.form.getValues()));
-        var _data = this.getRegisterValues();
+        var _data = values;
         if(_data) {
             api.registerNewUser(_data)
                 .then(response => {
@@ -124,7 +124,11 @@ var Register  = React.createClass({
         var NavigationSubject = require("../services/NavigationManager").getStream();
         NavigationSubject.onNext({path: 'login'})
     },
-
+    
+    toggleGender() {
+        this.setState({showGender: !this.state.showGender});
+    },
+    
     toggleCountry() {
         this.setState({showCountry: !this.state.showCountry});
     },
@@ -139,263 +143,260 @@ var Register  = React.createClass({
 
     showCountry() {
         if (this.state.showCountry) {
-            return (<Picker
-                selectedValue={this.state.country}
-                onValueChange={(country) => this.setState({country: country})}>
-                {Countries.map((country) => (
-                    <PickerItem
-                        key={country}
-                        value={country.value}
-                        label={country.text}
-                    />
-                ))}
-            </Picker>);
+            return (
+                    <GiftedForm.SelectWidget name='country' title='Country' multiple={false}>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/flags/jp.png')} title='Japan' value='JAPAN' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/flags/us.png')} title='US' value='US' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/passport.png')} title='Euro' value='EURO' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/passport.png')} title='Other' value='OTHER' style={{paddingLeft:15}}/>
+                        <GiftedForm.SeparatorWidget />
+                    </GiftedForm.SelectWidget>
+            );
         }
     },
 
     showObog() {
         if (this.state.showObog) {
-            return (<Picker
-            selectedValue={this.state.obog}
-            onValueChange={(obog) => this.setState({obog: obog})}>
-            {OB_OG.map((obog) => (
-                <PickerItem
-                    key={obog}
-                    value={obog.value}
-                    label={obog.text}
-                />
-            ))}
-        </Picker>
-        );
+            return (
+                    <GiftedForm.SelectWidget name='obog' title='Obog' multiple={false}>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/book.png')} title='OB' value='OB' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/book.png')} title='OG' value='OG' style={{paddingLeft:15}}/>
+                        <GiftedForm.SeparatorWidget />
+                    </GiftedForm.SelectWidget>
+            );
+        }
+    },
+    showGender() {
+        if (this.state.showGender) {
+            return (
+                    <GiftedForm.SelectWidget name='gender' title='Gender' multiple={false}>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/female.png')} title='Female' value='female' style={{paddingLeft:15}}/>
+                        <GiftedForm.OptionWidget image={require('../../assets/icons/color/male.png')} title='Male' value='male' style={{paddingLeft:15}}/>
+                        <GiftedForm.SeparatorWidget />
+                    </GiftedForm.SelectWidget>
+            );
         }
     },
 
     showSchool() {
         if (this.state.showSchool) {
-            return (<Picker
-                    selectedValue={this.state.school}
-                    onValueChange={(school) => this.setState({school: school})}>
-                    {this.state.schools.map((school) => (
-                        <PickerItem
-                            key={school}
-                            value={school.value}
-                            label={school.value}
-                        />
-                    ))}
-                </Picker>
+            return (
+                    <GiftedForm.SelectWidget name='school' title='School' multiple={false}>
+                    {
+                        this.state.schools.map((school) => (
+                            <GiftedForm.OptionWidget key={school.value} image={require('../../assets/icons/color/book.png')} title={school.value} value={school.value} style={{paddingLeft:15}}/>
+                        ))
+                    }
+                        <GiftedForm.SeparatorWidget />
+                    </GiftedForm.SelectWidget>
             );
         }
     },
-
     render() {
         return(
-			<ScrollView keyboardShouldPersistTaps={true} style={{flex: 1}}>
-                <View style={styles.Search}>
-                    <Form ref="form">
-                        <TextInput style={{height: 60}} name="username" placeholder="ユーサー名"/>
-                        <TextInput style={{height: 60}} name="email" placeholder="メールアドレス"/>
-                        <TextInput style={{height: 60}} name="display_name" placeholder="表示ユーザー名"/>
-                        <TextInput style={{height: 60}} name="years" placeholder="年齢"/>
-                    </Form>
-                    <View style={{padding:10, marginBottom: 20}}>
-                        <Text style={{height: 40, color: "#333"}}
-                            onPress={this.toggleCountry}>
-                            Country: <Text style={{color: "gray"}}> {this.state.country} </Text>
-                        </Text>
-                        {this.showCountry()}
+            <GiftedForm
+                formName='signupForm' // GiftedForm instances that use the same name will also share the same states
 
-                        <Text style={{height: 40, color: "#333"}}
-                            onPress={this.toggleObog}>
-                            Obog: <Text style={{color: "gray"}}> {this.state.obog} </Text>
-                        </Text>
-                            {this.showObog()}
+                openModal={ (route) => {
+                    
+                }}
 
-                        <Text style={{height: 40, color: "#333"}}
-                            onPress={this.toggleSchool}>
-                            School: <Text style={{color: "gray"}}> {this.state.school} </Text>
-                        </Text>
-                            {this.showSchool()}
-                    </View>
-                    <View style={styles.loginButtonContainer}>
-                        <Button style={styles.loginButton} textStyle={styles.loginText}
-                                onPress={this.register}>
-                            { I18n.t('register')}
-                        </Button>
-                    </View>
-                    <View style={styles.loginButtonContainer}>
-                        <Text>
-                            か
-                        </Text>
-                    </View>
-                    <View style={styles.loginButtonContainer}>
-                        <Button style={styles.registerButton} textStyle={styles.registerText}
-                                onPress={this.login}>
-                            { I18n.t('login')}
-                        </Button>
-                    </View>
-                    <Popup ref={(popup) => { this.popup = popup }}/>
+                clearOnClose={false} // delete the values of the form when unmounted
+
+                defaults={{
+                    /*
+                    username: 'Farid',
+                    'gender{M}': true,
+                    password: 'abcdefg',
+                    country: 'FR',
+                    birthday: new Date(((new Date()).getFullYear() - 18)+''),
+                    */
+                }}
+
+                validators={{
+                username: {
+                    title: 'Username',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [3, 16],
+                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    },{
+                    validator: 'matches',
+                    arguments: /^[a-zA-Z0-9]*$/,
+                    message: '{TITLE} can contains only alphanumeric characters'
+                    }]
+                },
+                email: {
+                    title: 'Email address',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [6, 255],
+                    },{
+                    validator: 'isEmail',
+                    }]
+                },
+                display_name: {
+                    title: 'Display name',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [1, 23],
+                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    }]
+                },
+                password: {
+                    title: 'Password',
+                    validate: [{
+                    validator: 'isLength',
+                    arguments: [6, 16],
+                    message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    }]
+                },
+                years : {
+                    title: 'Years',
+                    validate: [{
+                        validator: 'isInt',
+                    },{
+                        validator: 'isLength',
+                        arguments: [1, 2],
+                        message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+                    }]
+                },
+                country: {
+                    title: 'Country',
+                    validate: [{
+                    validator: (...args) => {
+                        if (args[0] === undefined) {
+                        return false;
+                        }
+                        return true;
+                    },
+                    message: '{TITLE} is required',
+                    }]
+                },
+                school: {
+                    title: 'School',
+                    validate: [{
+                    validator: (...args) => {
+                        if (args[0] === undefined) {
+                        return false;
+                        }
+                        return true;
+                    },
+                    message: '{TITLE} is required',
+                    }]
+                },
+                obog: {
+                    title: 'Obog',
+                    validate: [{
+                    validator: (...args) => {
+                        if (args[0] === undefined) {
+                        return false;
+                        }
+                        return true;
+                    },
+                    message: '{TITLE} is required',
+                    }]
+                },
+                }}
+            >
+
+                <GiftedForm.SeparatorWidget />
+                <GiftedForm.TextInputWidget
+                    name='username'
+                    title={ I18n.t('registerUsername')}
+                    placeholder='MarcoPolo'
+                    clearButtonMode='while-editing'
+                />
+
+                <GiftedForm.TextInputWidget
+                    name='email' // mandatory
+                    title={ I18n.t('registerMail')}
+                    placeholder='example@nomads.ly'
+                    keyboardType='email-address'
+                    clearButtonMode='while-editing'
+                />
+                
+                <GiftedForm.TextInputWidget
+                    name='display_name' // mandatory
+                    title={ I18n.t('registerDisplayName')}
+                    placeholder='Marco Polo'
+                    clearButtonMode='while-editing'
+                />
+                
+                <GiftedForm.TextInputWidget
+                    name='password' // mandatory
+                    title='パスワードを選択'
+                    placeholder='******'
+                    clearButtonMode='while-editing'
+                    secureTextEntry={true}
+                />
+
+                <GiftedForm.SeparatorWidget />
+                
+                <GiftedForm.TextInputWidget
+                    name='years' // mandatory
+                    title={ I18n.t('years')}
+                    placeholder='+18'
+                    clearButtonMode='while-editing'
+                />
+                
+                <GiftedForm.ModalWidget
+                    title={ I18n.t('country')}
+                    displayValue='country'
+                    onPress={this.toggleCountry}
+                >
+                </GiftedForm.ModalWidget>
+                
+                {this.showCountry()}
+                
+                <GiftedForm.ModalWidget
+                    title={ I18n.t('school')}
+                    displayValue='school'
+                    onPress={this.toggleSchool}
+                >
+                </GiftedForm.ModalWidget>               
+                {this.showSchool()}
+                
+                <GiftedForm.ModalWidget
+                    title={ I18n.t('obog')}
+                    displayValue='obog'
+                    onPress={this.toggleObog}
+                >
+                </GiftedForm.ModalWidget>               
+                {this.showObog()}
+
+                <GiftedForm.SubmitWidget
+                    title={ I18n.t('register')}
+                    widgetStyles={{
+                        submitButton: {
+                        backgroundColor: '#34767F',
+                        }
+                    }}
+                    onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
+                        if (isValid === true) {
+                            this.register(values);
+                            postSubmit();
+                        }
+                    }}
+                />
+                
+                <View style={styles.or}>
+                    <Text>{ I18n.t('or')}</Text>
                 </View>
-            </ScrollView>
-    );
-    }
-});
+                
+                <View>
+                    <Button style={styles.button} textStyle={styles.textButton} onPress={this.login}>
+                            { I18n.t('login')}
+                    </Button>
+                </View>  
+            
+                <GiftedForm.NoticeWidget 
+                    title='By signing up, you agree to the Terms of Service and Privacy Policity.'
+                />
 
-var styles = {
-    btn: {
-        margin: 10,
-        backgroundColor: "#3B5998",
-        color: "white",
-        padding: 10
-    },
-    Search: {
-        flex: 1,
-        padding: 30,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        backgroundColor: '#FFFFFF'
-    },
-    title: {
-        marginBottom: 20,
-        fontSize: 25,
-        textAlign: 'center',
-        color: '#0000'
-    },
-    searchInput: {
-        height: 50,
-        padding: 4,
-        marginRight: 5,
-        fontSize: 23,
-        borderWidth: 1,
-        borderColor: 'white',
-        borderRadius: 8,
-        color: 'white'
-    },
-    buttonText: {
-        fontSize: 18,
-        color: '#111',
-        alignSelf: 'center'
-    },
-    button: {
-        height: 45,
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        borderColor: 'white',
-        borderWidth: 1,
-        borderRadius: 8,
-        marginBottom: 10,
-        marginTop: 10,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
-    }
-};
-
-var styles = StyleSheet.create({
-    form: {
-        paddingTop: 5,
-        paddingBottom: 40
-    },
-    buttonsContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    facebookContainer: {
-        backgroundColor: "#2A406B",
-        height: windowsSize.height * 0.2,
-        flex:1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    facebookButton: {
-        flex:1,
-        borderColor: '#2A406B',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.75,
-        marginLeft: windowsSize.width * 0.125,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    loginButtonContainer: {
-        flex:1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    loginButton: {
-        flex:1,
-        borderColor: '#EEEEEE',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.5,
-        marginLeft: windowsSize.width * 0.25,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    registerButton : {
-        flex:1,
-        borderColor: '#00b9f7',
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        borderWidth: 3,
-        width: windowsSize.width * 0.4,
-        marginLeft: windowsSize.width * 0.30,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    loginText: {
-        color: "##444444",
-        fontSize: 25
-    },
-
-    registerText: {
-        color: "##444444",
-        fontSize: 20
-    },
-
-
-    facebookText: {
-        color:"#FFF",
-        fontSize: 25
+            </GiftedForm>
+        );
     }
 });
 
 module.exports = Register;
-
-/*
- <Text>{I18n.t('obog')}</Text>
- <Picker
- selectedValue={this.state.obog}
- onValueChange={(obog) => this.setState({obog})}>
- {OB_OG.map((obog) => (
- <PickerItem
- key={obog}
- value={obog.value}
- label={obog.text}
- />
- ))}
- </Picker>
- <Text>{I18n.t('school')}</Text>
- <Picker
- selectedValue={this.state.school}
- onValueChange={(school) => this.setState({school})}>
- {this.state.schools.map((school) => (
- <PickerItem
- key={school}
- value={school.value}
- label={school.value}
- />
- ))}
- </Picker>
- */

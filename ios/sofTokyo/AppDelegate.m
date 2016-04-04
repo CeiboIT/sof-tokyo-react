@@ -51,12 +51,12 @@
                                                    launchOptions:launchOptions];
 
   [RCTSplashScreen show:rootView]; //<--- add show SplashScreen
-  
+
   /* Add OneSignal configuration */
-  
-  self.oneSignal = [[OneSignal alloc] initWithLaunchOptions:launchOptions
+
+/*  self.oneSignal = [[OneSignal alloc] initWithLaunchOptions:launchOptions
                                                       appId:@"653a33c7-194d-476e-9b0c-783463accf3c"
-                                         handleNotification:nil];
+                                         handleNotification:nil];*/
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

@@ -70,6 +70,47 @@ var api = {
 
     getPostComments(postID) {
 
+    },
+    
+    async createNewPost(postData, subject) {
+        fetch(productsEndpoint + 'create',{
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        authorId: postData.authorId,                 
+                        title: postData.title,
+                        content:postData.content,
+                        img:postData.img,
+                        subcategory0:postData.subcategory0,
+                        subcategory1:postData.subcategory1,
+                        styles:postData.styles,
+                        sex:postData.sex,
+                        subImg1:postData.subImg1,
+                        subImg2:postData.subImg2,
+                        subImg3:postData.subImg3,
+                        subImg4:postData.subImg4,
+                        subImg5:postData.subImg5,
+                        subImg6:postData.subImg6,
+                        subImg7:postData.subImg7,
+                        subImg8:postData.subImg8,
+                        subImg9:postData.subImg9,
+                        productionCost:postData.productionCost,
+                        sell:postData.sell,
+                        sellPrice:postData.sellPrice,
+                        sellNote:postData.sellNote,
+                        rental:postData.rental,
+                        rentalPrice:postData.rentalPrice,
+                        rentalNote:postData.rentalNote
+                    })
+                }).then((response) => {
+                    subject.onNext({type:'newPost', data: JSON.parse(response._bodyInit)})
+                })
+                .catch(error => {
+                    console.warn(error);
+                })
     }
 
 };

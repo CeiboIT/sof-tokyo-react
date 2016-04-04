@@ -13,7 +13,7 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) OneSignal *oneSignal;
+/*@property (strong, nonatomic) OneSignal *oneSignal;*/
 
 @property (nonatomic, strong) UIWindow *window;
 

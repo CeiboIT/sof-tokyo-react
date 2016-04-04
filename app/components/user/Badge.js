@@ -1,8 +1,7 @@
-/**
- * Created by mmasuyama on 1/7/2016.
- */
-
-var React = require('react-native');
+var React = require('react-native'),
+    Dimensions = require('Dimensions'),
+    windowSize = Dimensions.get("window"),
+    ParallaxView = require('react-native-parallax-view');
 
 var {
     Text,
@@ -10,10 +9,6 @@ var {
     Image,
     StyleSheet
 } = React;
-
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get("window");
-var ParallaxView = require('react-native-parallax-view');
 
 var styles = StyleSheet.create({
 
@@ -66,7 +61,7 @@ class Badge extends React.Component {
         var _photo = (this.props.data && this.props.data.avatar) ? parsePhotoUrl(this.props.data.avatar) : "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y";
  		return (
 			<View style={styles.headerSection}>
-			<Image style={styles.badge} source={{uri: _photo }}/>
+			    <Image style={styles.badge} source={{uri: _photo }}/>
 			</View>
         )
     }
