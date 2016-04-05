@@ -175,14 +175,17 @@ var styles = StyleSheet.create({
         fontSize: 16
     },
     button : {
-        borderColor: "#8a52ad",
-        borderWidth: 2,
+        margin: 10,
+        paddingHorizontal: 10,
         paddingVertical: 5,
+        borderWidth: 1,
+        borderColor: '#e5e5e5',
+        borderRadius: 4,
         alignItems: "center",
         justifyContent: "center"
     },
     buttonText : {
-        color: "#8a52ad"
+        color: "#367bb7"
 
     },
     grind : {
@@ -381,8 +384,8 @@ var PostView = React.createClass({
         var _commentForm = (
             <View>
                 <Form type={Comment} ref="form"/>
-                <TouchableHighlight onPress={this.addComment} underlayColor={'transparent'} style={styles.button}>
-                    <Text style={styles.buttonText}>Add Comment</Text>
+                <TouchableHighlight onPress={this.addComment} underlayColor={'#e5e5f0'} style={styles.button}>
+                    <Text style={styles.buttonText}>コメントする</Text>
                 </TouchableHighlight>
             </View>
         )
