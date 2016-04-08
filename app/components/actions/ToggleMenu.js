@@ -3,7 +3,7 @@
  */
 
 var React = require("react-native");
-var Icon = require('react-native-vector-icons/FontAwesome');
+var Icon = require('react-native-vector-icons/EvilIcons');
 var SidebarSubject = require("../../services/Streams").getStream("Sidebar");
 
 var {
@@ -25,7 +25,7 @@ var ToggleMenuIcon = React.createClass({
     render() {
         return (
             <TouchableHighlight onPress={this.tap} underlayColor={'transparent'}>
-                <Icon name="bars" color="#222222" style={styles.icon} size={30}></Icon>
+                <Icon name="navicon" color="#222222" style={styles.icon} size={45}></Icon>
             </TouchableHighlight>
         )
     }

@@ -161,7 +161,7 @@ var Login  = React.createClass({
               title={ I18n.t('login')}
               widgetStyles={{
                 submitButton: {
-                  backgroundColor: '#34767F',
+                  backgroundColor: '#00b9f7',
                 }
               }}
               onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
@@ -174,7 +174,7 @@ var Login  = React.createClass({
             />
             
             <View style={styles.or}>
-                <Text>{ I18n.t('or')}</Text>
+                <Text>OR</Text>
             </View>
             
             <View>

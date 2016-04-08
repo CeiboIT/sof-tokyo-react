@@ -13,7 +13,7 @@ var {
     Text
     } = React;
 
-var Icon = require('react-native-vector-icons/FontAwesome');
+var Icon = require('react-native-vector-icons/EvilIcons');
 
 
 var styles = StyleSheet.create({
@@ -122,7 +122,7 @@ var SitePanel = React.createClass ({
             <View style={styles.container}>
                 <View>
                     <TouchableHighlight underlayColor={'transparent'} style={styles.close} onPress={this.closeSidePanel}>
-                        <Text><Icon name="times" size={18}/></Text>
+                        <Text><Icon name="close" size={40}/></Text>
                     </TouchableHighlight>
                 </View>
                 

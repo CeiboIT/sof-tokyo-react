@@ -369,7 +369,7 @@ var Register  = React.createClass({
                     title={ I18n.t('register')}
                     widgetStyles={{
                         submitButton: {
-                        backgroundColor: '#34767F',
+                        backgroundColor: '#00b9f7',
                         }
                     }}
                     onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
@@ -381,7 +381,7 @@ var Register  = React.createClass({
                 />
                 
                 <View style={styles.or}>
-                    <Text>{ I18n.t('or')}</Text>
+                    <Text>OR</Text>
                 </View>
                 
                 <View>
