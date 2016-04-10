@@ -31,7 +31,7 @@ var styles = StyleSheet.create({
     container: {
         backgroundColor: "#FFFFFF",
         borderTopWidth: 1,
-        borderColor : "#e5e5e5"        
+        borderColor : "#e5e5e5", height: 50
     },
     buttonContainer : {
         flex:1,
@@ -51,7 +51,7 @@ var styles = StyleSheet.create({
         alignItems:'center',
         justifyContent: 'space-around',
         marginHorizontal: 15,
-        paddingVertical: 5
+        paddingVertical: 7
     }
 });
 
