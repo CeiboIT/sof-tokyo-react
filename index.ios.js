@@ -58,9 +58,11 @@ class sofTokyo extends React.Component{
 
   render() {
     this.subscribe();
+
+    
     return (
         <Drawer ref="drawer" content={<SitePanel/>} side="right" acceptPan={ false }>
-          <Router ref="router" firstRoute={firstRoute} headerStyle={styles.header}>
+          <Router ref="router" noStatusBar={false} firstRoute={firstRoute} headerStyle={styles.header}>
           </Router>
           <FooterNav/>
         </Drawer>

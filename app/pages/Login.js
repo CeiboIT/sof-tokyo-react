@@ -142,15 +142,14 @@ var Login  = React.createClass({
           <GiftedForm.SeparatorWidget />
           <GiftedForm.TextInputWidget
               name='username'
-              title='ユーザー名'
-              placeholder='MarcoPolo'
+              placeholder='ユーザー名'
               clearButtonMode='while-editing'
             />
 
             <GiftedForm.TextInputWidget
               name='password' // mandatory
-              title='パスワード'
-              placeholder='******'
+
+              placeholder='パスワード'
               clearButtonMode='while-editing'
               secureTextEntry={true}
             />
