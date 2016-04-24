@@ -12,7 +12,8 @@ var styles = StyleSheet.create({
         padding: 5
     },
     text : {
-      color: '#777777'  
+      color: '#777777',
+      fontSize: 20
     },
     postLikeContainer: {
         flex: 1,

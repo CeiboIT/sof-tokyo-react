@@ -128,13 +128,6 @@ var _FooterNav = React.createClass({
                     }
                 },
                 {
-                    itemLabel: <FaIcon name="trophy" color="#777777" size={25} style={[styles.icon]}></FaIcon>,
-                    itemName: I18n.t('ranking'),
-                    action: () => {
-                        this.NavigationSubject.onNext({path: 'ranking'})
-                    }
-                },
-                {
                     itemLabel : <FaIcon name={_iconName} color="#777777" size={25} style={[styles.icon, styles.iconLast]} />,
                     itemName: _userLabel,
                     action: () => {

@@ -40,6 +40,9 @@ var CommentItem = React.createClass({
         }
     },    
     render () {
+
+        console.log(this.props.comment.content)
+
         return(<View style={{flex:1,flexDirection: "column"}}>
             <TouchableHighlight underlayColor={'transparent'}>
                 <View>
@@ -48,7 +51,7 @@ var CommentItem = React.createClass({
                     </View>
                     <View style={styles.commentText}>
                         <HTMLView
-                            value={this.props.comment.content}
+                            value={this.props.comment.content} stylesheet={{p : {fontSize: 20}}}
                         />
                     </View>
                 </View>

@@ -43,7 +43,7 @@ var styles = StyleSheet.create({
     },
     scrollView : {
         flex: 1,
-        backgroundColor: '#F7F7F7'
+        backgroundColor: '#FFF'
     },
     container : {
         flex: 1,
@@ -221,8 +221,8 @@ var styles = StyleSheet.create({
 
 
 var imageSizes ={
-    width: windowSize.width * 0.95,
-    height: windowSize.height * 1
+    width: windowSize.width * 1.45,
+    height: windowSize.height * 1.20
 };
 
 var PostId;
@@ -427,45 +427,45 @@ var PostView = React.createClass({
                             />
 
                             <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                                <Text style={{fontWeight: 'bold'}}>カテゴリー</Text>
+                                <Text style={{fontWeight: 'bold', fontSize: 20}}>カテゴリー</Text>
                             </View>
                             {
                                 this.getCategories().map((data) => {
                                     return <View key={data.id}>
-                                                <Text style={{color: '#367bb7'}}>{data.name}</Text>
+                                                <Text style={{color: '#367bb7', fontSize: 20}}>{data.name}</Text>
                                             </View>
                                     })
                             }
 
                             <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                                <Text style={{fontWeight: 'bold'}}>STYLES</Text>
+                                <Text style={{fontWeight: 'bold', fontSize: 20}}>STYLES</Text>
                             </View>
                             {
                                 this.getStyles().map((data) => {
                                     return <View key={data.id}>
-                                                <Text style={{color: '#367bb7'}}>{data.name}</Text>
+                                                <Text style={{color: '#367bb7', fontSize: 20}}>{data.name}</Text>
                                             </View>
                                     })
                             }
 
                             <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                                <Text style={{fontWeight: 'bold'}}>制作費</Text>
+                                <Text style={{fontWeight: 'bold', fontSize:20}}>制作費</Text>
                             </View>
                             {
                                 this.getCost().map((data) => {
                                     return <View key={data.id}>
-                                                <Text>{data.name} 円</Text>
+                                                <Text style={{ fontSize: 20 }}>{data.name} 円</Text>
                                             </View>
                                     })
                             }
 
                             <View style={{borderBottomWidth: 1, borderBottomColor: '#e5e5e5', marginTop:10}}>
-                                <Text style={{fontWeight: 'bold'}}>買い取り</Text>
+                                <Text style={{fontWeight: 'bold', fontSize: 20}}>買い取り</Text>
                             </View>
                             {
                                 this.getNote().map((data) => {
                                     return <View key={data.id}>
-                                        <Text>{data.name}</Text>
+                                        <Text style={{ fontSize: 20 }}>{data.name}</Text>
                                     </View>
                                 })
                             }
